@@ -19,6 +19,13 @@ namespace Hero_of_Novac
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        enum GameState
+        {
+            MainMenu, Overworld, BattleMenu 
+        }
+
+        GameState currentGameState;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -33,8 +40,7 @@ namespace Hero_of_Novac
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            currentGameState = GameState.MainMenu;
             base.Initialize();
         }
 
@@ -70,7 +76,15 @@ namespace Hero_of_Novac
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            switch (currentGameState)
+            {
+                case GameState.MainMenu:
+                    break;
+                case GameState.Overworld:
+                    break;
+                case GameState.BattleMenu:
+                    break;
+            }
 
             base.Update(gameTime);
         }
@@ -83,7 +97,7 @@ namespace Hero_of_Novac
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+
 
             base.Draw(gameTime);
         }
