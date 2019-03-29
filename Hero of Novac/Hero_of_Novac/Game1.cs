@@ -26,6 +26,8 @@ namespace Hero_of_Novac
 
         GameState currentGameState;
 
+
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);

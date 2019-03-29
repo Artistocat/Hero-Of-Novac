@@ -57,6 +57,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BattleMenu.cs" />
+    <Compile Include="Enemy.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="Player.cs" />
