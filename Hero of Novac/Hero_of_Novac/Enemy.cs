@@ -16,6 +16,5 @@ namespace Hero_of_Novac
         {
 
         }
-        
     }
 }
