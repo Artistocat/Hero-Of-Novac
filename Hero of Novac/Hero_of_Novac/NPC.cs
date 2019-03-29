@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Hero_of_Novac
 {
-    class NPC
+    public class NPC
     {
 
     }

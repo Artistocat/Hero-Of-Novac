@@ -97,7 +97,9 @@ namespace Hero_of_Novac
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-
+            spriteBatch.Begin();
+            
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
