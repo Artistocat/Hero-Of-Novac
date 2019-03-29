@@ -39,6 +39,9 @@ namespace Hero_of_Novac
         public override void Draw(SpriteBatch spriteBatch)
         {
 
+        public override void Update()
+        {
+            throw new NotImplementedException();
         }
     }
 }
