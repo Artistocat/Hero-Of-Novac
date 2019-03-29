@@ -18,15 +18,17 @@ namespace Hero_of_Novac
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Player player;
 
         enum GameState
         {
-            MainMenu, Overworld, BattleMenu 
+            MainMenu, Overworld, Inventory, BattleMenu
         }
 
         GameState currentGameState;
 
-
+        BattleMenu battleMenu;
+        MainMenu mainMenu;
 
         public Game1()
         {
@@ -43,6 +45,7 @@ namespace Hero_of_Novac
         protected override void Initialize()
         {
             currentGameState = GameState.MainMenu;
+            battleMenu = new BattleMenu(new Enemy[0]);
             base.Initialize();
         }
 
@@ -55,7 +58,9 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+
+
+            BattleMenu.LoadContent(player, Font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
 
         /// <summary>
@@ -77,7 +82,6 @@ namespace Hero_of_Novac
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -85,6 +89,7 @@ namespace Hero_of_Novac
                 case GameState.Overworld:
                     break;
                 case GameState.BattleMenu:
+                    battleMenu.Update();
                     break;
             }
 

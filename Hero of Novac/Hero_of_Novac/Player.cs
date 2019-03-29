@@ -8,12 +8,14 @@ namespace Hero_of_Novac
 {
     public class Player : Entity
     {
-        public override void Draw(SpriteBatch spriteBatch)
+
+
+        public override void Update()
         {
             throw new NotImplementedException();
         }
 
-        public override void Update()
+        public override void Draw(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
         }
