@@ -5,7 +5,17 @@ using System.Text;
 
 namespace Hero_of_Novac
 {
-    public class Enemy
+    public class Enemy: Entity
     {
+        public Enemy()
+        {
+
+        }
+
+        public override void Update()
+        {
+
+        }
+        
     }
 }
