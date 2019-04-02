@@ -28,6 +28,13 @@ namespace Hero_of_Novac
         int inputX, inputY;
 
         Texture2D playerMoveSprites;
+        Player Jhon;
+
+        NPC Smith;
+        NPC Shop;
+        NPC Priest;
+        NPC Armour;
+
         Player player;
         int counter;
         enum GameState
@@ -64,6 +71,7 @@ namespace Hero_of_Novac
             playerMoveSprites = this.Content.Load<Texture2D>("chara1");
             player = new Player(playerMoveSprites, window);
             battleMenu = new BattleMenu(new Enemy[0]);
+            Smith = new NPC();
             base.Initialize();
             lines = new List<string>();
         }
@@ -77,6 +85,7 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
+            Smith.load(font);
             // TODO: use this.Content to load your game content here
             village = new Area(Services, @"Content/Village", window);
         }
@@ -114,6 +123,8 @@ namespace Hero_of_Novac
                     battleMenu.Update();
                     break;
             }
+            Jhon.Update(gameTime);
+            base.Update(gameTime);
         }
 
         /// <summary>
@@ -125,6 +136,8 @@ namespace Hero_of_Novac
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
+            Jhon.Draw(spriteBatch);
+            Smith.Draw(spriteBatch);
             village.Draw(gameTime, spriteBatch);
             player.Draw(spriteBatch);
             spriteBatch.End();
