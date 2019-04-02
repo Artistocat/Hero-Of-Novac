@@ -16,6 +16,10 @@ namespace Hero_of_Novac
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        Rectangle window;
+
+        Area village;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Vector2 loc;
@@ -31,6 +35,8 @@ namespace Hero_of_Novac
         NPC Priest;
         NPC Armour;
 
+        Player player;
+        int counter;
         enum GameState
         {
             MainMenu, Overworld, Inventory, BattleMenu
@@ -44,6 +50,10 @@ namespace Hero_of_Novac
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -56,9 +66,10 @@ namespace Hero_of_Novac
         protected override void Initialize()
         {
             IsMouseVisible = true;
-            currentGameState = GameState.MainMenu;
+            window = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            currentGameState = GameState.Overworld;
             playerMoveSprites = this.Content.Load<Texture2D>("chara1");
-            Jhon = new Player(playerMoveSprites, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            player = new Player(playerMoveSprites, window);
             battleMenu = new BattleMenu(new Enemy[0]);
             Smith = new NPC();
             base.Initialize();
@@ -76,6 +87,7 @@ namespace Hero_of_Novac
             font = Content.Load<SpriteFont>("SpriteFont1");
             Smith.load(font);
             // TODO: use this.Content to load your game content here
+            village = new Area(Services, @"Content/Village", window);
         }
 
         /// <summary>
@@ -95,14 +107,17 @@ namespace Hero_of_Novac
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
-            
+            Jhon.counter++;
             switch (currentGameState)
             {
                 case GameState.MainMenu:
                     break;
                 case GameState.Overworld:
+                    village.Update(gameTime);
+                    player.Update(gameTime);
+                    base.Update(gameTime);
                     break;
                 case GameState.BattleMenu:
                     battleMenu.Update();
@@ -123,6 +138,8 @@ namespace Hero_of_Novac
             spriteBatch.Begin();
             Jhon.Draw(spriteBatch);
             Smith.Draw(spriteBatch);
+            village.Draw(gameTime, spriteBatch);
+            player.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
