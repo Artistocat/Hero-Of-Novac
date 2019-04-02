@@ -46,14 +46,14 @@ namespace Hero_of_Novac
             destination.Y -= (int) sped.Y;
             if (sped.X == 0 && sped.Y == 0)
             {
-                overSource.X = 27;
+                overSource.X = SPRITE_WIDTH;
                 overSource.Y = 0;
 
             }else if (Math.Abs(sped.Y) > Math.Abs(sped.X))
             {
                 if(sped.Y > 0)
                 {
-                    overSource.Y = 108;
+                    overSource.Y = 216;
 
                 }else if(sped.Y < 0)
                 {
@@ -64,20 +64,20 @@ namespace Hero_of_Novac
             {
                 if (sped.X > 0)
                 {
-                    overSource.Y = 72;
+                    overSource.Y = 144;
                 }
                 else if (sped.X < 0)
                 {
-                    overSource.Y = 37;
+                    overSource.Y = 74;
                 }
             }
             if (sped.X != 0 || sped.Y != 0)
             {
                 if (counter % 6 == 0)
                 {
-                    overSource.X += 26;
+                    overSource.X += SPRITE_WIDTH;
                 }
-                if (overSource.X >= 72)
+                if (overSource.X >= 144)
                 {
                     overSource.X = 0;
                 }
