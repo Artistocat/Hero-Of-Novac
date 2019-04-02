@@ -28,7 +28,7 @@ namespace Hero_of_Novac
 
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
 
         }
