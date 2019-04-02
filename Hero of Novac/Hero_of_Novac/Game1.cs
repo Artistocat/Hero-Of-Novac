@@ -24,15 +24,16 @@ namespace Hero_of_Novac
         int inputX, inputY;
 
         Texture2D playerMoveSprites;
-        Player Jhon;
+        Player player;
         enum GameState
         {
-            MainMenu, Overworld, BattleMenu 
+            MainMenu, Overworld, Inventory, BattleMenu
         }
 
         GameState currentGameState;
 
-
+        BattleMenu battleMenu;
+        MainMenu mainMenu;
 
         public Game1()
         {
@@ -49,6 +50,7 @@ namespace Hero_of_Novac
         protected override void Initialize()
         {
             currentGameState = GameState.MainMenu;
+            battleMenu = new BattleMenu(new Enemy[0]);
             base.Initialize();
             lines = new List<string>();
         }
@@ -63,7 +65,6 @@ namespace Hero_of_Novac
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
             // TODO: use this.Content to load your game content here
-            playerMoveSprites = this.Content.Load<Texture2D>("chara1");
         }
 
         /// <summary>
@@ -85,7 +86,6 @@ namespace Hero_of_Novac
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -93,6 +93,7 @@ namespace Hero_of_Novac
                 case GameState.Overworld:
                     break;
                 case GameState.BattleMenu:
+                    battleMenu.Update();
                     break;
             }
 

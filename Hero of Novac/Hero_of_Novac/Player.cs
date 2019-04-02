@@ -30,7 +30,7 @@ namespace Hero_of_Novac
             colour = Color.White;
         }
 
-        public override void Update()
+        public override void Draw(SpriteBatch spriteBatch)
         {
             GamePadState gps = GamePad.GetState(PlayerIndex.One);
             if (gps.ThumbSticks.Left.X > 0 || gps.ThumbSticks.Left.Y > 0)
