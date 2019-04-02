@@ -11,14 +11,35 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Hero_of_Novac
 {
-    public class NPC
+    public class NPC : Entity
     {
+        Rectangle rect;
+        Rectangle sourceRect;
+        Texture2D texture;
+        Vector2 pos;
+
+        Boolean interact;
+        string text;
+        char name;
 
 
         public NPC()
         {
 
         }
-            
+
+        public override void Update(GameTime gameTime)
+        {
+
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+
+        }
+        public string speech(char a)
+        {
+            return "didnt work";
+        }
     }
 }

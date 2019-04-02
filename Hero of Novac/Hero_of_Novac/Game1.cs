@@ -18,16 +18,22 @@ namespace Hero_of_Novac
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Vector2 loc;
+        SpriteFont font;
+        List<string> lines;
+        int inputX, inputY;
+
         Texture2D playerMoveSprites;
-        Player Jhon;
+        Player player;
         enum GameState
         {
-            MainMenu, Overworld, BattleMenu 
+            MainMenu, Overworld, Inventory, BattleMenu
         }
 
         GameState currentGameState;
 
-
+        BattleMenu battleMenu;
+        MainMenu mainMenu;
 
         public Game1()
         {
@@ -43,10 +49,13 @@ namespace Hero_of_Novac
         /// </summary>
         protected override void Initialize()
         {
+            IsMouseVisible = true;
             currentGameState = GameState.MainMenu;
             playerMoveSprites = this.Content.Load<Texture2D>("chara1");
             Jhon = new Player(playerMoveSprites, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            battleMenu = new BattleMenu(new Enemy[0]);
             base.Initialize();
+            lines = new List<string>();
         }
 
         /// <summary>
@@ -57,7 +66,7 @@ namespace Hero_of_Novac
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            font = Content.Load<SpriteFont>("SpriteFont1");
             // TODO: use this.Content to load your game content here
         }
 
@@ -78,7 +87,7 @@ namespace Hero_of_Novac
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
             
             switch (currentGameState)
@@ -88,6 +97,7 @@ namespace Hero_of_Novac
                 case GameState.Overworld:
                     break;
                 case GameState.BattleMenu:
+                    battleMenu.Update();
                     break;
             }
             Jhon.Update();

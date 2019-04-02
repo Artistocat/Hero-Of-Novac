@@ -32,7 +32,7 @@ namespace Hero_of_Novac
             destination = new Rectangle((sW / 2) - 26, (sH / 2) - 40, 26, 40);
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             GamePadState gps = GamePad.GetState(PlayerIndex.One);
             sped = gps.ThumbSticks.Left * 3;
