@@ -52,8 +52,13 @@ namespace Hero_of_Novac
             IsMouseVisible = true;
             currentGameState = GameState.MainMenu;
             battleMenu = new BattleMenu(new Enemy[0]);
-            base.Initialize();
             lines = new List<string>();
+
+            //TESTING
+            //currentGameState = GameState.BattleMenu;
+
+
+            base.Initialize();
         }
 
         /// <summary>
@@ -65,7 +70,8 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
-            // TODO: use this.Content to load your game content here
+
+            BattleMenu.LoadContent(jhon, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
         }
 
         /// <summary>
@@ -111,7 +117,16 @@ namespace Hero_of_Novac
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-
+            switch (currentGameState)
+            {
+                case GameState.MainMenu:
+                    break;
+                case GameState.Overworld:
+                    break;
+                case GameState.BattleMenu:
+                    battleMenu.Draw(spriteBatch);
+                    break;
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);

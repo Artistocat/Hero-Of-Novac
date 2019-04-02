@@ -32,11 +32,22 @@ namespace Hero_of_Novac
         }
         BattleState currentBattleState;
 
+        enum ChoiceState
+        {
+            MainChoice, Basic, Magic, Items
+        }
+        ChoiceState currentChoiceState;
+
         public BattleMenu(Enemy[] enemies)
         {
-            currentBattleState = BattleState.ChoosingAttack;
+            currentBattleState = BattleState.BeginningBattle;
+            currentChoiceState = ChoiceState.MainChoice;
             this.enemies = enemies;
             tics = 0;
+
+
+            //TESTING
+            //currentBattleState = BattleState.ChoosingAttack;
         }
 
         public static void LoadContent(Player player, SpriteFont Font, GraphicsDevice graphicsDevice, Rectangle screenRect)
@@ -128,7 +139,60 @@ namespace Hero_of_Novac
                 enemy.Draw(spriteBatch);
             }
 
-            //spriteBatch.Draw(pixel, )
+            spriteBatch.Draw(pixel, menuRect, Color.Blue);
+            switch (currentChoiceState)
+            {
+                case ChoiceState.MainChoice:
+                    DrawMainChoice(spriteBatch);
+                    break;
+                case ChoiceState.Basic:
+                    DrawBasic(spriteBatch);
+                    break;
+                case ChoiceState.Magic:
+                    DrawMagic(spriteBatch);
+                    break;
+                case ChoiceState.Items:
+                    DrawItems(spriteBatch);
+                    break;
+            }
+        }
+
+        private void DrawMainChoice(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(pixel, basicRect, Color.White);
+            spriteBatch.Draw(pixel, magicRect, Color.Purple);
+            spriteBatch.Draw(pixel, itemsRect, Color.Green);
+                
+        }
+
+        private void DrawBasic(SpriteBatch spriteBatch)
+        {
+            Color c = Color.Blue;
+            foreach (Rectangle rect in attackRects)
+            {
+                spriteBatch.Draw(pixel, rect, c);
+                c.R += 10;
+                c.G += 10;
+                c.B += 10;
+            }
+        }
+
+        private void DrawMagic(SpriteBatch spriteBatch)
+        {
+            Color c = Color.Purple;
+            foreach (Rectangle rect in attackRects)
+            {
+                spriteBatch.Draw(pixel, rect, c);
+                c.R += 10;
+                c.G += 10;
+                c.B += 10;
+            }
+        }
+
+        private void DrawItems(SpriteBatch spriteBatch)
+        {
+            //TODO
+            //Requires item/inventory implementation
         }
     }
 }
