@@ -44,6 +44,8 @@ namespace Hero_of_Novac
         protected override void Initialize()
         {
             currentGameState = GameState.MainMenu;
+            playerMoveSprites = this.Content.Load<Texture2D>("chara1");
+            Jhon = new Player(playerMoveSprites, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             base.Initialize();
         }
 
@@ -57,7 +59,6 @@ namespace Hero_of_Novac
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            playerMoveSprites = this.Content.Load<Texture2D>("chara1");
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace Hero_of_Novac
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
+            
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -89,7 +90,7 @@ namespace Hero_of_Novac
                 case GameState.BattleMenu:
                     break;
             }
-
+            Jhon.Update();
             base.Update(gameTime);
         }
 
@@ -102,7 +103,7 @@ namespace Hero_of_Novac
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-
+            Jhon.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
