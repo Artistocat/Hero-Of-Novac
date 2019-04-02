@@ -18,8 +18,8 @@ namespace Hero_of_Novac
         private static Rectangle basicRect;
         private static Rectangle magicRect;
         private static Rectangle itemsRect;
-        private static Rectangle[] attacks;
-        private static Rectangle[] elements;
+        private static Rectangle[] attackRects;
+        private static Rectangle[] elementRects;
 
         private Enemy[] enemies;
         private GamePadState gamePad;
@@ -54,6 +54,10 @@ namespace Hero_of_Novac
             basicRect = new Rectangle(width / 4, height / 2, width / 2, height / 4);
             magicRect = new Rectangle(basicRect.X, basicRect.Y + height / 4, basicRect.Width, basicRect.Height);
             itemsRect = new Rectangle(0, magicRect.Y, width / 4, height / 4);
+
+            attackRects = new Rectangle[4];
+            elementRects = new Rectangle[5];
+            //attackRects[0] = new Rectangle()
         }
 
         public void Update()
