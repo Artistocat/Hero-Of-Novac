@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hero_of_Novac
 {
-    public class Enemy: Entity
+    public class Enemy : Entity
     {
         public Enemy()
         {

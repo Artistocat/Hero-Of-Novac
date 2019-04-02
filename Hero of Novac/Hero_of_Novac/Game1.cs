@@ -18,6 +18,11 @@ namespace Hero_of_Novac
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Vector2 loc;
+        SpriteFont font;
+        List<string> lines;
+        int inputX, inputY;
+
         Texture2D playerMoveSprites;
         Player player;
         enum GameState
@@ -47,6 +52,7 @@ namespace Hero_of_Novac
             currentGameState = GameState.MainMenu;
             battleMenu = new BattleMenu(new Enemy[0]);
             base.Initialize();
+            lines = new List<string>();
         }
 
         /// <summary>
@@ -57,7 +63,7 @@ namespace Hero_of_Novac
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            font = Content.Load<SpriteFont>("SpriteFont1");
             // TODO: use this.Content to load your game content here
         }
 
@@ -90,6 +96,7 @@ namespace Hero_of_Novac
                     battleMenu.Update();
                     break;
             }
+
 
             base.Update(gameTime);
         }

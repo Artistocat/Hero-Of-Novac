@@ -35,7 +35,7 @@ namespace Hero_of_Novac
             GamePadState gps = GamePad.GetState(PlayerIndex.One);
             if (gps.ThumbSticks.Left.X > 0 || gps.ThumbSticks.Left.Y > 0)
             {
-                loc = gps.ThumbSticks.Left;
+                vol = gps.ThumbSticks.Left;
             }
         }
 
