@@ -40,12 +40,11 @@ namespace Hero_of_Novac
             sped = gps.ThumbSticks.Left * 3;//Determines walk speed of character
             destination.X += (int) sped.X;
             destination.Y -= (int) sped.Y;
-            if (sped.X == 0 && sped.Y == 0)
+            if (sped.X == 0 && sped.Y == 0)//If not moving does standing sprite
             {
                 overSource.X = 27;
-                overSource.Y = 0;
 
-            }else if (Math.Abs(sped.Y) > Math.Abs(sped.X))
+            }else if (Math.Abs(sped.Y) > Math.Abs(sped.X))//Basic direction animation locations
             {
                 if(sped.Y > 0)
                 {
@@ -67,9 +66,10 @@ namespace Hero_of_Novac
                     overSource.Y = 37;
                 }
             }
-            if (sped.X != 0 || sped.Y != 0)
+
+            if (sped.X != 0 || sped.Y != 0)//Does the mid animations
             {
-                if (counter % 6 == 0)
+                if (counter % 60 == 0)
                 {
                     overSource.X += 26;
                 }
