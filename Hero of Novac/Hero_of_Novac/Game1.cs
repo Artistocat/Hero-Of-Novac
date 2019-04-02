@@ -18,8 +18,8 @@ namespace Hero_of_Novac
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D playerMoveSprites;
         Player player;
-
         enum GameState
         {
             MainMenu, Overworld, Inventory, BattleMenu
@@ -58,9 +58,7 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-
-
-            BattleMenu.LoadContent(player, Font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -105,7 +103,7 @@ namespace Hero_of_Novac
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            
+
             spriteBatch.End();
 
             base.Draw(gameTime);
