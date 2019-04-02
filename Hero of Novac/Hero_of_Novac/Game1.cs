@@ -51,6 +51,8 @@ namespace Hero_of_Novac
         {
             IsMouseVisible = true;
             currentGameState = GameState.MainMenu;
+            playerMoveSprites = this.Content.Load<Texture2D>("chara1");
+            Jhon = new Player(playerMoveSprites, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             battleMenu = new BattleMenu(new Enemy[0]);
             lines = new List<string>();
 
@@ -93,6 +95,7 @@ namespace Hero_of_Novac
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
+            
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -103,8 +106,7 @@ namespace Hero_of_Novac
                     battleMenu.Update();
                     break;
             }
-
-
+            Jhon.Update();
             base.Update(gameTime);
         }
 

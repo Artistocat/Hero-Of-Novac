@@ -24,24 +24,26 @@ namespace Hero_of_Novac
         public Vector2 loc;
         public Vector2 sped;
 
-        public Player(Texture2D t)
+        public Player(Texture2D tex, int sW, int sH)
         {
-            overSprites = t;
+            overSprites = tex;
             colour = Color.White;
+            overSource = new Rectangle(0, 0, 26, 40);
+            destination = new Rectangle((sW / 2) - 26, (sH / 2) - 40, 26, 40);
         }
 
         public override void Update(GameTime gameTime)
         {
             GamePadState gps = GamePad.GetState(PlayerIndex.One);
-            if (gps.ThumbSticks.Left.X > 0 || gps.ThumbSticks.Left.Y > 0)
-            {
-                loc = gps.ThumbSticks.Left;
-            }
+            sped = gps.ThumbSticks.Left * 3;
+            destination.X += (int) sped.X;
+            destination.Y -= (int) sped.Y;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(overSprites, destination, overSource, colour);
+            SpriteBatch spriteBatchTwo = spriteBatch;
+            spriteBatchTwo.Draw(overSprites, destination, overSource, colour);
         }
         //public override void Update()
         //{
