@@ -21,7 +21,7 @@ namespace Hero_of_Novac
 
         }
 
-        public abstract void Update();
+        public abstract void Update(GameTime gameTime);
 
         public abstract void Draw(SpriteBatch spriteBatch);
     }

@@ -114,7 +114,7 @@ namespace Hero_of_Novac
                 enemy.Draw(spriteBatch);
             }
 
-            spriteBatch.Draw(pixel, )
+            //spriteBatch.Draw(pixel, )
         }
     }
 }
