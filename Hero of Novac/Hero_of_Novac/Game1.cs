@@ -24,7 +24,7 @@ namespace Hero_of_Novac
         int inputX, inputY;
 
         Texture2D playerMoveSprites;
-        Player player;
+        Player Jhon;
         enum GameState
         {
             MainMenu, Overworld, Inventory, BattleMenu
@@ -57,7 +57,7 @@ namespace Hero_of_Novac
             lines = new List<string>();
 
             //TESTING
-            //currentGameState = GameState.BattleMenu;
+            currentGameState = GameState.BattleMenu;
 
 
             base.Initialize();
@@ -73,7 +73,7 @@ namespace Hero_of_Novac
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
 
-            BattleMenu.LoadContent(jhon, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            BattleMenu.LoadContent(Jhon, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Hero_of_Novac
                     battleMenu.Update();
                     break;
             }
-            Jhon.Update();
+            Jhon.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -124,6 +124,7 @@ namespace Hero_of_Novac
                 case GameState.MainMenu:
                     break;
                 case GameState.Overworld:
+                    Jhon.Draw(spriteBatch);
                     break;
                 case GameState.BattleMenu:
                     battleMenu.Draw(spriteBatch);
