@@ -19,7 +19,7 @@ namespace Hero_of_Novac
         public Rectangle destination;
         public Color colour;
         public Vector2 loc;
-
+        public Vector2 vol;
 
         public Player()
         {
@@ -32,16 +32,16 @@ namespace Hero_of_Novac
             GamePadState gps = GamePad.GetState(PlayerIndex.One);
             if (gps.ThumbSticks.Left.X > 0 || gps.ThumbSticks.Left.Y > 0)
             {
-                loc = gps.ThumbSticks.Left;
+                vol = gps.ThumbSticks.Left;
             }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-
-        public override void Update()
-        {
-            throw new NotImplementedException();
         }
+        //public override void Update()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

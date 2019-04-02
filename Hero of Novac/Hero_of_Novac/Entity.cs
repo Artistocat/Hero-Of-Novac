@@ -13,6 +13,8 @@ namespace Hero_of_Novac
         Rectangle rect;
         Rectangle sourceRect;
         Texture2D texture;
+        Vector2 pos;
+
 
         public Entity()
         {
