@@ -24,7 +24,8 @@ namespace Hero_of_Novac
         int inputX, inputY;
 
         Texture2D playerMoveSprites;
-        Player player;
+        Player Jhon;
+        int counter;
         enum GameState
         {
             MainMenu, Overworld, Inventory, BattleMenu
@@ -52,7 +53,7 @@ namespace Hero_of_Novac
             IsMouseVisible = true;
             currentGameState = GameState.MainMenu;
             playerMoveSprites = this.Content.Load<Texture2D>("chara1");
-            Jhon = new Player(playerMoveSprites, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            Jhon = new Player(playerMoveSprites, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height, counter);
             battleMenu = new BattleMenu(new Enemy[0]);
             base.Initialize();
             lines = new List<string>();
@@ -89,7 +90,7 @@ namespace Hero_of_Novac
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
-            
+            Jhon.counter++;
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -100,7 +101,7 @@ namespace Hero_of_Novac
                     battleMenu.Update();
                     break;
             }
-            Jhon.Update();
+            Jhon.Update(gameTime);
             base.Update(gameTime);
         }
 
