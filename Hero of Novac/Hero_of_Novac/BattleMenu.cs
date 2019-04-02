@@ -56,8 +56,18 @@ namespace Hero_of_Novac
             itemsRect = new Rectangle(0, magicRect.Y, width / 4, height / 4);
 
             attackRects = new Rectangle[4];
+            attackRects[0] = new Rectangle(basicRect.X, basicRect.Y, basicRect.Width / 2, basicRect.Height / 2);
+            attackRects[1] = new Rectangle(basicRect.X + basicRect.Width / 2, basicRect.Y, attackRects[0].Width, attackRects[0].Height);
+            attackRects[2] = new Rectangle(attackRects[0].X, attackRects[0].Y + attackRects[0].Height, attackRects[0].Width, attackRects[0].Height);
+            attackRects[3] = new Rectangle(attackRects[1].X, attackRects[2].Y, attackRects[0].Width, attackRects[0].Height);
+
+            int elementRectHeight = 40;
             elementRects = new Rectangle[5];
-            //attackRects[0] = new Rectangle()
+            for (int i = 0; i < elementRects.Length; i++)
+            {
+                elementRects[i] = new Rectangle(basicRect.X + i * basicRect.Width / 5, basicRect.Y - elementRectHeight, basicRect.Width / 5, elementRectHeight);
+            }
+
         }
 
         public void Update()
