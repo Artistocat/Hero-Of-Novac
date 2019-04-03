@@ -128,6 +128,8 @@ namespace Hero_of_Novac
                 case GameState.BattleMenu:
                     battleMenu.Update();
                     break;
+                case GameState.Inventory:
+                    break;
             }
             base.Update(gameTime);
         }
