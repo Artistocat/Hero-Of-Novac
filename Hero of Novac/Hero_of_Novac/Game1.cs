@@ -16,20 +16,44 @@ namespace Hero_of_Novac
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        Rectangle window;
+
+        Area village;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Vector2 loc;
+        SpriteFont font;
+        List<string> lines;
+        int inputX, inputY;
+
         Texture2D playerMoveSprites;
+        Player Jhon;
+
+        NPC Smith;
+        NPC Shop;
+        NPC Priest;
+        NPC Armour;
+
         Player player;
+        int counter;
         enum GameState
         {
-            MainMenu, Overworld, BattleMenu, Inventory
+            MainMenu, Overworld, Inventory, BattleMenu
         }
 
         GameState currentGameState;
 
+        BattleMenu battleMenu;
+        MainMenu mainMenu;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -41,7 +65,20 @@ namespace Hero_of_Novac
         /// </summary>
         protected override void Initialize()
         {
-            currentGameState = GameState.MainMenu;
+            IsMouseVisible = true;
+            window = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            currentGameState = GameState.Overworld;
+            playerMoveSprites = this.Content.Load<Texture2D>("chara1");
+            player = new Player(playerMoveSprites, window);
+            battleMenu = new BattleMenu(new Enemy[0]);
+            Smith = new NPC();
+            base.Initialize();
+            lines = new List<string>();
+
+            //TESTING
+            currentGameState = GameState.BattleMenu;
+
+
             base.Initialize();
         }
 
@@ -53,9 +90,12 @@ namespace Hero_of_Novac
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            font = Content.Load<SpriteFont>("SpriteFont1");
+            Smith.load(font);
 
+            BattleMenu.LoadContent(Jhon, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             // TODO: use this.Content to load your game content here
-            playerMoveSprites = this.Content.Load<Texture2D>("chara1");
+            village = new Area(Services, @"Content/Village", window);
         }
 
         /// <summary>
@@ -75,21 +115,25 @@ namespace Hero_of_Novac
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
-
+            player.counter++;
             switch (currentGameState)
             {
                 case GameState.MainMenu:
                     break;
                 case GameState.Overworld:
+                    village.Update(gameTime);
+                    player.Update(gameTime);
+                    base.Update(gameTime);
                     break;
                 case GameState.BattleMenu:
+                    battleMenu.Update();
                     break;
                 case GameState.Inventory:
                     break;
             }
-
+            player.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -102,7 +146,20 @@ namespace Hero_of_Novac
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-
+            switch (currentGameState)
+            {
+                case GameState.MainMenu:
+                    break;
+                case GameState.Overworld:
+                    player.Draw(spriteBatch);
+                    break;
+                case GameState.BattleMenu:
+                    battleMenu.Draw(spriteBatch);
+                    break;
+            }
+            Smith.Draw(spriteBatch);
+            village.Draw(gameTime, spriteBatch);
+            player.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

@@ -13,13 +13,15 @@ namespace Hero_of_Novac
         Rectangle rect;
         Rectangle sourceRect;
         Texture2D texture;
+        Vector2 pos;
+
 
         public Entity()
         {
 
         }
 
-        public abstract void Update();
+        public abstract void Update(GameTime gameTime);
 
         public abstract void Draw(SpriteBatch spriteBatch);
     }
