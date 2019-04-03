@@ -14,81 +14,72 @@ namespace Hero_of_Novac
     
     public class Player : Entity
     {
-        Rectangle window;
+        private Rectangle window;
 
-        const int SPRITE_WIDTH = 52;
-        const int SPRITE_HEIGHT = 72;
+        private const int SPRITE_WIDTH = 52;
+        private const int SPRITE_HEIGHT = 72;
 
-        public Texture2D overSprites;
-        public Texture2D combatSprites;
-        public Rectangle overSource;
-        public Rectangle combatSource;
-        public Rectangle destination;
-        public Color colour;
-        public Vector2 loc;
-        public Vector2 sped;
-        public int counter;
+        private Texture2D defaultTex;
+        private Texture2D combatTex;
+        private Rectangle sourceRec;
+        private Vector2 pos;
+        public Vector2 Position
+        {
+            get { return pos; }
+            set { pos = value; }
+        }
+        private Vector2 vol;
+        private Color color;
+        private int timer;
 
-        public Player(Texture2D tex, Rectangle window)
+        public Player(Texture2D defaultTex, Texture2D combatTex, Rectangle window)
         {
             this.window = window;
-            overSprites = tex;
-            colour = Color.White;
-            overSource = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
-            destination = new Rectangle((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2, SPRITE_WIDTH, SPRITE_HEIGHT);
+
+            this.defaultTex = defaultTex;
+            this.combatTex = combatTex;
+            sourceRec = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
+            pos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
+            color = Color.White;
         }
 
         public override void Update(GameTime gameTime)
         {
-            GamePadState gps = GamePad.GetState(PlayerIndex.One);
-            sped = gps.ThumbSticks.Left * 4;
-            destination.X += (int) sped.X;
-            destination.Y -= (int) sped.Y;
-            if (sped.X == 0 && sped.Y == 0)
-            {
-                overSource.X = SPRITE_WIDTH;
-                overSource.Y = 0;
+            GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
+            vol = pad1.ThumbSticks.Left * 4;
+            pos.X += vol.X;
+            pos.Y -= vol.Y;
 
-            }else if (Math.Abs(sped.Y) > Math.Abs(sped.X))
+            if (vol.X == 0 && vol.Y == 0)
+                sourceRec.X = SPRITE_WIDTH;
+            else if (Math.Abs(vol.Y) > Math.Abs(vol.X))
             {
-                if(sped.Y > 0)
-                {
-                    overSource.Y = 216;
+                if (vol.Y > 0)
+                    sourceRec.Y = 216;
+                else
+                    sourceRec.Y = 0;
 
-                }else if(sped.Y < 0)
-                {
-                    overSource.Y = 0;
-                }
-
-            } else if(Math.Abs(sped.X) > Math.Abs(sped.Y))
-            {
-                if (sped.X > 0)
-                {
-                    overSource.Y = 144;
-                }
-                else if (sped.X < 0)
-                {
-                    overSource.Y = 74;
-                }
             }
-            if (sped.X != 0 || sped.Y != 0)
+            else if(Math.Abs(vol.X) > Math.Abs(vol.Y))
             {
-                if (counter % 6 == 0)
-                {
-                    overSource.X += SPRITE_WIDTH;
-                }
-                if (overSource.X >= 144)
-                {
-                    overSource.X = 0;
-                }
+                if (vol.X > 0)
+                    sourceRec.Y = 144;
+                else 
+                    sourceRec.Y = 74;
             }
+            if (vol.X != 0 || vol.Y != 0)
+            {
+                if (timer % 6 == 0)
+                    sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % defaultTex.Width;
+            }
+            timer++;
 
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             SpriteBatch spriteBatchTwo = spriteBatch;
-            spriteBatchTwo.Draw(overSprites, destination, overSource, colour);
+            spriteBatchTwo.Draw(defaultTex, pos, sourceRec, color);
         }
     }
 }

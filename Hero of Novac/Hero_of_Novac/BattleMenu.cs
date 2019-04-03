@@ -207,7 +207,7 @@ namespace Hero_of_Novac
                 selected = 1;
             if (gamePad.ThumbSticks.Left.X <= -1)
                 selected = 2;
-            if (selected != -1)
+            if (selected != -1) ;
                 //for (int i = 0; i < Basic.Length; i++)
                 //{
                 //    Basic[i].isSelected = false;

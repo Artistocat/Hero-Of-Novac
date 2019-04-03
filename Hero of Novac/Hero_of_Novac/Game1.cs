@@ -25,23 +25,21 @@ namespace Hero_of_Novac
         Vector2 loc;
         SpriteFont font;
         List<string> lines;
-        int inputX, inputY;
 
-        Texture2D playerMoveSprites;
-        Player Jhon;
+        Texture2D playerWalkingSprites;
+        Texture2D playerCombatSprites;
 
-        NPC Smith;
-        NPC Shop;
-        NPC Priest;
-        NPC Armour;
+        NPC smith;
+        NPC shop;
+        NPC priest;
+        NPC armor;
 
         Player player;
-        int counter;
+
         enum GameState
         {
             MainMenu, Overworld, Inventory, BattleMenu
         }
-
         GameState currentGameState;
 
         BattleMenu battleMenu;
@@ -68,10 +66,11 @@ namespace Hero_of_Novac
             IsMouseVisible = true;
             window = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             currentGameState = GameState.Overworld;
-            playerMoveSprites = this.Content.Load<Texture2D>("chara1");
-            player = new Player(playerMoveSprites, window);
+            playerWalkingSprites = Content.Load<Texture2D>("player_walking");
+            playerCombatSprites = Content.Load<Texture2D>("player_combat");
+            player = new Player(playerWalkingSprites, playerCombatSprites, window);
             battleMenu = new BattleMenu(new Enemy[0]);
-            Smith = new NPC();
+            smith = new NPC();
             base.Initialize();
             lines = new List<string>();
 
@@ -91,9 +90,9 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
-            Smith.load(font);
+            smith.load(font);
 
-            BattleMenu.LoadContent(Jhon, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             // TODO: use this.Content to load your game content here
             village = new Area(Services, @"Content/Village", window);
         }
@@ -117,7 +116,6 @@ namespace Hero_of_Novac
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
-            player.counter++;
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -131,7 +129,6 @@ namespace Hero_of_Novac
                     battleMenu.Update();
                     break;
             }
-            Jhon.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -149,16 +146,15 @@ namespace Hero_of_Novac
                 case GameState.MainMenu:
                     break;
                 case GameState.Overworld:
-                    Jhon.Draw(spriteBatch);
+                    village.Draw(gameTime, spriteBatch);
+                    smith.Draw(spriteBatch);
+                    player.Draw(spriteBatch);
                     break;
                 case GameState.BattleMenu:
                     battleMenu.Draw(spriteBatch);
                     break;
             }
-            Jhon.Draw(spriteBatch);
-            Smith.Draw(spriteBatch);
-            village.Draw(gameTime, spriteBatch);
-            player.Draw(spriteBatch);
+            
             spriteBatch.End();
 
             base.Draw(gameTime);

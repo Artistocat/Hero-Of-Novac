@@ -15,19 +15,19 @@ namespace Hero_of_Novac
     public class NPC : Entity
     {
         SpriteFont font;
-        Rectangle rect;
-        Rectangle sourceRect;
-        Texture2D texture;
+        Rectangle rec;
+        Rectangle sourceRec;
+        Texture2D tex;
         Vector2 pos;
         Vector2 vol;
         
         private List<string> blackSmith;
-        private List<string> Armourer;
-        private List<string> Shopkeep;
-        private List<string> Hero;
-        private List<string> Priest;
+        private List<string> armourer;
+        private List<string> shopkeep;
+        private List<string> hero;
+        private List<string> priest;
 
-        Boolean interact;
+        bool interact;
         string text;
         char name;
 
@@ -36,10 +36,10 @@ namespace Hero_of_Novac
 
         }
 
-        public NPC(Rectangle r, Texture2D t, Vector2 p, Vector2 v, Boolean i, char n)
+        public NPC(Rectangle r, Texture2D t, Vector2 p, Vector2 v, bool i, char n)
         {
-            rect = r;
-            texture = t;
+            rec = r;
+            tex = t;
             pos = p;
             vol = v;
             interact = i;
@@ -56,10 +56,12 @@ namespace Hero_of_Novac
         {
             spriteBatch.DrawString(font,blackSmith[0],new Vector2(0,0), Color.White);
         }
+
         public void load(SpriteFont f)
         {
             font = f;
         }
+
         public string talk(Speech s, char c)
         {
             if (s == Speech.Greeting)
@@ -68,13 +70,13 @@ namespace Hero_of_Novac
                     case 'b':
                         return blackSmith[0];
                     case 's':
-                        return Shopkeep[0];
+                        return shopkeep[0];
                     case 'a':
-                        return Armourer[0];
+                        return armourer[0];
                     case 'h':
-                        return Hero[0];
+                        return hero[0];
                     case 'p':
-                        return Priest[0];
+                        return priest[0];
 
                 }
             else if (s == Speech.Interactable)
@@ -83,13 +85,13 @@ namespace Hero_of_Novac
                     case 'b':
                         return blackSmith[1];
                     case 's':
-                        return Shopkeep[1];
+                        return shopkeep[1];
                     case 'a':
-                        return Armourer[1];
+                        return armourer[1];
                     case 'h':
-                        return Hero[1];
+                        return hero[1];
                     case 'p':
-                        return Priest[1];
+                        return priest[1];
                 }
             else if (s == Speech.Farewell)
                 switch (c)
@@ -97,17 +99,18 @@ namespace Hero_of_Novac
                     case 'b':
                         return blackSmith[2];
                     case 's':
-                        return Shopkeep[2];
+                        return shopkeep[2];
                     case 'a':
-                        return Armourer[2];
+                        return armourer[2];
                     case 'h':
-                        return Hero[2];
+                        return hero[2];
                     case 'p':
-                        return Priest[2];
+                        return priest[2];
 
                 }
             return "no text";
         }
+
         private void ReadFileAsStrings(string path)
         {
             try
@@ -119,23 +122,23 @@ namespace Hero_of_Novac
                     while (!reader.EndOfStream)
                     {
                         string line = reader.ReadLine();
-                        char firstChar = line.ElementAt(0);
+                        char firstChar = line[0];
                         switch(firstChar)
                         {
                             case 'b':
                                 blackSmith.Add(line);
                                 break;
                             case 's':
-                                Shopkeep.Add(line);
+                                shopkeep.Add(line);
                                 break;
                             case 'a':
-                                Armourer.Add(line);
+                                armourer.Add(line);
                                 break;
                             case 'h':
-                                Hero.Add(line);
+                                hero.Add(line);
                                 break;
                             case 'p':
-                                Priest.Add(line);
+                                priest.Add(line);
                                 break;
 
                         }
@@ -144,8 +147,7 @@ namespace Hero_of_Novac
             }
             catch (Exception e)
             {
-                Console.WriteLine("The file could not be read");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("The file could not be read:\n" + e.Message);
             }
         }
     }

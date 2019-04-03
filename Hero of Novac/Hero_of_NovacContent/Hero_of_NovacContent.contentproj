@@ -57,8 +57,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="chara1.png">
-      <Name>chara1</Name>
+    <Compile Include="player_walking.png">
+      <Name>player_walking</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -68,6 +68,13 @@
       <Name>chartext</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="player_combat.png">
+      <Name>player_combat</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
