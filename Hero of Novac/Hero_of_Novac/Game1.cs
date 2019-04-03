@@ -19,15 +19,13 @@ namespace Hero_of_Novac
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D playerMoveSprites;
-        Player Jhon;
+        Player player;
         enum GameState
         {
-            MainMenu, Overworld, BattleMenu 
+            MainMenu, Overworld, BattleMenu, Inventory
         }
 
         GameState currentGameState;
-
-
 
         public Game1()
         {
@@ -87,6 +85,8 @@ namespace Hero_of_Novac
                 case GameState.Overworld:
                     break;
                 case GameState.BattleMenu:
+                    break;
+                case GameState.Inventory:
                     break;
             }
 

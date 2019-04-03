@@ -11,7 +11,7 @@ namespace Hero_of_Novac
     {
         private static Player player;
         private static Texture2D pixel;
-        private Enemy[] enemies;
+        private Enemy[] enemies; 
 
         enum BattleState
         {
@@ -38,14 +38,19 @@ namespace Hero_of_Novac
             switch (currentBattleState)
             {
                 case BattleState.BeginningBattle:
+                    BeginningBattle();
                     break;
                 case BattleState.ChoosingAttack:
+                    ChoosingAttack();
                     break;
                 case BattleState.Charging:
+                    Charging();
                     break;
                 case BattleState.Attacking:
+                    Attacking();
                     break;
                 case BattleState.EndingBattle:
+                    EndingBattle();
                     break;
             }
         }
