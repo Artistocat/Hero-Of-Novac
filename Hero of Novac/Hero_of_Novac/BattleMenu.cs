@@ -119,7 +119,7 @@ namespace Hero_of_Novac
             Basic[0, 0] = new NavigableMenuItem(attackRects[0], pixel, singleRect, Color.Blue);
             Basic[0, 1] = new NavigableMenuItem(attackRects[1], pixel, singleRect, Color.Blue);
             Basic[1, 0] = new NavigableMenuItem(attackRects[2], pixel, singleRect, Color.Blue);
-            Basic[1, 2] = new NavigableMenuItem(attackRects[3], pixel, singleRect, Color.Blue);
+            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pixel, singleRect, Color.Blue);
 
             Magic = new NavigableMenuItem[2, 2];
             Magic[0, 0] = new NavigableMenuItem(attackRects[0], pixel, singleRect, Color.Purple);
@@ -201,22 +201,65 @@ namespace Hero_of_Novac
         private void ChoosingBasic()
         {
             int selected = -1;
+            const int UP = 0;
+            const int DOWN = 1;
+            const int LEFT = 2;
+            const int RIGHT = 3;
             if (gamePad.ThumbSticks.Left.Y >= 1)
                 selected = 0;
             if (gamePad.ThumbSticks.Left.Y <= -1)
                 selected = 1;
             if (gamePad.ThumbSticks.Left.X <= -1)
                 selected = 2;
+            if (gamePad.ThumbSticks.Left.X >= 1)
+                selected = 3;
             if (selected != -1)
-                //for (int i = 0; i < Basic.Length; i++)
-                //{
-                //    Basic[i].isSelected = false;
-                //    if (i == selected)
-                //        Basic[i].isSelected = true;
-                //}
+            {
+                bool isLegit = false;
+                int i, k;
+                bool breakIt = false;
+                for (i = 0; i < 2 && !breakIt; i++)
+                {
+                    for (k = 0; k < 2 && !breakIt; k++)
+                    {
+                        if (Basic[i, k].isSelected)
+                        {
+                            switch (selected)
+                            {
+                                case UP:
+                                    i--;
+                                    break;
+                                case DOWN:
+                                    i++;
+                                    break;
+                                case LEFT:
+                                    k--;
+                                    break;
+                                case RIGHT:
+                                    k++;
+                                    break;
+                            }
 
-            //TODO YOU WERE RIGHT HERE
-
+                            if ((i == 0 || i == 1) &&
+                                (k == 0 || k == 1))
+                                isLegit = true;
+                            breakIt = true;
+                        }
+                    }
+                    if (isLegit)
+                    {
+                        for (int r = 0; r < 2; r++)
+                        {
+                            for (int c = 0; c < 2; c++)
+                            {
+                                if (r == i && c == k)
+                                    Basic[r, c].isSelected = true;
+                                Basic[r, c].isSelected = false;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void ChoosingMagic()
@@ -311,9 +354,9 @@ namespace Hero_of_Novac
                 this.color = color;
 
                 selectedColor = color;
-                selectedColor.R -= 10;
-                selectedColor.G -= 10;
-                selectedColor.B -= 10;
+                selectedColor.R -= 0;
+                selectedColor.G -= 0;
+                selectedColor.B -= 0;
                 isSelected = false;
             }
 

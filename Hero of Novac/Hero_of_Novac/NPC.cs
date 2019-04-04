@@ -54,7 +54,8 @@ namespace Hero_of_Novac
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font,blackSmith[0],new Vector2(0,0), Color.White);
+            //commented out because nullexception on this line. idk where tho
+            //spriteBatch.DrawString(font,blackSmith[0],new Vector2(0,0), Color.White);
         }
         public void load(SpriteFont f)
         {

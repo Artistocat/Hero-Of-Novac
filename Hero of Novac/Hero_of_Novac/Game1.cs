@@ -28,7 +28,6 @@ namespace Hero_of_Novac
         int inputX, inputY;
 
         Texture2D playerMoveSprites;
-        Player Jhon;
 
         NPC Smith;
         NPC Shop;
@@ -70,13 +69,12 @@ namespace Hero_of_Novac
             currentGameState = GameState.Overworld;
             playerMoveSprites = this.Content.Load<Texture2D>("chara1");
             player = new Player(playerMoveSprites, window);
-            battleMenu = new BattleMenu(new Enemy[0]);
             Smith = new NPC();
             base.Initialize();
             lines = new List<string>();
 
             //TESTING
-            currentGameState = GameState.BattleMenu;
+            currentGameState = GameState.Overworld;
 
 
             base.Initialize();
@@ -93,7 +91,8 @@ namespace Hero_of_Novac
             font = Content.Load<SpriteFont>("SpriteFont1");
             Smith.load(font);
 
-            BattleMenu.LoadContent(Jhon, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            battleMenu = new BattleMenu(new Enemy[0]);
             // TODO: use this.Content to load your game content here
             village = new Area(Services, @"Content/Village", window);
         }
@@ -151,15 +150,16 @@ namespace Hero_of_Novac
                 case GameState.MainMenu:
                     break;
                 case GameState.Overworld:
+                    village.Draw(gameTime, spriteBatch);
                     player.Draw(spriteBatch);
                     break;
                 case GameState.BattleMenu:
                     battleMenu.Draw(spriteBatch);
                     break;
             }
-            Smith.Draw(spriteBatch);
-            village.Draw(gameTime, spriteBatch);
-            player.Draw(spriteBatch);
+            //Smith.Draw(spriteBatch);
+            //village.Draw(gameTime, spriteBatch);
+            //player.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
