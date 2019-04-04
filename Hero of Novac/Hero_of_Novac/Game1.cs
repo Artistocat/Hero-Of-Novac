@@ -26,6 +26,9 @@ namespace Hero_of_Novac
         SpriteFont font;
         List<string> lines;
 
+
+        Texture2D pix;
+
         Texture2D playerWalkingSprites;
         Texture2D playerCombatSprites;
 
@@ -70,7 +73,8 @@ namespace Hero_of_Novac
             playerCombatSprites = Content.Load<Texture2D>("player_combat");
             player = new Player(playerWalkingSprites, playerCombatSprites, window);
             //battleMenu = new BattleMenu(new Enemy[0]);
-            smith = new NPC();
+            pix = new Texture2D(GraphicsDevice, 1, 1);
+            smith = new NPC(new Rectangle(100,100,100,100),pix,new Vector2(100,100), new Vector2(0,0),true,'b');
             base.Initialize();
             lines = new List<string>();
 
@@ -149,7 +153,7 @@ namespace Hero_of_Novac
                     break;
                 case GameState.Overworld:
                     village.Draw(gameTime, spriteBatch);
-                    //smith.Draw(spriteBatch);
+                    smith.Draw(spriteBatch);
                     player.Draw(spriteBatch);
                     break;
                 case GameState.BattleMenu:
