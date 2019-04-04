@@ -82,7 +82,7 @@ namespace Hero_of_Novac
             pixel.SetData(pixelColors);
 
 
-            
+
             Rectangle basicRect;
             Rectangle magicRect;
             Rectangle itemsRect;
@@ -179,25 +179,6 @@ namespace Hero_of_Novac
             }
         }
 
-        //TODO
-        private void ChoosingMainChoice()
-        {
-            int selected = -1;
-            if (gamePad.ThumbSticks.Left.Y >= 1)
-                selected = 0;
-            if (gamePad.ThumbSticks.Left.Y <= -1)
-                selected = 1;
-            if (gamePad.ThumbSticks.Left.X <= -1)
-                selected = 2;
-            if (selected != -1)
-                for (int i = 0; i < MainChoices.Length; i++)
-                {
-                    MainChoices[i].isSelected = false;
-                    if (i == selected)
-                        MainChoices[i].isSelected = true;
-                }
-        }
-
         enum Direction
         {
             Up, Down, Left, Right, Neutral
@@ -216,78 +197,126 @@ namespace Hero_of_Novac
                 dir = Direction.Right;
             return dir;
         }
-                
+        
+        private void ChoosingMainChoice()
+        {
+            Direction dir = GetInputDirection();
+            if (dir == Direction.Neutral)
+                return;
+
+            int previousSelected = -1;
+            for (int i = 0; i < MainChoices.Length; i++)
+            {
+                if (MainChoices[i].isSelected)
+                {
+                    previousSelected = -1;
+                }
+                MainChoices[i].isSelected = false;
+            }
+
+            const int TOP = 0;
+            const int BOTTOM = 1;
+            const int LEFT = 2;
+
+            switch (previousSelected)
+            {
+                case TOP:
+                    if (dir == Direction.Down)
+                        MainChoices[BOTTOM].isSelected = true;
+                    else if (dir == Direction.Left)
+                        MainChoices[LEFT].isSelected = true;
+                    else
+                        MainChoices[TOP].isSelected = true;
+                    break;
+                case BOTTOM:
+                    if (dir == Direction.Up)
+                        MainChoices[TOP].isSelected = true;
+                    else if (dir == Direction.Left)
+                        MainChoices[LEFT].isSelected = true;
+                    else
+                        MainChoices[BOTTOM].isSelected = true;
+                    break;
+                case LEFT:
+                    if (dir == Direction.Up)
+                        MainChoices[TOP].isSelected = true;
+                    else if (dir == Direction.Right)
+                        MainChoices[BOTTOM].isSelected = true;
+                    else
+                        MainChoices[LEFT].isSelected = true;
+                    break;
+                default:
+                    throw new Exception("Nothing was previously selected");
+            }
+        }
 
         private void ChoosingBasic()
         {
             Direction dir = GetInputDirection();
-
-            if (dir != Direction.Neutral)
+            if (dir == Direction.Neutral)
+                return;
+            for (int i = 0; i < 2; i++)
             {
-                for (int i = 0; i < 2; i++)
+                for (int k = 0; k < 2; k++)
                 {
-                    for (int k = 0; k < 2; k++)
+                    if (Basic[i, k].isSelected)
                     {
-                        if (Basic[i, k].isSelected)
+                        switch (dir)
                         {
-                            switch (dir)
-                            {
-                                case Direction.Up:
-                                    if (k != 1)
-                                        Basic[i, k + 1].isSelected = true;
-                                    break;
-                                case Direction.Down:
-                                    if (k > 0)
-                                        Basic[i, k - 1].isSelected = true;
-                                    break;
-                                case Direction.Left:
-                                    if (i > 0)
-                                        Basic[i - 1, k].isSelected = true;
-                                    break;
-                                case Direction.Right:
-                                    if (i != 1)
-                                        Basic[i + 1, k].isSelected = true;
-                                    break;
-                            }
-                            Basic[i, k].isSelected = false;
+                            case Direction.Up:
+                                if (k != 1)
+                                    Basic[i, k + 1].isSelected = true;
+                                break;
+                            case Direction.Down:
+                                if (k > 0)
+                                    Basic[i, k - 1].isSelected = true;
+                                break;
+                            case Direction.Left:
+                                if (i > 0)
+                                    Basic[i - 1, k].isSelected = true;
+                                break;
+                            case Direction.Right:
+                                if (i != 1)
+                                    Basic[i + 1, k].isSelected = true;
+                                break;
                         }
+                        Basic[i, k].isSelected = false;
                     }
                 }
+
             }
         }
 
         private void ChoosingMagic()
         {
             Direction dir = GetInputDirection();
-            if (dir != Direction.Neutral)
+            if (dir == Direction.Neutral)
+                return;
+            for (int i = 0; i < 2; i++)
             {
-                for (int i = 0; i < 2; i++)
+                for (int k = 0; k < 2; k++)
                 {
-                    for (int k = 0; k < 2; k++)
+                    if (Basic[i, k].isSelected)
                     {
-                        if (Basic[i, k].isSelected)
+                        switch (dir)
                         {
-                            switch (dir)
-                            {
-                                case Direction.Up:
-                                    if (k != 1)
-                                        Magic[i, k + 1].isSelected = true;
-                                    break;
-                                case Direction.Down:
-                                    if (k > 0)
-                                        Magic[i, k - 1].isSelected = true;
-                                    break;
-                                case Direction.Left:
-                                    if (i > 0)
-                                        Magic[i - 1, k].isSelected = true;
-                                    break;
-                                case Direction.Right:
-                                    if (i != 1)
-                                        Magic[i + 1, k].isSelected = true;
-                                    break;
-                            }
-                            Basic[i, k].isSelected = false;
+                            case Direction.Up:
+                                if (k != 1)
+                                    Magic[i, k + 1].isSelected = true;
+                                break;
+                            case Direction.Down:
+                                if (k > 0)
+                                    Magic[i, k - 1].isSelected = true;
+                                break;
+                            case Direction.Left:
+                                if (i > 0)
+                                    Magic[i - 1, k].isSelected = true;
+                                break;
+                            case Direction.Right:
+                                if (i != 1)
+                                    Magic[i + 1, k].isSelected = true;
+                                break;
                         }
+                        Basic[i, k].isSelected = false;
                     }
                 }
             }
@@ -380,7 +409,7 @@ namespace Hero_of_Novac
                 this.color = color;
 
                 selectedColor = Color.White;
-                selectedColor.A++;
+                //selectedColor.A++;
                 //selectedColor.R -= 10;
                 //selectedColor.G -= 10;
                 //selectedColor.B -= 10;
