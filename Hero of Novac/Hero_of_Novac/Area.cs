@@ -35,6 +35,12 @@ namespace Hero_of_Novac
         Dictionary<string, Rectangle> sourceRecs;
         Dictionary<string, Texture2D> tileSheets;
 
+        private Player player;
+        public Player Player
+        {
+            get { return player; }
+        }
+
         ContentManager content;
         public ContentManager Content
         {
@@ -75,6 +81,8 @@ namespace Hero_of_Novac
 
             tiles = new List<Tile>();
             LoadTiles(path + "/terrain.txt");
+
+            player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), window);
         }
 
         /// <summary>
@@ -262,10 +270,17 @@ namespace Hero_of_Novac
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void Update(GameTime gameTime)
         {
+            player.Update(gameTime);
+
             KeyboardState kb = Keyboard.GetState();
 
-            if (kb.IsKeyDown(Keys.Up) && areaRec.Top < window.Top)
-                areaRec.Y += 4;
+            if (kb.IsKeyDown(Keys.Up))
+            {
+                if (areaRec.Top < window.Top && player.Position.Y <= 3 * window.Height / 4)
+                    areaRec.Y += 4;
+                else
+                    player.Position = player.Position - new Vector2(0, 4);
+            }
             if (kb.IsKeyDown(Keys.Down) && areaRec.Bottom > window.Bottom)
                 areaRec.Y -= 4;
             if (kb.IsKeyDown(Keys.Left) && areaRec.Left < window.Left)
@@ -290,6 +305,7 @@ namespace Hero_of_Novac
                 if (tileRec.Intersects(window))
                     spriteBatch.Draw(t.Texture, tileRec, t.SourceRec, Color.White);
             }
+            player.Draw(spriteBatch);
         }
     }
 }

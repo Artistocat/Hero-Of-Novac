@@ -17,7 +17,7 @@ namespace Hero_of_Novac
         private Rectangle window;
 
         private const int SPRITE_WIDTH = 52;
-        private const int SPRITE_HEIGHT = 72;
+        private const int SPRITE_HEIGHT = 70;
 
         private Texture2D defaultTex;
         private Texture2D combatTex;
@@ -28,7 +28,7 @@ namespace Hero_of_Novac
             get { return pos; }
             set { pos = value; }
         }
-        private Vector2 vol;
+        private Vector2 speed;
         private Color color;
         private int timer;
 
@@ -38,17 +38,18 @@ namespace Hero_of_Novac
 
             this.defaultTex = defaultTex;
             this.combatTex = combatTex;
-            sourceRec = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
+            sourceRec = new Rectangle(SPRITE_WIDTH, 2, SPRITE_WIDTH, SPRITE_HEIGHT);
             pos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
             color = Color.White;
+            timer = 0;
         }
 
         public override void Update(GameTime gameTime)
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
-            vol = pad1.ThumbSticks.Left * 4;
-            pos.X += vol.X;
-            pos.Y -= vol.Y;
+            speed = pad1.ThumbSticks.Left * 4;
+            pos.X += speed.X;
+            pos.Y -= speed.Y;
             if (pos.Y < 0)
                 pos.Y = 0;
             else if (pos.Y + sourceRec.Height > window.Height)
@@ -59,24 +60,24 @@ namespace Hero_of_Novac
                 pos.X = window.Width - sourceRec.Width;
 
 
-            if (vol.X == 0 && vol.Y == 0)
+            if (speed == Vector2.Zero)
                 sourceRec.X = SPRITE_WIDTH;
-            else if (Math.Abs(vol.Y) > Math.Abs(vol.X))
+            else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
             {
-                if (vol.Y > 0)
-                    sourceRec.Y = 216;
+                if (speed.Y > 0)
+                    sourceRec.Y = 218;
                 else
-                    sourceRec.Y = 0;
+                    sourceRec.Y = 2;
 
             }
-            else if(Math.Abs(vol.X) > Math.Abs(vol.Y))
+            else if(Math.Abs(speed.X) > Math.Abs(speed.Y))
             {
-                if (vol.X > 0)
-                    sourceRec.Y = 144;
+                if (speed.X > 0)
+                    sourceRec.Y = 146;
                 else 
                     sourceRec.Y = 74;
             }
-            if (vol.X != 0 || vol.Y != 0)
+            if (speed != Vector2.Zero)
             {
                 if (timer % 6 == 0)
                     sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % defaultTex.Width;

@@ -16,25 +16,19 @@ namespace Hero_of_Novac
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        GraphicsDeviceManager graphics;
+        SpriteBatch spriteBatch;
+
         Rectangle window;
 
         Area village;
 
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        Vector2 loc;
         SpriteFont font;
-        List<string> lines;
-
-        Texture2D playerWalkingSprites;
-        Texture2D playerCombatSprites;
 
         NPC smith;
         NPC shop;
         NPC priest;
         NPC armor;
-
-        Player player;
 
         enum GameState
         {
@@ -48,7 +42,7 @@ namespace Hero_of_Novac
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
@@ -66,18 +60,13 @@ namespace Hero_of_Novac
             IsMouseVisible = true;
             window = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             currentGameState = GameState.Overworld;
-            playerWalkingSprites = Content.Load<Texture2D>("player_walking");
-            playerCombatSprites = Content.Load<Texture2D>("player_combat");
-            player = new Player(playerWalkingSprites, playerCombatSprites, window);
             //battleMenu = new BattleMenu(new Enemy[0]);
             smith = new NPC();
             base.Initialize();
-            lines = new List<string>();
 
             //TESTING
             //currentGameState = GameState.BattleMenu;
-
-
+            
             base.Initialize();
         }
 
@@ -122,7 +111,6 @@ namespace Hero_of_Novac
                     break;
                 case GameState.Overworld:
                     village.Update(gameTime);
-                    player.Update(gameTime);
                     base.Update(gameTime);
                     break;
                 case GameState.BattleMenu:
@@ -150,7 +138,6 @@ namespace Hero_of_Novac
                 case GameState.Overworld:
                     village.Draw(gameTime, spriteBatch);
                     //smith.Draw(spriteBatch);
-                    player.Draw(spriteBatch);
                     break;
                 case GameState.BattleMenu:
                     //battleMenu.Draw(spriteBatch);
