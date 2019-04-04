@@ -26,6 +26,9 @@ namespace Hero_of_Novac
         SpriteFont font;
         List<string> lines;
 
+
+        Texture2D pix;
+
         Texture2D playerWalkingSprites;
         Texture2D playerCombatSprites;
 
@@ -69,13 +72,13 @@ namespace Hero_of_Novac
             playerWalkingSprites = Content.Load<Texture2D>("player_walking");
             playerCombatSprites = Content.Load<Texture2D>("player_combat");
             player = new Player(playerWalkingSprites, playerCombatSprites, window);
-            //battleMenu = new BattleMenu(new Enemy[0]);
-            smith = new NPC();
+            pix = new Texture2D(GraphicsDevice, 1, 1);
+            smith = new NPC(new Rectangle(100,100,100,100),pix,new Vector2(100,100), new Vector2(0,0),true,'b');
             base.Initialize();
             lines = new List<string>();
 
             //TESTING
-            //currentGameState = GameState.BattleMenu;
+            currentGameState = GameState.BattleMenu;
 
 
             base.Initialize();
@@ -92,7 +95,8 @@ namespace Hero_of_Novac
             font = Content.Load<SpriteFont>("SpriteFont1");
             smith.load(font);
 
-            //BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            battleMenu = new BattleMenu(new Enemy[0]);
             // TODO: use this.Content to load your game content here
             village = new Area(Services, @"Content/Village", window);
         }
@@ -126,7 +130,7 @@ namespace Hero_of_Novac
                     base.Update(gameTime);
                     break;
                 case GameState.BattleMenu:
-                    //battleMenu.Update();
+                    battleMenu.Update();
                     break;
                 case GameState.Inventory:
                     break;
@@ -149,11 +153,11 @@ namespace Hero_of_Novac
                     break;
                 case GameState.Overworld:
                     village.Draw(gameTime, spriteBatch);
-                    //smith.Draw(spriteBatch);
+                    smith.Draw(spriteBatch);
                     player.Draw(spriteBatch);
                     break;
                 case GameState.BattleMenu:
-                    //battleMenu.Draw(spriteBatch);
+                    battleMenu.Draw(spriteBatch);
                     break;
             }
             

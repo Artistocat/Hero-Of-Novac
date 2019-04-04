@@ -28,7 +28,6 @@ namespace Hero_of_Novac
         private List<string> priest;
 
         bool interact;
-        string text;
         char name;
 
         public NPC()
@@ -44,6 +43,11 @@ namespace Hero_of_Novac
             vol = v;
             interact = i;
             name = n;
+            blackSmith = new List<string>();
+            armourer = new List<string>();
+            shopkeep = new List<string>();
+            hero = new List<string>();
+            priest = new List<string>();
             ReadFileAsStrings(@"Content/chartext.txt");
         }
 
@@ -123,7 +127,7 @@ namespace Hero_of_Novac
                     {
                         string line = reader.ReadLine();
                         char firstChar = line[0];
-                        switch(firstChar)
+                        switch (firstChar)
                         {
                             case 'b':
                                 blackSmith.Add(line);
@@ -145,7 +149,7 @@ namespace Hero_of_Novac
                     }
                 }
             }
-            catch (Exception e)
+            catch (FileNotFoundException e)
             {
                 Console.WriteLine("The file could not be read:\n" + e.Message);
             }
