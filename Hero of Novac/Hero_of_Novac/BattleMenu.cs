@@ -119,7 +119,7 @@ namespace Hero_of_Novac
             Basic[0, 0] = new NavigableMenuItem(attackRects[0], pixel, singleRect, Color.Blue);
             Basic[0, 1] = new NavigableMenuItem(attackRects[1], pixel, singleRect, Color.Blue);
             Basic[1, 0] = new NavigableMenuItem(attackRects[2], pixel, singleRect, Color.Blue);
-            Basic[1, 2] = new NavigableMenuItem(attackRects[3], pixel, singleRect, Color.Blue);
+            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pixel, singleRect, Color.Blue);
 
             Magic = new NavigableMenuItem[2, 2];
             Magic[0, 0] = new NavigableMenuItem(attackRects[0], pixel, singleRect, Color.Purple);
@@ -252,7 +252,7 @@ namespace Hero_of_Novac
                 enemy.Draw(spriteBatch);
             }
 
-            spriteBatch.Draw(pixel, menuRect, Color.White);
+            spriteBatch.Draw(pixel, menuRect, Color.Black);
             switch (currentChoiceState)
             {
                 case ChoiceState.MainChoice:
@@ -310,10 +310,11 @@ namespace Hero_of_Novac
                 this.sourceRect = sourceRect;
                 this.color = color;
 
-                selectedColor = color;
-                selectedColor.R -= 10;
-                selectedColor.G -= 10;
-                selectedColor.B -= 10;
+                selectedColor = Color.White;
+                selectedColor.A++;
+                //selectedColor.R -= 10;
+                //selectedColor.G -= 10;
+                //selectedColor.B -= 10;
                 isSelected = false;
             }
 
