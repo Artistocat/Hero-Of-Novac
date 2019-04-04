@@ -25,22 +25,25 @@ namespace Hero_of_Novac
         Vector2 loc;
         SpriteFont font;
         List<string> lines;
-        int inputX, inputY;
 
         Texture2D playerMoveSprites;
 
-        NPC Smith;
-        NPC Shop;
-        NPC Priest;
-        NPC Armour;
+        Texture2D pix;
+
+        Texture2D playerWalkingSprites;
+        Texture2D playerCombatSprites;
+
+        NPC smith;
+        NPC shop;
+        NPC priest;
+        NPC armor;
 
         Player player;
-        int counter;
+
         enum GameState
         {
             MainMenu, Overworld, Inventory, BattleMenu
         }
-
         GameState currentGameState;
 
         BattleMenu battleMenu;
@@ -49,7 +52,7 @@ namespace Hero_of_Novac
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
@@ -67,9 +70,11 @@ namespace Hero_of_Novac
             IsMouseVisible = true;
             window = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             currentGameState = GameState.Overworld;
-            playerMoveSprites = this.Content.Load<Texture2D>("chara1");
-            player = new Player(playerMoveSprites, window);
-            Smith = new NPC();
+            playerWalkingSprites = Content.Load<Texture2D>("player_walking");
+            playerCombatSprites = Content.Load<Texture2D>("player_combat");
+            player = new Player(playerWalkingSprites, playerCombatSprites, window);
+            pix = new Texture2D(GraphicsDevice, 1, 1);
+            smith = new NPC(new Rectangle(100,100,100,100),pix,new Vector2(100,100), new Vector2(0,0),true,'b');
             base.Initialize();
             lines = new List<string>();
 
@@ -89,7 +94,7 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
-            Smith.load(font);
+            smith.load(font);
 
             BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             battleMenu = new BattleMenu(new Enemy[0]);
@@ -132,7 +137,6 @@ namespace Hero_of_Novac
                 case GameState.Inventory:
                     break;
             }
-            player.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -151,15 +155,14 @@ namespace Hero_of_Novac
                     break;
                 case GameState.Overworld:
                     village.Draw(gameTime, spriteBatch);
+                    smith.Draw(spriteBatch);
                     player.Draw(spriteBatch);
                     break;
                 case GameState.BattleMenu:
                     battleMenu.Draw(spriteBatch);
                     break;
             }
-            //Smith.Draw(spriteBatch);
-            //village.Draw(gameTime, spriteBatch);
-            //player.Draw(spriteBatch);
+            
             spriteBatch.End();
 
             base.Draw(gameTime);
