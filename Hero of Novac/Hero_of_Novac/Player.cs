@@ -34,21 +34,19 @@ namespace Hero_of_Novac
 
         public Player(Texture2D defaultTex, Texture2D combatTex, Rectangle window)
         {
-            this.window = window;
+            GamePadState gps = GamePad.GetState(PlayerIndex.One);
+            sped = gps.ThumbSticks.Left * 3;//Determines walk speed of character
+            destination.X += (int) sped.X;
+            destination.Y -= (int) sped.Y;
+            if (sped.X == 0 && sped.Y == 0)//If not moving does standing sprite
+            {
+                overSource.X = 27;
 
-            this.defaultTex = defaultTex;
-            this.combatTex = combatTex;
-            sourceRec = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
-            pos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
-            color = Color.White;
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
-            vol = pad1.ThumbSticks.Left * 4;
-            pos.X += vol.X;
-            pos.Y -= vol.Y;
+            }else if (Math.Abs(sped.Y) > Math.Abs(sped.X))//Basic direction animation locations
+            {
+                if(sped.Y > 0)
+                {
+                    overSource.Y = 108;
 
             if (vol.X == 0 && vol.Y == 0)
                 sourceRec.X = SPRITE_WIDTH;
@@ -59,6 +57,16 @@ namespace Hero_of_Novac
                 else
                     sourceRec.Y = 0;
 
+            } else if(Math.Abs(sped.X) > Math.Abs(sped.Y))
+            {
+                if (sped.X > 0)
+                {
+                    overSource.Y = 72;
+                }
+                else if (sped.X < 0)
+                {
+                    overSource.Y = 37;
+                }
             }
             else if(Math.Abs(vol.X) > Math.Abs(vol.Y))
             {
@@ -71,6 +79,17 @@ namespace Hero_of_Novac
             {
                 if (timer % 6 == 0)
                     sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % defaultTex.Width;
+
+            if (sped.X != 0 || sped.Y != 0)//Does the mid animations
+            {
+                if (counter % 60 == 0)
+                {
+                    overSource.X += 26;
+                }
+                if (overSource.X >= 72)
+                {
+                    overSource.X = 0;
+                }
             }
             timer++;
 
