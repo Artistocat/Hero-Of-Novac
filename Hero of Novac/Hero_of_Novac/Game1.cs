@@ -48,7 +48,7 @@ namespace Hero_of_Novac
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
@@ -69,13 +69,13 @@ namespace Hero_of_Novac
             playerWalkingSprites = Content.Load<Texture2D>("player_walking");
             playerCombatSprites = Content.Load<Texture2D>("player_combat");
             player = new Player(playerWalkingSprites, playerCombatSprites, window);
-            battleMenu = new BattleMenu(new Enemy[0]);
+            //battleMenu = new BattleMenu(new Enemy[0]);
             smith = new NPC();
             base.Initialize();
             lines = new List<string>();
 
             //TESTING
-            currentGameState = GameState.BattleMenu;
+            //currentGameState = GameState.BattleMenu;
 
 
             base.Initialize();
@@ -93,6 +93,7 @@ namespace Hero_of_Novac
             smith.load(font);
 
             BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            battleMenu = new BattleMenu(new Enemy[0]);
             // TODO: use this.Content to load your game content here
             village = new Area(Services, @"Content/Village", window);
         }
