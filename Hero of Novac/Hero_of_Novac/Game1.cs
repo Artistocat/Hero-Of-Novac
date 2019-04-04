@@ -127,7 +127,7 @@ namespace Hero_of_Novac
                     base.Update(gameTime);
                     break;
                 case GameState.BattleMenu:
-                    battleMenu.Update();
+                    //battleMenu.Update();
                     break;
                 case GameState.Inventory:
                     break;
@@ -150,11 +150,11 @@ namespace Hero_of_Novac
                     break;
                 case GameState.Overworld:
                     village.Draw(gameTime, spriteBatch);
-                    smith.Draw(spriteBatch);
+                    //smith.Draw(spriteBatch);
                     player.Draw(spriteBatch);
                     break;
                 case GameState.BattleMenu:
-                    battleMenu.Draw(spriteBatch);
+                    //battleMenu.Draw(spriteBatch);
                     break;
             }
             

@@ -49,6 +49,15 @@ namespace Hero_of_Novac
             vol = pad1.ThumbSticks.Left * 4;
             pos.X += vol.X;
             pos.Y -= vol.Y;
+            if (pos.Y < 0)
+                pos.Y = 0;
+            else if (pos.Y + sourceRec.Height > window.Height)
+                pos.Y = window.Height - sourceRec.Height;
+            if (pos.X < 0)
+                pos.X = 0;
+            else if (pos.X + sourceRec.Width > window.Width)
+                pos.X = window.Width - sourceRec.Width;
+
 
             if (vol.X == 0 && vol.Y == 0)
                 sourceRec.X = SPRITE_WIDTH;
