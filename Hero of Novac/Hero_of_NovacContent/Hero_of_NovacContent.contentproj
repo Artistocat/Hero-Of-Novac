@@ -37,8 +37,41 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="chara1.png">
-      <Name>chara1</Name>
+    <Compile Include="terrain.png">
+      <Name>terrain</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="water.png">
+      <Name>water</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Village\terrain.txt">
+      <Name>terrain</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="player_walking.png">
+      <Name>player_walking</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="chartext.txt">
+      <Name>chartext</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="player_combat.png">
+      <Name>player_combat</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
