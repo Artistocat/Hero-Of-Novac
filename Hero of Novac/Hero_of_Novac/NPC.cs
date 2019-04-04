@@ -44,6 +44,7 @@ namespace Hero_of_Novac
             vol = v;
             interact = i;
             name = n;
+            blackSmith = new List<string>();
             ReadFileAsStrings(@"Content/chartext.txt");
         }
 
@@ -54,7 +55,7 @@ namespace Hero_of_Novac
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.DrawString(font,blackSmith[0],new Vector2(0,0), Color.White);
+            spriteBatch.DrawString(font,blackSmith[0],new Vector2(0,0), Color.White);
         }
 
         public void load(SpriteFont f)
@@ -145,7 +146,7 @@ namespace Hero_of_Novac
                     }
                 }
             }
-            catch (Exception e)
+            catch (FileNotFoundException e)
             {
                 Console.WriteLine("The file could not be read:\n" + e.Message);
             }

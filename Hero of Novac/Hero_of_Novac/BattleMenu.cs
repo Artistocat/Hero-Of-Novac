@@ -179,6 +179,7 @@ namespace Hero_of_Novac
             }
         }
 
+        //TODO
         private void ChoosingMainChoice()
         {
             int selected = -1;
@@ -195,33 +196,101 @@ namespace Hero_of_Novac
                     if (i == selected)
                         MainChoices[i].isSelected = true;
                 }
-
         }
+
+        enum Direction
+        {
+            Up, Down, Left, Right, Neutral
+        }
+        //Helper Method for Getting Direction
+        private Direction GetInputDirection()
+        {
+            Direction dir = Direction.Neutral;
+            if (gamePad.ThumbSticks.Left.Y >= 1)
+                dir = Direction.Up;
+            if (gamePad.ThumbSticks.Left.Y <= -1)
+                dir = Direction.Down;
+            if (gamePad.ThumbSticks.Left.X <= -1)
+                dir = Direction.Left;
+            if (gamePad.ThumbSticks.Left.X >= 1)
+                dir = Direction.Right;
+            return dir;
+        }
+                
 
         private void ChoosingBasic()
         {
-            int selected = -1;
-            if (gamePad.ThumbSticks.Left.Y >= 1)
-                selected = 0;
-            if (gamePad.ThumbSticks.Left.Y <= -1)
-                selected = 1;
-            if (gamePad.ThumbSticks.Left.X <= -1)
-                selected = 2;
-            if (selected != -1) ;
-                //for (int i = 0; i < Basic.Length; i++)
-                //{
-                //    Basic[i].isSelected = false;
-                //    if (i == selected)
-                //        Basic[i].isSelected = true;
-                //}
+            Direction dir = GetInputDirection();
 
-            //TODO YOU WERE RIGHT HERE
-
+            if (dir != Direction.Neutral)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    for (int k = 0; k < 2; k++)
+                    {
+                        if (Basic[i, k].isSelected)
+                        {
+                            switch (dir)
+                            {
+                                case Direction.Up:
+                                    if (k != 1)
+                                        Basic[i, k + 1].isSelected = true;
+                                    break;
+                                case Direction.Down:
+                                    if (k > 0)
+                                        Basic[i, k - 1].isSelected = true;
+                                    break;
+                                case Direction.Left:
+                                    if (i > 0)
+                                        Basic[i - 1, k].isSelected = true;
+                                    break;
+                                case Direction.Right:
+                                    if (i != 1)
+                                        Basic[i + 1, k].isSelected = true;
+                                    break;
+                            }
+                            Basic[i, k].isSelected = false;
+                        }
+                    }
+                }
+            }
         }
 
         private void ChoosingMagic()
         {
-
+            Direction dir = GetInputDirection();
+            if (dir != Direction.Neutral)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    for (int k = 0; k < 2; k++)
+                    {
+                        if (Basic[i, k].isSelected)
+                        {
+                            switch (dir)
+                            {
+                                case Direction.Up:
+                                    if (k != 1)
+                                        Magic[i, k + 1].isSelected = true;
+                                    break;
+                                case Direction.Down:
+                                    if (k > 0)
+                                        Magic[i, k - 1].isSelected = true;
+                                    break;
+                                case Direction.Left:
+                                    if (i > 0)
+                                        Magic[i - 1, k].isSelected = true;
+                                    break;
+                                case Direction.Right:
+                                    if (i != 1)
+                                        Magic[i + 1, k].isSelected = true;
+                                    break;
+                            }
+                            Basic[i, k].isSelected = false;
+                        }
+                    }
+                }
+            }
         }
 
         private void ChoosingItems()

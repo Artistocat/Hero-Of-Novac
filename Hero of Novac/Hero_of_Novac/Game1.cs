@@ -69,13 +69,12 @@ namespace Hero_of_Novac
             playerWalkingSprites = Content.Load<Texture2D>("player_walking");
             playerCombatSprites = Content.Load<Texture2D>("player_combat");
             player = new Player(playerWalkingSprites, playerCombatSprites, window);
-            //battleMenu = new BattleMenu(new Enemy[0]);
             smith = new NPC();
             base.Initialize();
             lines = new List<string>();
 
             //TESTING
-            //currentGameState = GameState.BattleMenu;
+            currentGameState = GameState.BattleMenu;
 
 
             base.Initialize();
@@ -127,7 +126,7 @@ namespace Hero_of_Novac
                     base.Update(gameTime);
                     break;
                 case GameState.BattleMenu:
-                    //battleMenu.Update();
+                    battleMenu.Update();
                     break;
                 case GameState.Inventory:
                     break;
@@ -154,7 +153,7 @@ namespace Hero_of_Novac
                     player.Draw(spriteBatch);
                     break;
                 case GameState.BattleMenu:
-                    //battleMenu.Draw(spriteBatch);
+                    battleMenu.Draw(spriteBatch);
                     break;
             }
             
