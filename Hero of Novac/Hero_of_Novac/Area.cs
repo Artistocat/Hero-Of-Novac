@@ -262,7 +262,16 @@ namespace Hero_of_Novac
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void Update(GameTime gameTime)
         {
-            
+            KeyboardState kb = Keyboard.GetState();
+
+            if (kb.IsKeyDown(Keys.Up) && areaRec.Top < window.Top)
+                areaRec.Y += 4;
+            if (kb.IsKeyDown(Keys.Down) && areaRec.Bottom > window.Bottom)
+                areaRec.Y -= 4;
+            if (kb.IsKeyDown(Keys.Left) && areaRec.Left < window.Left)
+                areaRec.X += 4;
+            if (kb.IsKeyDown(Keys.Right) && areaRec.Right > window.Right)
+                areaRec.X -= 4;
 
             foreach (Tile t in tiles)
                 if (t.IsAnimated)
