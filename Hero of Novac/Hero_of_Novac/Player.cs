@@ -28,72 +28,83 @@ namespace Hero_of_Novac
             get { return pos; }
             set { pos = value; }
         }
-        private Vector2 vol;
+        private Vector2 sped;
         private Color color;
-        private int timer;
+        private int counter;
 
         public Player(Texture2D defaultTex, Texture2D combatTex, Rectangle window)
         {
             GamePadState gps = GamePad.GetState(PlayerIndex.One);
             sped = gps.ThumbSticks.Left * 3;//Determines walk speed of character
-            destination.X += (int) sped.X;
-            destination.Y -= (int) sped.Y;
-            if (sped.X == 0 && sped.Y == 0)//If not moving does standing sprite
-            {
-                overSource.X = 27;
-
-            }else if (Math.Abs(sped.Y) > Math.Abs(sped.X))//Basic direction animation locations
-            {
-                if(sped.Y > 0)
+            destination.X += (int)sped.X;
+            destination.Y -= (int)sped.Y;
+            protected override void Update(GameTime gameTime)
+        {
+                if (sped.X == 0 && sped.Y == 0)//If not moving does standing sprite
                 {
-                    overSource.Y = 108;
+                    sourceRec.X = 27;
 
-            if (vol.X == 0 && vol.Y == 0)
-                sourceRec.X = SPRITE_WIDTH;
-            else if (Math.Abs(vol.Y) > Math.Abs(vol.X))
-            {
-                if (vol.Y > 0)
-                    sourceRec.Y = 216;
-                else
-                    sourceRec.Y = 0;
-
-            } else if(Math.Abs(sped.X) > Math.Abs(sped.Y))
-            {
-                if (sped.X > 0)
-                {
-                    overSource.Y = 72;
                 }
-                else if (sped.X < 0)
+                else if (Math.Abs(sped.Y) > Math.Abs(sped.X))//Basic direction animation locations
                 {
-                    overSource.Y = 37;
+                    if (sped.Y > 0)
+                    {
+                        sourceRec.Y = 108;
+
+                        if (sped.X == 0 && sped.Y == 0)
+                            sourceRec.X = SPRITE_WIDTH;
+                        else if (Math.Abs(sped.Y) > Math.Abs(sped.X))
+                        {
+                            if (sped.Y > 0)
+                                sourceRec.Y = 216;
+                            else
+                                sourceRec.Y = 0;
+
+                        }
+                        else if (Math.Abs(sped.X) > Math.Abs(sped.Y))
+                        {
+                            if (sped.X > 0)
+                            {
+                                sourceRec.Y = 72;
+                            }
+                            else if (sped.X < 0)
+                            {
+                                sourceRec.Y = 37;
+                            }
+                        }
+                        else if (Math.Abs(sped.X) > Math.Abs(sped.Y))
+                        {
+                            if (sped.X > 0)
+                                sourceRec.Y = 144;
+                            else
+                                sourceRec.Y = 74;
+                        }
+                        if (sped.X != 0 || sped.Y != 0)
+                        {
+                            if (counter % 6 == 0)
+                                sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % defaultTex.Width;
+
+                            if (sped.X != 0 || sped.Y != 0)//Does the mid animations
+                            {
+                                if (counter % 60 == 0)
+                                {
+                                    sourceRec.X += 26;
+                                }
+                                if (sourceRec.X >= 72)
+                                {
+                                    sourceRec.X = 0;
+                                }
+                            }
+                            counter++;
+                        }
+                    }
                 }
+
             }
-            else if(Math.Abs(vol.X) > Math.Abs(vol.Y))
-            {
-                if (vol.X > 0)
-                    sourceRec.Y = 144;
-                else 
-                    sourceRec.Y = 74;
-            }
-            if (vol.X != 0 || vol.Y != 0)
-            {
-                if (timer % 6 == 0)
-                    sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % defaultTex.Width;
-
-            if (sped.X != 0 || sped.Y != 0)//Does the mid animations
-            {
-                if (counter % 60 == 0)
-                {
-                    overSource.X += 26;
-                }
-                if (overSource.X >= 72)
-                {
-                    overSource.X = 0;
-                }
-            }
-            timer++;
-
+            
         }
+
+        
 
         public override void Draw(SpriteBatch spriteBatch)
         {
