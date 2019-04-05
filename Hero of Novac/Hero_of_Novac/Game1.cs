@@ -26,6 +26,10 @@ namespace Hero_of_Novac
         SpriteFont font;
         List<string> lines;
 
+        Texture2D playerMoveSprites;
+
+        Texture2D pix;
+
         Texture2D playerWalkingSprites;
         Texture2D playerCombatSprites;
 
@@ -48,7 +52,7 @@ namespace Hero_of_Novac
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
@@ -69,13 +73,12 @@ namespace Hero_of_Novac
             playerWalkingSprites = Content.Load<Texture2D>("player_walking");
             playerCombatSprites = Content.Load<Texture2D>("player_combat");
             player = new Player(playerWalkingSprites, playerCombatSprites, window);
-            //battleMenu = new BattleMenu(new Enemy[0]);
-            smith = new NPC();
-            lines = new List<string>();
+            pix = new Texture2D(GraphicsDevice, 1, 1);
+            smith = new NPC(new Rectangle(100,100,100,100),pix,new Vector2(100,100), new Vector2(0,0),true,'b');
             base.Initialize();
 
             //TESTING
-            //currentGameState = GameState.BattleMenu;
+            currentGameState = GameState.Overworld;
 
 
             base.Initialize();
@@ -92,7 +95,8 @@ namespace Hero_of_Novac
             font = Content.Load<SpriteFont>("SpriteFont1");
             smith.load(font);
 
-            //battleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            battleMenu = new BattleMenu(new Enemy[0]);
             // TODO: use this.Content to load your game content here
             village = new Area(Services, @"Content/Village", window);
         }

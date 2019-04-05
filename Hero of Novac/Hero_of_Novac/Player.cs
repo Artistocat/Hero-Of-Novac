@@ -21,12 +21,17 @@ namespace Hero_of_Novac
 
         private Texture2D defaultTex;
         private Texture2D combatTex;
+        private Texture2D pixel;
         private Rectangle sourceRec;
-        private Vector2 pos;
+        private Vector2 playerPos;
+        private Rectangle healthBarPosTest;
+        private String hpTest;
+        public int healthPoints = 100;
+        public int magicPoints = 100;
         public Vector2 Position
         {
-            get { return pos; }
-            set { pos = value; }
+            get { return playerPos; }
+            set { playerPos = value; }
         }
         private Vector2 vol;
         private Color color;
@@ -39,7 +44,8 @@ namespace Hero_of_Novac
             this.defaultTex = defaultTex;
             this.combatTex = combatTex;
             sourceRec = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
-            pos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
+            playerPos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
+            healthBarPosTest = new Rectangle((int)playerPos.X, (int)playerPos.Y + 37, healthPoints, 10);
             color = Color.White;
         }
 
@@ -47,8 +53,17 @@ namespace Hero_of_Novac
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             vol = pad1.ThumbSticks.Left * 4;
-            pos.X += vol.X;
-            pos.Y -= vol.Y;
+            playerPos.X += vol.X;
+            playerPos.Y -= vol.Y;
+            if (playerPos.Y < 0)
+                playerPos.Y = 0;
+            else if (playerPos.Y + sourceRec.Height > window.Height)
+                playerPos.Y = window.Height - sourceRec.Height;
+            if (playerPos.X < 0)
+                playerPos.X = 0;
+            else if (playerPos.X + sourceRec.Width > window.Width)
+                playerPos.X = window.Width - sourceRec.Width;
+
 
             if (vol.X == 0 && vol.Y == 0)
                 sourceRec.X = SPRITE_WIDTH;
@@ -72,14 +87,21 @@ namespace Hero_of_Novac
                 if (timer % 6 == 0)
                     sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % defaultTex.Width;
             }
-            timer++;
 
+            if (pad1.IsButtonDown(Buttons.DPadDown))
+                healthPoints--;
+            else if (pad1.IsButtonDown(Buttons.DPadUp))
+                healthPoints++;
+            timer++;
+            healthBarPosTest.X = (int)playerPos.X;
+            healthBarPosTest.Y = (int)playerPos.Y + 37;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             SpriteBatch spriteBatchTwo = spriteBatch;
-            spriteBatchTwo.Draw(defaultTex, pos, sourceRec, color);
+            spriteBatchTwo.Draw(defaultTex, playerPos, sourceRec, color);
+            spriteBatchTwo.Draw(defaultTex, healthBarPosTest, sourceRec, color);
         }
     }
 }
