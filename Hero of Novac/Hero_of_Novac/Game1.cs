@@ -22,7 +22,7 @@ namespace Hero_of_Novac
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Vector2 loc;
+
         SpriteFont font;
         List<string> lines;
 
@@ -69,13 +69,13 @@ namespace Hero_of_Novac
             playerWalkingSprites = Content.Load<Texture2D>("player_walking");
             playerCombatSprites = Content.Load<Texture2D>("player_combat");
             player = new Player(playerWalkingSprites, playerCombatSprites, window);
-            battleMenu = new BattleMenu(new Enemy[0]);
+            //battleMenu = new BattleMenu(new Enemy[0]);
             smith = new NPC();
-            base.Initialize();
             lines = new List<string>();
+            base.Initialize();
 
             //TESTING
-            currentGameState = GameState.BattleMenu;
+            //currentGameState = GameState.BattleMenu;
 
 
             base.Initialize();
@@ -92,7 +92,7 @@ namespace Hero_of_Novac
             font = Content.Load<SpriteFont>("SpriteFont1");
             smith.load(font);
 
-            BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            //battleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             // TODO: use this.Content to load your game content here
             village = new Area(Services, @"Content/Village", window);
         }

@@ -76,7 +76,7 @@ namespace Hero_of_Novac
         {
             BattleMenu.player = player;
             BattleMenu.Font = Font;
-            BattleMenu.pixel = new Texture2D(graphicsDevice, 1, 1);
+            pixel = new Texture2D(graphicsDevice, 1, 1);
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
             pixel.SetData(pixelColors);
