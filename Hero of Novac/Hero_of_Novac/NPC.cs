@@ -14,6 +14,7 @@ namespace Hero_of_Novac
 {
     public class NPC : Entity
     {
+        Rectangle window;
         SpriteFont font;
         Rectangle rec;
         Rectangle sourceRec;
@@ -22,6 +23,7 @@ namespace Hero_of_Novac
         Vector2 vol;
         private int timer = 0;
         private int t = 0;
+        Random ran = new Random();
         private int r1;
         private int r2;
 
@@ -53,37 +55,25 @@ namespace Hero_of_Novac
             shopkeep = new List<string>();
             hero = new List<string>();
             priest = new List<string>();
+            r1 = ran.Next(-2, 2);
+            r2 = ran.Next(-2, 2);
             ReadFileAsStrings(@"Content/chartext.txt");
         }
 
         public override void Update(GameTime gameTime)
         {
             timer++;
-            Random r = new Random();
-            if (timer % 60 == 0 && ranMov == false)
-            {
-                
-                if(r.Next(100) < 80)
-                {
-                    ranMov = true;
-                }
-            }
-            if(ranMov == true)
-            {
-                t++;
-                if(t % 60 < 6)
-                {
-                    vol = new Vector2(r.Next(5), r.Next(5));
-                }
-                else
-                {
-                    ranMov = false;
-                    t = 0;
-                    vol = new Vector2(0, 0);
-                }
-            }
+            randomMove();
             rec.X += (int)vol.X;
             rec.Y += (int)vol.Y;
+            if (rec.X < 100)
+                rec.X = 100;
+            if (rec.X > 800)
+                rec.X = 800;
+            if (rec.Y < 100)
+                rec.Y = 100;
+            if (rec.Y > 800)
+                rec.Y = 800;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -183,6 +173,45 @@ namespace Hero_of_Novac
             catch (FileNotFoundException e)
             {
                 Console.WriteLine("The file could not be read:\n" + e.Message);
+            }
+        }
+        public void windowget(Rectangle r)
+        {
+            window = r;
+        }
+        public void randomMove()
+        {
+            if (r1 > 0)
+                r1 = 2;
+            if (r1 < 0)
+                r1 = -2;
+            if (r2 > 0)
+                r2 = 2;
+            if (r2 < 0)
+                r2 = -2;
+            if (timer % 60 == 0 && ranMov == false)
+            {
+                // change the second number for how often you want to proc it
+                if (ran.Next(100) < 30)
+                {
+                    ranMov = true;
+                }
+            }
+            if (ranMov == true)
+            {
+                t++;
+                if (t / 60 < 2)
+                {
+                    vol = new Vector2(r1, r2);
+                }
+                else
+                {
+                    ranMov = false;
+                    t = 0;
+                    vol = new Vector2(0, 0);
+                    r1 = ran.Next(-2, 2);
+                    r2 = ran.Next(-2, 2);
+                }
             }
         }
     }

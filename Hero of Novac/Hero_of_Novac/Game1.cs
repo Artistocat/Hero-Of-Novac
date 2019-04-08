@@ -76,10 +76,10 @@ namespace Hero_of_Novac
             pix = new Texture2D(GraphicsDevice, 1, 1);
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
-
             pix.SetData(pixelColors);
             player = new Player(playerWalkingSprites, playerCombatSprites, pix,  window);
-            smith = new NPC(new Rectangle(100,100,100,100),pix,new Vector2(100,100), new Vector2(0,0),true,'b');
+            smith = new NPC(new Rectangle(300,300,100,100),pix,new Vector2(100,100), new Vector2(0,0),true,'b');
+            smith.windowget(window);
             base.Initialize();
 
             //TESTING
