@@ -46,8 +46,11 @@ namespace Hero_of_Novac
             this.pixel = p;
             sourceRec = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
-            healthBarPosTest = new Rectangle((int)playerPos.X, (int)playerPos.Y + 37, healthPoints, 10);
+            healthBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, healthPoints, 10);
             color = Color.White;
+            Color[] pixelColors = new Color[1];
+            pixelColors[0] = Color.White;
+            pixel.SetData(pixelColors);
         }
 
         public override void Update(GameTime gameTime)
@@ -94,8 +97,8 @@ namespace Hero_of_Novac
             else if (pad1.IsButtonDown(Buttons.DPadUp))
                 healthPoints++;
             timer++;
-            healthBarPosTest.X = (int)playerPos.X;
-            healthBarPosTest.Y = (int)playerPos.Y + 37;
+            healthBarPosTest.X = (int)playerPos.X - 10;
+            healthBarPosTest.Y = (int)playerPos.Y - 10;
             healthBarPosTest.Width = healthPoints;
         }
 
@@ -103,7 +106,7 @@ namespace Hero_of_Novac
         {
             SpriteBatch spriteBatchTwo = spriteBatch;
             spriteBatchTwo.Draw(overWorldTex, playerPos, sourceRec, color);
-            spriteBatchTwo.Draw(pixel, healthBarPosTest, sourceRec, color);
+            spriteBatchTwo.Draw(pixel, healthBarPosTest, sourceRec, Color.Red);
         }
     }
 }
