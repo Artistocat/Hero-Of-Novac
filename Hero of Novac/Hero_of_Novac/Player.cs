@@ -25,6 +25,7 @@ namespace Hero_of_Novac
         private Rectangle sourceRec;
         private Vector2 playerPos;
         private Rectangle healthBarPosTest;
+        private Rectangle magicBarPosTest;
         private String hpTest;
         public int healthPoints = 100;
         public int magicPoints = 100;
@@ -46,7 +47,8 @@ namespace Hero_of_Novac
             this.pixel = p;
             sourceRec = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
-            healthBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, healthPoints, 10);
+            healthBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, healthPoints, 5);
+            magicBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 15, magicPoints, 5);
             color = Color.White;
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
@@ -91,15 +93,18 @@ namespace Hero_of_Novac
                 if (timer % 6 == 0)
                     sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % overWorldTex.Width;
             }
-
-            if (pad1.IsButtonDown(Buttons.DPadDown))
-                healthPoints--;
-            else if (pad1.IsButtonDown(Buttons.DPadUp))
-                healthPoints++;
+            //Use to test health bar stuff
+            //if (pad1.IsButtonDown(Buttons.DPadDown))
+            //    healthPoints--;
+            //else if (pad1.IsButtonDown(Buttons.DPadUp))
+            //    healthPoints++;
             timer++;
             healthBarPosTest.X = (int)playerPos.X - 10;
             healthBarPosTest.Y = (int)playerPos.Y - 10;
             healthBarPosTest.Width = healthPoints;
+            magicBarPosTest.X = (int)playerPos.X - 10;
+            magicBarPosTest.Y = (int)playerPos.Y - 15;
+            magicBarPosTest.Width = magicPoints;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -107,6 +112,7 @@ namespace Hero_of_Novac
             SpriteBatch spriteBatchTwo = spriteBatch;
             spriteBatchTwo.Draw(overWorldTex, playerPos, sourceRec, color);
             spriteBatchTwo.Draw(pixel, healthBarPosTest, sourceRec, Color.Red);
+            spriteBatchTwo.Draw(pixel, magicBarPosTest, sourceRec, Color.Blue);
         }
     }
 }
