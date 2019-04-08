@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 namespace Hero_of_Novac
 {
     
-    public class Player : Entity
+    public class Player
     {
         private Rectangle window;
 
@@ -22,13 +22,17 @@ namespace Hero_of_Novac
         private Texture2D defaultTex;
         private Texture2D combatTex;
         private Rectangle sourceRec;
+        public Rectangle SourceRec
+        {
+            get { return sourceRec; }
+        }
+
         private Vector2 pos;
         public Vector2 Position
         {
             get { return pos; }
             set { pos = value; }
         }
-        private Vector2 speed;
         private Color color;
         private int timer;
 
@@ -44,12 +48,8 @@ namespace Hero_of_Novac
             timer = 0;
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Vector2 speed)
         {
-            GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
-            speed = pad1.ThumbSticks.Left * 4;
-            pos.X += speed.X;
-            pos.Y -= speed.Y;
             if (pos.Y < 0)
                 pos.Y = 0;
             else if (pos.Y + sourceRec.Height > window.Height)
@@ -70,11 +70,11 @@ namespace Hero_of_Novac
                     sourceRec.Y = 2;
 
             }
-            else if(Math.Abs(speed.X) > Math.Abs(speed.Y))
+            else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
             {
                 if (speed.X > 0)
                     sourceRec.Y = 146;
-                else 
+                else
                     sourceRec.Y = 74;
             }
             if (speed != Vector2.Zero)
@@ -83,10 +83,9 @@ namespace Hero_of_Novac
                     sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % defaultTex.Width;
             }
             timer++;
-
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             SpriteBatch spriteBatchTwo = spriteBatch;
             spriteBatchTwo.Draw(defaultTex, pos, sourceRec, color);

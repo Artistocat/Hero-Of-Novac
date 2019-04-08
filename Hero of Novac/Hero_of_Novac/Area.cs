@@ -270,23 +270,39 @@ namespace Hero_of_Novac
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void Update(GameTime gameTime)
         {
-            player.Update(gameTime);
+            GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
+            Vector2 speed = pad1.ThumbSticks.Left * 4;
 
-            KeyboardState kb = Keyboard.GetState();
-
-            if (kb.IsKeyDown(Keys.Up))
+            if (speed.Y > 0)
             {
-                if (areaRec.Top < window.Top && player.Position.Y <= 3 * window.Height / 4)
-                    areaRec.Y += 4;
+                if (areaRec.Top < window.Top && player.Position.Y + player.SourceRec.Height <= window.Height / 3)
+                    areaRec.Y += (int)speed.Y;
                 else
-                    player.Position = player.Position - new Vector2(0, 4);
+                    player.Position = player.Position - new Vector2(0, speed.Y);
             }
-            if (kb.IsKeyDown(Keys.Down) && areaRec.Bottom > window.Bottom)
-                areaRec.Y -= 4;
-            if (kb.IsKeyDown(Keys.Left) && areaRec.Left < window.Left)
-                areaRec.X += 4;
-            if (kb.IsKeyDown(Keys.Right) && areaRec.Right > window.Right)
-                areaRec.X -= 4;
+            else if (speed.Y < 0)
+            {
+                if (areaRec.Bottom > window.Bottom && player.Position.Y >= 2 * window.Height / 3)
+                    areaRec.Y -= 4;
+                else
+                    player.Position = player.Position - new Vector2(0, speed.Y);
+            }
+            if (speed.X < 0)
+            {
+                if (areaRec.Left < window.Left && player.Position.X + player.SourceRec.Width <= window.Width / 3)
+                    areaRec.X += 4;
+                else
+                    player.Position = player.Position + new Vector2(speed.X, 0);
+            }
+            if (speed.X > 0)
+            {
+                if (areaRec.Right > window.Right && player.Position.X >= 2 * window.Width / 3)
+                    areaRec.X -= 4;
+                else
+                    player.Position = player.Position + new Vector2(speed.X, 0);
+            }
+
+            player.Update(gameTime, speed);
 
             foreach (Tile t in tiles)
                 if (t.IsAnimated)
