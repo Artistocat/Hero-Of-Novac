@@ -200,12 +200,14 @@ namespace Hero_of_Novac
             if (ranMov == true)
             {
                 t++;
+                // how long it'll move for
                 if (t / 60 < 2)
                 {
                     vol = new Vector2(r1, r2);
                 }
                 else
                 {
+                    //reset
                     ranMov = false;
                     t = 0;
                     vol = new Vector2(0, 0);
