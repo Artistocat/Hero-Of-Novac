@@ -15,6 +15,10 @@ namespace Hero_of_Novac
         Texture2D tex;
         Vector2 pos;
 
+        enum Stance
+        {
+
+        }
 
         public Entity() { }
 

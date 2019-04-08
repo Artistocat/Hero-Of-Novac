@@ -22,10 +22,11 @@ namespace Hero_of_Novac
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Vector2 loc;
+
         SpriteFont font;
         List<string> lines;
 
+        Texture2D playerMoveSprites;
 
         Texture2D pix;
 
@@ -72,19 +73,17 @@ namespace Hero_of_Novac
             currentGameState = GameState.Overworld;
             playerWalkingSprites = Content.Load<Texture2D>("player_walking");
             playerCombatSprites = Content.Load<Texture2D>("player_combat");
-            player = new Player(playerWalkingSprites, playerCombatSprites, window);
-            //battleMenu = new BattleMenu(new Enemy[0]);
             pix = new Texture2D(GraphicsDevice, 1, 1);
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
 
             pix.SetData(pixelColors);
+            player = new Player(playerWalkingSprites, playerCombatSprites, pix,  window);
             smith = new NPC(new Rectangle(100,100,100,100),pix,new Vector2(100,100), new Vector2(0,0),true,'b');
             base.Initialize();
-            lines = new List<string>();
 
             //TESTING
-            //currentGameState = GameState.BattleMenu;
+            currentGameState = GameState.Overworld;
 
 
             base.Initialize();
@@ -137,7 +136,7 @@ namespace Hero_of_Novac
                     base.Update(gameTime);
                     break;
                 case GameState.BattleMenu:
-                    //battleMenu.Update();
+                    battleMenu.Update();
                     break;
                 case GameState.Inventory:
                     break;
@@ -165,7 +164,7 @@ namespace Hero_of_Novac
                     player.Draw(spriteBatch);
                     break;
                 case GameState.BattleMenu:
-                    //battleMenu.Draw(spriteBatch);
+                    battleMenu.Draw(spriteBatch);
                     break;
             }
             spriteBatch.End();
