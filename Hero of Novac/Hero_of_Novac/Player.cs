@@ -45,18 +45,22 @@ namespace Hero_of_Novac
         private Color color;
         private int timer;
 
-        public Player(Texture2D defaultTex, Texture2D combatTex, Rectangle window)
+        public Player(Texture2D defaultTex, Texture2D combatTex, Texture2D p, Rectangle window)
         {
             currentGameState = GameState.Overworld;
             this.window = window;
 
-            this.defaultTex = defaultTex;
+            this.overWorldTex = defaultTex;
             this.combatTex = combatTex;
+            this.pixel = p;
             sourceRec = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
+            healthBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, healthPoints, 10);
             battlePos = new Vector2(200, 200);
-            healthBarPosTest = new Rectangle((int)playerPos.X, (int)playerPos.Y + 37, healthPoints, 10);
             color = Color.White;
+            Color[] pixelColors = new Color[1];
+            pixelColors[0] = Color.White;
+            pixel.SetData(pixelColors);
         }
 
         public override void Update(GameTime gameTime)
@@ -108,7 +112,7 @@ namespace Hero_of_Novac
             if (vol.X != 0 || vol.Y != 0)
             {
                 if (timer % 6 == 0)
-                    sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % defaultTex.Width;
+                    sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % overWorldTex.Width;
             }
 
             if (pad1.IsButtonDown(Buttons.DPadDown))
@@ -116,10 +120,9 @@ namespace Hero_of_Novac
             else if (pad1.IsButtonDown(Buttons.DPadUp))
                 healthPoints++;
             timer++;
-            healthBarPosTest.X = (int)playerPos.X;
-            healthBarPosTest.Y = (int)playerPos.Y + 37;
-            
-
+            healthBarPosTest.X = (int)playerPos.X - 10;
+            healthBarPosTest.Y = (int)playerPos.Y - 10;
+            healthBarPosTest.Width = healthPoints;
         }
 
         private void UpdateBattlemenu()
@@ -135,12 +138,12 @@ namespace Hero_of_Novac
         {
             switch (currentGameState) {
                 case GameState.Overworld:
-                    spriteBatch.Draw(defaultTex, playerPos, sourceRec, color);
-                    spriteBatch.Draw(defaultTex, healthBarPosTest, sourceRec, color);
+                    spriteBatch.Draw(overWorldTex, playerPos, sourceRec, color);
+                    spriteBatch.Draw(pixel, healthBarPosTest, sourceRec, Color.Red);
                     break;
                 case GameState.Battlemenu:
                     spriteBatch.Draw(combatTex, battlePos, sourceRec, color);
-                    spriteBatch.Draw(defaultTex, healthBarPosTest, sourceRec, color);
+                    spriteBatch.Draw(pixel, healthBarPosTest, sourceRec, Color.Red);
                     break;
             }
         }

@@ -75,8 +75,8 @@ namespace Hero_of_Novac
             playerWalkingSprites = Content.Load<Texture2D>("player_walking");
             playerCombatSprites = Content.Load<Texture2D>("player_combat");
             enemies = new List<Enemy>();
-            player = new Player(playerWalkingSprites, playerCombatSprites, window);
             pix = new Texture2D(GraphicsDevice, 1, 1);
+            player = new Player(playerWalkingSprites, playerCombatSprites, pix,  window);
             smith = new NPC(new Rectangle(100,100,100,100),pix,new Vector2(100,100), new Vector2(0,0),true,'b');
             base.Initialize();
 
