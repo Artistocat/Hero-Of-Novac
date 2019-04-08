@@ -26,7 +26,7 @@ namespace Hero_of_Novac
 
         private GameState currentGameState;
 
-        private Texture2D defaultTex;
+        private Texture2D overWorldTex;
         private Texture2D combatTex;
         private Texture2D pixel;
         private Rectangle sourceRec;
@@ -53,7 +53,6 @@ namespace Hero_of_Novac
         {
             currentGameState = GameState.Overworld;
             this.window = window;
-
             this.overWorldTex = defaultTex;
             this.combatTex = combatTex;
             this.pixel = p;
@@ -64,8 +63,6 @@ namespace Hero_of_Novac
             healthBarMaxWidth = 66; //Pixels
             magicBarMaxWidth = 66;
             battlePos = new Vector2(200, 200);
-            healthBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, healthPoints, 5);
-            magicBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 15, magicPoints, 5);
             color = Color.White;
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
