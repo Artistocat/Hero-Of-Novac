@@ -30,6 +30,7 @@ namespace Hero_of_Novac
 
         Texture2D pix;
 
+
         Texture2D playerWalkingSprites;
         Texture2D playerCombatSprites;
 
@@ -76,6 +77,10 @@ namespace Hero_of_Novac
             playerCombatSprites = Content.Load<Texture2D>("player_combat");
             enemies = new List<Enemy>();
             pix = new Texture2D(GraphicsDevice, 1, 1);
+            Color[] pixelColors = new Color[1];
+            pixelColors[0] = Color.White;
+
+            pix.SetData(pixelColors);
             player = new Player(playerWalkingSprites, playerCombatSprites, pix,  window);
             smith = new NPC(new Rectangle(100,100,100,100),pix,new Vector2(100,100), new Vector2(0,0),true,'b');
             base.Initialize();
@@ -131,6 +136,7 @@ namespace Hero_of_Novac
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
+            smith.Update(gameTime);
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -158,6 +164,7 @@ namespace Hero_of_Novac
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
+            
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -171,7 +178,6 @@ namespace Hero_of_Novac
                     battleMenu.Draw(spriteBatch);
                     break;
             }
-            
             spriteBatch.End();
 
             base.Draw(gameTime);
