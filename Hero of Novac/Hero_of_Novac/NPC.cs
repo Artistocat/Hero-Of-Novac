@@ -20,7 +20,11 @@ namespace Hero_of_Novac
         Texture2D tex;
         Vector2 pos;
         Vector2 vol;
-        
+        private int timer = 0;
+        private int t = 0;
+        private int r1;
+        private int r2;
+
         private List<string> blackSmith;
         private List<string> armourer;
         private List<string> shopkeep;
@@ -28,6 +32,7 @@ namespace Hero_of_Novac
         private List<string> priest;
 
         bool interact;
+        bool ranMov;
         char name;
 
         public NPC()
@@ -53,13 +58,38 @@ namespace Hero_of_Novac
 
         public override void Update(GameTime gameTime)
         {
-
+            timer++;
+            Random r = new Random();
+            if (timer % 60 == 0 && ranMov == false)
+            {
+                
+                if(r.Next(100) < 80)
+                {
+                    ranMov = true;
+                }
+            }
+            if(ranMov == true)
+            {
+                t++;
+                if(t % 60 < 6)
+                {
+                    vol = new Vector2(r.Next(5), r.Next(5));
+                }
+                else
+                {
+                    ranMov = false;
+                    t = 0;
+                    vol = new Vector2(0, 0);
+                }
+            }
+            rec.X += (int)vol.X;
+            rec.Y += (int)vol.Y;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //commented out because nullexception on this line. idk where tho
-            //spriteBatch.DrawString(font,blackSmith[0],new Vector2(0,0), Color.White);
+            spriteBatch.DrawString(font,blackSmith[0],new Vector2(0,0), Color.White);
+            spriteBatch.Draw(tex, rec, Color.White);
         }
 
         public void load(SpriteFont f)

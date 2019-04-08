@@ -19,11 +19,19 @@ namespace Hero_of_Novac
         private const int SPRITE_WIDTH = 52;
         private const int SPRITE_HEIGHT = 72;
 
-        private Texture2D overWorldTex;
+        private enum GameState
+        {
+            Overworld, Battlemenu
+        }
+
+        private GameState currentGameState;
+
+        private Texture2D defaultTex;
         private Texture2D combatTex;
         private Texture2D pixel;
         private Rectangle sourceRec;
         private Vector2 playerPos;
+        private Vector2 battlePos;
         private Rectangle healthBarPosTest;
         private int healthBarMaxWidth;
         public double healthPoints = 100;
@@ -43,6 +51,7 @@ namespace Hero_of_Novac
 
         public Player(Texture2D defaultTex, Texture2D combatTex, Texture2D p, Rectangle window)
         {
+            currentGameState = GameState.Overworld;
             this.window = window;
 
             this.overWorldTex = defaultTex;
@@ -54,6 +63,9 @@ namespace Hero_of_Novac
             magicBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 15, 66, 5);
             healthBarMaxWidth = 66; //Pixels
             magicBarMaxWidth = 66;
+            battlePos = new Vector2(200, 200);
+            healthBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, healthPoints, 5);
+            magicBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 15, magicPoints, 5);
             color = Color.White;
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
@@ -66,6 +78,19 @@ namespace Hero_of_Novac
         }
 
         public override void Update(GameTime gameTime)
+        {
+            switch (currentGameState)
+            {
+                case GameState.Overworld:
+                    UpdateOverworld(gameTime);
+                    break;
+                case GameState.Battlemenu:
+                    UpdateBattlemenu();
+                    break;
+            }
+        }
+
+        private void UpdateOverworld(GameTime gameTime)
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             vol = pad1.ThumbSticks.Left * 4;
@@ -91,11 +116,11 @@ namespace Hero_of_Novac
                     sourceRec.Y = 0;
 
             }
-            else if(Math.Abs(vol.X) > Math.Abs(vol.Y))
+            else if (Math.Abs(vol.X) > Math.Abs(vol.Y))
             {
                 if (vol.X > 0)
                     sourceRec.Y = 144;
-                else 
+                else
                     sourceRec.Y = 74;
             }
             if (vol.X != 0 || vol.Y != 0)
@@ -128,12 +153,39 @@ namespace Hero_of_Novac
             }
         }
 
+        private void UpdateBattlemenu()
+        {
+            //TODO
+
+            /*
+             *Update source rectangle for the battlemenu 
+             */
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
-            SpriteBatch spriteBatchTwo = spriteBatch;
-            spriteBatchTwo.Draw(overWorldTex, playerPos, sourceRec, color);
-            spriteBatchTwo.Draw(pixel, healthBarPosTest, sourceRec, Color.Red);
-            spriteBatchTwo.Draw(pixel, magicBarPosTest, sourceRec, Color.Blue);
+            switch (currentGameState) {
+                case GameState.Overworld:
+                    spriteBatch.Draw(overWorldTex, playerPos, sourceRec, color);
+                    spriteBatch.Draw(pixel, healthBarPosTest, sourceRec, Color.Red);
+                    spriteBatch.Draw(pixel, magicBarPosTest, sourceRec, Color.Blue);
+                    break;
+                case GameState.Battlemenu:
+                    spriteBatch.Draw(combatTex, battlePos, sourceRec, color);
+                    spriteBatch.Draw(pixel, healthBarPosTest, sourceRec, Color.Red);
+                    spriteBatch.Draw(pixel, magicBarPosTest, sourceRec, Color.Blue);
+                    break;
+            }
+        }
+
+        public void Battle()
+        {
+            currentGameState = GameState.Battlemenu;
+        }
+
+        public void Overworld()
+        {
+            currentGameState = GameState.Overworld;
         }
     }
 }
