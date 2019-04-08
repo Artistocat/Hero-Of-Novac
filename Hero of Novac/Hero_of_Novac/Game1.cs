@@ -39,6 +39,8 @@ namespace Hero_of_Novac
         NPC priest;
         NPC armor;
 
+        List<Enemy> enemies;
+
         Player player;
 
         enum GameState
@@ -73,6 +75,7 @@ namespace Hero_of_Novac
             currentGameState = GameState.Overworld;
             playerWalkingSprites = Content.Load<Texture2D>("player_walking");
             playerCombatSprites = Content.Load<Texture2D>("player_combat");
+            enemies = new List<Enemy>();
             pix = new Texture2D(GraphicsDevice, 1, 1);
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
@@ -84,6 +87,14 @@ namespace Hero_of_Novac
 
             //TESTING
             currentGameState = GameState.Overworld;
+            if (currentGameState == GameState.BattleMenu)
+            {
+                player.Battle();
+                foreach (Enemy enemy in enemies)
+                {
+                    enemy.Battle();
+                }
+            }
 
 
             base.Initialize();
