@@ -19,7 +19,7 @@ namespace Hero_of_Novac
         private const int SPRITE_WIDTH = 52;
         private const int SPRITE_HEIGHT = 72;
 
-        private Texture2D defaultTex;
+        private Texture2D overWorldTex;
         private Texture2D combatTex;
         private Texture2D pixel;
         private Rectangle sourceRec;
@@ -37,12 +37,13 @@ namespace Hero_of_Novac
         private Color color;
         private int timer;
 
-        public Player(Texture2D defaultTex, Texture2D combatTex, Rectangle window)
+        public Player(Texture2D defaultTex, Texture2D combatTex, Texture2D p, Rectangle window)
         {
             this.window = window;
 
-            this.defaultTex = defaultTex;
+            this.overWorldTex = defaultTex;
             this.combatTex = combatTex;
+            this.pixel = p;
             sourceRec = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
             healthBarPosTest = new Rectangle((int)playerPos.X, (int)playerPos.Y + 37, healthPoints, 10);
@@ -85,7 +86,7 @@ namespace Hero_of_Novac
             if (vol.X != 0 || vol.Y != 0)
             {
                 if (timer % 6 == 0)
-                    sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % defaultTex.Width;
+                    sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % overWorldTex.Width;
             }
 
             if (pad1.IsButtonDown(Buttons.DPadDown))
@@ -95,13 +96,14 @@ namespace Hero_of_Novac
             timer++;
             healthBarPosTest.X = (int)playerPos.X;
             healthBarPosTest.Y = (int)playerPos.Y + 37;
+            healthBarPosTest.Width = healthPoints;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             SpriteBatch spriteBatchTwo = spriteBatch;
-            spriteBatchTwo.Draw(defaultTex, playerPos, sourceRec, color);
-            spriteBatchTwo.Draw(defaultTex, healthBarPosTest, sourceRec, color);
+            spriteBatchTwo.Draw(overWorldTex, playerPos, sourceRec, color);
+            spriteBatchTwo.Draw(pixel, healthBarPosTest, sourceRec, color);
         }
     }
 }
