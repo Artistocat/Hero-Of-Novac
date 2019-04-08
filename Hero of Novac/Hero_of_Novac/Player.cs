@@ -27,6 +27,7 @@ namespace Hero_of_Novac
         private GameState currentGameState;
 
         private Texture2D defaultTex;
+        private Texture2D overWorldTex;
         private Texture2D combatTex;
         private Texture2D pixel;
         private Rectangle sourceRec;
@@ -63,6 +64,8 @@ namespace Hero_of_Novac
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
             pixel.SetData(pixelColors);
+
+            rec = new Rectangle((int)playerPos.X, (int)playerPos.Y, sourceRec.Width, sourceRec.Height);
         }
 
         public override void Update(GameTime gameTime)
