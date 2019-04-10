@@ -121,7 +121,6 @@ namespace Hero_of_Novac
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
-            player.counter++;
             switch (currentGameState)
             {
                 case GameState.MainMenu:
