@@ -187,13 +187,13 @@ namespace Hero_of_Novac
         private Direction GetInputDirection()
         {
             Direction dir = Direction.Neutral;
-            if (gamePad.ThumbSticks.Left.Y >= 1)
+            if (gamePad.ThumbSticks.Left.Y >= .9)
                 dir = Direction.Up;
-            if (gamePad.ThumbSticks.Left.Y <= -1)
+            if (gamePad.ThumbSticks.Left.Y <= -.9)
                 dir = Direction.Down;
-            if (gamePad.ThumbSticks.Left.X <= -1)
+            if (gamePad.ThumbSticks.Left.X <= -.9)
                 dir = Direction.Left;
-            if (gamePad.ThumbSticks.Left.X >= 1)
+            if (gamePad.ThumbSticks.Left.X >= .9)
                 dir = Direction.Right;
             return dir;
         }
@@ -241,7 +241,7 @@ namespace Hero_of_Novac
             {
                 if (MainChoices[i].isSelected)
                 {
-                    previousSelected = -1;
+                    previousSelected = i;
                 }
                 MainChoices[i].isSelected = false;
             }
