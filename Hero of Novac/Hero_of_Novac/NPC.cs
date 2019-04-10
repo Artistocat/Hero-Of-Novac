@@ -12,20 +12,20 @@ using System.IO;
 
 namespace Hero_of_Novac
 {
-    public class NPC : Entity
+    public class NPC
     {
         Rectangle window;
         SpriteFont font;
         Rectangle rec;
-        Rectangle sourceRec;
         Texture2D tex;
-        Vector2 pos;
+        Rectangle source;
         Vector2 vol;
         private int timer = 0;
         private int t = 0;
-        Random ran = new Random();
+        Random ran;
         private int r1;
         private int r2;
+        private Speech chat;
 
         private List<string> blackSmith;
         private List<string> armourer;
@@ -42,25 +42,27 @@ namespace Hero_of_Novac
 
         }
 
-        public NPC(Rectangle r, Texture2D t, Vector2 p, Vector2 v, bool i, char n)
+        public NPC(Rectangle r, Texture2D t, Rectangle s, Vector2 v, bool i, char n, Speech c)
         {
+            ran = new Random();
             rec = r;
             tex = t;
-            pos = p;
+            source = s;
             vol = v;
             interact = i;
             name = n;
+            chat = c;
             blackSmith = new List<string>();
             armourer = new List<string>();
             shopkeep = new List<string>();
             hero = new List<string>();
             priest = new List<string>();
-            r1 = ran.Next(-2, 2);
-            r2 = ran.Next(-2, 2);
+            r1 = ran.Next(-2, 3);
+            r2 = ran.Next(-2, 3);
             ReadFileAsStrings(@"Content/chartext.txt");
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             timer++;
             randomMove();
@@ -74,12 +76,13 @@ namespace Hero_of_Novac
                 rec.Y = 100;
             if (rec.Y > 800)
                 rec.Y = 800;
+            
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font,blackSmith[0],new Vector2(0,0), Color.White);
-            spriteBatch.Draw(tex, rec, Color.White);
+            spriteBatch.DrawString(font,talk(chat,name),new Vector2(0,0), Color.White);
+            spriteBatch.Draw(tex,rec,source,Color.White);
         }
 
         public void load(SpriteFont f)
@@ -89,6 +92,7 @@ namespace Hero_of_Novac
 
         public string talk(Speech s, char c)
         {
+
             if (s == Speech.Greeting)
                 switch (c)
                 {
@@ -133,7 +137,7 @@ namespace Hero_of_Novac
                         return priest[2];
 
                 }
-            return "no text";
+            return "";
         }
 
         private void ReadFileAsStrings(string path)
@@ -211,8 +215,8 @@ namespace Hero_of_Novac
                     ranMov = false;
                     t = 0;
                     vol = new Vector2(0, 0);
-                    r1 = ran.Next(-2, 2);
-                    r2 = ran.Next(-2, 2);
+                    r1 = ran.Next(-2, 3);
+                    r2 = ran.Next(-2, 3);
                 }
             }
         }
