@@ -44,7 +44,7 @@ namespace Hero_of_Novac
 
         }
 
-        public NPC(Rectangle r, Texture2D t, Rectangle s, Vector2 v, bool i, char n, Speech c)
+        public NPC(Rectangle r, Texture2D t, Rectangle s, Vector2 v, bool i, char n, Speech c, Random ran)
         {
             rec = r;
             tex = t;
@@ -61,6 +61,7 @@ namespace Hero_of_Novac
             r1 = ran.Next(-2, 3);
             r2 = ran.Next(-2, 3);
             ReadFileAsStrings(@"Content/chartext.txt");
+            this.ran = ran;
         }
 
         public void Update(GameTime gameTime)
@@ -198,7 +199,7 @@ namespace Hero_of_Novac
             if (timer % 60 == 0 && ranMov == false)
             {
                 // change the second number for how often you want to proc it
-                if (ran.Next(100) < 100)
+                if (ran.Next(100) < 30)
                 {
                     ranMov = true;
                 }
