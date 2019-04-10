@@ -162,6 +162,7 @@ namespace Hero_of_Novac
                     break;
                 case GameState.Overworld:
                     village.Update(gameTime);
+                    smith.Update(gameTime);
                     player.Update(gameTime);
                     foreach(Enemy enemy in enemies)
                     {

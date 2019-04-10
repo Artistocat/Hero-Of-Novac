@@ -97,7 +97,7 @@ namespace Hero_of_Novac
             itemsRect = new Rectangle(0, magicRect.Y, width / 4, height / 4);
 
             attackRects = new Rectangle[4];
-            attackRects[0] = new Rectangle(basicRect.X, basicRect.Y, basicRect.Width / 2, basicRect.Height / 2);
+            attackRects[0] = new Rectangle(basicRect.X, basicRect.Y, basicRect.Width / 2, basicRect.Height);
             attackRects[1] = new Rectangle(basicRect.X + basicRect.Width / 2, basicRect.Y, attackRects[0].Width, attackRects[0].Height);
             attackRects[2] = new Rectangle(attackRects[0].X, attackRects[0].Y + attackRects[0].Height, attackRects[0].Width, attackRects[0].Height);
             attackRects[3] = new Rectangle(attackRects[1].X, attackRects[2].Y, attackRects[0].Width, attackRects[0].Height);
@@ -117,9 +117,9 @@ namespace Hero_of_Novac
 
             Basic = new NavigableMenuItem[2, 2];
             Basic[0, 0] = new NavigableMenuItem(attackRects[0], pixel, singleRect, Color.Blue);
-            Basic[0, 1] = new NavigableMenuItem(attackRects[1], pixel, singleRect, Color.Blue);
-            Basic[1, 0] = new NavigableMenuItem(attackRects[2], pixel, singleRect, Color.Blue);
-            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pixel, singleRect, Color.Blue);
+            Basic[0, 1] = new NavigableMenuItem(attackRects[1], pixel, singleRect, Color.CadetBlue);
+            Basic[1, 0] = new NavigableMenuItem(attackRects[2], pixel, singleRect, Color.BlueViolet);
+            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pixel, singleRect, Color.AliceBlue);
 
             Magic = new NavigableMenuItem[2, 2];
             Magic[0, 0] = new NavigableMenuItem(attackRects[0], pixel, singleRect, Color.Purple);
@@ -187,13 +187,13 @@ namespace Hero_of_Novac
         private Direction GetInputDirection()
         {
             Direction dir = Direction.Neutral;
-            if (gamePad.ThumbSticks.Left.Y >= 1)
+            if (gamePad.ThumbSticks.Left.Y >= .9)
                 dir = Direction.Up;
-            if (gamePad.ThumbSticks.Left.Y <= -1)
+            if (gamePad.ThumbSticks.Left.Y <= -.9)
                 dir = Direction.Down;
-            if (gamePad.ThumbSticks.Left.X <= -1)
+            if (gamePad.ThumbSticks.Left.X <= -.9)
                 dir = Direction.Left;
-            if (gamePad.ThumbSticks.Left.X >= 1)
+            if (gamePad.ThumbSticks.Left.X >= .9)
                 dir = Direction.Right;
             return dir;
         }
@@ -220,6 +220,7 @@ namespace Hero_of_Novac
                 {
                     case TOP:
                         currentChoiceState = ChoiceState.Basic;
+                        Basic[0, 0].isSelected = true;
                         break;
                     case BOTTOM:
                         currentChoiceState = ChoiceState.Magic;
@@ -241,7 +242,7 @@ namespace Hero_of_Novac
             {
                 if (MainChoices[i].isSelected)
                 {
-                    previousSelected = -1;
+                    previousSelected = i;
                 }
                 MainChoices[i].isSelected = false;
             }
@@ -282,14 +283,18 @@ namespace Hero_of_Novac
             if (oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed)
             {
                 Vector2 selected = new Vector2();
-                for (int i = 0; i < 2; i++)
-                    for (int k = 0; k < 2; k++)
+                bool foundSelected = false;
+                for (int i = 0; i < 2 && !foundSelected; i++)
+                    for (int k = 0; k < 2 && !foundSelected; k++)
                         if (Basic[i, k].isSelected)
                         {
                             selected.X = i;
                             selected.Y = k;
                             break;
                         }
+
+                if (!foundSelected)
+                    throw new Exception("Nothing selected");
                 currentBattleState = BattleState.Charging;
                 //TODO
             }
@@ -304,6 +309,7 @@ namespace Hero_of_Novac
                 {
                     if (Basic[i, k].isSelected)
                     {
+                        Console.WriteLine("Something is selected");
                         switch (dir)
                         {
                             case Direction.Up:
@@ -324,6 +330,7 @@ namespace Hero_of_Novac
                                 break;
                         }
                         Basic[i, k].isSelected = false;
+                        Console.WriteLine("We are getting to here"); //WE ARE NOT GETTING HERE HELP
                     }
                 }
 

@@ -88,6 +88,7 @@ namespace Hero_of_Novac
                     UpdateBattlemenu();
                     break;
             }
+            rec = new Rectangle((int)playerPos.X, (int)playerPos.Y, sourceRec.Width, sourceRec.Height);
         }
 
         private void UpdateOverworld(GameTime gameTime)
