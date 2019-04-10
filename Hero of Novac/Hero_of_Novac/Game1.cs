@@ -119,10 +119,7 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
-            smith.load(font);
-            shop.load(font);
-            armor.load(font);
-            priest.load(font);
+            NPC.load(font, player);
 
             BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             Enemy.LoadContent(player);
@@ -152,10 +149,6 @@ namespace Hero_of_Novac
                 this.Exit();
             bool willBattle = false;
 
-            smith.Update(gameTime);
-            armor.Update(gameTime);
-            priest.Update(gameTime);
-            shop.Update(gameTime);
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -163,6 +156,9 @@ namespace Hero_of_Novac
                 case GameState.Overworld:
                     village.Update(gameTime);
                     smith.Update(gameTime);
+                    armor.Update(gameTime);
+                    priest.Update(gameTime);
+                    shop.Update(gameTime);
                     player.Update(gameTime);
                     foreach(Enemy enemy in enemies)
                     {

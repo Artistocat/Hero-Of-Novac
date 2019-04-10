@@ -46,7 +46,6 @@ namespace Hero_of_Novac
 
         public NPC(Rectangle r, Texture2D t, Rectangle s, Vector2 v, bool i, char n, Speech c)
         {
-            ran = new Random();
             rec = r;
             tex = t;
             source = s;
@@ -199,7 +198,7 @@ namespace Hero_of_Novac
             if (timer % 60 == 0 && ranMov == false)
             {
                 // change the second number for how often you want to proc it
-                if (ran.Next(100) < 30)
+                if (ran.Next(100) < 100)
                 {
                     ranMov = true;
                 }
