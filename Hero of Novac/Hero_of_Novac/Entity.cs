@@ -10,10 +10,10 @@ namespace Hero_of_Novac
     //Every Enemy, npc and player is an entity, and will have to have implement the methods listed here
     public abstract class Entity 
     {
-        Rectangle rec;
-        Rectangle sourceRec;
-        Texture2D tex;
-        Vector2 pos;
+        protected Rectangle rec;
+        protected Rectangle sourceRec;
+        protected Texture2D tex;
+        protected Vector2 pos;
 
         public Rectangle Rec
         {
@@ -28,7 +28,9 @@ namespace Hero_of_Novac
 
         }
 
-        public Entity() { }
+        public Entity()
+        { 
+        }
 
         public abstract void Update(GameTime gameTime);
 

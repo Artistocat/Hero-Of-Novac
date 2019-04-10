@@ -200,6 +200,38 @@ namespace Hero_of_Novac
         
         private void ChoosingMainChoice()
         {
+            const int TOP = 0;
+            const int BOTTOM = 1;
+            const int LEFT = 2;
+
+            if (oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed)
+            {
+                int selected = -1;
+                for (int i = 0; i < MainChoices.Length; i++)
+                {
+                    if (MainChoices[i].isSelected)
+                    {
+                        selected = i;
+                        break;
+                    }
+                }
+
+                switch (selected)
+                {
+                    case TOP:
+                        currentChoiceState = ChoiceState.Basic;
+                        break;
+                    case BOTTOM:
+                        currentChoiceState = ChoiceState.Magic;
+                        break;
+                    case LEFT:
+                        currentChoiceState = ChoiceState.Items;
+                        break;
+                }
+
+                return;       
+            }
+
             Direction dir = GetInputDirection();
             if (dir == Direction.Neutral)
                 return;
@@ -213,10 +245,6 @@ namespace Hero_of_Novac
                 }
                 MainChoices[i].isSelected = false;
             }
-
-            const int TOP = 0;
-            const int BOTTOM = 1;
-            const int LEFT = 2;
 
             switch (previousSelected)
             {
@@ -251,6 +279,22 @@ namespace Hero_of_Novac
 
         private void ChoosingBasic()
         {
+            if (oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed)
+            {
+                Vector2 selected = new Vector2();
+                for (int i = 0; i < 2; i++)
+                    for (int k = 0; k < 2; k++)
+                        if (Basic[i, k].isSelected)
+                        {
+                            selected.X = i;
+                            selected.Y = k;
+                            break;
+                        }
+                currentBattleState = BattleState.Charging;
+                //TODO
+            }
+
+
             Direction dir = GetInputDirection();
             if (dir == Direction.Neutral)
                 return;
