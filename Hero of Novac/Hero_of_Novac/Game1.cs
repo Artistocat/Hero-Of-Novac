@@ -20,6 +20,8 @@ namespace Hero_of_Novac
 
         Area village;
 
+        Random ran = new Random();
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -86,10 +88,10 @@ namespace Hero_of_Novac
             pixelColors[0] = Color.White;
             pix.SetData(pixelColors);
             player = new Player(playerWalkingSprites, playerCombatSprites, pix,  window);
-            smith = new NPC(new Rectangle(300,300,52,72),blacksmith,new Rectangle(10,10,26,36), new Vector2(0,0),true,'b', Speech.None);
-            shop = new NPC(new Rectangle(200, 300, 52, 72), Shopkeep, new Rectangle(0, 0, 26, 36), new Vector2(0, 0), true, 's', Speech.None);
-            priest = new NPC(new Rectangle(400, 300, 52, 72), priestT, new Rectangle(0, 0, 26, 36), new Vector2(0, 0), true, 'p', Speech.None);
-            armor = new NPC(new Rectangle(300, 400, 52, 72), armourer, new Rectangle(26 * 3, 0, 26, 36), new Vector2(0, 0), true, 'a', Speech.None);
+            smith = new NPC(new Rectangle(300,300,52,72),blacksmith,new Rectangle(10,10,26,36), new Vector2(0,0),true,'b', Speech.None, ran);
+            shop = new NPC(new Rectangle(200, 300, 52, 72), Shopkeep, new Rectangle(0, 0, 26, 36), new Vector2(0, 0), true, 's', Speech.None,ran);
+            priest = new NPC(new Rectangle(400, 300, 52, 72), priestT, new Rectangle(0, 0, 26, 36), new Vector2(0, 0), true, 'p', Speech.None, ran);
+            armor = new NPC(new Rectangle(300, 400, 52, 72), armourer, new Rectangle(26 * 3, 0, 26, 36), new Vector2(0, 0), true, 'a', Speech.None, ran);
             smith.windowget(window);
             base.Initialize();
 
@@ -119,10 +121,7 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
-            smith.load(font);
-            shop.load(font);
-            armor.load(font);
-            priest.load(font);
+            NPC.load(font, player);
 
             BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             Enemy.LoadContent(player);
@@ -152,10 +151,7 @@ namespace Hero_of_Novac
                 this.Exit();
             bool willBattle = false;
 
-            smith.Update(gameTime);
-            armor.Update(gameTime);
-            priest.Update(gameTime);
-            shop.Update(gameTime);
+            
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -163,6 +159,9 @@ namespace Hero_of_Novac
                 case GameState.Overworld:
                     village.Update(gameTime);
                     smith.Update(gameTime);
+                    armor.Update(gameTime);
+                    priest.Update(gameTime);
+                    shop.Update(gameTime);
                     player.Update(gameTime);
                     foreach(Enemy enemy in enemies)
                     {

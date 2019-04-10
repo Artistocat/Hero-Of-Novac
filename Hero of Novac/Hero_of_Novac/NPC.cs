@@ -44,9 +44,9 @@ namespace Hero_of_Novac
 
         }
 
-        public NPC(Rectangle r, Texture2D t, Rectangle s, Vector2 v, bool i, char n, Speech c)
+        public NPC(Rectangle r, Texture2D t, Rectangle s, Vector2 v, bool i, char n, Speech c, Random ran)
         {
-            ran = new Random();
+            
             rec = r;
             tex = t;
             source = s;
@@ -62,6 +62,7 @@ namespace Hero_of_Novac
             r1 = ran.Next(-2, 3);
             r2 = ran.Next(-2, 3);
             ReadFileAsStrings(@"Content/chartext.txt");
+            this.ran = ran;
         }
 
         public void Update(GameTime gameTime)
