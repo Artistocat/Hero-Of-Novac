@@ -14,8 +14,10 @@ namespace Hero_of_Novac
 {
     public class NPC : Entity
     {
+        private static Player player;
+        private static SpriteFont font;
+
         Rectangle window;
-        SpriteFont font;
         Rectangle rec;
         Rectangle sourceRec;
         Texture2D tex;
@@ -82,9 +84,10 @@ namespace Hero_of_Novac
             spriteBatch.Draw(tex, rec, Color.White);
         }
 
-        public void load(SpriteFont f)
+        public static void load(SpriteFont f, Player player)
         {
             font = f;
+            NPC.player = player;
         }
 
         public string talk(Speech s, char c)
