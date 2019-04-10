@@ -29,7 +29,6 @@ namespace Hero_of_Novac
         private Texture2D defaultTex;
         private Texture2D overWorldTex;
         private Texture2D combatTex;
-        private Texture2D overWorldTex;
         private Texture2D pixel;
         private Rectangle sourceRec;
         private Vector2 playerPos;
