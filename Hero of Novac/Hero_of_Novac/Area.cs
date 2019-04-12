@@ -35,6 +35,21 @@ namespace Hero_of_Novac
         Dictionary<string, Rectangle> sourceRecs;
         Dictionary<string, Texture2D> tileSheets;
 
+        private Texture2D pix;
+
+        private Player player;
+        public Player Player
+        {
+            get { return player; }
+        }
+
+        private List<NPC> npcs;
+        private List<Enemy> enemies;
+        public List<Enemy> Enemies
+        {
+            get { return enemies; }
+        }
+
         ContentManager content;
         public ContentManager Content
         {
@@ -49,7 +64,7 @@ namespace Hero_of_Novac
         /// <param name="serviceProvider">Provides a service provider.</param>
         /// <param name="path">The path to the folder holding the level data.</param>
         /// <param name="window">A rectangle representing the veiwing window of the game.</param>
-        public Area(IServiceProvider serviceProvider, string path, Rectangle window)
+        public Area(IServiceProvider serviceProvider, string path, Texture2D p, Rectangle window)
         {
             content = new ContentManager(serviceProvider, "Content");
 
@@ -75,6 +90,15 @@ namespace Hero_of_Novac
 
             tiles = new List<Tile>();
             LoadTiles(path + "/terrain.txt");
+
+            pix = p;
+            player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), pix, window);
+
+            SpriteFont font = Content.Load<SpriteFont>("SpriteFont1");
+            npcs = new List<NPC>();
+            AddNPCs(font);
+            enemies = new List<Enemy>();
+            AddEnemies();
         }
 
         /// <summary>
@@ -256,26 +280,83 @@ namespace Hero_of_Novac
             tiles.Add(new Tile(new Vector2(x, y), tileSource, tileSheets["water"], true));
         }
 
+        private void AddNPCs(SpriteFont font)
+        {
+            npcs.Add(new NPC(new Rectangle(300, 300, 52, 72), Content.Load<Texture2D>("blacksmith"), new Rectangle(10, 10, 26, 36), new Rectangle(0, 0, 300, 300), new Vector2(0, 0), true, 'b', Speech.None, random));
+            npcs.Add(new NPC(new Rectangle(200, 300, 52, 72), Content.Load<Texture2D>("shopkeeper"), new Rectangle(0, 0, 26, 36), new Rectangle(0, 300, 300, 300), new Vector2(0, 0), true, 's', Speech.None, random));
+            npcs.Add(new NPC(new Rectangle(400, 300, 52, 72), Content.Load<Texture2D>("priestess"), new Rectangle(0, 0, 26, 36), new Rectangle(300, 0, 300, 300), new Vector2(0, 0), true, 'p', Speech.None, random));
+            npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), Content.Load<Texture2D>("armour"), new Rectangle(26 * 3, 0, 26, 36), new Rectangle(300, 300, 300, 300), new Vector2(0, 0), true, 'a', Speech.None, random));
+            foreach (NPC n in npcs)
+                n.Window = window;
+        }
+
+        private void AddEnemies()
+        {
+            enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 1, 1), pix, new Vector2(0, 0)));
+        }
+
         /// <summary>
         /// Updates the area.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void Update(GameTime gameTime)
         {
-            KeyboardState kb = Keyboard.GetState();
+            GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
+            Vector2 speed = pad1.ThumbSticks.Left * 4;
 
-            if (kb.IsKeyDown(Keys.Up) && areaRec.Top < window.Top)
-                areaRec.Y += 4;
-            if (kb.IsKeyDown(Keys.Down) && areaRec.Bottom > window.Bottom)
-                areaRec.Y -= 4;
-            if (kb.IsKeyDown(Keys.Left) && areaRec.Left < window.Left)
-                areaRec.X += 4;
-            if (kb.IsKeyDown(Keys.Right) && areaRec.Right > window.Right)
-                areaRec.X -= 4;
+            if (speed.Y > 0)
+            {
+                if (areaRec.Top < window.Top && player.Position.Y + player.SourceRec.Height <= window.Height / 3)
+                    areaRec.Y += (int)speed.Y;
+                else
+                    player.Position = player.Position - new Vector2(0, speed.Y);
+            }
+            else if (speed.Y < 0)
+            {
+                if (areaRec.Bottom > window.Bottom && player.Position.Y >= 2 * window.Height / 3)
+                    areaRec.Y -= 4;
+                else
+                    player.Position = player.Position - new Vector2(0, speed.Y);
+            }
+            if (speed.X < 0)
+            {
+                if (areaRec.Left < window.Left && player.Position.X + player.SourceRec.Width <= window.Width / 3)
+                    areaRec.X += 4;
+                else
+                    player.Position = player.Position + new Vector2(speed.X, 0);
+            }
+            if (speed.X > 0)
+            {
+                if (areaRec.Right > window.Right && player.Position.X >= 2 * window.Width / 3)
+                    areaRec.X -= 4;
+                else
+                    player.Position = player.Position + new Vector2(speed.X, 0);
+            }
+
+            player.Update(gameTime, speed);
+
+            foreach (Enemy e in enemies)
+            {
+                e.Update(gameTime);
+                    
+            }
+
+            foreach (NPC n in npcs)
+                n.Update(gameTime);
 
             foreach (Tile t in tiles)
                 if (t.IsAnimated)
                     t.Update(gameTime);
+        }
+
+        public void Battle()
+        {
+
+            player.Battle();
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Battle();
+            }
         }
 
         /// <summary>
@@ -290,6 +371,11 @@ namespace Hero_of_Novac
                 if (tileRec.Intersects(window))
                     spriteBatch.Draw(t.Texture, tileRec, t.SourceRec, Color.White);
             }
+            foreach (Enemy e in enemies)
+                e.Draw(spriteBatch);
+            foreach (NPC n in npcs)
+                n.Draw(spriteBatch);
+            player.Draw(spriteBatch);
         }
     }
 }
