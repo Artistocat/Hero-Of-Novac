@@ -20,6 +20,8 @@ namespace Hero_of_Novac
 
         Area village;
 
+        Random ran = new Random();
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -27,12 +29,13 @@ namespace Hero_of_Novac
         List<string> lines;
 
         Texture2D playerMoveSprites;
-
-        Texture2D pix;
-
-
         Texture2D playerWalkingSprites;
         Texture2D playerCombatSprites;
+        Texture2D pix;
+        Texture2D blacksmith;
+        Texture2D priestT;
+        Texture2D Shopkeep;
+        Texture2D armourer;
 
         NPC smith;
         NPC shop;
@@ -75,17 +78,26 @@ namespace Hero_of_Novac
             currentGameState = GameState.Overworld;
             playerWalkingSprites = Content.Load<Texture2D>("player_walking");
             playerCombatSprites = Content.Load<Texture2D>("player_combat");
+            blacksmith = Content.Load<Texture2D>("blacksmith");
+            armourer = Content.Load<Texture2D>("armour");
+            priestT = Content.Load<Texture2D>("priestess");
+            Shopkeep = Content.Load<Texture2D>("shopkeeper");
             enemies = new List<Enemy>();
             pix = new Texture2D(GraphicsDevice, 1, 1);
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
             pix.SetData(pixelColors);
             player = new Player(playerWalkingSprites, playerCombatSprites, pix,  window);
-            smith = new NPC(new Rectangle(300,300,100,100),pix,new Vector2(100,100), new Vector2(0,0),true,'b');
+            smith = new NPC(new Rectangle(300,300,52,72),blacksmith,new Rectangle(10,10,26,36), new Vector2(0,0),true,'b', Speech.None, ran);
+            shop = new NPC(new Rectangle(200, 300, 52, 72), Shopkeep, new Rectangle(0, 0, 26, 36), new Vector2(0, 0), true, 's', Speech.None,ran);
+            priest = new NPC(new Rectangle(400, 300, 52, 72), priestT, new Rectangle(0, 0, 26, 36), new Vector2(0, 0), true, 'p', Speech.None, ran);
+            armor = new NPC(new Rectangle(300, 400, 52, 72), armourer, new Rectangle(26 * 3, 0, 26, 36), new Vector2(0, 0), true, 'a', Speech.None, ran);
             smith.windowget(window);
             base.Initialize();
 
             //TESTING
+            Enemy newEnemy = new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 1, 1), pix, new Vector2(0, 0));
+            enemies.Add(newEnemy);
             currentGameState = GameState.Overworld;
             if (currentGameState == GameState.BattleMenu)
             {
@@ -109,9 +121,10 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
-            smith.load(font);
+            NPC.load(font, player);
 
             BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            Enemy.LoadContent(player);
             battleMenu = new BattleMenu(new Enemy[0]);
             // TODO: use this.Content to load your game content here
             village = new Area(Services, @"Content/Village", window);
@@ -136,14 +149,25 @@ namespace Hero_of_Novac
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
-            smith.Update(gameTime);
+            bool willBattle = false;
+
             switch (currentGameState)
             {
                 case GameState.MainMenu:
                     break;
                 case GameState.Overworld:
                     village.Update(gameTime);
+                    smith.Update(gameTime);
+                    armor.Update(gameTime);
+                    priest.Update(gameTime);
+                    shop.Update(gameTime);
                     player.Update(gameTime);
+                    foreach(Enemy enemy in enemies)
+                    {
+                        enemy.Update(gameTime);
+                        if (enemy.IsInBattle())
+                            willBattle = true;
+                    }
                     base.Update(gameTime);
                     break;
                 case GameState.BattleMenu:
@@ -152,6 +176,9 @@ namespace Hero_of_Novac
                 case GameState.Inventory:
                     break;
             }
+
+            if (willBattle)
+                currentGameState = GameState.BattleMenu;
             base.Update(gameTime);
         }
 
@@ -172,6 +199,13 @@ namespace Hero_of_Novac
                 case GameState.Overworld:
                     village.Draw(gameTime, spriteBatch);
                     smith.Draw(spriteBatch);
+                    shop.Draw(spriteBatch);
+                    armor.Draw(spriteBatch);
+                    priest.Draw(spriteBatch);
+                    foreach (Enemy enemy in enemies)
+                    {
+                        enemy.Draw(spriteBatch);
+                    }
                     player.Draw(spriteBatch);
                     break;
                 case GameState.BattleMenu:

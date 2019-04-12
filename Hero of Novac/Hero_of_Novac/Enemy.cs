@@ -13,7 +13,7 @@ namespace Hero_of_Novac
 {
     public class Enemy : Entity
     {
-        private Player player;
+        private static Player player;
 
         private enum GameState
         {
@@ -22,9 +22,18 @@ namespace Hero_of_Novac
 
         private GameState currentGameState;
 
-        public Enemy()
+        public Enemy(Rectangle rec, Rectangle sourceRec, Texture2D tex, Vector2 pos) 
         {
+            this.rec = rec;
+            this.sourceRec = sourceRec;
+            this.tex = tex;
+            this.pos = pos;
             currentGameState = GameState.Overworld;
+        }
+
+        public static void LoadContent(Player player)
+        {
+            Enemy.player = player;
         }
 
         public override void Update(GameTime gametime)
@@ -43,7 +52,7 @@ namespace Hero_of_Novac
 
         private void OverworldUpdate(GameTime gameTime)
         {
-            if (Rec.Intersects(player.Rec))
+            if (rec.Intersects(player.Rec))
             {
                 player.Battle();
                 currentGameState = GameState.Battlemenu;
@@ -57,7 +66,19 @@ namespace Hero_of_Novac
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            switch (currentGameState)
+            {
+                case GameState.Overworld:
+                    break;
+                case GameState.Battlemenu:
+                    break;
+            }
+            spriteBatch.Draw(tex, rec, sourceRec, Color.Red);
+        }
 
+        public bool IsInBattle()
+        {
+            return currentGameState == GameState.Battlemenu;
         }
 
         public void Battle()
