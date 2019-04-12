@@ -39,7 +39,6 @@ namespace Hero_of_Novac
         private Vector2 pos;
 
         private Rectangle space;
-        private Player jon;
 
         private List<string> blackSmith;
         private List<string> armourer;
@@ -56,7 +55,7 @@ namespace Hero_of_Novac
 
         }
 
-        public NPC(Rectangle r, Texture2D t, Rectangle s,Rectangle sp, Vector2 v, bool i, char n, Speech c, Random ran,Player j)
+        public NPC(Rectangle r, Texture2D t, Rectangle s,Rectangle sp, Vector2 v, bool i, char n, Speech c, Random ran)
         {
             rec = r;
             tex = t;
@@ -66,7 +65,6 @@ namespace Hero_of_Novac
             name = n;
             chat = c;
             space = sp;
-            jon = j;
             blackSmith = new List<string>();
             armourer = new List<string>();
             shopkeep = new List<string>();
@@ -95,7 +93,7 @@ namespace Hero_of_Novac
                     else
                         chat = 0;
                 }
-                talk(chat,name);
+                Talk(chat,name);
             }
             randomMove();
             rec.X += (int)vol.X;
