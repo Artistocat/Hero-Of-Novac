@@ -11,7 +11,7 @@ namespace Hero_of_Novac
     public class BattleMenu
     {
         private static Player player;
-        private static Texture2D pixel;
+        private static Texture2D pix;
         private static SpriteFont Font;
 
         private static NavigableMenuItem[] MainChoices;
@@ -72,16 +72,11 @@ namespace Hero_of_Novac
             currentBattleState = BattleState.ChoosingAttack;
         }
 
-        public static void LoadContent(Player player, SpriteFont Font, GraphicsDevice graphicsDevice, Rectangle screenRect)
+        public static void LoadContent(Player player, SpriteFont Font, Texture2D p, Rectangle screenRect)
         {
             BattleMenu.player = player;
             BattleMenu.Font = Font;
-            pixel = new Texture2D(graphicsDevice, 1, 1);
-            Color[] pixelColors = new Color[1];
-            pixelColors[0] = Color.White;
-            pixel.SetData(pixelColors);
-
-
+            pix = p;
 
             Rectangle basicRect;
             Rectangle magicRect;
@@ -111,21 +106,21 @@ namespace Hero_of_Novac
 
             Rectangle singleRect = new Rectangle(0, 0, 1, 1);
             MainChoices = new NavigableMenuItem[3];
-            MainChoices[0] = new NavigableMenuItem(basicRect, pixel, singleRect, Color.Blue);
-            MainChoices[1] = new NavigableMenuItem(magicRect, pixel, singleRect, Color.Purple);
-            MainChoices[2] = new NavigableMenuItem(itemsRect, pixel, singleRect, Color.Green);
+            MainChoices[0] = new NavigableMenuItem(basicRect, pix, singleRect, Color.Blue);
+            MainChoices[1] = new NavigableMenuItem(magicRect, pix, singleRect, Color.Purple);
+            MainChoices[2] = new NavigableMenuItem(itemsRect, pix, singleRect, Color.Green);
 
             Basic = new NavigableMenuItem[2, 2];
-            Basic[0, 0] = new NavigableMenuItem(attackRects[0], pixel, singleRect, Color.Blue);
-            Basic[0, 1] = new NavigableMenuItem(attackRects[1], pixel, singleRect, Color.CadetBlue);
-            Basic[1, 0] = new NavigableMenuItem(attackRects[2], pixel, singleRect, Color.BlueViolet);
-            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pixel, singleRect, Color.AliceBlue);
+            Basic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Blue);
+            Basic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.CadetBlue);
+            Basic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.BlueViolet);
+            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.AliceBlue);
 
             Magic = new NavigableMenuItem[2, 2];
-            Magic[0, 0] = new NavigableMenuItem(attackRects[0], pixel, singleRect, Color.Purple);
-            Magic[0, 1] = new NavigableMenuItem(attackRects[1], pixel, singleRect, Color.Blue);
-            Magic[1, 0] = new NavigableMenuItem(attackRects[2], pixel, singleRect, Color.Blue);
-            Magic[1, 1] = new NavigableMenuItem(attackRects[3], pixel, singleRect, Color.Purple);
+            Magic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Purple);
+            Magic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Blue);
+            Magic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Blue);
+            Magic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Purple);
 
 
         }
@@ -447,7 +442,7 @@ namespace Hero_of_Novac
                 enemy.Draw(spriteBatch);
             }
 
-            spriteBatch.Draw(pixel, menuRect, Color.Black);
+            spriteBatch.Draw(pix, menuRect, Color.Black);
             switch (currentChoiceState)
             {
                 case ChoiceState.MainChoice:
