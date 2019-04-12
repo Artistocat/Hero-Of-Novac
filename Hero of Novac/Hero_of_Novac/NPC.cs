@@ -144,7 +144,7 @@ namespace Hero_of_Novac
             if (rec.Y > space.Bottom)
                 rec.Y = space.Bottom;
             oldGP = gp;
-
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
