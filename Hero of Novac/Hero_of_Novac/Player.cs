@@ -17,7 +17,7 @@ namespace Hero_of_Novac
         private Rectangle window;
 
         private const int SPRITE_WIDTH = 52;
-        private const int SPRITE_HEIGHT = 70;
+        private const int SPRITE_HEIGHT = 72;
 
         private enum GameState
         {
@@ -57,7 +57,7 @@ namespace Hero_of_Novac
             this.overworldTex = overworldTex;
             this.combatTex = combatTex;
             pixel = p;
-            sourceRec = new Rectangle(SPRITE_WIDTH, 2, SPRITE_WIDTH, SPRITE_HEIGHT);
+            sourceRec = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
 
             healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, 66, 5), 100, Color.Red);
@@ -111,17 +111,17 @@ namespace Hero_of_Novac
             else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
             {
                 if (speed.Y > 0)
-                    sourceRec.Y = 218;
+                    sourceRec.Y = 216;
                 else
-                    sourceRec.Y = 2;
+                    sourceRec.Y = 0;
 
             }
             else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
             {
                 if (speed.X > 0)
-                    sourceRec.Y = 146;
+                    sourceRec.Y = 144;
                 else
-                    sourceRec.Y = 74;
+                    sourceRec.Y = 72;
             }
             if (speed != Vector2.Zero)
             {
