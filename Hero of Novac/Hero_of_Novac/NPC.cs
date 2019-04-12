@@ -98,6 +98,40 @@ namespace Hero_of_Novac
             randomMove();
             rec.X += (int)vol.X;
             rec.Y += (int)vol.Y;
+            if (rec.X < 100)
+                rec.X = 100;
+            if (rec.X > 800)
+                rec.X = 800;
+            if (rec.Y < 100)
+                rec.Y = 100;
+            if (rec.Y > 800)
+                rec.Y = 800;
+
+            if (vol.X == 0 && vol.Y == 0)
+                source.X = source.Width;
+            else if (Math.Abs(vol.Y) > Math.Abs(vol.X))
+            {
+                if (vol.Y > 0)
+                    source.Y = 0;
+                else
+                    source.Y = 216;
+
+            }
+            else if (Math.Abs(vol.X) > Math.Abs(vol.Y))
+            {
+                if (vol.X > 0)
+                    source.Y = 144;
+                else
+                    source.Y = 74;
+            }
+            if (vol.X != 0 || vol.Y != 0)
+            {
+                if (timer % 6 == 0)
+                    source.X = (source.X + 36) % tex.Width;
+                source.X += source.Width;
+                if (source.X >= source.Width * 3)
+                    source.X = 0;
+            }
             if (rec.X < space.Left)
                 rec.X = space.Left;
             if (rec.X > space.Right)
@@ -107,6 +141,8 @@ namespace Hero_of_Novac
             if (rec.Y > space.Bottom)
                 rec.Y = space.Bottom;
             oldGP = gp;
+        }
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
