@@ -15,6 +15,18 @@ namespace Hero_of_Novac
         Texture2D tex;
         Vector2 pos;
 
+        public Rectangle Rec
+        {
+            get
+            {
+                return rec;
+            }
+        }
+
+        enum Stance
+        {
+
+        }
 
         public Entity() { }
 
