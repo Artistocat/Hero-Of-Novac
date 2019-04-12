@@ -95,7 +95,7 @@ namespace Hero_of_Novac
                     else
                         chat = 0;
                 }
-                talk(chat,name);
+                Talk(chat,name);
             }
             randomMove();
             rec.X += (int)vol.X;

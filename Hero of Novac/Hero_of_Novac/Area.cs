@@ -282,6 +282,7 @@ namespace Hero_of_Novac
 
         private void AddNPCs(SpriteFont font)
         {
+            ////////Rectangle r, Texture2D t, Rectangle s,Rectangle sp, Vector2 v, bool i, char n, Speech c, Random ran,Player j
             npcs.Add(new NPC(new Rectangle(300, 300, 52, 72), Content.Load<Texture2D>("blacksmith"), new Rectangle(10, 10, 26, 36), new Vector2(0, 0), true, 'b', Speech.None, random));
             npcs.Add(new NPC(new Rectangle(200, 300, 52, 72), Content.Load<Texture2D>("shopkeeper"), new Rectangle(0, 0, 26, 36), new Vector2(0, 0), true, 's', Speech.None, random));
             npcs.Add(new NPC(new Rectangle(400, 300, 52, 72), Content.Load<Texture2D>("priestess"), new Rectangle(0, 0, 26, 36), new Vector2(0, 0), true, 'p', Speech.None, random));
