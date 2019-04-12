@@ -34,15 +34,6 @@ namespace Hero_of_Novac
         private Vector2 playerPos;
         private Vector2 battlePos;
 
-        //private Rectangle healthBarPosTest;
-        //private int healthBarMaxWidth;
-        //public double healthPoints = 100;
-        //private double healthMaximum = 100;
-        //private Rectangle magicBarPosTest;
-        //private int magicBarMaxWidth;
-        //private double magicMaximum = 100;
-        //public double magicPoints = 100;
-
         private PercentageRectangle healthBar;
         private PercentageRectangle magicBar;
         private PercentageRectangle chargeBar;
