@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 namespace Hero_of_Novac
 {
     
-    public class Player
+    public class Player : Entity
     {
         private Rectangle window;
 
@@ -36,19 +36,11 @@ namespace Hero_of_Novac
         }
         private Vector2 playerPos;
         private Vector2 battlePos;
-        private Rectangle rec;
-        public Rectangle Rec
-        {
-            get { return rec; }
-        }
-        private Rectangle healthBarPosTest;
-        private int healthBarMaxWidth;
-        public double healthPoints = 100;
-        private double healthMaximum = 100;
-        private Rectangle magicBarPosTest;
-        private int magicBarMaxWidth;
-        private double magicMaximum = 100;
-        public double magicPoints = 100;
+
+        private PercentageRectangle healthBar;
+        private PercentageRectangle magicBar;
+        private PercentageRectangle chargeBar;
+
         public Vector2 Position
         {
             get { return playerPos; }
@@ -67,10 +59,11 @@ namespace Hero_of_Novac
             pixel = p;
             sourceRec = new Rectangle(SPRITE_WIDTH, 2, SPRITE_WIDTH, SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
-            healthBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, 66, 5);
-            magicBarPosTest = new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 15, 66, 5);
-            healthBarMaxWidth = 66; //Pixels
-            magicBarMaxWidth = 66;
+
+            healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, 66, 5), 100, Color.Red);
+            magicBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 15, 66, 5), 100, Color.Blue);
+            chargeBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 20, 66, 5), 100, Color.Gray);
+
             battlePos = new Vector2(200, 200);
             color = Color.White;
             Color[] pixelColors = new Color[1];
@@ -102,6 +95,7 @@ namespace Hero_of_Novac
 
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
         {
+            GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             if (playerPos.Y < 0)
                 playerPos.Y = 0;
             else if (playerPos.Y + sourceRec.Height > window.Height)
@@ -134,24 +128,16 @@ namespace Hero_of_Novac
                 if (timer % 6 == 0)
                     sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % overworldTex.Width;
             }
-
-            if (healthPoints == 0)
-            {
-                healthPoints = 100;
-            }
+            //Use to test health bar stuff
+            if (pad1.IsButtonDown(Buttons.DPadDown))
+                healthBar.CurrentValue--;
+            else if (pad1.IsButtonDown(Buttons.DPadUp))
+                healthBar.CurrentValue++;
             timer++;
-            healthBarPosTest.X = (int)playerPos.X - 10;
-            healthBarPosTest.Y = (int)playerPos.Y - 10;
-            magicBarPosTest.X = (int)playerPos.X - 10;
-            magicBarPosTest.Y = (int)playerPos.Y - 5;
-            if(healthPoints < healthMaximum)
-            {
-                healthBarPosTest.Width = (int)(healthBarMaxWidth / (healthMaximum / healthPoints));
-            }
-            if (healthPoints < healthMaximum)
-            {
-                magicBarPosTest.Width = (int)(magicBarMaxWidth / (magicMaximum / magicPoints));
-            }
+
+            //New health bar
+            healthBar.SetLocation((int)playerPos.X - 10, (int)playerPos.Y - 10);
+            magicBar.SetLocation((int)playerPos.X - 10, (int)playerPos.Y - 20);
         }
 
         private void UpdateBattlemenu()
@@ -163,18 +149,19 @@ namespace Hero_of_Novac
              */
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             switch (currentGameState) {
                 case GameState.Overworld:
                     spriteBatch.Draw(overworldTex, playerPos, sourceRec, color);
-                    spriteBatch.Draw(pixel, healthBarPosTest, sourceRec, Color.Red);
-                    spriteBatch.Draw(pixel, magicBarPosTest, sourceRec, Color.Blue);
+                    healthBar.Draw(spriteBatch);
+                    magicBar.Draw(spriteBatch);
                     break;
                 case GameState.Battlemenu:
                     spriteBatch.Draw(combatTex, battlePos, sourceRec, color);
-                    spriteBatch.Draw(pixel, healthBarPosTest, sourceRec, Color.Red);
-                    spriteBatch.Draw(pixel, magicBarPosTest, sourceRec, Color.Blue);
+                    healthBar.Draw(spriteBatch);
+                    magicBar.Draw(spriteBatch);
+                    chargeBar.Draw(spriteBatch);
                     break;
             }
         }

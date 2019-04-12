@@ -30,6 +30,7 @@ namespace Hero_of_Novac
         Rectangle source;
         private static Rectangle sourceHome;
         Vector2 vol;
+        Color color;
         private int timer = 0;
         private int t = 0;
         Random ran;
@@ -144,7 +145,6 @@ namespace Hero_of_Novac
                 rec.Y = space.Bottom;
             oldGP = gp;
 
-        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
