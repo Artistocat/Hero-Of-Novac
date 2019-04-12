@@ -28,7 +28,9 @@ namespace Hero_of_Novac
         Rectangle rec;
         Texture2D tex;
         Rectangle source;
+        private static Rectangle sourceHome;
         Vector2 vol;
+        Color color;
         private int timer = 0;
         private int t = 0;
         Random ran;
@@ -60,6 +62,7 @@ namespace Hero_of_Novac
             rec = r;
             tex = t;
             source = s;
+            sourceHome = source;
             vol = v;
             interact = i;
             name = n;
@@ -107,6 +110,7 @@ namespace Hero_of_Novac
             if (rec.Y > 800)
                 rec.Y = 800;
 
+            //Movement animations?
             if (vol.X == 0 && vol.Y == 0)
                 source.X = source.Width;
             else if (Math.Abs(vol.Y) > Math.Abs(vol.X))
@@ -126,12 +130,11 @@ namespace Hero_of_Novac
             }
             if (vol.X != 0 || vol.Y != 0)
             {
-                if (timer % 6 == 0)
-                    source.X = (source.X + 36) % tex.Width;
                 source.X += source.Width;
                 if (source.X >= source.Width * 3)
-                    source.X = 0;
+                    source.X = sourceHome.X;
             }
+
             if (rec.X < space.Left)
                 rec.X = space.Left;
             if (rec.X > space.Right)
@@ -142,6 +145,7 @@ namespace Hero_of_Novac
                 rec.Y = space.Bottom;
             oldGP = gp;
         }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -284,3 +288,4 @@ namespace Hero_of_Novac
         }
     }
 }
+
