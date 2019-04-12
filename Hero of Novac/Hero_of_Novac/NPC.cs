@@ -12,7 +12,7 @@ using System.IO;
 
 namespace Hero_of_Novac
 {
-    public class NPC
+    public class NPC 
     {
         private static Player player;
         private static SpriteFont font;
