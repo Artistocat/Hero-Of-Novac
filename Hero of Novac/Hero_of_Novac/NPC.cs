@@ -12,7 +12,7 @@ using System.IO;
 
 namespace Hero_of_Novac
 {
-    public class NPC 
+    public class NPC
     {
         private static Player player;
         private static SpriteFont font;
@@ -28,6 +28,7 @@ namespace Hero_of_Novac
         Rectangle rec;
         Texture2D tex;
         Rectangle source;
+        private static Rectangle sourceHome;
         Vector2 vol;
         private int timer = 0;
         private int t = 0;
@@ -55,11 +56,12 @@ namespace Hero_of_Novac
 
         }
 
-        public NPC(Rectangle r, Texture2D t, Rectangle s,Rectangle sp, Vector2 v, bool i, char n, Speech c, Random ran)
+        public NPC(Rectangle r, Texture2D t, Rectangle s, Rectangle sp, Vector2 v, bool i, char n, Speech c, Random ran)
         {
             rec = r;
             tex = t;
             source = s;
+            sourceHome = source;
             vol = v;
             interact = i;
             name = n;
@@ -74,26 +76,26 @@ namespace Hero_of_Novac
             r2 = ran.Next(-2, 3);
             ReadFileAsStrings(@"Content/chartext.txt");
             this.ran = ran;
-            
+
         }
 
         public void Update(GameTime gameTime)
         {
             gp = GamePad.GetState(PlayerIndex.One);
             timer++;
-            Rectangle r = new Rectangle(0,0,0,0);
+            Rectangle r = new Rectangle(0, 0, 0, 0);
             if (gp.Buttons.A == ButtonState.Pressed && oldGP.Buttons.A != ButtonState.Pressed)
             {
                 Vector2 v = player.getPos();
-                r = new Rectangle((int)v.X-55, (int)v.Y-55, 125, 125);
-                if(rec.Intersects(r))
+                r = new Rectangle((int)v.X - 55, (int)v.Y - 55, 125, 125);
+                if (rec.Intersects(r))
                 {
                     if ((int)chat < 4)
                         chat++;
                     else
                         chat = 0;
                 }
-                Talk(chat,name);
+                Talk(chat, name);
             }
             randomMove();
             rec.X += (int)vol.X;
@@ -107,6 +109,7 @@ namespace Hero_of_Novac
             if (rec.Y > 800)
                 rec.Y = 800;
 
+            //Movement animations?
             if (vol.X == 0 && vol.Y == 0)
                 source.X = source.Width;
             else if (Math.Abs(vol.Y) > Math.Abs(vol.X))
@@ -126,12 +129,11 @@ namespace Hero_of_Novac
             }
             if (vol.X != 0 || vol.Y != 0)
             {
-                if (timer % 6 == 0)
-                    source.X = (source.X + 36) % tex.Width;
                 source.X += source.Width;
                 if (source.X >= source.Width * 3)
-                    source.X = 0;
+                    source.X = sourceHome.X;
             }
+
             if (rec.X < space.Left)
                 rec.X = space.Left;
             if (rec.X > space.Right)
@@ -141,14 +143,13 @@ namespace Hero_of_Novac
             if (rec.Y > space.Bottom)
                 rec.Y = space.Bottom;
             oldGP = gp;
-        }
 
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, Talk(chat,name), new Vector2(0,0), Color.White);
-            spriteBatch.Draw(tex,rec,source,Color.White);
+            spriteBatch.DrawString(font, Talk(chat, name), new Vector2(0, 0), Color.White);
+            spriteBatch.Draw(tex, rec, source, Color.White);
         }
 
         public static void Load(SpriteFont f, Player player)
@@ -286,3 +287,4 @@ namespace Hero_of_Novac
         }
     }
 }
+
