@@ -1,15 +1,15 @@
-a 
-a
-a
+a Hows it going?
+a Need some protection ;)?
+a I'll see you around!
 b Hello There!
 b Want some Swords?
 b Good bye!
-s
-s
-s
-h
-h
-h
-p
-p
-p 
+s Welcome to my store!
+s Take a look around.
+s I hope you found what you were looking for!
+h 
+h 
+h 
+p Welcome to the church Jon!
+p What do you want to learn?
+p Have a blessed day!
