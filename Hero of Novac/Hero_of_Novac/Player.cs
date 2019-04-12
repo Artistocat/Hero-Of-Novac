@@ -36,6 +36,11 @@ namespace Hero_of_Novac
         }
         private Vector2 playerPos;
         private Vector2 battlePos;
+        private Rectangle rec;
+        public Rectangle Rec
+        {
+            get { return rec; }
+        }
         private Rectangle healthBarPosTest;
         private int healthBarMaxWidth;
         public double healthPoints = 100;
@@ -129,11 +134,6 @@ namespace Hero_of_Novac
                 if (timer % 6 == 0)
                     sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % overworldTex.Width;
             }
-            //Use to test health bar stuff
-            if (pad1.IsButtonDown(Buttons.DPadDown))
-                healthPoints--;
-            else if (pad1.IsButtonDown(Buttons.DPadUp) && healthPoints < healthMaximum)
-                healthPoints++;
 
             if (healthPoints == 0)
             {
