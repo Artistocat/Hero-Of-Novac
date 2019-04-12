@@ -90,7 +90,9 @@ namespace Hero_of_Novac
 
             Enemy.LoadContent(area.Player);
 
-            BattleMenu.LoadContent(area.Player, font, pix, window);
+            BattleMenu.LoadContent(area.Player, font, pix, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            Enemy.LoadContent(area.Player);
+            PercentageRectangle.LoadContent(pix);
             battleMenu = new BattleMenu(new Enemy[0]);
 
             //TESTING

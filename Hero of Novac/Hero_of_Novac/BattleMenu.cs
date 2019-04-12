@@ -26,7 +26,7 @@ namespace Hero_of_Novac
 
         enum BattleState
         {
-            BeginningBattle, Charging, Attacking, ChoosingAttack, EndingBattle
+            BeginningBattle, Charging, Attacking, EnemyAttacking, ChoosingAttack, EndingBattle
         }
         BattleState currentBattleState;
 
@@ -142,6 +142,9 @@ namespace Hero_of_Novac
                     break;
                 case BattleState.Attacking:
                     Attacking();
+                    break;
+                case BattleState.EnemyAttacking:
+                    EnemyAttacking();
                     break;
                 case BattleState.EndingBattle:
                     EndingBattle();
@@ -281,19 +284,7 @@ namespace Hero_of_Novac
         {
             if (oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed)
             {
-                Vector2 selected = new Vector2();
-                bool foundSelected = false;
-                for (int i = 0; i < 2 && !foundSelected; i++)
-                    for (int k = 0; k < 2 && !foundSelected; k++)
-                        if (Basic[i, k].isSelected)
-                        {
-                            selected.X = i;
-                            selected.Y = k;
-                            break;
-                        }
-
-                if (!foundSelected)
-                    throw new Exception("Nothing selected");
+                Vector2 selected = GetSelected(Basic);
                 currentBattleState = BattleState.Charging;
                 //TODO
             }
@@ -397,41 +388,25 @@ namespace Hero_of_Novac
                         newSelection = true;
                     }
                 }
-
-
-                //Direction dir = GetInputDirection();
-                //if (dir == Direction.Neutral)
-                //    return;
-                //for (int i = 0; i < 2; i++)
-                //{
-                //    for (int k = 0; k < 2; k++)
-                //    {
-                //        if (Basic[i, k].isSelected)
-                //        {
-                //            switch (dir)
-                //            {
-                //                case Direction.Up:
-                //                    if (k != 1)
-                //                        Magic[i, k + 1].isSelected = true;
-                //                    break;
-                //                case Direction.Down:
-                //                    if (k > 0)
-                //                        Magic[i, k - 1].isSelected = true;
-                //                    break;
-                //                case Direction.Left:
-                //                    if (i > 0)
-                //                        Magic[i - 1, k].isSelected = true;
-                //                    break;
-                //                case Direction.Right:
-                //                    if (i != 1)
-                //                        Magic[i + 1, k].isSelected = true;
-                //                    break;
-                //            }
-                //            Basic[i, k].isSelected = false;
-                //        }
-                //    }
-                //}
             }
+        }
+
+        //Give it Basic[,] or Magic[,]
+        private Vector2 GetSelected(NavigableMenuItem[,] attacks)
+        {
+            Vector2 selected = new Vector2();
+            bool foundSelected = false;
+            for (int i = 0; i < 2 && !foundSelected; i++)
+                for (int k = 0; k < 2 && !foundSelected; k++)
+                    if (attacks[i, k].isSelected)
+                    {
+                        selected.X = i;
+                        selected.Y = k;
+                        foundSelected = true;
+                    }
+            if (!foundSelected)
+                throw new Exception("Nothing selected");
+            return selected;
         }
 
         private void ChoosingItems()
@@ -445,6 +420,11 @@ namespace Hero_of_Novac
         }
 
         private void Attacking()
+        {
+
+        }
+
+        private void EnemyAttacking()
         {
 
         }
