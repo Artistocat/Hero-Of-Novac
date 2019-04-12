@@ -125,6 +125,7 @@ namespace Hero_of_Novac
 
             BattleMenu.LoadContent(player, font, GraphicsDevice, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             Enemy.LoadContent(player);
+            PercentageRectangle.LoadContent(GraphicsDevice);
             battleMenu = new BattleMenu(new Enemy[0]);
             // TODO: use this.Content to load your game content here
             village = new Area(Services, @"Content/Village", window);
