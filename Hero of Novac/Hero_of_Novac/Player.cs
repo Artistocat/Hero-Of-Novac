@@ -188,5 +188,9 @@ namespace Hero_of_Novac
         {
             currentGameState = GameState.Overworld;
         }
+        public Vector2 getPos()
+        {
+            return playerPos;
+        }
     }
 }

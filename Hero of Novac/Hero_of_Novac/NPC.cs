@@ -17,6 +17,9 @@ namespace Hero_of_Novac
         private static Player player;
         private static SpriteFont font;
 
+        GamePadState gp;
+        GamePadState oldGP;
+
         Rectangle window;
         public Rectangle Window
         {
@@ -33,6 +36,11 @@ namespace Hero_of_Novac
         private int r2;
         private Speech chat;
 
+        private Vector2 pos;
+
+        private Rectangle space;
+        private Player jon;
+
         private List<string> blackSmith;
         private List<string> armourer;
         private List<string> shopkeep;
@@ -48,7 +56,7 @@ namespace Hero_of_Novac
 
         }
 
-        public NPC(Rectangle r, Texture2D t, Rectangle s, Vector2 v, bool i, char n, Speech c, Random ran)
+        public NPC(Rectangle r, Texture2D t, Rectangle s,Rectangle sp, Vector2 v, bool i, char n, Speech c, Random ran,Player j)
         {
             rec = r;
             tex = t;
@@ -57,6 +65,8 @@ namespace Hero_of_Novac
             interact = i;
             name = n;
             chat = c;
+            space = sp;
+            jon = j;
             blackSmith = new List<string>();
             armourer = new List<string>();
             shopkeep = new List<string>();
@@ -66,23 +76,39 @@ namespace Hero_of_Novac
             r2 = ran.Next(-2, 3);
             ReadFileAsStrings(@"Content/chartext.txt");
             this.ran = ran;
+            
         }
 
         public void Update(GameTime gameTime)
         {
+            gp = GamePad.GetState(PlayerIndex.One);
             timer++;
+            Rectangle r = new Rectangle(0,0,0,0);
+            if (gp.Buttons.A == ButtonState.Pressed && oldGP.Buttons.A != ButtonState.Pressed)
+            {
+                Vector2 v = player.getPos();
+                r = new Rectangle((int)v.X-55, (int)v.Y-55, 125, 125);
+                if(rec.Intersects(r))
+                {
+                    if ((int)chat < 4)
+                        chat++;
+                    else
+                        chat = 0;
+                }
+                talk(chat,name);
+            }
             randomMove();
             rec.X += (int)vol.X;
             rec.Y += (int)vol.Y;
-            if (rec.X < 100)
-                rec.X = 100;
-            if (rec.X > 800)
-                rec.X = 800;
-            if (rec.Y < 100)
-                rec.Y = 100;
-            if (rec.Y > 800)
-                rec.Y = 800;
-            
+            if (rec.X < space.Left)
+                rec.X = space.Left;
+            if (rec.X > space.Right)
+                rec.X = space.Right;
+            if (rec.Y < space.Top)
+                rec.Y = space.Top;
+            if (rec.Y > space.Bottom)
+                rec.Y = space.Bottom;
+            oldGP = gp;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -189,14 +215,14 @@ namespace Hero_of_Novac
 
         public void randomMove()
         {
-            if (r1 > 0)
-                r1 = 2;
-            if (r1 < 0)
-                r1 = -2;
-            if (r2 > 0)
-                r2 = 2;
-            if (r2 < 0)
-                r2 = -2;
+            //if (r1 > 0)
+            //    r1 = 2;
+            //if (r1 < 0)
+            //    r1 = -2;
+            //if (r2 > 0)
+            //    r2 = 2;
+            //if (r2 < 0)
+            //    r2 = -2;
             if (timer % 60 == 0 && ranMov == false)
             {
                 // change the second number for how often you want to proc it
