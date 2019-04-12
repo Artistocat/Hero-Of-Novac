@@ -21,6 +21,10 @@ namespace Hero_of_Novac
         GamePadState oldGP;
 
         Rectangle window;
+        public Rectangle Window
+        {
+            set { window = value; }
+        }
         Rectangle rec;
         Texture2D tex;
         Rectangle source;
@@ -109,17 +113,17 @@ namespace Hero_of_Novac
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font,talk(chat,name),new Vector2(rec.X + 20,rec.Y - 20), Color.White);
+            spriteBatch.DrawString(font, Talk(chat,name), new Vector2(0,0), Color.White);
             spriteBatch.Draw(tex,rec,source,Color.White);
         }
 
-        public static void load(SpriteFont f, Player player)
+        public static void Load(SpriteFont f, Player player)
         {
             font = f;
             NPC.player = player;
         }
 
-        public string talk(Speech s, char c)
+        public string Talk(Speech s, char c)
         {
 
             if (s == Speech.Greeting)
@@ -208,10 +212,7 @@ namespace Hero_of_Novac
                 Console.WriteLine("The file could not be read:\n" + e.Message);
             }
         }
-        public void windowget(Rectangle r)
-        {
-            window = r;
-        }
+
         public void randomMove()
         {
             //if (r1 > 0)
