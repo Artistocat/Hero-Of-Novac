@@ -29,6 +29,8 @@ namespace Hero_of_Novac
         private int r2;
         private Speech chat;
 
+        private Rectangle space;
+
         private List<string> blackSmith;
         private List<string> armourer;
         private List<string> shopkeep;
@@ -44,7 +46,7 @@ namespace Hero_of_Novac
 
         }
 
-        public NPC(Rectangle r, Texture2D t, Rectangle s, Vector2 v, bool i, char n, Speech c, Random ran)
+        public NPC(Rectangle r, Texture2D t, Rectangle s,Rectangle sp, Vector2 v, bool i, char n, Speech c, Random ran)
         {
             rec = r;
             tex = t;
@@ -53,6 +55,7 @@ namespace Hero_of_Novac
             interact = i;
             name = n;
             chat = c;
+            space = sp;
             blackSmith = new List<string>();
             armourer = new List<string>();
             shopkeep = new List<string>();
@@ -67,18 +70,20 @@ namespace Hero_of_Novac
         public void Update(GameTime gameTime)
         {
             timer++;
+            if(GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
+
             randomMove();
             rec.X += (int)vol.X;
             rec.Y += (int)vol.Y;
-            if (rec.X < 100)
-                rec.X = 100;
-            if (rec.X > 800)
-                rec.X = 800;
-            if (rec.Y < 100)
-                rec.Y = 100;
-            if (rec.Y > 800)
-                rec.Y = 800;
-            
+            if (rec.X < space.Left)
+                rec.X = space.Left;
+            if (rec.X > space.Right)
+                rec.X = space.Right;
+            if (rec.Y < space.Top)
+                rec.Y = space.Top;
+            if (rec.Y > space.Bottom)
+                rec.Y = space.Bottom;
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
