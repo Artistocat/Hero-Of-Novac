@@ -51,7 +51,7 @@ namespace Hero_of_Novac
 
         public Player(Texture2D defaultTex, Texture2D combatTex, Texture2D p, Rectangle window)
         {
-            currentGameState = GameState.Overworld;
+            currentGameState = GameState.Overworld; 
             this.window = window;
             this.overWorldTex = defaultTex;
             this.combatTex = combatTex;
