@@ -35,11 +35,16 @@ namespace Hero_of_Novac
         Dictionary<string, Rectangle> sourceRecs;
         Dictionary<string, Texture2D> tileSheets;
 
+        private Texture2D pix;
+
         private Player player;
         public Player Player
         {
             get { return player; }
         }
+
+        private List<NPC> npcs;
+        private List<Enemy> enemies;
 
         ContentManager content;
         public ContentManager Content
@@ -55,7 +60,7 @@ namespace Hero_of_Novac
         /// <param name="serviceProvider">Provides a service provider.</param>
         /// <param name="path">The path to the folder holding the level data.</param>
         /// <param name="window">A rectangle representing the veiwing window of the game.</param>
-        public Area(IServiceProvider serviceProvider, string path, Rectangle window)
+        public Area(IServiceProvider serviceProvider, string path, Texture2D p, Rectangle window)
         {
             content = new ContentManager(serviceProvider, "Content");
 
@@ -82,7 +87,11 @@ namespace Hero_of_Novac
             tiles = new List<Tile>();
             LoadTiles(path + "/terrain.txt");
 
-            player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), window);
+            player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), pix, window);
+
+            npcs = new List<NPC>();
+            AddNPCs();
+            enemies = new List<Enemy>();
         }
 
         /// <summary>
@@ -264,6 +273,13 @@ namespace Hero_of_Novac
             tiles.Add(new Tile(new Vector2(x, y), tileSource, tileSheets["water"], true));
         }
 
+        private void AddNPCs()
+        {
+            SpriteFont font = Content.Load<SpriteFont>("SpriteFont1");
+            npcs.Add(new NPC(new Rectangle(100, 100, 100, 100), pix, new Vector2(100, 100), new Vector2(0, 0), true, 'b'));
+            npcs[0].load(font);
+        }
+
         /// <summary>
         /// Updates the area.
         /// </summary>
@@ -304,9 +320,25 @@ namespace Hero_of_Novac
 
             player.Update(gameTime, speed);
 
+            foreach (Enemy e in enemies)
+                e.Update(gameTime);
+
+            foreach (NPC n in npcs)
+                n.Update(gameTime);
+
             foreach (Tile t in tiles)
                 if (t.IsAnimated)
                     t.Update(gameTime);
+        }
+
+        public void Battle()
+        {
+
+            player.Battle();
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Battle();
+            }
         }
 
         /// <summary>
@@ -321,6 +353,10 @@ namespace Hero_of_Novac
                 if (tileRec.Intersects(window))
                     spriteBatch.Draw(t.Texture, tileRec, t.SourceRec, Color.White);
             }
+            foreach (Enemy e in enemies)
+                e.Draw(spriteBatch);
+            foreach (NPC n in npcs)
+                n.Draw(spriteBatch);
             player.Draw(spriteBatch);
         }
     }

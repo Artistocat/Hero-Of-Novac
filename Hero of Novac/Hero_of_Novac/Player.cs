@@ -26,7 +26,7 @@ namespace Hero_of_Novac
 
         private GameState currentGameState;
 
-        private Texture2D defaultTex;
+        private Texture2D overworldTex;
         private Texture2D combatTex;
         private Texture2D pixel;
         private Rectangle sourceRec;
@@ -50,14 +50,14 @@ namespace Hero_of_Novac
         private Color color;
         private int timer;
 
-        public Player(Texture2D defaultTex, Texture2D combatTex, Texture2D p, Rectangle window)
+        public Player(Texture2D overworldTex, Texture2D combatTex, Texture2D p, Rectangle window)
         {
             currentGameState = GameState.Overworld;
             this.window = window;
 
-            this.overWorldTex = defaultTex;
+            this.overworldTex = overworldTex;
             this.combatTex = combatTex;
-            this.pixel = p;
+            pixel = p;
             sourceRec = new Rectangle(SPRITE_WIDTH, 2, SPRITE_WIDTH, SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
             battlePos = new Vector2(200, 200);
@@ -115,7 +115,7 @@ namespace Hero_of_Novac
             if (speed != Vector2.Zero)
             {
                 if (timer % 6 == 0)
-                    sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % overWorldTex.Width;
+                    sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % overworldTex.Width;
             }
             //Use to test health bar stuff
             //if (pad1.IsButtonDown(Buttons.DPadDown))
@@ -144,7 +144,7 @@ namespace Hero_of_Novac
         {
             switch (currentGameState) {
                 case GameState.Overworld:
-                    spriteBatch.Draw(overWorldTex, playerPos, sourceRec, color);
+                    spriteBatch.Draw(overworldTex, playerPos, sourceRec, color);
                     spriteBatch.Draw(pixel, healthBarPosTest, sourceRec, Color.Red);
                     spriteBatch.Draw(pixel, magicBarPosTest, sourceRec, Color.Blue);
                     break;
