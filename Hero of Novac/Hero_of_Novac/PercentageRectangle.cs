@@ -55,12 +55,9 @@ namespace Hero_of_Novac
             partialRect.Y = y + 1;
         }
 
-        public static void LoadContent(GraphicsDevice graphicsDevice)
+        public static void LoadContent(Texture2D texture)
         {
-            pix = new Texture2D(graphicsDevice, 1, 1);
-            Color[] pixelColors = new Color[1];
-            pixelColors[0] = Color.White;
-            pix.SetData(pixelColors);
+            pix = texture;
         }
 
         public void Draw(SpriteBatch spriteBatch)

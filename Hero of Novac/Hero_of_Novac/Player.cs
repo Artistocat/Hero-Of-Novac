@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 namespace Hero_of_Novac
 {
     
-    public class Player
+    public class Player : Entity
     {
         private Rectangle window;
 
@@ -95,6 +95,7 @@ namespace Hero_of_Novac
 
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
         {
+            GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             if (playerPos.Y < 0)
                 playerPos.Y = 0;
             else if (playerPos.Y + sourceRec.Height > window.Height)
@@ -148,11 +149,11 @@ namespace Hero_of_Novac
              */
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             switch (currentGameState) {
                 case GameState.Overworld:
-                    spriteBatch.Draw(overWorldTex, playerPos, sourceRec, color);
+                    spriteBatch.Draw(overworldTex, playerPos, sourceRec, color);
                     healthBar.Draw(spriteBatch);
                     magicBar.Draw(spriteBatch);
                     break;

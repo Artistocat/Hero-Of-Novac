@@ -36,7 +36,7 @@ namespace Hero_of_Novac
             Enemy.player = player;
         }
 
-        public override void Update(GameTime gametime)
+        public void Update(GameTime gametime)
         {
             switch (currentGameState)
             {
