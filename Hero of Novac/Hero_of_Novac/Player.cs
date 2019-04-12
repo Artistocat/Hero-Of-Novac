@@ -74,7 +74,7 @@ namespace Hero_of_Novac
 
         public void death()
         {
-
+            
         }
 
         public override void Update(GameTime gameTime)
@@ -106,7 +106,7 @@ namespace Hero_of_Novac
             else if (playerPos.X + sourceRec.Width > window.Width)
                 playerPos.X = window.Width - sourceRec.Width;
 
-
+            //Sprite updates based on velocity
             if (vol.X == 0 && vol.Y == 0)
                 sourceRec.X = SPRITE_WIDTH;
             else if (Math.Abs(vol.Y) > Math.Abs(vol.X))

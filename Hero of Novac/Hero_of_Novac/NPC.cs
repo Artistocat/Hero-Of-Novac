@@ -78,7 +78,33 @@ namespace Hero_of_Novac
                 rec.Y = 100;
             if (rec.Y > 800)
                 rec.Y = 800;
-            
+
+            if (vol.X == 0 && vol.Y == 0)
+                source.X = source.Width;
+            else if (Math.Abs(vol.Y) > Math.Abs(vol.X))
+            {
+                if (vol.Y > 0)
+                    source.Y = 0;
+                else
+                    source.Y = 216;
+
+            }
+            else if (Math.Abs(vol.X) > Math.Abs(vol.Y))
+            {
+                if (vol.X > 0)
+                    source.Y = 144;
+                else
+                    source.Y = 74;
+            }
+            if (vol.X != 0 || vol.Y != 0)
+            {
+                if (timer % 6 == 0)
+                    source.X = (source.X + 36) % tex.Width;
+                source.X += source.Width;
+                if (source.X >= source.Width * 3)
+                    source.X = 0;
+            }
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -188,14 +214,14 @@ namespace Hero_of_Novac
         }
         public void randomMove()
         {
-            if (r1 > 0)
-                r1 = 2;
-            if (r1 < 0)
-                r1 = -2;
-            if (r2 > 0)
-                r2 = 2;
-            if (r2 < 0)
-                r2 = -2;
+            //if (r1 > 0)
+            //    r1 = 2;
+            //if (r1 < 0)
+            //    r1 = -2;
+            //if (r2 > 0)
+            //    r2 = 2;
+            //if (r2 < 0)
+            //    r2 = -2;
             if (timer % 60 == 0 && ranMov == false)
             {
                 // change the second number for how often you want to proc it
