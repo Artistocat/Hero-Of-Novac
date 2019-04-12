@@ -75,7 +75,7 @@ namespace Hero_of_Novac
             r2 = ran.Next(-2, 3);
             ReadFileAsStrings(@"Content/chartext.txt");
             this.ran = ran;
-            color = new Color(ran.Next(0,255), ran.Next(0,255), ran.Next(0,255));
+
         }
 
         public void Update(GameTime gameTime)
@@ -144,12 +144,9 @@ namespace Hero_of_Novac
             oldGP = gp;
 
 
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(tex, space, color);
-            spriteBatch.DrawString(font, Talk(chat, name), new Vector2(rec.X+10, rec.Y-1), Color.White);
+            spriteBatch.DrawString(font, Talk(chat, name), new Vector2(0, 0), Color.White);
             spriteBatch.Draw(tex, rec, source, Color.White);
         }
 
