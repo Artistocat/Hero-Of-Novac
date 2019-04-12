@@ -146,6 +146,7 @@ namespace Hero_of_Novac
             oldGP = gp;
         }
 
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font, Talk(chat, name), new Vector2(0, 0), Color.White);
