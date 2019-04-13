@@ -36,16 +36,16 @@ namespace Hero_of_Novac
         }
         private Vector2 playerPos;
         private Vector2 battlePos;
-
-        private PercentageRectangle healthBar;
-        private PercentageRectangle magicBar;
-        private PercentageRectangle chargeBar;
-
         public Vector2 Position
         {
             get { return playerPos; }
             set { playerPos = value; }
         }
+
+        private PercentageRectangle healthBar;
+        private PercentageRectangle magicBar;
+        private PercentageRectangle chargeBar;
+        
         private Color color;
         private int timer;
 
@@ -140,6 +140,16 @@ namespace Hero_of_Novac
             magicBar.SetLocation((int)playerPos.X - 10, (int)playerPos.Y - 20);
         }
 
+        public void MoveY(int speed)
+        {
+            playerPos.Y -= speed;
+        }
+
+        public void MoveX(int speed)
+        {
+            playerPos.X += speed;
+        }
+
         private void UpdateBattlemenu()
         {
             //TODO
@@ -174,10 +184,6 @@ namespace Hero_of_Novac
         public void Overworld()
         {
             currentGameState = GameState.Overworld;
-        }
-        public Vector2 getPos()
-        {
-            return playerPos;
         }
     }
 }
