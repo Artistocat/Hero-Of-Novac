@@ -16,8 +16,11 @@ namespace Hero_of_Novac
     {
         private Rectangle window;
 
-        private const int SPRITE_WIDTH = 52;
-        private const int SPRITE_HEIGHT = 72;
+        private const int OVERWORLD_SPRITE_WIDTH = 52;
+        private const int OVERWORLD_SPRITE_HEIGHT = 72;
+        private const int BATTLE_SPRITE_WIDTH = 96;
+        private const int BATTLE_SPRITE_HEIGHT = 96;
+
 
         private enum GameState
         {
@@ -29,10 +32,11 @@ namespace Hero_of_Novac
         private Texture2D overworldTex;
         private Texture2D combatTex;
         private Texture2D pixel;
-        private Rectangle sourceRec;
+        private Rectangle sourceRecWorld;
+        private Rectangle sourceRecBattle;
         public Rectangle SourceRec
         {
-            get { return sourceRec; }
+            get { return sourceRecWorld; }
         }
         private Vector2 playerPos;
         private Vector2 battlePos;
@@ -40,6 +44,11 @@ namespace Hero_of_Novac
         {
             get { return playerPos; }
             set { playerPos = value; }
+        }
+        private Rectangle hitbox;
+        public Rectangle Hitbox
+        {
+            get { return hitbox; }
         }
 
         //private int healthPoints;
@@ -62,6 +71,8 @@ namespace Hero_of_Novac
         //private PercentageRectangle battleMagicBar;
         //private PercentageRectangle battleChargeBar;
         
+        private bool dead = false;
+        
         private Color color;
         private int timer;
 
@@ -73,8 +84,9 @@ namespace Hero_of_Novac
             this.overworldTex = overworldTex;
             this.combatTex = combatTex;
             pixel = p;
-            sourceRec = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
-            playerPos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
+            sourceRecWorld = new Rectangle(OVERWORLD_SPRITE_WIDTH, 0, OVERWORLD_SPRITE_WIDTH, OVERWORLD_SPRITE_HEIGHT);
+            sourceRecBattle = new Rectangle((int)playerPos.X, (int)playerPos.Y, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
+            playerPos = new Vector2((window.Width - OVERWORLD_SPRITE_WIDTH) / 2, (window.Height - OVERWORLD_SPRITE_HEIGHT) / 2);
 
             healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, barWidth, barHeight), 100, Color.Red);
             magicBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 15, barWidth, barHeight), 100, Color.Blue);
@@ -95,24 +107,21 @@ namespace Hero_of_Novac
 
             battlePos = new Vector2(200, 200);
             color = Color.White;
-            Color[] pixelColors = new Color[1];
-            pixelColors[0] = Color.White;
-            pixel.SetData(pixelColors);
+            pixel = p;
             timer = 0;
 
-            rec = new Rectangle((int)playerPos.X, (int)playerPos.Y, sourceRec.Width, sourceRec.Height);
+            hitbox = new Rectangle((int)playerPos.X + (sourceRecWorld.Width - 32) / 2, (int)playerPos.Y + sourceRecWorld.Height - 32, 32, 32);
         }
 
         public void death()
         {
-
+            dead = true;
+            sourceRecBattle.X = BATTLE_SPRITE_WIDTH * 6;
+            sourceRecBattle.Y = BATTLE_SPRITE_HEIGHT * 5;
         }
 
         public void Update(GameTime gameTime, Vector2 speed)
         {
-            //testing
-            Console.WriteLine(healthBar.CurrentValue);
-
             switch (currentGameState)
             {
                 case GameState.Overworld:
@@ -122,51 +131,69 @@ namespace Hero_of_Novac
                     UpdateBattlemenu();
                     break;
             }
-            rec = new Rectangle((int)playerPos.X, (int)playerPos.Y, sourceRec.Width, sourceRec.Height);
+            rec = new Rectangle((int)playerPos.X, (int)playerPos.Y, sourceRecWorld.Width, sourceRecWorld.Height);
         }
 
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
         {
+            hitbox.X = (int)playerPos.X + (sourceRecWorld.Width - 32) / 2;
+            hitbox.Y = (int)playerPos.Y + sourceRecWorld.Height - 32;
+
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
-            if (playerPos.Y < 0)
-                playerPos.Y = 0;
-            else if (playerPos.Y + sourceRec.Height > window.Height)
-                playerPos.Y = window.Height - sourceRec.Height;
-            if (playerPos.X < 0)
-                playerPos.X = 0;
-            else if (playerPos.X + sourceRec.Width > window.Width)
-                playerPos.X = window.Width - sourceRec.Width;
+            //World Border
+            if (hitbox.Top < 0)
+                playerPos.Y = -sourceRecWorld.Height + 32;
+            else if (hitbox.Bottom > window.Height)
+                playerPos.Y = window.Height - sourceRecWorld.Height;
+            if (hitbox.Left < 0)
+                playerPos.X = -(sourceRecWorld.Width - 32) / 2;
+            else if (hitbox.Right > window.Width)
+                playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - 32) / 2;
 
+            if (!dead)
+            {
+                if (speed == Vector2.Zero)
+                    sourceRecWorld.X = OVERWORLD_SPRITE_WIDTH;
+                else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
+                {
+                    if (speed.Y > 0)
+                        sourceRecWorld.Y = 216;
+                    else
+                        sourceRecWorld.Y = 0;
 
-            if (speed == Vector2.Zero)
-                sourceRec.X = SPRITE_WIDTH;
-            else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
-            {
-                if (speed.Y > 0)
-                    sourceRec.Y = 216;
-                else
-                    sourceRec.Y = 0;
-
-            }
-            else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
-            {
-                if (speed.X > 0)
-                    sourceRec.Y = 144;
-                else
-                    sourceRec.Y = 72;
-            }
-            if (speed != Vector2.Zero)
-            {
-                if (timer % 6 == 0)
-                    sourceRec.X = (sourceRec.X + SPRITE_WIDTH) % overworldTex.Width;
-            }
+                }
+                else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
+                {
+                    if (speed.X > 0)
+                        sourceRecWorld.Y = 144;
+                    else
+                        sourceRecWorld.Y = 72;
+                }
+                if (speed != Vector2.Zero)
+                {
+                    if (timer % 6 == 0)
+                        sourceRecWorld.X = (sourceRecWorld.X + OVERWORLD_SPRITE_WIDTH) % overworldTex.Width;
+                }
+            if (healthBar.CurrentValue <= 0)
+                death();
+        }
             //Use to test health bar stuff
             if (pad1.IsButtonDown(Buttons.DPadDown))
                 healthBar.CurrentValue--;
             else if (pad1.IsButtonDown(Buttons.DPadUp))
                 healthBar.CurrentValue++;
             timer++;
-
+            //Testing death stuff
+            if (pad1.IsButtonDown(Buttons.LeftShoulder))
+            {
+                healthBar.CurrentValue = 0;
+                death();
+            }
+            if (pad1.IsButtonDown(Buttons.RightShoulder))
+            {
+                healthBar.CurrentValue = 100;
+                dead = false;
+            }
             //New health bar
             healthBar.SetLocation((int)playerPos.X - 10, (int)playerPos.Y - 10);
             magicBar.SetLocation((int)playerPos.X - 10, (int)playerPos.Y - 20);
@@ -177,12 +204,14 @@ namespace Hero_of_Novac
 
         public void MoveY(int speed)
         {
-            playerPos.Y -= speed;
+            if (!dead)
+                playerPos.Y -= speed;
         }
 
         public void MoveX(int speed)
         {
-            playerPos.X += speed;
+            if (!dead)
+                playerPos.X += speed;
         }
 
         private void UpdateBattlemenu()
@@ -202,12 +231,15 @@ namespace Hero_of_Novac
         {
             switch (currentGameState) {
                 case GameState.Overworld:
-                    spriteBatch.Draw(overworldTex, playerPos, sourceRec, color);
+                    if (dead)
+                        spriteBatch.Draw(combatTex, playerPos, sourceRecBattle, color);
+                    else
+                        spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color);
                     healthBar.Draw(spriteBatch, false);
                     magicBar.Draw(spriteBatch, false);
                     break;
                 case GameState.Battlemenu:
-                    spriteBatch.Draw(combatTex, battlePos, sourceRec, color);
+                    spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color);
                     healthBar.Draw(spriteBatch, true);
                     magicBar.Draw(spriteBatch, true);
                     chargeBar.Draw(spriteBatch, true);

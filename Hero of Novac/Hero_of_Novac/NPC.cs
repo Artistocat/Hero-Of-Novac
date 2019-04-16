@@ -16,7 +16,7 @@ namespace Hero_of_Novac
     {
         private static Player player;
         private static SpriteFont font;
-
+        private static Texture2D bubblez;
         GamePadState gp;
         GamePadState oldGP;
 
@@ -39,7 +39,6 @@ namespace Hero_of_Novac
         private Speech chat;
 
         private Vector2 pos;
-
         private Rectangle space;
 
         private List<string> blackSmith;
@@ -101,16 +100,7 @@ namespace Hero_of_Novac
             randomMove();
             rec.X += (int)vol.X;
             rec.Y += (int)vol.Y;
-            //if (rec.X < 100)
-            //    rec.X = 100;
-            //if (rec.X > 800)
-            //    rec.X = 800;
-            //if (rec.Y < 100)
-            //    rec.Y = 100;
-            //if (rec.Y > 800)
-            //    rec.Y = 800;
 
-            //Movement animations?
             if (vol.X == 0 && vol.Y == 0)
                 source.X = source.Width;
             else if (Math.Abs(vol.Y) >= Math.Abs(vol.X))
@@ -128,7 +118,7 @@ namespace Hero_of_Novac
                 else
                     source.Y = 72;
             }
-            if (vol  != Vector2.Zero)
+            if (vol != Vector2.Zero)
             {
                 if (timer % 6 == 0)
                     source.X = (source.X + source.Width) % tex.Width;
@@ -157,14 +147,17 @@ namespace Hero_of_Novac
             space.X -= speed;
         }
 
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, Talk(chat, name), new Vector2(0, 0), Color.White);
+            spriteBatch.DrawString(font, Talk(chat, name), new Vector2(rec.X - 50, rec.Y - 20), Color.White);
+            spriteBatch.Draw(bubblez,new Rectangle(rec.X + 10, rec.Y-20,30,30),new Rectangle(32,320,32,32),Color.White);//Content.Load<Texture2D>("blacksmith"),new Vector2(rec.X + 18, rec.Y - 16), new Rectangle()
             spriteBatch.Draw(tex, rec, source, Color.White);
         }
 
-        public static void Load(SpriteFont f, Player player)
+        public static void Load(SpriteFont f, Player player, Texture2D b)
         {
+            bubblez = b;
             font = f;
             NPC.player = player;
         }
@@ -231,6 +224,7 @@ namespace Hero_of_Novac
                     {
                         string line = reader.ReadLine();
                         char firstChar = line[0];
+                        line = line.Substring(2);
                         switch (firstChar)
                         {
                             case 'b':
@@ -261,14 +255,6 @@ namespace Hero_of_Novac
 
         public void randomMove()
         {
-            //if (r1 > 0)
-            //    r1 = 2;
-            //if (r1 < 0)
-            //    r1 = -2;
-            //if (r2 > 0)
-            //    r2 = 2;
-            //if (r2 < 0)
-            //    r2 = -2;
             if (timer % 60 == 0 && ranMov == false)
             {
                 // change the second number for how often you want to proc it

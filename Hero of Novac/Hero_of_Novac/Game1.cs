@@ -41,7 +41,7 @@ namespace Hero_of_Novac
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
@@ -81,7 +81,8 @@ namespace Hero_of_Novac
             font = Content.Load<SpriteFont>("SpriteFont1");
             area = new Area(Services, @"Content/Village", pix, window);
             
-            NPC.Load(font, area.Player);
+            NPC.Load(font, area.Player, Content.Load<Texture2D>("speechballoons"));
+
             Enemy.LoadContent(area.Player);
             BattleMenu.LoadContent(area.Player, font, pix, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             PercentageRectangle.LoadContent(pix, font);

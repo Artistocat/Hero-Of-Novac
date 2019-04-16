@@ -281,10 +281,10 @@ namespace Hero_of_Novac
 
         private void AddNPCs(SpriteFont font)
         {
-            npcs.Add(new NPC(new Rectangle(300, 300, 52, 72), Content.Load<Texture2D>("blacksmith"), new Rectangle(52, 0, 52, 72), new Rectangle(0, 0, 300, 300), new Vector2(0, 0), true, 'b', Speech.None, random));
-            npcs.Add(new NPC(new Rectangle(200, 300, 52, 72), Content.Load<Texture2D>("shopkeeper"), new Rectangle(52, 0, 52, 72), new Rectangle(0, 300, 300, 300), new Vector2(0, 0), true, 's', Speech.None, random));
-            npcs.Add(new NPC(new Rectangle(400, 300, 52, 72), Content.Load<Texture2D>("priestess"), new Rectangle(52, 0, 52, 72), new Rectangle(300, 0, 300, 300), new Vector2(0, 0), true, 'p', Speech.None, random));
-            npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), Content.Load<Texture2D>("armour"), new Rectangle(52, 0, 52, 72), new Rectangle(300, 300, 300, 300), new Vector2(0, 0), true, 'a', Speech.None, random));
+            npcs.Add(new NPC(new Rectangle(300, 300, 52, 72), Content.Load<Texture2D>("blacksmith"), new Rectangle(52, 0, 52, 72), new Rectangle(100, 100, 200, 200), new Vector2(0, 0), true, 'b', Speech.None, random));
+            npcs.Add(new NPC(new Rectangle(200, 300, 52, 72), Content.Load<Texture2D>("shopkeeper"), new Rectangle(52, 0, 52, 72), new Rectangle(0, 400, 200, 200), new Vector2(0, 0), true, 's', Speech.None, random));
+            npcs.Add(new NPC(new Rectangle(400, 300, 52, 72), Content.Load<Texture2D>("priestess"), new Rectangle(52, 0, 52, 72), new Rectangle(400, 0, 200, 200), new Vector2(0, 0), true, 'p', Speech.None, random));
+            npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), Content.Load<Texture2D>("armour"), new Rectangle(52, 0, 52, 72), new Rectangle(500, 500, 200, 200), new Vector2(0, 0), true, 'a', Speech.None, random));
             foreach (NPC n in npcs)
                 n.Window = window;
         }
@@ -302,6 +302,8 @@ namespace Hero_of_Novac
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             Vector2 speed = pad1.ThumbSticks.Left * 4;
+            speed.X = (int)Math.Round(speed.X);
+            speed.Y = (int)Math.Round(speed.Y);
 
             if (speed.Y > 0)
             {
