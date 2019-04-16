@@ -101,16 +101,7 @@ namespace Hero_of_Novac
             randomMove();
             rec.X += (int)vol.X;
             rec.Y += (int)vol.Y;
-            //if (rec.X < 100)
-            //    rec.X = 100;
-            //if (rec.X > 800)
-            //    rec.X = 800;
-            //if (rec.Y < 100)
-            //    rec.Y = 100;
-            //if (rec.Y > 800)
-            //    rec.Y = 800;
 
-            //Movement animations?
             if (vol.X == 0 && vol.Y == 0)
                 source.X = source.Width;
             else if (Math.Abs(vol.Y) >= Math.Abs(vol.X))
@@ -261,14 +252,6 @@ namespace Hero_of_Novac
 
         public void randomMove()
         {
-            //if (r1 > 0)
-            //    r1 = 2;
-            //if (r1 < 0)
-            //    r1 = -2;
-            //if (r2 > 0)
-            //    r2 = 2;
-            //if (r2 < 0)
-            //    r2 = -2;
             if (timer % 60 == 0 && ranMov == false)
             {
                 // change the second number for how often you want to proc it
