@@ -118,7 +118,7 @@ namespace Hero_of_Novac
                 else
                     source.Y = 72;
             }
-            if (vol  != Vector2.Zero)
+            if (vol != Vector2.Zero)
             {
                 if (timer % 6 == 0)
                     source.X = (source.X + source.Width) % tex.Width;
@@ -146,6 +146,8 @@ namespace Hero_of_Novac
             rec.X -= speed;
             space.X -= speed;
         }
+
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font, Talk(chat, name), new Vector2(rec.X - 50, rec.Y - 20), Color.White);
