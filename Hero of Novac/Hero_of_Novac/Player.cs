@@ -71,7 +71,7 @@ namespace Hero_of_Novac
             pixel.SetData(pixelColors);
             timer = 0;
 
-            rec = new Rectangle((int)playerPos.X, (int)playerPos.Y, sourceRec.Width, sourceRec.Height);
+            rec = new Rectangle((int)playerPos.X + (sourceRec.Width - 32) / 2, (int)playerPos.Y + sourceRec.Height - 32, sourceRec.Width, sourceRec.Height);
         }
 
         public void death()
