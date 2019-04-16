@@ -303,6 +303,8 @@ namespace Hero_of_Novac
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             Vector2 speed = pad1.ThumbSticks.Left * 4;
+            speed.X = (int)Math.Round(speed.X);
+            speed.Y = (int)Math.Round(speed.Y);
 
             if (speed.Y > 0)
             {
