@@ -54,7 +54,7 @@ namespace Hero_of_Novac
         private PercentageRectangle healthBar;
         private PercentageRectangle magicBar;
         private PercentageRectangle chargeBar;
-        private Boolean dead = false;
+        private bool dead = false;
         
         private Color color;
         private int timer;
@@ -76,18 +76,15 @@ namespace Hero_of_Novac
 
             battlePos = new Vector2(200, 200);
             color = Color.White;
-            Color[] pixelColors = new Color[1];
-            pixelColors[0] = Color.White;
-            pixel.SetData(pixelColors);
+            pixel = p;
             timer = 0;
 
-            hitbox = new Rectangle((int)playerPos.X + (sourceRec.Width - 32) / 2, (int)playerPos.Y + sourceRec.Height - 32, sourceRec.Width, sourceRec.Height);
+            hitbox = new Rectangle((int)playerPos.X + (sourceRecWorld.Width - 32) / 2, (int)playerPos.Y + sourceRecWorld.Height - 32, 32, 32);
         }
 
         public void death()
         {
             dead = true;
-            sourceRec
 
         }
 
@@ -107,15 +104,18 @@ namespace Hero_of_Novac
 
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
         {
+            hitbox.X = (int)playerPos.X + (sourceRecWorld.Width - 32) / 2;
+            hitbox.Y = (int)playerPos.Y + sourceRecWorld.Height - 32;
+
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
-            if (playerPos.Y < 0)
-                playerPos.Y = 0;
-            else if (playerPos.Y + sourceRecWorld.Height > window.Height)
+            if (hitbox.Top < 0)
+                playerPos.Y = -sourceRecWorld.Height + 32;
+            else if (hitbox.Bottom > window.Height)
                 playerPos.Y = window.Height - sourceRecWorld.Height;
-            if (playerPos.X < 0)
-                playerPos.X = 0;
-            else if (playerPos.X + sourceRecWorld.Width > window.Width)
-                playerPos.X = window.Width - sourceRecWorld.Width;
+            if (hitbox.Left < 0)
+                playerPos.X = -(sourceRecWorld.Width - 32) / 2;
+            else if (hitbox.Right > window.Width)
+                playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - 32) / 2;
 
 
             if (speed == Vector2.Zero)
@@ -175,10 +175,8 @@ namespace Hero_of_Novac
         {
             switch (currentGameState) {
                 case GameState.Overworld:
-                    if (dead == true)
-                    {
+                    if (dead)
                         spriteBatch.Draw(combatTex, playerPos, sourceRecBattle, color);
-                    }
                     else
                         spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color);
                     healthBar.Draw(spriteBatch);
