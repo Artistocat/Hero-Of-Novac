@@ -39,7 +39,7 @@ namespace Hero_of_Novac
             currentValue = this.MaxValue = MaxValue;
             this.rect = rect;
             this.color = color;
-            partialRect = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width * currentValue / MaxValue, rect.Height - 2);
+            partialRect = new Rectangle(rect.X + 1, rect.Y + 1, (rect.Width - 2) * currentValue / MaxValue, rect.Height - 2);
         }
 
         public void SetLocation(Vector2 loc)

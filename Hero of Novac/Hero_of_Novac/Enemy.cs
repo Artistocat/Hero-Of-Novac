@@ -59,6 +59,16 @@ namespace Hero_of_Novac
             }
         }
 
+        public void MoveY(int speed)
+        {
+            rec.Y += speed;
+        }
+
+        public void MoveX(int speed)
+        {
+            rec.X -= speed;
+        }
+
         private void BattleMenuUpdate(GameTime gameTime)
         {
 

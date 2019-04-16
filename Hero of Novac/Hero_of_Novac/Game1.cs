@@ -41,7 +41,7 @@ namespace Hero_of_Novac
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
@@ -152,7 +152,7 @@ namespace Hero_of_Novac
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(new Color(53, 65, 73));
 
             spriteBatch.Begin();
             

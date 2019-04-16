@@ -282,10 +282,10 @@ namespace Hero_of_Novac
 
         private void AddNPCs(SpriteFont font)
         {
-            npcs.Add(new NPC(new Rectangle(300, 300, 52, 72), Content.Load<Texture2D>("blacksmith"), new Rectangle(10, 10, 26, 36), new Rectangle(0, 0, 300, 300), new Vector2(0, 0), true, 'b', Speech.None, random));
-            npcs.Add(new NPC(new Rectangle(200, 300, 52, 72), Content.Load<Texture2D>("shopkeeper"), new Rectangle(0, 0, 26, 36), new Rectangle(0, 300, 300, 300), new Vector2(0, 0), true, 's', Speech.None, random));
-            npcs.Add(new NPC(new Rectangle(400, 300, 52, 72), Content.Load<Texture2D>("priestess"), new Rectangle(0, 0, 26, 36), new Rectangle(300, 0, 300, 300), new Vector2(0, 0), true, 'p', Speech.None, random));
-            npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), Content.Load<Texture2D>("armour"), new Rectangle(26 * 3, 0, 26, 36), new Rectangle(300, 300, 300, 300), new Vector2(0, 0), true, 'a', Speech.None, random));
+            npcs.Add(new NPC(new Rectangle(300, 300, 52, 72), Content.Load<Texture2D>("blacksmith"), new Rectangle(52, 0, 52, 72), new Rectangle(0, 0, 300, 300), new Vector2(0, 0), true, 'b', Speech.None, random));
+            npcs.Add(new NPC(new Rectangle(200, 300, 52, 72), Content.Load<Texture2D>("shopkeeper"), new Rectangle(52, 0, 52, 72), new Rectangle(0, 300, 300, 300), new Vector2(0, 0), true, 's', Speech.None, random));
+            npcs.Add(new NPC(new Rectangle(400, 300, 52, 72), Content.Load<Texture2D>("priestess"), new Rectangle(52, 0, 52, 72), new Rectangle(300, 0, 300, 300), new Vector2(0, 0), true, 'p', Speech.None, random));
+            npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), Content.Load<Texture2D>("armour"), new Rectangle(52, 0, 52, 72), new Rectangle(300, 300, 300, 300), new Vector2(0, 0), true, 'a', Speech.None, random));
             foreach (NPC n in npcs)
                 n.Window = window;
         }
@@ -307,30 +307,54 @@ namespace Hero_of_Novac
             if (speed.Y > 0)
             {
                 if (areaRec.Top < window.Top && player.Position.Y + player.SourceRec.Height <= window.Height / 3)
+                {
                     areaRec.Y += (int)speed.Y;
+                    foreach (NPC n in npcs)
+                        n.MoveY((int)speed.Y);
+                    foreach (Enemy e in enemies)
+                        e.MoveY((int)speed.Y);
+                }
                 else
-                    player.Position = player.Position - new Vector2(0, speed.Y);
+                    player.MoveY((int)speed.Y);
             }
             else if (speed.Y < 0)
             {
                 if (areaRec.Bottom > window.Bottom && player.Position.Y >= 2 * window.Height / 3)
-                    areaRec.Y -= 4;
+                { 
+                    areaRec.Y += (int)speed.Y;
+                    foreach (NPC n in npcs)
+                        n.MoveY((int)speed.Y);
+                    foreach (Enemy e in enemies)
+                        e.MoveY((int)speed.Y);
+                }
                 else
-                    player.Position = player.Position - new Vector2(0, speed.Y);
+                    player.MoveY((int)speed.Y);
             }
             if (speed.X < 0)
             {
                 if (areaRec.Left < window.Left && player.Position.X + player.SourceRec.Width <= window.Width / 3)
-                    areaRec.X += 4;
+                {
+                    areaRec.X -= (int)speed.X;
+                    foreach (NPC n in npcs)
+                        n.MoveX((int)speed.X);
+                    foreach (Enemy e in enemies)
+                        e.MoveX((int)speed.X);
+                }
                 else
-                    player.Position = player.Position + new Vector2(speed.X, 0);
+                    player.MoveX((int)speed.X);
             }
             if (speed.X > 0)
             {
                 if (areaRec.Right > window.Right && player.Position.X >= 2 * window.Width / 3)
-                    areaRec.X -= 4;
+                {
+                    areaRec.X -= (int)speed.X;
+                    foreach (NPC n in npcs)
+                        n.MoveX((int)speed.X);
+                    foreach (Enemy e in enemies)
+                        e.MoveX((int)speed.X);
+                }
                 else
-                    player.Position = player.Position + new Vector2(speed.X, 0);
+                    player.MoveX((int)speed.X);
             }
 
             player.Update(gameTime, speed);
