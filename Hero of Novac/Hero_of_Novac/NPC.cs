@@ -151,7 +151,7 @@ namespace Hero_of_Novac
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, Talk(chat, name), new Vector2(0, 0), Color.White);
+            spriteBatch.DrawString(font, Talk(chat, name), new Vector2(rec.X - 50, rec.Y - 20), Color.White);
             spriteBatch.Draw(tex, rec, source, Color.White);
         }
 
@@ -223,6 +223,7 @@ namespace Hero_of_Novac
                     {
                         string line = reader.ReadLine();
                         char firstChar = line[0];
+                        line = line.Substring(2);
                         switch (firstChar)
                         {
                             case 'b':
