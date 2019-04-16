@@ -148,6 +148,7 @@ namespace Hero_of_Novac
             space.X -= speed;
         }
 
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font, Talk(chat, name), new Vector2(0, 0), Color.White);
