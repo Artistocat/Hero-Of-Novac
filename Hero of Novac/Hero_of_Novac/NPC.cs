@@ -16,7 +16,7 @@ namespace Hero_of_Novac
     {
         private static Player player;
         private static SpriteFont font;
-
+        private static Texture2D bubblez;
         GamePadState gp;
         GamePadState oldGP;
 
@@ -39,7 +39,6 @@ namespace Hero_of_Novac
         private Speech chat;
 
         private Vector2 pos;
-
         private Rectangle space;
 
         private List<string> blackSmith;
@@ -150,11 +149,13 @@ namespace Hero_of_Novac
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font, Talk(chat, name), new Vector2(rec.X - 50, rec.Y - 20), Color.White);
+            spriteBatch.Draw(bubblez,new Rectangle(rec.X + 10, rec.Y-20,30,30),new Rectangle(32,320,32,32),Color.White);//Content.Load<Texture2D>("blacksmith"),new Vector2(rec.X + 18, rec.Y - 16), new Rectangle()
             spriteBatch.Draw(tex, rec, source, Color.White);
         }
 
-        public static void Load(SpriteFont f, Player player)
+        public static void Load(SpriteFont f, Player player, Texture2D b)
         {
+            bubblez = b;
             font = f;
             NPC.player = player;
         }
