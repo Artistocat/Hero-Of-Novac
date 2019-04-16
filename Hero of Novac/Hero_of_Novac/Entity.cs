@@ -23,11 +23,6 @@ namespace Hero_of_Novac
             }
         }
 
-        enum Stance
-        {
-
-        }
-
         public Entity()
         { 
         }

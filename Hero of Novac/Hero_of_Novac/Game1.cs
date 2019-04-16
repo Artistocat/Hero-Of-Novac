@@ -63,14 +63,10 @@ namespace Hero_of_Novac
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
             pix.SetData(pixelColors);
-            base.Initialize();
-
             currentGameState = GameState.Overworld;
             //TESTING
             if (currentGameState == GameState.BattleMenu)
                 area.Battle();
-
-
             base.Initialize();
         }
 
@@ -83,16 +79,13 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
-
             area = new Area(Services, @"Content/Village", pix, window);
             
             NPC.Load(font, area.Player);
-
             Enemy.LoadContent(area.Player);
-
             BattleMenu.LoadContent(area.Player, font, pix, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-            Enemy.LoadContent(area.Player);
-            PercentageRectangle.LoadContent(pix);
+            PercentageRectangle.LoadContent(pix, font);
+
             battleMenu = new BattleMenu(new Enemy[0]);
 
             //TESTING
@@ -136,6 +129,7 @@ namespace Hero_of_Novac
                     break;
                 case GameState.BattleMenu:
                     battleMenu.Update();
+                    area.Player.Update(gameTime, new Vector2(0, 0));
                     break;
                 case GameState.Inventory:
                     break;

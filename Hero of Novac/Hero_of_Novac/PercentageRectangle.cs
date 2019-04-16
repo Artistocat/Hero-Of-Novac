@@ -13,7 +13,8 @@ namespace Hero_of_Novac
         private Rectangle partialRect;
         private Color color;
         private static Texture2D pix;
-        private int MaxValue;
+        private static SpriteFont Font;
+        private int maxValue;
         private int currentValue;
         public int CurrentValue
         {
@@ -24,19 +25,51 @@ namespace Hero_of_Novac
 
             set
             {
-                if (currentValue > MaxValue)
-                    currentValue = MaxValue;
+                if (currentValue > MaxValue - 1)
+                {
+                    currentValue = MaxValue - 1;
+                }
                 else if (currentValue < 0)
                     currentValue = 0;
                 else
                     currentValue = value;
-                partialRect.Width = rect.Width * currentValue / MaxValue;
+                partialRect.Width = Rect.Width * currentValue / MaxValue;
             }
         }
 
-        public PercentageRectangle(Rectangle rect, int MaxValue, Color color)
+        public Rectangle Rect
         {
-            currentValue = this.MaxValue = MaxValue;
+            get
+            {
+                return rect;
+            }
+
+            set
+            {
+                rect = value;
+                partialRect = new Rectangle(rect.X + 1, rect.Y + 1, (rect.Width - 2) * currentValue / MaxValue, rect.Height - 2);
+            }
+        }
+
+        public int MaxValue
+        {
+            get
+            {
+                return maxValue;
+            }
+        }
+
+        public Color Color
+        {
+            get
+            {
+                return color;
+            }
+        }
+
+        public PercentageRectangle(Rectangle rect, int maxValue, Color color)
+        {
+            currentValue = this.maxValue = maxValue;
             this.rect = rect;
             this.color = color;
             partialRect = new Rectangle(rect.X + 1, rect.Y + 1, (rect.Width - 2) * currentValue / MaxValue, rect.Height - 2);
@@ -55,15 +88,27 @@ namespace Hero_of_Novac
             partialRect.Y = y + 1;
         }
 
-        public static void LoadContent(Texture2D texture)
+        public PercentageRectangle Clone()
         {
-            pix = texture;
+            PercentageRectangle newRect = new PercentageRectangle(Rect, MaxValue, color);
+            newRect.currentValue = currentValue;
+            return newRect;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public static void LoadContent(Texture2D texture, SpriteFont font)
         {
-            spriteBatch.Draw(pix, rect, Color.Black);
+            pix = texture;
+            Font = font;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, bool drawVal)
+        {
+            spriteBatch.Draw(pix, Rect, Color.Black);
             spriteBatch.Draw(pix, partialRect, color);
+
+            if (!drawVal) return;
+
+            spriteBatch.DrawString(Font, "" + currentValue, new Vector2(Rect.Right + 10, Rect.Y), color);
         }
     }
 }

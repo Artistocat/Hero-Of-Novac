@@ -93,7 +93,6 @@ namespace Hero_of_Novac
 
             pix = p;
             player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), pix, window);
-
             SpriteFont font = Content.Load<SpriteFont>("SpriteFont1");
             npcs = new List<NPC>();
             AddNPCs(font);

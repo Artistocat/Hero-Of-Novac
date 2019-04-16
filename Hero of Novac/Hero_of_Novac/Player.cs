@@ -42,16 +42,32 @@ namespace Hero_of_Novac
             set { playerPos = value; }
         }
 
+        //private int healthPoints;
+        //private int magicPoints;
+        //private int chargePoints;
+
         private PercentageRectangle healthBar;
         private PercentageRectangle magicBar;
         private PercentageRectangle chargeBar;
+        private const int BattleBarX = 25;
+        private const int BattleBarY = 1080 / 2 + 100;
+        private const int barWidth = 66;
+        private const int barHeight = 5;
+        private Rectangle healthRect; //for battles
+        private Rectangle magicRect;
+
+        //private PercentageRectangle chargeBar;
+
+        //private PercentageRectangle battleHealthBar;
+        //private PercentageRectangle battleMagicBar;
+        //private PercentageRectangle battleChargeBar;
         
         private Color color;
         private int timer;
 
         public Player(Texture2D overworldTex, Texture2D combatTex, Texture2D p, Rectangle window)
         {
-            currentGameState = GameState.Overworld; 
+            currentGameState = GameState.Overworld;
             this.window = window;
 
             this.overworldTex = overworldTex;
@@ -60,9 +76,22 @@ namespace Hero_of_Novac
             sourceRec = new Rectangle(SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - SPRITE_WIDTH) / 2, (window.Height - SPRITE_HEIGHT) / 2);
 
-            healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, 66, 5), 100, Color.Red);
-            magicBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 15, 66, 5), 100, Color.Blue);
-            chargeBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 20, 66, 5), 100, Color.Gray);
+            healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, barWidth, barHeight), 100, Color.Red);
+            magicBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 15, barWidth, barHeight), 100, Color.Blue);
+
+            healthRect = healthBar.Rect;
+            healthRect.Width *= 5;
+            healthRect.Height *= 5;
+            healthRect.X = 25;
+            healthRect.Y = window.Height / 2 + 100;
+            magicRect = magicBar.Rect;
+            magicRect.Width *= 5;
+            magicRect.Height *= 5;
+            magicRect.X = 25;
+            magicRect.Y = window.Height / 2 + 150;
+            //battleHealthBar = new PercentageRectangle(healthRect, healthBar.MaxValue, healthBar.Color);
+            //battleMagicBar = new PercentageRectangle(magicRect, magicBar.MaxValue, magicBar.Color);
+            chargeBar = new PercentageRectangle(new Rectangle(25, window.Height / 2 + 200, 66 * 5, 5 * 5), 100, Color.Gray);
 
             battlePos = new Vector2(200, 200);
             color = Color.White;
@@ -81,6 +110,9 @@ namespace Hero_of_Novac
 
         public void Update(GameTime gameTime, Vector2 speed)
         {
+            //testing
+            Console.WriteLine(healthBar.CurrentValue);
+
             switch (currentGameState)
             {
                 case GameState.Overworld:
@@ -138,6 +170,9 @@ namespace Hero_of_Novac
             //New health bar
             healthBar.SetLocation((int)playerPos.X - 10, (int)playerPos.Y - 10);
             magicBar.SetLocation((int)playerPos.X - 10, (int)playerPos.Y - 20);
+
+            //healthBar.CurrentValue = healthPoints;
+            //magicBar.CurrentValue = magicPoints;
         }
 
         public void MoveY(int speed)
@@ -153,10 +188,14 @@ namespace Hero_of_Novac
         private void UpdateBattlemenu()
         {
             //TODO
-
             /*
              *Update source rectangle for the battlemenu 
              */
+            //battleHealthBar.CurrentValue = healthPoints;
+            //battleMagicBar.CurrentValue = magicPoints;
+            //battleChargeBar.CurrentValue = chargePoints;
+            healthBar.Rect = healthRect;
+            magicBar.Rect = magicRect;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -164,14 +203,14 @@ namespace Hero_of_Novac
             switch (currentGameState) {
                 case GameState.Overworld:
                     spriteBatch.Draw(overworldTex, playerPos, sourceRec, color);
-                    healthBar.Draw(spriteBatch);
-                    magicBar.Draw(spriteBatch);
+                    healthBar.Draw(spriteBatch, false);
+                    magicBar.Draw(spriteBatch, false);
                     break;
                 case GameState.Battlemenu:
                     spriteBatch.Draw(combatTex, battlePos, sourceRec, color);
-                    healthBar.Draw(spriteBatch);
-                    magicBar.Draw(spriteBatch);
-                    chargeBar.Draw(spriteBatch);
+                    healthBar.Draw(spriteBatch, true);
+                    magicBar.Draw(spriteBatch, true);
+                    chargeBar.Draw(spriteBatch, true);
                     break;
             }
         }
@@ -179,11 +218,14 @@ namespace Hero_of_Novac
         public void Battle()
         {
             currentGameState = GameState.Battlemenu;
+            healthBar.Rect = healthRect;
+            magicBar.Rect = magicRect;
         }
 
         public void Overworld()
         {
             currentGameState = GameState.Overworld;
+            //TODO resetting the values for the health and magic bars in the overworld
         }
     }
 }
