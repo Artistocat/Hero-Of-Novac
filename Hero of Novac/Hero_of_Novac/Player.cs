@@ -41,6 +41,11 @@ namespace Hero_of_Novac
             get { return playerPos; }
             set { playerPos = value; }
         }
+        private Rectangle hitbox;
+        public Rectangle Hitbox
+        {
+            get { return hitbox; }
+        }
 
         private PercentageRectangle healthBar;
         private PercentageRectangle magicBar;
@@ -71,7 +76,7 @@ namespace Hero_of_Novac
             pixel.SetData(pixelColors);
             timer = 0;
 
-            rec = new Rectangle((int)playerPos.X + (sourceRec.Width - 32) / 2, (int)playerPos.Y + sourceRec.Height - 32, sourceRec.Width, sourceRec.Height);
+            hitbox = new Rectangle((int)playerPos.X + (sourceRec.Width - 32) / 2, (int)playerPos.Y + sourceRec.Height - 32, sourceRec.Width, sourceRec.Height);
         }
 
         public void death()
