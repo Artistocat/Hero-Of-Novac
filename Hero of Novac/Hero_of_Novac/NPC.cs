@@ -28,6 +28,7 @@ namespace Hero_of_Novac
         Rectangle rec;
         Texture2D tex;
         Rectangle source;
+        private static Rectangle sourceHome;
         Vector2 vol;
         Color color;
         private int timer = 0;
@@ -61,6 +62,7 @@ namespace Hero_of_Novac
             rec = r;
             tex = t;
             source = s;
+            sourceHome = source;
             vol = v;
             interact = i;
             name = n;
@@ -85,7 +87,7 @@ namespace Hero_of_Novac
             Rectangle r = new Rectangle(0, 0, 0, 0);
             if (gp.Buttons.A == ButtonState.Pressed && oldGP.Buttons.A != ButtonState.Pressed)
             {
-                Vector2 v = player.getPos();
+                Vector2 v = player.Position;
                 r = new Rectangle((int)v.X - 55, (int)v.Y - 55, 125, 125);
                 if (rec.Intersects(r))
                 {
@@ -99,18 +101,19 @@ namespace Hero_of_Novac
             randomMove();
             rec.X += (int)vol.X;
             rec.Y += (int)vol.Y;
-            if (rec.X < 100)
-                rec.X = 100;
-            if (rec.X > 800)
-                rec.X = 800;
-            if (rec.Y < 100)
-                rec.Y = 100;
-            if (rec.Y > 800)
-                rec.Y = 800;
+            //if (rec.X < 100)
+            //    rec.X = 100;
+            //if (rec.X > 800)
+            //    rec.X = 800;
+            //if (rec.Y < 100)
+            //    rec.Y = 100;
+            //if (rec.Y > 800)
+            //    rec.Y = 800;
 
+            //Movement animations?
             if (vol.X == 0 && vol.Y == 0)
                 source.X = source.Width;
-            else if (Math.Abs(vol.Y) > Math.Abs(vol.X))
+            else if (Math.Abs(vol.Y) >= Math.Abs(vol.X))
             {
                 if (vol.Y > 0)
                     source.Y = 0;
@@ -123,16 +126,14 @@ namespace Hero_of_Novac
                 if (vol.X > 0)
                     source.Y = 144;
                 else
-                    source.Y = 74;
+                    source.Y = 72;
             }
-            if (vol.X != 0 || vol.Y != 0)
+            if (vol  != Vector2.Zero)
             {
                 if (timer % 6 == 0)
-                    source.X = (source.X + 36) % tex.Width;
-                source.X += source.Width;
-                if (source.X >= source.Width * 3)
-                    source.X = 0;
+                    source.X = (source.X + source.Width) % tex.Width;
             }
+
             if (rec.X < space.Left)
                 rec.X = space.Left;
             if (rec.X > space.Right)
@@ -142,6 +143,20 @@ namespace Hero_of_Novac
             if (rec.Y > space.Bottom)
                 rec.Y = space.Bottom;
             oldGP = gp;
+        }
+
+        public void MoveY(int speed)
+        {
+            rec.Y += speed;
+            space.Y += speed;
+        }
+
+        public void MoveX(int speed)
+        {
+            rec.X -= speed;
+            space.X -= speed;
+        }
+
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -284,3 +299,4 @@ namespace Hero_of_Novac
         }
     }
 }
+
