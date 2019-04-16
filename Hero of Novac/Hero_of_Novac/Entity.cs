@@ -17,10 +17,7 @@ namespace Hero_of_Novac
 
         public Rectangle Rec
         {
-            get
-            {
-                return rec;
-            }
+            get { return rec; }
         }
 
         enum Stance
