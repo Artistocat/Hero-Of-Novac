@@ -110,6 +110,7 @@ namespace Hero_of_Novac
             hitbox.Y = (int)playerPos.Y + sourceRecWorld.Height - 32;
 
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
+            //World Border
             if (hitbox.Top < 0)
                 playerPos.Y = -sourceRecWorld.Height + 32;
             else if (hitbox.Bottom > window.Height)
@@ -119,7 +120,6 @@ namespace Hero_of_Novac
             else if (hitbox.Right > window.Width)
                 playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - 32) / 2;
 
-            //Movement?
             if (!dead)
             {
                 if (speed == Vector2.Zero)
@@ -155,9 +155,15 @@ namespace Hero_of_Novac
             timer++;
             //Testing death stuff
             if (pad1.IsButtonDown(Buttons.LeftShoulder))
+            {
+                healthBar.CurrentValue = 0;
                 death();
+            }
             if (pad1.IsButtonDown(Buttons.RightShoulder))
+            {
                 healthBar.CurrentValue = 100;
+                dead = false;
+            }
             //New health bar
             healthBar.SetLocation((int)playerPos.X - 10, (int)playerPos.Y - 10);
             magicBar.SetLocation((int)playerPos.X - 10, (int)playerPos.Y - 20);
@@ -165,12 +171,14 @@ namespace Hero_of_Novac
 
         public void MoveY(int speed)
         {
-            playerPos.Y -= speed;
+            if (!dead)
+                playerPos.Y -= speed;
         }
 
         public void MoveX(int speed)
         {
-            playerPos.X += speed;
+            if (!dead)
+                playerPos.X += speed;
         }
 
         private void UpdateBattlemenu()
