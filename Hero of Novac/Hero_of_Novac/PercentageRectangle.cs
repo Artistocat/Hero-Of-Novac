@@ -18,11 +18,7 @@ namespace Hero_of_Novac
         private int currentValue;
         public int CurrentValue
         {
-            get
-            {
-                return currentValue;
-            }
-
+            get { return currentValue; }
             set
             {
                 if (currentValue > MaxValue - 1)
@@ -39,11 +35,7 @@ namespace Hero_of_Novac
 
         public Rectangle Rect
         {
-            get
-            {
-                return rect;
-            }
-
+            get { return rect; }
             set
             {
                 rect = value;
@@ -53,18 +45,12 @@ namespace Hero_of_Novac
 
         public int MaxValue
         {
-            get
-            {
-                return maxValue;
-            }
+            get { return maxValue; }
         }
 
         public Color Color
         {
-            get
-            {
-                return color;
-            }
+            get { return color; }
         }
 
         public PercentageRectangle(Rectangle rect, int maxValue, Color color)

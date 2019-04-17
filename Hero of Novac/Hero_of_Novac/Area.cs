@@ -18,6 +18,7 @@ namespace Hero_of_Novac
         private const int TILE_HEIGHT = 32;
 
         private List<Tile> tiles;
+        private int objectTilesStart;
 
         private int areaWidth;
         public int Width
@@ -34,6 +35,7 @@ namespace Hero_of_Novac
 
         Dictionary<string, Rectangle> sourceRecs;
         Dictionary<string, Texture2D> tileSheets;
+        Dictionary<Texture2D, List<string>> objectData;
 
         private Texture2D pix;
 
@@ -56,7 +58,7 @@ namespace Hero_of_Novac
             get { return content; }
         }
 
-        private Random random = new Random();
+        private Random random = new Random(1102);
 
         /// <summary>
         /// Creates a new area in the world.
@@ -77,7 +79,33 @@ namespace Hero_of_Novac
             sourceRecs.Add("rock", new Rectangle(0, 128, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("road", new Rectangle(0, 160, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("sand", new Rectangle(0, 192, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("snow", new Rectangle(0, 224, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("water", new Rectangle(0, 0, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("lilypad", new Rectangle(320, 0, TILE_WIDTH, TILE_HEIGHT));
+
+            sourceRecs.Add("tree1", new Rectangle(0, 0, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("tree2", new Rectangle(128, 0, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("tree3", new Rectangle(192, 128, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("tree4", new Rectangle(0, 128, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("tree5", new Rectangle(224, 0, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("tree6", new Rectangle(288, 128, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("tree7", new Rectangle(192, 224, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("tree8", new Rectangle(288, 224, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("stump1", new Rectangle(320, 64, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("stump2", new Rectangle(384, 128, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("stump3", new Rectangle(384, 192, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("stump4", new Rectangle(384, 256, TILE_WIDTH, TILE_HEIGHT));
+
+            sourceRecs.Add("house1", new Rectangle(0, 0, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("house2", new Rectangle(288, 0, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("house3", new Rectangle(640, 0, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("house4", new Rectangle(0, 192, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("house5", new Rectangle(288, 320, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("house6", new Rectangle(704, 320, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("barrel1", new Rectangle(0, 480, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("barrel2", new Rectangle(32, 480, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("barrel3", new Rectangle(64, 480, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("barrel4", new Rectangle(96, 480, TILE_WIDTH, TILE_HEIGHT));
 
             tileSheets = new Dictionary<string, Texture2D>();
             tileSheets.Add("grass", Content.Load<Texture2D>("terrain"));
@@ -86,10 +114,42 @@ namespace Hero_of_Novac
             tileSheets.Add("rock", Content.Load<Texture2D>("terrain"));
             tileSheets.Add("road", Content.Load<Texture2D>("terrain"));
             tileSheets.Add("sand", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("snow", Content.Load<Texture2D>("terrain"));
             tileSheets.Add("water", Content.Load<Texture2D>("water"));
+            tileSheets.Add("lilypad", Content.Load<Texture2D>("trees"));
+
+            tileSheets.Add("tree1", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("tree2", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("tree3", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("tree4", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("tree5", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("tree6", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("tree7", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("tree8", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("tree9", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("stump1", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("stump2", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("stump3", Content.Load<Texture2D>("trees"));
+            tileSheets.Add("stump4", Content.Load<Texture2D>("trees"));
+
+            tileSheets.Add("house1", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("house2", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("house3", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("house4", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("house5", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("house6", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("barrel1", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("barrel2", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("barrel3", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("barrel4", Content.Load<Texture2D>("houses"));
 
             tiles = new List<Tile>();
-            LoadTiles(path + "/terrain.txt");
+            LoadTerrainTiles(ReadFile(path + "/terrain.txt"));
+            objectTilesStart = tiles.Count;
+            objectData = new Dictionary<Texture2D, List<string>>();
+            objectData.Add(Content.Load<Texture2D>("trees"), ReadFile(@"Content/trees_data.txt"));
+            objectData.Add(Content.Load<Texture2D>("houses"), ReadFile(@"Content/houses_data.txt"));
+            LoadObjectTiles(ReadFile(path + "/objects.txt"));
 
             pix = p;
             player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), pix, window);
@@ -101,10 +161,11 @@ namespace Hero_of_Novac
         }
 
         /// <summary>
-        /// Loads all the tiles for an area.
+        /// Reads a file at the indicated path.
         /// </summary>
-        /// <param name="path">Provides the path to the terrain data.</param>
-        private void LoadTiles(string path)
+        /// <param name="path">The location of the file to be read.</param>
+        /// <returns></returns>
+        private List<string> ReadFile(string path)
         {
             List<string> lines = new List<string>();
             try
@@ -112,28 +173,35 @@ namespace Hero_of_Novac
                 using (StreamReader reader = new StreamReader(path))
                 {
                     string line = reader.ReadLine();
-                    areaWidth = line.Length;
                     while (line != null)
                     {
                         lines.Add(line);
-                        if (line.Length != areaWidth)
+                        if (line.Length != lines[0].Length)
                             throw new Exception(string.Format("The length of line {0} is different from all proceeding lines.", lines.Count));
                         line = reader.ReadLine();
                     }
-                    areaHeight = lines.Count;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine("The file could not be read:\n" + e.Message);
             }
+            return lines;
+        }
 
+        /// <summary>
+        /// Loads all the terrain tiles for an area.
+        /// </summary>
+        /// <param name="path">Provides the path to the terrain data.</param>
+        private void LoadTerrainTiles(List<string> lines)
+        {
+            areaWidth = lines[0].Length;
+            areaHeight = lines.Count;
             areaRec = new Rectangle(0, 0, Width * TILE_WIDTH, Height * TILE_HEIGHT);
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
                 {
-                    char type = lines[y][x];
-                    switch (type)
+                    switch (lines[y][x])
                     {
                         case 'g':
                             if (random.Next(10) == 0)
@@ -156,15 +224,19 @@ namespace Hero_of_Novac
                             LoadTile("road", x, y, 4);
                             AddEdge(lines, x, y);
                             break;
+                        case 'c':
+                            LoadTile("snow", x, y, 8);
+                            AddEdge(lines, x, y);
+                            break;
                         case 'w':
-                            AddWater(lines, x, y);
+                            LoadWaterTiles(lines, x, y);
                             AddEdge(lines, x, y);
                             break;
                         case '.':
                             AddEdge(lines, x, y);
                             break;
                         default:
-                            throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", type, x, y));
+                            throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                     }
                 }
         }
@@ -235,7 +307,7 @@ namespace Hero_of_Novac
         /// <param name="lines">A string representation of the terrain.</param>
         /// <param name="x">The x position of the current tile.</param>
         /// <param name="y">The y position of the current tile.</param>
-        private void AddWater(List<string> lines, int x, int y)
+        private void LoadWaterTiles(List<string> lines, int x, int y)
         {
             Rectangle tileSource = sourceRecs["water"];
 
@@ -277,6 +349,158 @@ namespace Hero_of_Novac
             }
 
             tiles.Add(new Tile(new Vector2(x, y), tileSource, tileSheets["water"], true));
+        }
+
+        /// <summary>
+        /// Loads all the object tiles (buildings, trees, etc) for an area.
+        /// </summary>
+        /// <param name="path">Provides the path to the object data.</param>
+        private void LoadObjectTiles(List<string> lines)
+        {
+            int objectNum = 0;
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
+                {
+                    switch (lines[y][x])
+                    {
+                        case 't':
+                            x++;
+                            switch (lines[y][x])
+                            {
+                                case '1':
+                                    LoadObject("tree1", x - 1, y, 4, 4, objectNum);
+                                    break;
+                                case '2':
+                                    LoadObject("tree2", x - 1, y, 3, 4, objectNum);
+                                    break;
+                                case '3':
+                                    LoadObject("tree3", x - 1, y, 3, 3, objectNum);
+                                    break;
+                                case '4':
+                                    LoadObject("tree4", x - 1, y, 6, 6, objectNum);
+                                    break;
+                                case '5':
+                                    LoadObject("tree5", x - 1, y, 3, 4, objectNum);
+                                    break;
+                                case '6':
+                                    LoadObject("tree6", x - 1, y, 3, 3, objectNum);
+                                    break;
+                                case '7':
+                                    LoadObject("tree7", x - 1, y, 3, 3, objectNum);
+                                    break;
+                                case '8':
+                                    LoadObject("tree8", x - 1, y, 3, 3, objectNum);
+                                    break;
+                                default:
+                                    throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
+                            }
+                            objectNum++;
+                            break;
+                        case 's':
+                            int r = random.Next(4);
+                            switch (r)
+                            {
+                                case 0:
+                                    LoadObject("stump1", x, y, 3, 2, objectNum);
+                                    break;
+                                case 1:
+                                    LoadObject("stump2", x, y, 2, 2, objectNum);
+                                    break;
+                                case 2:
+                                    LoadObject("stump3", x, y, 2, 2, objectNum);
+                                    break;
+                                case 3:
+                                    LoadObject("stump4", x, y, 2, 2, objectNum);
+                                    break;
+                                default:
+                                    throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
+                            }
+                            objectNum++;
+                            break;
+                        case 'l':
+                            LoadTile("lilypad", x, y, 4);
+                            break;
+                        case 'h':
+                            x++;
+                            switch (lines[y][x])
+                            {
+                                case '1':
+                                    LoadObject("house1", x - 1, y, 9, 6, objectNum);
+                                    break;
+                                case '2':
+                                    LoadObject("house2", x - 1, y, 11, 10, objectNum);
+                                    break;
+                                case '3':
+                                    LoadObject("house3", x - 1, y, 12, 10, objectNum);
+                                    break;
+                                case '4':
+                                    LoadObject("house4", x - 1, y, 9, 9, objectNum);
+                                    break;
+                                case '5':
+                                    LoadObject("house5", x - 1, y, 13, 7, objectNum);
+                                    break;
+                                case '6':
+                                    LoadObject("house6", x - 1, y, 7, 7, objectNum);
+                                    break;
+                                default:
+                                    throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
+                            }
+                            objectNum++;
+                            break;
+                        case 'b':
+                            r = random.Next(4);
+                            switch (r)
+                            {
+                                case 0:
+                                    LoadObject("barrel1", x, y, 1, 2, objectNum);
+                                    break;
+                                case 1:
+                                    LoadObject("barrel2", x, y, 1, 2, objectNum);
+                                    break;
+                                case 2:
+                                    LoadObject("barrel3", x, y, 1, 2, objectNum);
+                                    break;
+                                case 3:
+                                    LoadObject("barrel4", x, y, 1, 2, objectNum);
+                                    break;
+                                default:
+                                    throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
+                            }
+                            objectNum++;
+                            break;
+                        case '.':
+                            break;
+                        default:
+                            throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
+                    }
+                }
+        }
+
+        private void LoadObject(string type, int x, int y, int width, int height, int id)
+        {
+            for (int r = 0; r < height; r++)
+                for (int c = 0; c < width; c++)
+                {
+                    Rectangle sourceRec = sourceRecs[type];
+                    sourceRec.X += c * TILE_WIDTH;
+                    sourceRec.Y += (height - (r + 1)) * TILE_HEIGHT;
+                    int i = sourceRec.Y / TILE_HEIGHT;
+                    int j = sourceRec.X / TILE_WIDTH;
+                    switch (objectData[tileSheets[type]][i][j])
+                    {
+                        case '-':
+                            tiles.Add(new Tile(new Vector2(x + c, y - r), sourceRec, tileSheets[type], true, false, id));
+                            break;
+                        case 'x':
+                            tiles.Add(new Tile(new Vector2(x + c, y - r), sourceRec, tileSheets[type], false, false, id));
+                            break;
+                        case 'o':
+                            tiles.Add(new Tile(new Vector2(x + c, y - r), sourceRec, tileSheets[type], true, true, id));
+                            break;
+                        default:
+                            throw new NotSupportedException(string.Format("Unsupported data character '{0}' at position {1}, {2}.", objectData[tileSheets[type]][i][j], j, i));
+                    }
+                }
         }
 
         private void AddNPCs(SpriteFont font)
