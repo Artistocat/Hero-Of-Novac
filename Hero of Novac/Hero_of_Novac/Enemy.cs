@@ -21,7 +21,13 @@ namespace Hero_of_Novac
         }
 
         private GameState currentGameState;
+        private Rectangle battleRec;
+        private Rectangle battleSourceRec;
 
+
+        /*
+         * 146 x 116
+         */
         public Enemy(Rectangle rec, Rectangle sourceRec, Texture2D tex, Vector2 pos) 
         {
             this.rec = rec;
@@ -29,6 +35,10 @@ namespace Hero_of_Novac
             this.tex = tex;
             this.pos = pos;
             currentGameState = GameState.Overworld;
+
+            //TODO
+            battleRec = new Rectangle(1920 - 200 - rec.Width, 1080 / 2 - rec.Height - 100, rec.Width, rec.Height); ;
+            battleSourceRec = sourceRec;
         }
 
         public static void LoadContent(Player player)
@@ -79,11 +89,12 @@ namespace Hero_of_Novac
             switch (currentGameState)
             {
                 case GameState.Overworld:
+                    spriteBatch.Draw(tex, rec, sourceRec, Color.White);
                     break;
                 case GameState.Battlemenu:
+                    spriteBatch.Draw(tex, battleRec, battleSourceRec, Color.White);
                     break;
             }
-            spriteBatch.Draw(tex, rec, sourceRec, Color.Red);
         }
 
         public bool IsInBattle()

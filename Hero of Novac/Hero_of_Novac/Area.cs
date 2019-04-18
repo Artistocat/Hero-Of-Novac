@@ -622,9 +622,9 @@ namespace Hero_of_Novac
             }
             foreach (Enemy e in enemies)
                 e.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             foreach (NPC n in npcs)
                 n.Draw(spriteBatch);
-            player.Draw(spriteBatch);
         }
     }
 }
