@@ -80,6 +80,7 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
+            fontC = Content.Load<SpriteFont>("CharacterTalk");
             area = new Area(Services, @"Content/Village", pix, window);
             
             NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"));

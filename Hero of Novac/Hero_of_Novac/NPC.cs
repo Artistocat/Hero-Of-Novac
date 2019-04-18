@@ -20,6 +20,8 @@ namespace Hero_of_Novac
         GamePadState gp;
         GamePadState oldGP;
 
+        public Boolean isTalking;
+
         Rectangle window;
         public Rectangle Window
         {
@@ -76,7 +78,7 @@ namespace Hero_of_Novac
             r2 = ran.Next(-2, 3);
             ReadFileAsStrings(@"Content/chartext.txt");
             this.ran = ran;
-
+            isTalking = false;
         }
 
         public void Update(GameTime gameTime)
@@ -97,33 +99,35 @@ namespace Hero_of_Novac
                 }
                 Talk(chat, name);
             }
-            randomMove();
-            rec.X += (int)vol.X;
-            rec.Y += (int)vol.Y;
-
-            if (vol.X == 0 && vol.Y == 0)
-                source.X = source.Width;
-            else if (Math.Abs(vol.Y) >= Math.Abs(vol.X))
+            if (!isTalking)
             {
-                if (vol.Y > 0)
-                    source.Y = 0;
-                else
-                    source.Y = 216;
+                randomMove();
+                rec.X += (int)vol.X;
+                rec.Y += (int)vol.Y;
 
-            }
-            else if (Math.Abs(vol.X) > Math.Abs(vol.Y))
-            {
-                if (vol.X > 0)
-                    source.Y = 144;
-                else
-                    source.Y = 72;
-            }
-            if (vol != Vector2.Zero)
-            {
-                if (timer % 6 == 0)
-                    source.X = (source.X + source.Width) % tex.Width;
-            }
+                if (vol.X == 0 && vol.Y == 0)
+                    source.X = source.Width;
+                else if (Math.Abs(vol.Y) >= Math.Abs(vol.X))
+                {
+                    if (vol.Y > 0)
+                        source.Y = 0;
+                    else
+                        source.Y = 216;
 
+                }
+                else if (Math.Abs(vol.X) > Math.Abs(vol.Y))
+                {
+                    if (vol.X > 0)
+                        source.Y = 144;
+                    else
+                        source.Y = 72;
+                }
+                if (vol != Vector2.Zero)
+                {
+                    if (timer % 6 == 0)
+                        source.X = (source.X + source.Width) % tex.Width;
+                }
+            }
             if (rec.X < space.Left)
                 rec.X = space.Left;
             if (rec.X > space.Right)
@@ -150,9 +154,18 @@ namespace Hero_of_Novac
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, Talk(chat, name), new Vector2(rec.X - 50, rec.Y - 20), Color.White);
-            spriteBatch.Draw(bubblez,new Rectangle(rec.X + 10, rec.Y-20,30,30),new Rectangle(32,320,32,32),Color.White);//Content.Load<Texture2D>("blacksmith"),new Vector2(rec.X + 18, rec.Y - 16), new Rectangle()
-            spriteBatch.Draw(tex, rec, source, Color.White);
+            if(isTalking)
+            {
+                spriteBatch.Draw(tex, rec, source, Color.White);
+                spriteBatch.Draw(tex,new Rectangle(0,window.Height/4 * 3, window.Width,window.Height/4),Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(font, Talk(chat, name), new Vector2(rec.X - 50, rec.Y - 20), Color.White);
+                spriteBatch.Draw(bubblez, new Rectangle(rec.X + 10, rec.Y - 20, 30, 30), new Rectangle(32, 320, 32, 32), Color.White);//Content.Load<Texture2D>("blacksmith"),new Vector2(rec.X + 18, rec.Y - 16), new Rectangle()
+                spriteBatch.Draw(tex, rec, source, Color.White);
+            }
+            
         }
 
         public static void Load(SpriteFont f, Player player, Texture2D b)
@@ -164,8 +177,9 @@ namespace Hero_of_Novac
 
         public string Talk(Speech s, char c)
         {
-
             if (s == Speech.Greeting)
+            {
+                isTalking = true;
                 switch (c)
                 {
                     case 'b':
@@ -180,7 +194,10 @@ namespace Hero_of_Novac
                         return priest[0];
 
                 }
+            }
             else if (s == Speech.Interactable)
+            {
+                isTalking = true;
                 switch (c)
                 {
                     case 'b':
@@ -194,7 +211,10 @@ namespace Hero_of_Novac
                     case 'p':
                         return priest[1];
                 }
+            }
             else if (s == Speech.Farewell)
+            {
+                isTalking = true;
                 switch (c)
                 {
                     case 'b':
@@ -209,6 +229,8 @@ namespace Hero_of_Novac
                         return priest[2];
 
                 }
+            }
+            isTalking = false;
             return "";
         }
 
