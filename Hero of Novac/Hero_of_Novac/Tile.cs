@@ -13,10 +13,13 @@ namespace Hero_of_Novac
 {
     class Tile
     {
-        private Vector2 pos;
-        public Vector2 Position
+        private const int WIDTH = 32;
+        private const int HEIGHT = 32;
+
+        private Rectangle rec;
+        public Rectangle Rectangle
         {
-            get { return pos; }
+            get { return rec; }
         }
 
         private Rectangle sourceRec;
@@ -44,11 +47,6 @@ namespace Hero_of_Novac
         {
             get { return isOnTop; }
         }
-        private int objectID;
-        public int ID
-        {
-            get { return objectID; }
-        }
         private int timer;
 
         /// <summary>
@@ -59,13 +57,12 @@ namespace Hero_of_Novac
         /// <param name="texture">The texture for the tile.</param>
         public Tile(Vector2 position, Rectangle source, Texture2D texture)
         {
-            pos = position;
+            rec = new Rectangle((int)position.X * WIDTH, (int)position.Y * HEIGHT, WIDTH, HEIGHT);
             sourceRec = source;
             tex = texture;
             isAnimated = false;
             isPasssable = true;
             isOnTop = false;
-            objectID = -1;
             timer = 0;
         }
 
@@ -78,13 +75,12 @@ namespace Hero_of_Novac
         /// <param name="animated">A boolean indicating if the tile is animated.</param>
         public Tile(Vector2 position, Rectangle source, Texture2D texture, bool animated)
         {
-            pos = position;
+            rec = new Rectangle((int)position.X * WIDTH, (int)position.Y * HEIGHT, WIDTH, HEIGHT);
             sourceRec = source;
             tex = texture;
             isAnimated = animated;
             isPasssable = false;
             isOnTop = false;
-            objectID = -1;
             timer = 0;
         }
 
@@ -97,15 +93,14 @@ namespace Hero_of_Novac
         /// <param name="passable">A boolean indicating if the tile is passable.</param>
         /// <param name="onTop">A boolean indicating if the tile is displayed above the player.</param>
         /// <param name="id">An integer that repesents the ID of the object the tile is a part of.</param>
-        public Tile(Vector2 position, Rectangle source, Texture2D texture, bool passable, bool onTop, int id)
+        public Tile(Vector2 position, Rectangle source, Texture2D texture, bool passable, bool onTop)
         {
-            pos = position;
+            rec = new Rectangle((int)position.X * WIDTH, (int)position.Y * HEIGHT, WIDTH, HEIGHT);
             sourceRec = source;
             tex = texture;
             isAnimated = false;
             isPasssable = passable;
             isOnTop = onTop;
-            objectID = id;
             timer = 0;
         }
 

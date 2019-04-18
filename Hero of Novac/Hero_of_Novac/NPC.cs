@@ -17,6 +17,7 @@ namespace Hero_of_Novac
         private static Player player;
         private static SpriteFont font;
         private static Texture2D bubblez;
+        private Rectangle bubblezSourceRec;
         GamePadState gp;
         GamePadState oldGP;
 
@@ -76,7 +77,7 @@ namespace Hero_of_Novac
             r2 = ran.Next(-2, 3);
             ReadFileAsStrings(@"Content/chartext.txt");
             this.ran = ran;
-
+            bubblezSourceRec = new Rectangle(0, 224, 32, 32);
         }
 
         public void Update(GameTime gameTime)
@@ -118,9 +119,10 @@ namespace Hero_of_Novac
                 else
                     source.Y = 72;
             }
-            if (vol != Vector2.Zero)
+            if (timer % 6 == 0)
             {
-                if (timer % 6 == 0)
+                bubblezSourceRec.X = (bubblezSourceRec.X + bubblezSourceRec.Width) % bubblez.Width;
+                if (vol != Vector2.Zero)
                     source.X = (source.X + source.Width) % tex.Width;
             }
 
@@ -151,7 +153,7 @@ namespace Hero_of_Novac
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font, Talk(chat, name), new Vector2(rec.X - 50, rec.Y - 20), Color.White);
-            spriteBatch.Draw(bubblez,new Rectangle(rec.X + 10, rec.Y-20,30,30),new Rectangle(32,320,32,32),Color.White);//Content.Load<Texture2D>("blacksmith"),new Vector2(rec.X + 18, rec.Y - 16), new Rectangle()
+            spriteBatch.Draw(bubblez,new Rectangle(rec.X + 10, rec.Y-20, 30, 30), bubblezSourceRec, Color.White);
             spriteBatch.Draw(tex, rec, source, Color.White);
         }
 
