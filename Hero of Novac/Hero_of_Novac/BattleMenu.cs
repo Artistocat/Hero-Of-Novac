@@ -436,11 +436,6 @@ namespace Hero_of_Novac
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            player.Draw(spriteBatch);
-            foreach (Enemy enemy in enemies)
-            {
-                enemy.Draw(spriteBatch);
-            }
 
             spriteBatch.Draw(pix, menuRect, Color.Black);
             switch (currentChoiceState)
@@ -457,6 +452,11 @@ namespace Hero_of_Novac
                 case ChoiceState.Items:
                     DrawItems(spriteBatch);
                     break;
+            }
+            player.Draw(spriteBatch);
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Draw(spriteBatch);
             }
         }
 

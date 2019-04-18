@@ -20,11 +20,6 @@ namespace Hero_of_Novac
             get { return rec; }
         }
 
-        enum Stance
-        {
-
-        }
-
         public Entity()
         { 
         }

@@ -34,6 +34,21 @@ namespace Hero_of_Novac
         {
             get { return isAnimated; }
         }
+        private bool isPasssable;
+        public bool IsPassable
+        {
+            get { return isPasssable; }
+        }
+        private bool isOnTop;
+        public bool IsOnTop
+        {
+            get { return isOnTop; }
+        }
+        private int objectID;
+        public int ID
+        {
+            get { return objectID; }
+        }
         private int timer;
 
         /// <summary>
@@ -48,6 +63,9 @@ namespace Hero_of_Novac
             sourceRec = source;
             tex = texture;
             isAnimated = false;
+            isPasssable = true;
+            isOnTop = false;
+            objectID = -1;
             timer = 0;
         }
 
@@ -64,6 +82,30 @@ namespace Hero_of_Novac
             sourceRec = source;
             tex = texture;
             isAnimated = animated;
+            isPasssable = false;
+            isOnTop = false;
+            objectID = -1;
+            timer = 0;
+        }
+
+        /// <summary>
+        /// Creates a new tile.
+        /// </summary>
+        /// <param name="position">A vector that indicates where the tile is located.</param>
+        /// <param name="source">A rectangle that indicates where on the texture the tile is located.</param>
+        /// <param name="texture">The texture for the tile.</param>
+        /// <param name="passable">A boolean indicating if the tile is passable.</param>
+        /// <param name="onTop">A boolean indicating if the tile is displayed above the player.</param>
+        /// <param name="id">An integer that repesents the ID of the object the tile is a part of.</param>
+        public Tile(Vector2 position, Rectangle source, Texture2D texture, bool passable, bool onTop, int id)
+        {
+            pos = position;
+            sourceRec = source;
+            tex = texture;
+            isAnimated = false;
+            isPasssable = passable;
+            isOnTop = onTop;
+            objectID = id;
             timer = 0;
         }
 
