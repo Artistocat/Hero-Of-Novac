@@ -117,6 +117,7 @@ namespace Hero_of_Novac
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
             bool willBattle = false;
+            List<Enemy> enemiesInBattle = new List<Enemy>();
 
             switch (currentGameState)
             {
@@ -124,12 +125,15 @@ namespace Hero_of_Novac
                     break;
                 case GameState.Overworld:
                     area.Update(gameTime);
-                    foreach(Enemy enemy in area.Enemies)
+                    foreach (Enemy enemy in area.Enemies)
                         if (enemy.IsInBattle())
+                        {
                             willBattle = true;
+                            enemiesInBattle.Add(enemy);
+                        }
                     break;
                 case GameState.BattleMenu:
-                    battleMenu.Update();
+                    battleMenu.Update(gameTime);
                     area.Player.Update(gameTime, new Vector2(0, 0));
                     break;
                 case GameState.Inventory:
@@ -137,7 +141,11 @@ namespace Hero_of_Novac
             }
 
             if (willBattle)
+            {
                 currentGameState = GameState.BattleMenu;
+                Console.WriteLine("going to battle");
+                battleMenu = new BattleMenu(enemiesInBattle.ToArray());
+            }
             base.Update(gameTime);
         }
 
