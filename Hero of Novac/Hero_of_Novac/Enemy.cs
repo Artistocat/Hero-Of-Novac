@@ -38,7 +38,7 @@ namespace Hero_of_Novac
             this.tex = tex;
             this.pos = pos;
             currentGameState = GameState.Overworld;
-            healthBar = new PercentageRectangle(new Rectangle((int)rec.X - 10, rec.Y - 10, barWidth, barHeight), 50, Color.Red); ;
+            healthBar = new PercentageRectangle(new Rectangle(rec.X - 10, rec.Y - 10, barWidth, barHeight), 50, Color.Red); ;
 
             //TODO
             battleRec = new Rectangle(window.Right - rec.Width * 4, window.Bottom / 4 - rec.Height, rec.Width, rec.Height);

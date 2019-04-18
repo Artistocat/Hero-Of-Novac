@@ -39,8 +39,7 @@ namespace Hero_of_Novac
         private int r1;
         private int r2;
         private Speech chat;
-
-        private Vector2 pos;
+        
         private Rectangle space;
 
         private List<string> blackSmith;
