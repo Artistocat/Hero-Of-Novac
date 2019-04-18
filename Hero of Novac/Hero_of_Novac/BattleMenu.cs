@@ -111,10 +111,10 @@ namespace Hero_of_Novac
             MainChoices[2] = new NavigableMenuItem(itemsRect, pix, singleRect, Color.Green);
 
             Basic = new NavigableMenuItem[2, 2];
-            Basic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Blue);
-            Basic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.CadetBlue);
-            Basic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.BlueViolet);
-            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.AliceBlue);
+            Basic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Red);
+            Basic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Yellow);
+            Basic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Yellow);
+            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Red);
 
             Magic = new NavigableMenuItem[2, 2];
             Magic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Purple);
@@ -125,7 +125,7 @@ namespace Hero_of_Novac
 
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             oldGamePad = gamePad;
             gamePad = GamePad.GetState(PlayerIndex.One);
@@ -151,6 +151,10 @@ namespace Hero_of_Novac
                     break;
             }
             tics++;
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Update(gameTime);
+            }
         }
 
         private void BeginningBattle()

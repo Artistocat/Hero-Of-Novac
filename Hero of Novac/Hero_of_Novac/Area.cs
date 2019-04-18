@@ -517,7 +517,7 @@ namespace Hero_of_Novac
 
         private void AddEnemies()
         {
-            enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 1, 1), pix, new Vector2(0, 0)));
+            enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 1, 1), pix, new Vector2(0, 0), window));
         }
 
         /// <summary>
@@ -643,9 +643,9 @@ namespace Hero_of_Novac
             }
             foreach (Enemy e in enemies)
                 e.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             foreach (NPC n in npcs)
                 n.Draw(spriteBatch);
-            player.Draw(spriteBatch);
         }
     }
 }
