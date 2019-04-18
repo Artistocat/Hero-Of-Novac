@@ -26,6 +26,7 @@ namespace Hero_of_Novac
         Random ran = new Random();
 
         SpriteFont font;
+        SpriteFont fontC;
 
         Texture2D pix;
 
@@ -86,7 +87,7 @@ namespace Hero_of_Novac
 
             area = new Area(Services, @"Content/Village", pix, window);
             
-            NPC.Load(font, area.Player, Content.Load<Texture2D>("speechballoons"));
+            NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"));
 
             Enemy.LoadContent(area.Player);
 
