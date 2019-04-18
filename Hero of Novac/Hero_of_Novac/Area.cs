@@ -17,6 +17,8 @@ namespace Hero_of_Novac
         private const int TILE_WIDTH = 32;
         private const int TILE_HEIGHT = 32;
 
+        private bool inMenu;
+
         private List<Tile> tiles;
         private int objectTilesStart;
 
@@ -515,7 +517,7 @@ namespace Hero_of_Novac
 
         private void AddEnemies()
         {
-            enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 1, 1), pix, new Vector2(0, 0)));
+            enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 1, 1), pix, new Vector2(0, 0), window));
         }
 
         /// <summary>
@@ -525,62 +527,69 @@ namespace Hero_of_Novac
         public void Update(GameTime gameTime)
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
-            Vector2 speed = pad1.ThumbSticks.Left * 4;
-            speed.X = (int)Math.Round(speed.X);
-            speed.Y = (int)Math.Round(speed.Y);
-
-            if (speed.Y > 0)
+            inMenu = false;
+            foreach (NPC n in npcs)
             {
-                if (areaRec.Top < window.Top && player.Position.Y + player.SourceRec.Height <= window.Height / 3)
+                if (n.isTalking)
+                    inMenu = true;
+            }
+            if (!inMenu)
+            {
+                Vector2 speed = pad1.ThumbSticks.Left * 4;
+                speed.X = (int)Math.Round(speed.X);
+                speed.Y = (int)Math.Round(speed.Y);
+                if (speed.Y > 0)
                 {
-                    areaRec.Y += (int)speed.Y;
-                    foreach (NPC n in npcs)
-                        n.MoveY((int)speed.Y);
-                    foreach (Enemy e in enemies)
-                        e.MoveY((int)speed.Y);
+                    if (areaRec.Top < window.Top && player.Position.Y + player.SourceRec.Height <= window.Height / 3)
+                    {
+                        areaRec.Y += (int)speed.Y;
+                        foreach (NPC n in npcs)
+                            n.MoveY((int)speed.Y);
+                        foreach (Enemy e in enemies)
+                            e.MoveY((int)speed.Y);
+                    }
+                    else
+                        player.MoveY((int)speed.Y);
                 }
-                else
-                    player.MoveY((int)speed.Y);
-            }
-            else if (speed.Y < 0)
-            {
-                if (areaRec.Bottom > window.Bottom && player.Position.Y >= 2 * window.Height / 3)
-                { 
-                    areaRec.Y += (int)speed.Y;
-                    foreach (NPC n in npcs)
-                        n.MoveY((int)speed.Y);
-                    foreach (Enemy e in enemies)
-                        e.MoveY((int)speed.Y);
-                }
-                else
-                    player.MoveY((int)speed.Y);
-            }
-            if (speed.X < 0)
-            {
-                if (areaRec.Left < window.Left && player.Position.X + player.SourceRec.Width <= window.Width / 3)
+                else if (speed.Y < 0)
                 {
-                    areaRec.X -= (int)speed.X;
-                    foreach (NPC n in npcs)
-                        n.MoveX((int)speed.X);
-                    foreach (Enemy e in enemies)
-                        e.MoveX((int)speed.X);
+                    if (areaRec.Bottom > window.Bottom && player.Position.Y >= 2 * window.Height / 3)
+                    {
+                        areaRec.Y += (int)speed.Y;
+                        foreach (NPC n in npcs)
+                            n.MoveY((int)speed.Y);
+                        foreach (Enemy e in enemies)
+                            e.MoveY((int)speed.Y);
+                    }
+                    else
+                        player.MoveY((int)speed.Y);
                 }
-                else
-                    player.MoveX((int)speed.X);
-            }
-            if (speed.X > 0)
-            {
-                if (areaRec.Right > window.Right && player.Position.X >= 2 * window.Width / 3)
+                if (speed.X < 0)
                 {
-                    areaRec.X -= (int)speed.X;
-                    foreach (NPC n in npcs)
-                        n.MoveX((int)speed.X);
-                    foreach (Enemy e in enemies)
-                        e.MoveX((int)speed.X);
+                    if (areaRec.Left < window.Left && player.Position.X + player.SourceRec.Width <= window.Width / 3)
+                    {
+                        areaRec.X -= (int)speed.X;
+                        foreach (NPC n in npcs)
+                            n.MoveX((int)speed.X);
+                        foreach (Enemy e in enemies)
+                            e.MoveX((int)speed.X);
+                    }
+                    else
+                        player.MoveX((int)speed.X);
                 }
-                else
-                    player.MoveX((int)speed.X);
-            }
+                if (speed.X > 0)
+                {
+                    if (areaRec.Right > window.Right && player.Position.X >= 2 * window.Width / 3)
+                    {
+                        areaRec.X -= (int)speed.X;
+                        foreach (NPC n in npcs)
+                            n.MoveX((int)speed.X);
+                        foreach (Enemy e in enemies)
+                            e.MoveX((int)speed.X);
+                    }
+                    else
+                        player.MoveX((int)speed.X);
+                }
 
             foreach (Tile t in tiles)
                 if (!t.IsPassable)
@@ -602,18 +611,30 @@ namespace Hero_of_Novac
 
             player.Update(gameTime, speed);
 
-            foreach (Enemy e in enemies)
-            {
-                e.Update(gameTime);
-                    
+                foreach (Enemy e in enemies)
+                {
+                    e.Update(gameTime);
+
+                }
+
+                foreach (NPC n in npcs)
+                    n.Update(gameTime);
+
+                foreach (Tile t in tiles)
+                    if (t.IsAnimated)
+                        t.Update(gameTime);
+
             }
-
-            foreach (NPC n in npcs)
-                n.Update(gameTime);
-
-            foreach (Tile t in tiles)
-                if (t.IsAnimated)
-                    t.Update(gameTime);
+            else
+            {
+                foreach(NPC n in npcs)
+                {
+                    if (n.isTalking)
+                    {
+                        n.Update(gameTime);
+                    }
+                }
+            }
         }
 
         public void Battle()
@@ -642,6 +663,7 @@ namespace Hero_of_Novac
             }
             foreach (Enemy e in enemies)
                 e.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             foreach (NPC n in npcs)
                 n.Draw(spriteBatch);
             player.Draw(spriteBatch);

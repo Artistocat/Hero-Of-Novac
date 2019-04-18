@@ -26,6 +26,7 @@ namespace Hero_of_Novac
         Random ran = new Random();
 
         SpriteFont font;
+        SpriteFont fontC;
 
         Texture2D pix;
 
@@ -79,9 +80,10 @@ namespace Hero_of_Novac
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("SpriteFont1");
+            fontC = Content.Load<SpriteFont>("CharacterTalk");
             area = new Area(Services, @"Content/Village", pix, window);
             
-            NPC.Load(font, area.Player, Content.Load<Texture2D>("speechballoons"));
+            NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"));
 
             Enemy.LoadContent(area.Player);
             BattleMenu.LoadContent(area.Player, font, pix, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
@@ -117,6 +119,7 @@ namespace Hero_of_Novac
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
             bool willBattle = false;
+            List<Enemy> enemiesInBattle = new List<Enemy>();
 
             switch (currentGameState)
             {
@@ -124,12 +127,15 @@ namespace Hero_of_Novac
                     break;
                 case GameState.Overworld:
                     area.Update(gameTime);
-                    foreach(Enemy enemy in area.Enemies)
+                    foreach (Enemy enemy in area.Enemies)
                         if (enemy.IsInBattle())
+                        {
                             willBattle = true;
+                            enemiesInBattle.Add(enemy);
+                        }
                     break;
                 case GameState.BattleMenu:
-                    battleMenu.Update();
+                    battleMenu.Update(gameTime);
                     area.Player.Update(gameTime, new Vector2(0, 0));
                     break;
                 case GameState.Inventory:
@@ -137,7 +143,11 @@ namespace Hero_of_Novac
             }
 
             if (willBattle)
+            {
                 currentGameState = GameState.BattleMenu;
+                Console.WriteLine("going to battle");
+                battleMenu = new BattleMenu(enemiesInBattle.ToArray());
+            }
             base.Update(gameTime);
         }
 
