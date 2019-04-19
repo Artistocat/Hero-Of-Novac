@@ -141,7 +141,7 @@ namespace Hero_of_Novac
             if (hitbox.Top < 0)
             {
                 hitbox.Y = 0;
-                playerPos.Y = -sourceRecWorld.Height + 32;
+                playerPos.Y = -sourceRecWorld.Height + hitbox.Height;
             }
             else if (hitbox.Bottom > window.Height)
             {
@@ -151,12 +151,12 @@ namespace Hero_of_Novac
             if (hitbox.Left < 0)
             {
                 hitbox.X = 0;
-                playerPos.X = -(sourceRecWorld.Width - 32) / 2;
+                playerPos.X = -(sourceRecWorld.Width - hitbox.Width) / 2;
             }
             else if (hitbox.Right > window.Width)
             {
                 hitbox.X = window.Width - hitbox.Width;
-                playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - 32) / 2;
+                playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - hitbox.Width) / 2;
             }
 
             if (!dead)
