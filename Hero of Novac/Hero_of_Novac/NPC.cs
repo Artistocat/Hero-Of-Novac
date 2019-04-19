@@ -115,30 +115,31 @@ namespace Hero_of_Novac
                     else
                         source.Y = 216;
 
-            }
-            else if (Math.Abs(vol.X) > Math.Abs(vol.Y))
-            {
-                if (vol.X > 0)
-                    source.Y = 144;
-                else
-                    source.Y = 72;
-            }
-            if (timer % 6 == 0)
-            {
-                bubblezSourceRec.X = (bubblezSourceRec.X + bubblezSourceRec.Width) % bubblez.Width;
-                if (vol != Vector2.Zero)
-                    source.X = (source.X + source.Width) % tex.Width;
-            }
+                }
+                else if (Math.Abs(vol.X) > Math.Abs(vol.Y))
+                {
+                    if (vol.X > 0)
+                        source.Y = 144;
+                    else
+                        source.Y = 72;
+                }
+                if (timer % 6 == 0)
+                {
+                    bubblezSourceRec.X = (bubblezSourceRec.X + bubblezSourceRec.Width) % bubblez.Width;
+                    if (vol != Vector2.Zero)
+                        source.X = (source.X + source.Width) % tex.Width;
+                }
 
-            if (rec.X < space.Left)
-                rec.X = space.Left;
-            if (rec.X > space.Right)
-                rec.X = space.Right;
-            if (rec.Y < space.Top)
-                rec.Y = space.Top;
-            if (rec.Y > space.Bottom)
-                rec.Y = space.Bottom;
-            oldGP = gp;
+                if (rec.X < space.Left)
+                    rec.X = space.Left;
+                if (rec.X > space.Right)
+                    rec.X = space.Right;
+                if (rec.Y < space.Top)
+                    rec.Y = space.Top;
+                if (rec.Y > space.Bottom)
+                    rec.Y = space.Bottom;
+                oldGP = gp;
+            }
         }
 
         public void MoveY(int speed)

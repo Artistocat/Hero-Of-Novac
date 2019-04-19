@@ -540,7 +540,7 @@ namespace Hero_of_Novac
                 speed.Y = (int)Math.Round(speed.Y);
                 if (speed.Y > 0)
                 {
-                    if (areaRec.Top < window.Top && player.Position.Y + player.SourceRec.Height <= window.Height / 3)
+                    if (areaRec.Top < window.Top && player.Hitbox.Bottom <= window.Height / 3)
                     {
                         areaRec.Y += (int)speed.Y;
                         foreach (NPC n in npcs)
@@ -553,7 +553,7 @@ namespace Hero_of_Novac
                 }
                 else if (speed.Y < 0)
                 {
-                    if (areaRec.Bottom > window.Bottom && player.Position.Y >= 2 * window.Height / 3)
+                    if (areaRec.Bottom > window.Bottom && player.Hitbox.Top >= 2 * window.Height / 3)
                     {
                         areaRec.Y += (int)speed.Y;
                         foreach (NPC n in npcs)
@@ -566,7 +566,7 @@ namespace Hero_of_Novac
                 }
                 if (speed.X < 0)
                 {
-                    if (areaRec.Left < window.Left && player.Position.X + player.SourceRec.Width <= window.Width / 3)
+                    if (areaRec.Left < window.Left && player.Hitbox.Right <= window.Width / 3)
                     {
                         areaRec.X -= (int)speed.X;
                         foreach (NPC n in npcs)
@@ -579,7 +579,7 @@ namespace Hero_of_Novac
                 }
                 if (speed.X > 0)
                 {
-                    if (areaRec.Right > window.Right && player.Position.X >= 2 * window.Width / 3)
+                    if (areaRec.Right > window.Right && player.Hitbox.Left >= 2 * window.Width / 3)
                     {
                         areaRec.X -= (int)speed.X;
                         foreach (NPC n in npcs)
@@ -591,25 +591,23 @@ namespace Hero_of_Novac
                         player.MoveX((int)speed.X);
                 }
 
-            foreach (Tile t in tiles)
-                if (!t.IsPassable)
-                {
-                    Rectangle tileRec = t.Rectangle;
-                    tileRec.X += areaRec.X;
-                    tileRec.Y += areaRec.Y;
-                    if (tileRec.Intersects(player.Hitbox))
+                foreach (Tile t in tiles)
+                    if (!t.IsPassable)
                     {
-                        Vector2 depth = player.Hitbox.GetIntersectionDepth(t.Rectangle);
-                        float absDepthX = Math.Abs(depth.X);
-                        float absDepthY = Math.Abs(depth.Y);
-                        if (absDepthY < absDepthX)
-                            player.MoveY((int)depth.Y);
-                        else
-                            player.MoveX((int)depth.X);
+                        Rectangle tileRec = t.Rectangle;
+                        tileRec.X += areaRec.X;
+                        tileRec.Y += areaRec.Y;
+                        if (tileRec.Intersects(player.Hitbox))
+                        {
+                            Vector2 depth = player.Hitbox.GetIntersectionDepth(tileRec);
+                            if (Math.Abs(depth.Y) < Math.Abs(depth.X))
+                                player.MoveY(-(int)depth.Y);
+                            else
+                                player.MoveX((int)depth.X);
+                        }
                     }
-                }
 
-            player.Update(gameTime, speed);
+                player.Update(gameTime, speed);
 
                 foreach (Enemy e in enemies)
                 {

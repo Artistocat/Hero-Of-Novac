@@ -155,7 +155,7 @@ namespace Hero_of_Novac
             }
             else if (hitbox.Right > window.Width)
             {
-                hitbox.X = window.Width = hitbox.Width;
+                hitbox.X = window.Width - hitbox.Width;
                 playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - 32) / 2;
             }
 
