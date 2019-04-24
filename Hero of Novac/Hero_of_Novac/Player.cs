@@ -268,11 +268,9 @@ namespace Hero_of_Novac
                         spriteBatch.Draw(combatTex, playerPos, sourceRecBattle, color);
                     else
                         spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color);
-                    healthBar.Draw(spriteBatch, false);
-                    magicBar.Draw(spriteBatch, false);
                     break;
                 case GameState.Battlemenu:
-                    spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color);
+                    spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
                     healthBar.Draw(spriteBatch, true);
                     magicBar.Draw(spriteBatch, true);
                     chargeBar.Draw(spriteBatch, true);
