@@ -136,19 +136,28 @@ namespace Hero_of_Novac
 
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
         {
-            hitbox.X = (int)playerPos.X + (sourceRecWorld.Width - 32) / 2;
-            hitbox.Y = (int)playerPos.Y + sourceRecWorld.Height - 32;
-
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             //World Border
             if (hitbox.Top < 0)
-                playerPos.Y = -sourceRecWorld.Height + 32;
+            {
+                hitbox.Y = 0;
+                playerPos.Y = -sourceRecWorld.Height + hitbox.Height;
+            }
             else if (hitbox.Bottom > window.Height)
+            {
+                hitbox.Y = window.Height - hitbox.Height;
                 playerPos.Y = window.Height - sourceRecWorld.Height;
+            }
             if (hitbox.Left < 0)
-                playerPos.X = -(sourceRecWorld.Width - 32) / 2;
+            {
+                hitbox.X = 0;
+                playerPos.X = -(sourceRecWorld.Width - hitbox.Width) / 2;
+            }
             else if (hitbox.Right > window.Width)
-                playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - 32) / 2;
+            {
+                hitbox.X = window.Width - hitbox.Width;
+                playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - hitbox.Width) / 2;
+            }
 
             if (!dead)
             {
@@ -205,13 +214,19 @@ namespace Hero_of_Novac
         public void MoveY(int speed)
         {
             if (!dead)
+            {
                 playerPos.Y -= speed;
+                hitbox.Y -= speed;
+            }
         }
 
         public void MoveX(int speed)
         {
             if (!dead)
+            {
                 playerPos.X += speed;
+                hitbox.X += speed;
+            }
         }
 
         private void UpdateBattlemenu()
