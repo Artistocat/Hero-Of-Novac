@@ -21,10 +21,10 @@ namespace Hero_of_Novac
         GamePadState gp;
         GamePadState oldGP;
 
-        public Boolean isTalking;
+        public bool isTalking;
 
-        Rectangle window;
-        public Rectangle Window
+        private static Rectangle window;
+        public static Rectangle Window
         {
             set { window = value; }
         }

@@ -14,6 +14,11 @@ namespace Hero_of_Novac
     public class Enemy : Entity
     {
         private static Player player;
+        private static Rectangle window;
+        public static Rectangle Window
+        {
+            set { window = value; }
+        }
 
         private const int barWidth = 66;
         private const int barHeight = 5;
