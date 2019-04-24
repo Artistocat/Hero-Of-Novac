@@ -65,7 +65,27 @@ namespace Hero_of_Novac
         private Rectangle healthRect; //for battles
         private Rectangle magicRect;
 
-        //private PercentageRectangle chargeBar;
+        private PercentageRectangle xpBar;
+        private PercentageRectangle[] xpElementBars;
+        private int[] elementLevels;
+        private int level;
+        public double LevelModifier
+        {
+            get
+            {
+                double modifier = 1.0;
+                for (int i = 0; i < level; i++)
+                {
+                    modifier *= 1.5;
+                }
+                return modifier;
+            }
+        }
+
+        public int Elementlvl(Element element)
+        {
+            return elementLevels[(int)element];
+        }
 
         //private PercentageRectangle battleHealthBar;
         //private PercentageRectangle battleMagicBar;
@@ -250,7 +270,8 @@ namespace Hero_of_Novac
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            switch (currentGameState) {
+            switch (currentGameState)
+            {
                 case GameState.Overworld:
                     if (dead)
                         spriteBatch.Draw(combatTex, playerPos, sourceRecBattle, color);

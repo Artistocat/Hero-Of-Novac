@@ -293,7 +293,6 @@ namespace Hero_of_Novac
                 //TODO
             }
 
-
             Direction dir = GetInputDirection();
             if (dir == Direction.Neutral)
                 return;
