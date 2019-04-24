@@ -370,28 +370,28 @@ namespace Hero_of_Novac
                             switch (lines[y][x])
                             {
                                 case '1':
-                                    LoadObject("tree1", x - 1, y, 4, 4, objectNum);
+                                    LoadObject("tree1", x - 1, y, 4, 4);
                                     break;
                                 case '2':
-                                    LoadObject("tree2", x - 1, y, 3, 4, objectNum);
+                                    LoadObject("tree2", x - 1, y, 3, 4);
                                     break;
                                 case '3':
-                                    LoadObject("tree3", x - 1, y, 3, 3, objectNum);
+                                    LoadObject("tree3", x - 1, y, 3, 3);
                                     break;
                                 case '4':
-                                    LoadObject("tree4", x - 1, y, 6, 6, objectNum);
+                                    LoadObject("tree4", x - 1, y, 6, 6);
                                     break;
                                 case '5':
-                                    LoadObject("tree5", x - 1, y, 3, 4, objectNum);
+                                    LoadObject("tree5", x - 1, y, 3, 4);
                                     break;
                                 case '6':
-                                    LoadObject("tree6", x - 1, y, 3, 3, objectNum);
+                                    LoadObject("tree6", x - 1, y, 3, 3);
                                     break;
                                 case '7':
-                                    LoadObject("tree7", x - 1, y, 3, 3, objectNum);
+                                    LoadObject("tree7", x - 1, y, 3, 3);
                                     break;
                                 case '8':
-                                    LoadObject("tree8", x - 1, y, 3, 3, objectNum);
+                                    LoadObject("tree8", x - 1, y, 3, 3);
                                     break;
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
@@ -403,16 +403,16 @@ namespace Hero_of_Novac
                             switch (r)
                             {
                                 case 0:
-                                    LoadObject("stump1", x, y, 3, 2, objectNum);
+                                    LoadObject("stump1", x, y, 3, 2);
                                     break;
                                 case 1:
-                                    LoadObject("stump2", x, y, 2, 2, objectNum);
+                                    LoadObject("stump2", x, y, 2, 2);
                                     break;
                                 case 2:
-                                    LoadObject("stump3", x, y, 2, 2, objectNum);
+                                    LoadObject("stump3", x, y, 2, 2);
                                     break;
                                 case 3:
-                                    LoadObject("stump4", x, y, 2, 2, objectNum);
+                                    LoadObject("stump4", x, y, 2, 2);
                                     break;
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
@@ -427,22 +427,22 @@ namespace Hero_of_Novac
                             switch (lines[y][x])
                             {
                                 case '1':
-                                    LoadObject("house1", x - 1, y, 9, 6, objectNum);
+                                    LoadObject("house1", x - 1, y, 9, 6);
                                     break;
                                 case '2':
-                                    LoadObject("house2", x - 1, y, 11, 10, objectNum);
+                                    LoadObject("house2", x - 1, y, 11, 10);
                                     break;
                                 case '3':
-                                    LoadObject("house3", x - 1, y, 12, 10, objectNum);
+                                    LoadObject("house3", x - 1, y, 12, 10);
                                     break;
                                 case '4':
-                                    LoadObject("house4", x - 1, y, 9, 9, objectNum);
+                                    LoadObject("house4", x - 1, y, 9, 9);
                                     break;
                                 case '5':
-                                    LoadObject("house5", x - 1, y, 13, 7, objectNum);
+                                    LoadObject("house5", x - 1, y, 13, 7);
                                     break;
                                 case '6':
-                                    LoadObject("house6", x - 1, y, 7, 7, objectNum);
+                                    LoadObject("house6", x - 1, y, 7, 7);
                                     break;
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
@@ -454,16 +454,16 @@ namespace Hero_of_Novac
                             switch (r)
                             {
                                 case 0:
-                                    LoadObject("barrel1", x, y, 1, 2, objectNum);
+                                    LoadObject("barrel1", x, y, 1, 2);
                                     break;
                                 case 1:
-                                    LoadObject("barrel2", x, y, 1, 2, objectNum);
+                                    LoadObject("barrel2", x, y, 1, 2);
                                     break;
                                 case 2:
-                                    LoadObject("barrel3", x, y, 1, 2, objectNum);
+                                    LoadObject("barrel3", x, y, 1, 2);
                                     break;
                                 case 3:
-                                    LoadObject("barrel4", x, y, 1, 2, objectNum);
+                                    LoadObject("barrel4", x, y, 1, 2);
                                     break;
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
@@ -478,7 +478,7 @@ namespace Hero_of_Novac
                 }
         }
 
-        private void LoadObject(string type, int x, int y, int width, int height, int id)
+        private void LoadObject(string type, int x, int y, int width, int height)
         {
             for (int r = 0; r < height; r++)
                 for (int c = 0; c < width; c++)
@@ -491,13 +491,13 @@ namespace Hero_of_Novac
                     switch (objectData[tileSheets[type]][i][j])
                     {
                         case '-':
-                            tiles.Add(new Tile(new Vector2(x + c, y - r), sourceRec, tileSheets[type], true, false, id));
+                            tiles.Add(new Tile(new Vector2(x + c, y - r), sourceRec, tileSheets[type], true, false));
                             break;
                         case 'x':
-                            tiles.Add(new Tile(new Vector2(x + c, y - r), sourceRec, tileSheets[type], false, false, id));
+                            tiles.Add(new Tile(new Vector2(x + c, y - r), sourceRec, tileSheets[type], false, false));
                             break;
                         case 'o':
-                            tiles.Add(new Tile(new Vector2(x + c, y - r), sourceRec, tileSheets[type], true, true, id));
+                            tiles.Add(new Tile(new Vector2(x + c, y - r), sourceRec, tileSheets[type], true, true));
                             break;
                         default:
                             throw new NotSupportedException(string.Format("Unsupported data character '{0}' at position {1}, {2}.", objectData[tileSheets[type]][i][j], j, i));
@@ -540,7 +540,7 @@ namespace Hero_of_Novac
                 speed.Y = (int)Math.Round(speed.Y);
                 if (speed.Y > 0)
                 {
-                    if (areaRec.Top < window.Top && player.Position.Y + player.SourceRec.Height <= window.Height / 3)
+                    if (areaRec.Top < window.Top && player.Hitbox.Bottom <= window.Height / 3)
                     {
                         areaRec.Y += (int)speed.Y;
                         foreach (NPC n in npcs)
@@ -553,7 +553,7 @@ namespace Hero_of_Novac
                 }
                 else if (speed.Y < 0)
                 {
-                    if (areaRec.Bottom > window.Bottom && player.Position.Y >= 2 * window.Height / 3)
+                    if (areaRec.Bottom > window.Bottom && player.Hitbox.Top >= 2 * window.Height / 3)
                     {
                         areaRec.Y += (int)speed.Y;
                         foreach (NPC n in npcs)
@@ -566,7 +566,7 @@ namespace Hero_of_Novac
                 }
                 if (speed.X < 0)
                 {
-                    if (areaRec.Left < window.Left && player.Position.X + player.SourceRec.Width <= window.Width / 3)
+                    if (areaRec.Left < window.Left && player.Hitbox.Right <= window.Width / 3)
                     {
                         areaRec.X -= (int)speed.X;
                         foreach (NPC n in npcs)
@@ -579,7 +579,7 @@ namespace Hero_of_Novac
                 }
                 if (speed.X > 0)
                 {
-                    if (areaRec.Right > window.Right && player.Position.X >= 2 * window.Width / 3)
+                    if (areaRec.Right > window.Right && player.Hitbox.Left >= 2 * window.Width / 3)
                     {
                         areaRec.X -= (int)speed.X;
                         foreach (NPC n in npcs)
@@ -590,6 +590,22 @@ namespace Hero_of_Novac
                     else
                         player.MoveX((int)speed.X);
                 }
+
+                foreach (Tile t in tiles)
+                    if (!t.IsPassable)
+                    {
+                        Rectangle tileRec = t.Rectangle;
+                        tileRec.X += areaRec.X;
+                        tileRec.Y += areaRec.Y;
+                        if (tileRec.Intersects(player.Hitbox))
+                        {
+                            Vector2 depth = player.Hitbox.GetIntersectionDepth(tileRec);
+                            if (Math.Abs(depth.Y) < Math.Abs(depth.X))
+                                player.MoveY(-(int)depth.Y);
+                            else
+                                player.MoveX((int)depth.X);
+                        }
+                    }
 
                 player.Update(gameTime, speed);
 
@@ -637,8 +653,10 @@ namespace Hero_of_Novac
         {
             foreach (Tile t in tiles)
             {
-                Rectangle tileRec = new Rectangle((int)(t.Position.X * TILE_WIDTH) + areaRec.X, (int)(t.Position.Y * TILE_HEIGHT) + areaRec.Y, TILE_WIDTH, TILE_HEIGHT);
-                if (tileRec.Intersects(window))
+                Rectangle tileRec = t.Rectangle;
+                tileRec.X += areaRec.X;
+                tileRec.Y += areaRec.Y;
+                if (tileRec.Intersects(window) && !t.IsOnTop)
                     spriteBatch.Draw(t.Texture, tileRec, t.SourceRec, Color.White);
             }
             foreach (Enemy e in enemies)
@@ -646,6 +664,15 @@ namespace Hero_of_Novac
             player.Draw(spriteBatch);
             foreach (NPC n in npcs)
                 n.Draw(spriteBatch);
+            player.Draw(spriteBatch);
+            for (int i = objectTilesStart; i < tiles.Count; i++)
+            {
+                Rectangle tileRec = tiles[i].Rectangle;
+                tileRec.X += areaRec.X;
+                tileRec.Y += areaRec.Y;
+                if (tileRec.Intersects(window) && tiles[i].IsOnTop)
+                    spriteBatch.Draw(tiles[i].Texture, tileRec, tiles[i].SourceRec, Color.White);
+            }
         }
     }
 }
