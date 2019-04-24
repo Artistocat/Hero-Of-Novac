@@ -124,7 +124,8 @@ namespace Hero_of_Novac
                 else
                     source.Y = 72;
             }
-            if (timer % 6 == 0)
+            
+            if (timer % 6 == 0 && !isTalking)
             {
                 bubblezSourceRec.X = (bubblezSourceRec.X + bubblezSourceRec.Width) % bubblez.Width;
                 if (vol != Vector2.Zero)
