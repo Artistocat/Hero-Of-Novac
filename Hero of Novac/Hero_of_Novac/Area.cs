@@ -517,7 +517,7 @@ namespace Hero_of_Novac
 
         private void AddEnemies()
         {
-            enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 1, 1), pix, new Vector2(0, 0), window));
+            enemies.Add(new Enemy(new Rectangle(50, 50, 100, 100), new Rectangle(0, 0, 1, 1), pix, new Vector2(0, 0), window));
         }
 
         /// <summary>
