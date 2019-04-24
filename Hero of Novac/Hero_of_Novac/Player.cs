@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Hero_of_Novac
 {
-    
+
     public class Player : Entity
     {
         private Rectangle window;
@@ -70,9 +70,9 @@ namespace Hero_of_Novac
         //private PercentageRectangle battleHealthBar;
         //private PercentageRectangle battleMagicBar;
         //private PercentageRectangle battleChargeBar;
-        
+
         private bool dead = false;
-        
+
         private Color color;
         private int timer;
 
@@ -85,7 +85,7 @@ namespace Hero_of_Novac
             this.combatTex = combatTex;
             pixel = p;
             sourceRecWorld = new Rectangle(OVERWORLD_SPRITE_WIDTH, 0, OVERWORLD_SPRITE_WIDTH, OVERWORLD_SPRITE_HEIGHT);
-            sourceRecBattle = new Rectangle((int)playerPos.X, (int)playerPos.Y, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
+            sourceRecBattle = new Rectangle( 0, 0, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - OVERWORLD_SPRITE_WIDTH) / 2, (window.Height - OVERWORLD_SPRITE_HEIGHT) / 2);
 
             healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, barWidth, barHeight), 100, Color.Red);
@@ -128,7 +128,7 @@ namespace Hero_of_Novac
                     UpdateOverworld(gameTime, speed);
                     break;
                 case GameState.Battlemenu:
-                    UpdateBattlemenu();
+                    UpdateBattlemenu(gameTime);
                     break;
             }
             rec = new Rectangle((int)playerPos.X, (int)playerPos.Y, sourceRecWorld.Width, sourceRecWorld.Height);
@@ -137,55 +137,56 @@ namespace Hero_of_Novac
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
-            //World Border
-            if (hitbox.Top < 0)
-            {
-                hitbox.Y = 0;
-                playerPos.Y = -sourceRecWorld.Height + hitbox.Height;
-            }
-            else if (hitbox.Bottom > window.Height)
-            {
-                hitbox.Y = window.Height - hitbox.Height;
-                playerPos.Y = window.Height - sourceRecWorld.Height;
-            }
-            if (hitbox.Left < 0)
-            {
-                hitbox.X = 0;
-                playerPos.X = -(sourceRecWorld.Width - hitbox.Width) / 2;
-            }
-            else if (hitbox.Right > window.Width)
-            {
-                hitbox.X = window.Width - hitbox.Width;
-                playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - hitbox.Width) / 2;
-            }
+                    //World Border
+                    if (hitbox.Top < 0)
+                    {
+                        hitbox.Y = 0;
+                        playerPos.Y = -sourceRecWorld.Height + hitbox.Height;
+                    }
+                    else if (hitbox.Bottom > window.Height)
+                    {
+                        hitbox.Y = window.Height - hitbox.Height;
+                        playerPos.Y = window.Height - sourceRecWorld.Height;
+                    }
+                    if (hitbox.Left < 0)
+                    {
+                        hitbox.X = 0;
+                        playerPos.X = -(sourceRecWorld.Width - hitbox.Width) / 2;
+                    }
+                    else if (hitbox.Right > window.Width)
+                    {
+                        hitbox.X = window.Width - hitbox.Width;
+                        playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - hitbox.Width) / 2;
+                    }
 
-            if (!dead)
-            {
-                if (speed == Vector2.Zero)
-                    sourceRecWorld.X = OVERWORLD_SPRITE_WIDTH;
-                else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
-                {
-                    if (speed.Y > 0)
-                        sourceRecWorld.Y = 216;
-                    else
-                        sourceRecWorld.Y = 0;
+                    if (!dead)
+                    {
+                        if (speed == Vector2.Zero)
+                            sourceRecWorld.X = OVERWORLD_SPRITE_WIDTH;
+                        else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
+                        {
+                            if (speed.Y > 0)
+                                sourceRecWorld.Y = 216;
+                            else
+                                sourceRecWorld.Y = 0;
 
-                }
-                else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
-                {
-                    if (speed.X > 0)
-                        sourceRecWorld.Y = 144;
-                    else
-                        sourceRecWorld.Y = 72;
-                }
-                if (speed != Vector2.Zero)
-                {
-                    if (timer % 6 == 0)
-                        sourceRecWorld.X = (sourceRecWorld.X + OVERWORLD_SPRITE_WIDTH) % overworldTex.Width;
-                }
-            if (healthBar.CurrentValue <= 0)
-                death();
-        }
+                        }
+                        else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
+                        {
+                            if (speed.X > 0)
+                                sourceRecWorld.Y = 144;
+                            else
+                                sourceRecWorld.Y = 72;
+                        }
+                        if (speed != Vector2.Zero)
+                        {
+                            if (timer % 6 == 0)
+                                sourceRecWorld.X = (sourceRecWorld.X + OVERWORLD_SPRITE_WIDTH) % overworldTex.Width;
+                        }
+                        if (healthBar.CurrentValue <= 0)
+                            death();
+                    }
+        
             //Use to test health bar stuff
             if (pad1.IsButtonDown(Buttons.DPadDown))
                 healthBar.CurrentValue--;
@@ -229,8 +230,9 @@ namespace Hero_of_Novac
             }
         }
 
-        private void UpdateBattlemenu()
+        private void UpdateBattlemenu(GameTime gameTime)
         {
+            timer++;
             //TODO
             /*
              *Update source rectangle for the battlemenu 
@@ -240,6 +242,10 @@ namespace Hero_of_Novac
             //battleChargeBar.CurrentValue = chargePoints;
             healthBar.Rect = healthRect;
             magicBar.Rect = magicRect;
+            if (timer % 5 == 0)
+                sourceRecBattle.X += BATTLE_SPRITE_WIDTH;
+            if (sourceRecBattle.X >= BATTLE_SPRITE_WIDTH * 3)
+                sourceRecBattle.X = 0;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

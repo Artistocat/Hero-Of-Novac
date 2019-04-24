@@ -517,7 +517,8 @@ namespace Hero_of_Novac
 
         private void AddEnemies()
         {
-            enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 1, 1), pix, new Vector2(0, 0), window));
+            //enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 1, 1), pix, new Vector2(0, 0), window));
+            enemies.Add(new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 116, 146, 116), content.Load<Texture2D>("gryphon"), new Vector2(0, 0), window));
         }
 
         /// <summary>
