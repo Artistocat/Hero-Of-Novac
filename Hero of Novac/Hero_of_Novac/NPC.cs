@@ -85,6 +85,7 @@ namespace Hero_of_Novac
             gp = GamePad.GetState(PlayerIndex.One);
             timer++;
             Rectangle r = new Rectangle(0, 0, 0, 0);
+            // remember this fucker
             if (gp.Buttons.A == ButtonState.Pressed && oldGP.Buttons.A != ButtonState.Pressed)
             {
                 Vector2 v = player.Position;
