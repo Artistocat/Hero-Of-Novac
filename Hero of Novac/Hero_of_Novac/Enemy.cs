@@ -21,7 +21,7 @@ namespace Hero_of_Novac
         {
             Overworld, Battlemenu
         }
-
+        private int timer;
         private GameState currentGameState;
         private Rectangle battleRec;
         private Rectangle battleSourceRec;
@@ -31,7 +31,7 @@ namespace Hero_of_Novac
         /*
          * 146 x 116
          */
-        public Enemy(Rectangle rec, Rectangle sourceRec, Texture2D tex, Vector2 pos, Rectangle window) 
+        public Enemy(Rectangle rec, Rectangle sourceRec, Texture2D tex, Vector2 pos, Rectangle window/*, Random ran*/) 
         {
             this.rec = rec;
             this.sourceRec = sourceRec;
@@ -39,7 +39,7 @@ namespace Hero_of_Novac
             this.pos = pos;
             currentGameState = GameState.Overworld;
             healthBar = new PercentageRectangle(new Rectangle(rec.X - 10, rec.Y - 10, barWidth, barHeight), 50, Color.Red); ;
-
+            timer = 0;
             //TODO
             battleRec = new Rectangle(window.Right - rec.Width * 4, window.Bottom / 4 - rec.Height, rec.Width, rec.Height);
             healthRect = new Rectangle(window.Left + window.Width * 3 / 4 + 25, window.Height / 2 + 100, barWidth * 5, barHeight * 5);
@@ -49,6 +49,7 @@ namespace Hero_of_Novac
         public static void LoadContent(Player player)
         {
             Enemy.player = player;
+
         }
 
         public void Update(GameTime gametime)
@@ -119,5 +120,35 @@ namespace Hero_of_Novac
         {
             currentGameState = GameState.Overworld;
         }
+        //public void randomMove()
+        //{
+        //    if (timer % 60 == 0 && ranMov == false)
+        //    {
+        //        // change the second number for how often you want to proc it
+        //        if (ran.Next(100) < 30)
+        //        {
+        //            ranMov = true;
+        //        }
+        //    }
+        //    if (ranMov == true)
+        //    {
+        //        t++;
+        //        // how long it'll move for
+        //        if (t / 60 < 2)
+        //        {
+        //            vol = new Vector2(r1, r2);
+        //        }
+        //        else
+        //        {
+        //            //reset
+        //            ranMov = false;
+        //            t = 0;
+        //            vol = new Vector2(0, 0);
+        //            r1 = ran.Next(-2, 3);
+        //            r2 = ran.Next(-2, 3);
+        //        }
+        //    }
+        //}
     }
+
 }
