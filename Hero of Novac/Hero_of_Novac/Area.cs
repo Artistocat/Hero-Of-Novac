@@ -625,7 +625,7 @@ namespace Hero_of_Novac
             }
             else
             {
-                foreach(NPC n in npcs)
+                foreach (NPC n in npcs)
                 {
                     if (n.isTalking)
                     {

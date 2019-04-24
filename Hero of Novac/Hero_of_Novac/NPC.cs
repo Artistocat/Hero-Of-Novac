@@ -87,7 +87,6 @@ namespace Hero_of_Novac
             gp = GamePad.GetState(PlayerIndex.One);
             timer++;
             Rectangle r = new Rectangle(0, 0, 0, 0);
-            // remember this fucker
             if (gp.Buttons.A == ButtonState.Pressed && oldGP.Buttons.A != ButtonState.Pressed)
             {
                 Vector2 v = player.Position;
@@ -101,46 +100,46 @@ namespace Hero_of_Novac
                 }
                 Talk(chat, name);
             }
+            
             if (!isTalking)
             {
                 randomMove();
                 rec.X += (int)vol.X;
                 rec.Y += (int)vol.Y;
-
-                if (vol.X == 0 && vol.Y == 0)
-                    source.X = source.Width;
-                else if (Math.Abs(vol.Y) >= Math.Abs(vol.X))
-                {
-                    if (vol.Y > 0)
-                        source.Y = 0;
-                    else
-                        source.Y = 216;
-
-                }
-                else if (Math.Abs(vol.X) > Math.Abs(vol.Y))
-                {
-                    if (vol.X > 0)
-                        source.Y = 144;
-                    else
-                        source.Y = 72;
-                }
-                if (timer % 6 == 0)
-                {
-                    bubblezSourceRec.X = (bubblezSourceRec.X + bubblezSourceRec.Width) % bubblez.Width;
-                    if (vol != Vector2.Zero)
-                        source.X = (source.X + source.Width) % tex.Width;
-                }
-
-                if (rec.X < space.Left)
-                    rec.X = space.Left;
-                if (rec.X > space.Right)
-                    rec.X = space.Right;
-                if (rec.Y < space.Top)
-                    rec.Y = space.Top;
-                if (rec.Y > space.Bottom)
-                    rec.Y = space.Bottom;
-                oldGP = gp;
             }
+            if (vol.X == 0 && vol.Y == 0)
+                source.X = source.Width;
+            else if (Math.Abs(vol.Y) >= Math.Abs(vol.X))
+            {
+                if (vol.Y > 0)
+                    source.Y = 0;
+                else
+                    source.Y = 216;
+
+            }
+            else if (Math.Abs(vol.X) > Math.Abs(vol.Y))
+            {
+                if (vol.X > 0)
+                    source.Y = 144;
+                else
+                    source.Y = 72;
+            }
+            if (timer % 6 == 0)
+            {
+                bubblezSourceRec.X = (bubblezSourceRec.X + bubblezSourceRec.Width) % bubblez.Width;
+                if (vol != Vector2.Zero)
+                    source.X = (source.X + source.Width) % tex.Width;
+            }
+            
+            if (rec.X < space.Left)
+                rec.X = space.Left;
+            if (rec.X > space.Right)
+                rec.X = space.Right;
+            if (rec.Y < space.Top)
+                rec.Y = space.Top;
+            if (rec.Y > space.Bottom)
+                rec.Y = space.Bottom;
+            oldGP = gp;
         }
 
         public void MoveY(int speed)
@@ -284,7 +283,7 @@ namespace Hero_of_Novac
             if (timer % 60 == 0 && ranMov == false)
             {
                 // change the second number for how often you want to proc it
-                if (ran.Next(100) < 30)
+                if (ran.Next(100) < 100)
                 {
                     ranMov = true;
                 }
