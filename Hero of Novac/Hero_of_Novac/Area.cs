@@ -550,7 +550,7 @@ namespace Hero_of_Novac
                 }
                 else if (speed.Y < 0)
                 {
-                    if (areaRec.Bottom > window.Bottom && player.Hitbox.Top >= 2 * window.Height / 3)
+                    if (areaRec.Bottom > window.Bottom && player.Hitbox.Top > 2 * window.Height / 3)
                     {
                         areaRec.Y += (int)speed.Y;
                         foreach (NPC n in npcs)

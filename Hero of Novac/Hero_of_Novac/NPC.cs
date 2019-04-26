@@ -284,7 +284,7 @@ namespace Hero_of_Novac
             if (timer % 60 == 0 && ranMov == false)
             {
                 // change the second number for how often you want to proc it
-                if (ran.Next(100) < 100)
+                if (ran.Next(100) < 50)
                 {
                     ranMov = true;
                 }

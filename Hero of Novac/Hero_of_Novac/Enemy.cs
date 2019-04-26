@@ -135,11 +135,13 @@ namespace Hero_of_Novac
         public void MoveY(int speed)
         {
             rec.Y += speed;
+            space.Y += speed;
         }
 
         public void MoveX(int speed)
         {
             rec.X -= speed;
+            space.X -= speed;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -176,7 +178,7 @@ namespace Hero_of_Novac
             if (timer % 60 == 0 && ranMov == false)
             {
                 // change the second number for how often you want to proc it
-                if (ran.Next(100) < 30)
+                if (ran.Next(100) < 50)
                 {
                     ranMov = true;
                 }
