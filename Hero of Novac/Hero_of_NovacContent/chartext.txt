@@ -1,8 +1,8 @@
 a Hows it going?
 a Need some protection ;)?
 a I'll see you around!
-b Hello There!
-b Want some Swords?
+b Hello there!
+b Want some swords?
 b Good bye!
 s Welcome to my store!
 s Take a look around.
