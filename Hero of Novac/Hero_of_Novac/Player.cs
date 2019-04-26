@@ -82,6 +82,22 @@ namespace Hero_of_Novac
             }
         }
 
+        public BasicAttack[] BasicAttacks
+        {
+            get
+            {
+                return basicAttacks;
+            }
+        }
+
+        public Dictionary<Element, MagicAttack[]> MagicAttacks
+        {
+            get
+            {
+                return magicAttacks;
+            }
+        }
+
         public int Elementlvl(Element element)
         {
             return elementLevels[(int)element];
@@ -89,7 +105,7 @@ namespace Hero_of_Novac
 
         private BasicAttack[] basicAttacks;
         private Dictionary<Element, MagicAttack[]> magicAttacks;
-        private Attack currentAttack;
+        public Attack currentAttack;
 
         //private PercentageRectangle battleHealthBar;
         //private PercentageRectangle battleMagicBar;
