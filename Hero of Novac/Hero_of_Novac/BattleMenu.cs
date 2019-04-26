@@ -17,6 +17,7 @@ namespace Hero_of_Novac
         private static NavigableMenuItem[] MainChoices;
         private static NavigableMenuItem[,] Basic;
         private static NavigableMenuItem[,] Magic;
+        private static NavigableMenuItem[] Element;
         private static Rectangle menuRect;
 
         private Enemy[] enemies;
@@ -122,6 +123,15 @@ namespace Hero_of_Novac
             Magic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Blue);
             Magic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Purple);
 
+            int elementHeight = 20;
+            int elementY = attackRects[0].Y - elementHeight;
+            Element = new NavigableMenuItem[5];
+            Element[0] = new NavigableMenuItem(new Rectangle(width / 4, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
+            Element[1] = new NavigableMenuItem(new Rectangle(width / 4 + width / 2/ 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
+            Element[2] = new NavigableMenuItem(new Rectangle(width / 4 + 2 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
+            Element[3] = new NavigableMenuItem(new Rectangle(width / 4 + 3 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
+            Element[4] = new NavigableMenuItem(new Rectangle(width / 4 + 4 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
+            //WHY DIDN'T I DO THIS IN A FOR LOOP?????
 
         }
 
@@ -230,6 +240,7 @@ namespace Hero_of_Novac
                     case BOTTOM:
                         currentChoiceState = ChoiceState.Magic;
                         Magic[0, 0].isSelected = true;
+                        Element[0].isSelected = true;
                         break;
                     case LEFT:
                         currentChoiceState = ChoiceState.Items;
@@ -290,7 +301,7 @@ namespace Hero_of_Novac
             {
                 Vector2 selected = GetSelected(Basic);
                 currentBattleState = BattleState.Charging;
-                //TODO
+                player.currentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)];
             }
 
             Direction dir = GetInputDirection();
@@ -345,6 +356,30 @@ namespace Hero_of_Novac
 
         private void ChoosingMagic()
         {
+            if (oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed)
+            {
+                Vector2 selected = GetSelected(Magic);
+                Element element = GetSelected(Element);
+                currentBattleState = BattleState.Charging;
+                player.currentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)];
+            }
+
+            if (gamePad.Buttons.RightShoulder == ButtonState.Released && oldGamePad.Buttons.RightShoulder == ButtonState.Pressed)
+            {
+                for (int i = 0; i < Element.Length; i++)
+                {
+                    if (Element[i].isSelected)
+                    {
+                        Element[i].isSelected = false;
+                        if (i == Element.Length - 1)
+                            Element[0].isSelected = true;
+                        else
+                            Element[i + 1].isSelected = true;
+                        break;
+                    }
+                }
+            }
+
             Direction dir = GetInputDirection();
             if (dir == Direction.Neutral)
                 return;
@@ -392,6 +427,18 @@ namespace Hero_of_Novac
                     }
                 }
             }
+        }
+
+        private Element GetSelectedElement()
+        {
+            for (int i = 0; i < Element.Length; i++)
+            {
+                if (Element[i].isSelected == true)
+                {
+                    return (Element)i;
+                }
+            }
+            throw new Exception("nothing selected");
         }
 
         //Give it Basic[,] or Magic[,]
@@ -497,6 +544,8 @@ namespace Hero_of_Novac
         private void DrawMagic(SpriteBatch spriteBatch)
         {
             foreach (NavigableMenuItem menuItem in Magic)
+                menuItem.Draw(spriteBatch);
+            foreach (NavigableMenuItem menuItem in Element)
                 menuItem.Draw(spriteBatch);
         }
 

@@ -83,6 +83,22 @@ namespace Hero_of_Novac
             }
         }
 
+        public BasicAttack[] BasicAttacks
+        {
+            get
+            {
+                return basicAttacks;
+            }
+        }
+
+        public Dictionary<Element, MagicAttack[]> MagicAttacks
+        {
+            get
+            {
+                return magicAttacks;
+            }
+        }
+
         public int Elementlvl(Element element)
         {
             return elementLevels[(int)element];
