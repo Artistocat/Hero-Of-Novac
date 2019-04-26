@@ -38,6 +38,7 @@ namespace Hero_of_Novac
         {
             get { return sourceRecWorld; }
         }
+        private Boolean attackTest = false;
         private Vector2 playerPos;
         private Vector2 battlePos;
         public Vector2 Position
@@ -162,6 +163,7 @@ namespace Hero_of_Novac
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
+            attackTest = false;
                     //World Border
                     if (hitbox.Top < 0)
                     {
@@ -211,7 +213,19 @@ namespace Hero_of_Novac
                         if (healthBar.CurrentValue <= 0)
                             death();
                     }
-        
+
+                    //Attacc animation tests
+                    if(pad1.IsButtonDown(Buttons.X))
+            {
+                attackTest = true;
+                sourceRecBattle.X = 96 * 3;
+                if (sourceRecBattle.X >= 96 * 6)
+                {
+                    if (timer % 4 == 0)
+                        sourceRecBattle.X += 96;
+                }
+            }
+
             //Use to test health bar stuff
             if (pad1.IsButtonDown(Buttons.DPadDown))
                 healthBar.CurrentValue--;
