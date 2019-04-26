@@ -89,7 +89,7 @@ namespace Hero_of_Novac
 
         private BasicAttack[] basicAttacks;
         private Dictionary<Element, MagicAttack[]> magicAttacks;
-        private Attack currentAttack;
+        public Attack currentAttack;
 
         //private PercentageRectangle battleHealthBar;
         //private PercentageRectangle battleMagicBar;
@@ -109,7 +109,7 @@ namespace Hero_of_Novac
             this.combatTex = combatTex;
             pixel = p;
             sourceRecWorld = new Rectangle(OVERWORLD_SPRITE_WIDTH, 0, OVERWORLD_SPRITE_WIDTH, OVERWORLD_SPRITE_HEIGHT);
-            sourceRecBattle = new Rectangle(96, 0, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
+            sourceRecBattle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - OVERWORLD_SPRITE_WIDTH) / 2, (window.Height - OVERWORLD_SPRITE_HEIGHT) / 2);
 
             healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, barWidth, barHeight), 100, Color.Red);

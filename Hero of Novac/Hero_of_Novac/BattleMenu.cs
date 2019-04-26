@@ -426,13 +426,22 @@ namespace Hero_of_Novac
         {
             //switch (currentAttack)
             //{
-            //    case Attack.slash:
-            //    player.sourceRecBattle.X = 96 * 3;
-            //    if (player.sourceRecBattle.X >= 96 * 6)
-            //    {
-            //        if (timer % 4 == 0)
-            //            player.sourceRecBattle.X += 96;
-            //    }
+            //    case Attack.Slash:
+            //        player.sourceRecBattle.X = 96 * 3;
+            //        if (player.sourceRecBattle.X >= 96 * 6)
+            //        {
+            //            if (timer % 4 == 0)
+            //                player.sourceRecBattle.X += 96;
+            //        }
+            //        break;
+            //    case Attack.Lunge:
+            //        if (player.sourceRecBattle.X >= 96 * 6)
+            //        {
+            //            if (timer % 4 == 0)
+            //                player.sourceRecBattle.X += 96;
+            //        }
+            //        break;
+            //    case Attack.Punch:
             //        break;
             //}
         }
