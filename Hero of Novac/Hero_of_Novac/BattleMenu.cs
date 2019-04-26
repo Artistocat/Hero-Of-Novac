@@ -359,7 +359,7 @@ namespace Hero_of_Novac
             if (oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed)
             {
                 Vector2 selected = GetSelected(Magic);
-                Element element = GetSelected(Element);
+                Element element = GetSelectedElement();
                 currentBattleState = BattleState.Charging;
                 player.currentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)];
             }
