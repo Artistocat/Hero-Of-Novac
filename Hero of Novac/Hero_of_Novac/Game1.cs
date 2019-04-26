@@ -94,7 +94,7 @@ namespace Hero_of_Novac
             enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(146, 0, 146, 116), new Rectangle(0, 0, 200, 200), Content.Load<Texture2D>("gryphon"), new Vector2(0, 0), window, randomNoSeed, new Vector2(0, 0)));
             area.AddEnemies(enemies);
 
-            NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"));
+            NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"), Content.Load<Texture2D>("window"));
             NPC.Window = window;
 
             Enemy.LoadContent(area.Player);
