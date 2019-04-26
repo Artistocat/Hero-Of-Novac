@@ -33,7 +33,7 @@ namespace Hero_of_Novac
         private Texture2D combatTex;
         private Texture2D pixel;
         private Rectangle sourceRecWorld;
-        private Rectangle sourceRecBattle;
+        public Rectangle sourceRecBattle;
         public Rectangle SourceRec
         {
             get { return sourceRecWorld; }
@@ -105,7 +105,7 @@ namespace Hero_of_Novac
             this.combatTex = combatTex;
             pixel = p;
             sourceRecWorld = new Rectangle(OVERWORLD_SPRITE_WIDTH, 0, OVERWORLD_SPRITE_WIDTH, OVERWORLD_SPRITE_HEIGHT);
-            sourceRecBattle = new Rectangle( 0, 0, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
+            sourceRecBattle = new Rectangle(96, 0, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - OVERWORLD_SPRITE_WIDTH) / 2, (window.Height - OVERWORLD_SPRITE_HEIGHT) / 2);
 
             healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, barWidth, barHeight), 100, Color.Red);
@@ -252,6 +252,7 @@ namespace Hero_of_Novac
 
         private void UpdateBattlemenu(GameTime gameTime)
         {
+            GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             timer++;
             //TODO
             /*
@@ -266,6 +267,7 @@ namespace Hero_of_Novac
                 sourceRecBattle.X += BATTLE_SPRITE_WIDTH;
             if (sourceRecBattle.X >= BATTLE_SPRITE_WIDTH * 3)
                 sourceRecBattle.X = 0;
+                
         }
 
         public override void Draw(SpriteBatch spriteBatch)
