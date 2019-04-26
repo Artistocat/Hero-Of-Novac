@@ -21,10 +21,10 @@ namespace Hero_of_Novac
         GamePadState gp;
         GamePadState oldGP;
 
-        public Boolean isTalking;
+        public bool isTalking;
 
-        Rectangle window;
-        public Rectangle Window
+        private static Rectangle window;
+        public static Rectangle Window
         {
             set { window = value; }
         }
@@ -284,7 +284,7 @@ namespace Hero_of_Novac
             if (timer % 60 == 0 && ranMov == false)
             {
                 // change the second number for how often you want to proc it
-                if (ran.Next(100) < 100)
+                if (ran.Next(100) < 50)
                 {
                     ranMov = true;
                 }

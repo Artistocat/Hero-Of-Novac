@@ -60,7 +60,7 @@ namespace Hero_of_Novac
             get { return content; }
         }
 
-        private Random random = new Random(1102);
+        Random random;
 
         /// <summary>
         /// Creates a new area in the world.
@@ -68,11 +68,13 @@ namespace Hero_of_Novac
         /// <param name="serviceProvider">Provides a service provider.</param>
         /// <param name="path">The path to the folder holding the level data.</param>
         /// <param name="window">A rectangle representing the veiwing window of the game.</param>
-        public Area(IServiceProvider serviceProvider, string path, Texture2D p, Rectangle window)
+        public Area(IServiceProvider serviceProvider, string path, Texture2D p, Rectangle window, Random ran)
         {
             content = new ContentManager(serviceProvider, "Content");
 
             this.window = window;
+
+            random = ran;
 
             sourceRecs = new Dictionary<string, Rectangle>();
             sourceRecs.Add("grass", new Rectangle(0, 0, TILE_WIDTH, TILE_HEIGHT));
@@ -157,9 +159,9 @@ namespace Hero_of_Novac
             player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), pix, window);
             SpriteFont font = Content.Load<SpriteFont>("SpriteFont1");
             npcs = new List<NPC>();
-            AddNPCs(font);
+            //AddNPCs(font);
             enemies = new List<Enemy>();
-            AddEnemies();
+            //AddEnemies();
         }
 
         /// <summary>
@@ -505,20 +507,14 @@ namespace Hero_of_Novac
                 }
         }
 
-        private void AddNPCs(SpriteFont font)
+        public void AddNPCs(List<NPC> list)
         {
-            npcs.Add(new NPC(new Rectangle(300, 300, 52, 72), Content.Load<Texture2D>("blacksmith"), new Rectangle(52, 0, 52, 72), new Rectangle(100, 100, 200, 200), new Vector2(0, 0), true, 'b', Speech.None, random));
-            npcs.Add(new NPC(new Rectangle(200, 300, 52, 72), Content.Load<Texture2D>("shopkeeper"), new Rectangle(52, 0, 52, 72), new Rectangle(0, 400, 200, 200), new Vector2(0, 0), true, 's', Speech.None, random));
-            npcs.Add(new NPC(new Rectangle(400, 300, 52, 72), Content.Load<Texture2D>("priestess"), new Rectangle(52, 0, 52, 72), new Rectangle(400, 0, 200, 200), new Vector2(0, 0), true, 'p', Speech.None, random));
-            npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), Content.Load<Texture2D>("armour"), new Rectangle(52, 0, 52, 72), new Rectangle(500, 500, 200, 200), new Vector2(0, 0), true, 'a', Speech.None, random));
-            foreach (NPC n in npcs)
-                n.Window = window;
+            npcs = list;
         }
 
-        private void AddEnemies()
+        public void AddEnemies(List<Enemy> list)
         {
-            //enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(0, 0, 1, 1), pix, new Vector2(0, 0), window));
-            enemies.Add(new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 116, 146, 116), new Rectangle(0, 0, 200, 200), content.Load<Texture2D>("gryphon"), new Vector2(0, 0), window));
+            enemies = list;
         }
 
         /// <summary>
@@ -554,7 +550,7 @@ namespace Hero_of_Novac
                 }
                 else if (speed.Y < 0)
                 {
-                    if (areaRec.Bottom > window.Bottom && player.Hitbox.Top >= 2 * window.Height / 3)
+                    if (areaRec.Bottom > window.Bottom && player.Hitbox.Top > 2 * window.Height / 3)
                     {
                         areaRec.Y += (int)speed.Y;
                         foreach (NPC n in npcs)
