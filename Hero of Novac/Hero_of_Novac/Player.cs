@@ -87,6 +87,10 @@ namespace Hero_of_Novac
             return elementLevels[(int)element];
         }
 
+        private BasicAttack[] basicAttacks;
+        private Dictionary<Element, MagicAttack[]> magicAttacks;
+        private Attack currentAttack;
+
         //private PercentageRectangle battleHealthBar;
         //private PercentageRectangle battleMagicBar;
         //private PercentageRectangle battleChargeBar;
@@ -131,6 +135,7 @@ namespace Hero_of_Novac
             timer = 0;
 
             hitbox = new Rectangle((int)playerPos.X + (sourceRecWorld.Width - 32) / 2, (int)playerPos.Y + sourceRecWorld.Height - 32, 32, 32);
+                        
         }
 
         public void death()
@@ -253,10 +258,6 @@ namespace Hero_of_Novac
         private void UpdateBattlemenu(GameTime gameTime)
         {
             timer++;
-            //TODO
-            /*
-             *Update source rectangle for the battlemenu 
-             */
             //battleHealthBar.CurrentValue = healthPoints;
             //battleMagicBar.CurrentValue = magicPoints;
             //battleChargeBar.CurrentValue = chargePoints;
@@ -297,7 +298,7 @@ namespace Hero_of_Novac
         public void Overworld()
         {
             currentGameState = GameState.Overworld;
-            //TODO resetting the values for the health and magic bars in the overworld
+            //TODO resetting the locations for the health and magic bars in the overworld
         }
     }
 }
