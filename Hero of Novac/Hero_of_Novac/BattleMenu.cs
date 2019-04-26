@@ -22,7 +22,7 @@ namespace Hero_of_Novac
         private Enemy[] enemies;
         private GamePadState gamePad;
         private GamePadState oldGamePad;
-        private int tics;
+        private int timer;
 
         enum BattleState
         {
@@ -48,7 +48,7 @@ namespace Hero_of_Novac
             currentChoiceState = ChoiceState.MainChoice;
             //currentMenuChoice = MenuChoice.Basic;
             this.enemies = enemies;
-            tics = 0;
+            timer = 0;
 
 
             foreach (NavigableMenuItem m in MainChoices)
@@ -150,7 +150,7 @@ namespace Hero_of_Novac
                     EndingBattle();
                     break;
             }
-            tics++;
+            timer++;
             foreach (Enemy enemy in enemies)
             {
                 enemy.Update(gameTime);
@@ -424,7 +424,17 @@ namespace Hero_of_Novac
 
         private void Attacking()
         {
-
+            //switch (currentAttack)
+            //{
+            //    case Attack.slash:
+            //    player.sourceRecBattle.X = 96 * 3;
+            //    if (player.sourceRecBattle.X >= 96 * 6)
+            //    {
+            //        if (timer % 4 == 0)
+            //            player.sourceRecBattle.X += 96;
+            //    }
+            //        break;
+            //}
         }
 
         private void EnemyAttacking()

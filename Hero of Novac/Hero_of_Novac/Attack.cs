@@ -41,38 +41,37 @@ namespace Hero_of_Novac
 
         public static void LoadContent()
         {
-            //TODO
-            //lunge = new BasicAttack();
-            //slash = new BasicAttack();
-            //chop = new BasicAttack();
-            //punch = new BasicAttack();
+            lunge = new BasicAttack(5, 4);
+            slash = new BasicAttack(4, 3);
+            chop = new BasicAttack(8, 7);
+            punch = new BasicAttack(1, 1);
 
-            //whirlwind = new MagicAttack();
-            //airSlash = new MagicAttack();
-            //windStrike = new MagicAttack();
-            //faldorsWind = new MagicAttack();
+            whirlwind = new MagicAttack(5, 5, Element.Air);
+            airSlash = new MagicAttack(3, 3, Element.Air);
+            windStrike = new MagicAttack(4, 4, Element.Air);
+            faldorsWind = new MagicAttack(4, 5, Element.Air);
 
-            //wallOfFire = new MagicAttack();
-            //fireBall = new MagicAttack();
-            //incendiaryCloud = new MagicAttack();
-            //ottosFireStorm = new MagicAttack();
+            wallOfFire = new MagicAttack(8, 8, Element.Fire);
+            fireBall = new MagicAttack(12, 12, Element.Fire);
+            incendiaryCloud = new MagicAttack(6, 6, Element.Fire);
+            ottosFireStorm = new MagicAttack(7, 9, Element.Fire);
 
-            //thornWhip = new MagicAttack();
-            //stoneThrow = new MagicAttack();
-            //earthquake = new MagicAttack();
-            //otilukesWrath = new MagicAttack();
+            thornWhip = new MagicAttack(15, 15, Element.Earth);
+            stoneThrow = new MagicAttack(20, 20, Element.Earth);
+            earthquake = new MagicAttack(25, 25, Element.Earth);
+            otilukesWrath = new MagicAttack(22, 26, Element.Earth);
 
-            //coneOfCold = new MagicAttack();
-            //iceStorm = new MagicAttack();
-            //frostRay = new MagicAttack();
-            //rarysTsunami = new MagicAttack();
+            coneOfCold = new MagicAttack(12, 12, Element.Water);
+            iceStorm = new MagicAttack(20, 20, Element.Water);
+            frostRay = new MagicAttack(16, 16, Element.Water);
+            rarysTsunami = new MagicAttack(17, 20, Element.Water);
 
-            //magicMissile = new MagicAttack();
-            //eldritchBlast = new MagicAttack();
-            //arcaneBeam = new MagicAttack();
-            //tashasLaugh = new MagicAttack();
+            magicMissile = new MagicAttack(9, 9, Element.Aether);
+            eldritchBlast = new MagicAttack(15, 15, Element.Aether);
+            arcaneBeam = new MagicAttack(12, 12, Element.Aether);
+            tashasLaugh = new MagicAttack(13, 15, Element.Aether);
         }
-
+        
         //Basic attacks
         private static Attack lunge;
         private static Attack slash;
@@ -109,6 +108,188 @@ namespace Hero_of_Novac
         private static Attack arcaneBeam;
         private static Attack tashasLaugh;
 
-       //BEAST Attacks
+        //BEAST Attacks
+
+
+
+        public static Attack Lunge
+        {
+            get
+            {
+                return lunge;
+            }
+        }
+        public static Attack Slash
+        {
+            get
+            {
+                return slash;
+            }
+        }
+        public static Attack Chop
+        {
+            get
+            {
+                return chop;
+            }
+        }
+        public static Attack Punch
+        {
+            get
+            {
+                return punch;
+            }
+        }
+        public static Attack Whirlwind
+        {
+            get
+            {
+                return whirlwind;
+            }
+        }
+        public static Attack AirSlash
+        {
+            get
+            {
+                return airSlash;
+            }
+        }
+        public static Attack WindStrike
+        {
+            get
+            {
+                return windStrike;
+            }
+        }
+        public static Attack FaldorsWind
+        {
+            get
+            {
+                return faldorsWind;
+            }
+        }
+        public static Attack WallOfFire
+        {
+            get
+            {
+                return wallOfFire;
+            }
+        }
+        public static Attack FireBall
+        {
+            get
+            {
+                return fireBall;
+            }
+        }
+        public static Attack IncendiaryCloud
+        {
+            get
+            {
+                return incendiaryCloud;
+            }
+        }
+
+        public static Attack OttosFireStorm
+        {
+            get
+            {
+                return ottosFireStorm;
+            }
+        }
+
+        public static Attack ThornWhip
+        {
+            get
+            {
+                return thornWhip;
+            }
+        }
+
+        public static Attack StoneThrow
+        {
+            get
+            {
+                return stoneThrow;
+            }
+        }
+        public static Attack Earthquake
+        {
+            get
+            {
+                return earthquake;
+            }
+        }
+        public static Attack OtilukesWrath
+        {
+            get
+            {
+                return otilukesWrath;
+            }
+        }
+
+        public static Attack ConeOfCold
+        {
+            get
+            {
+                return coneOfCold;
+            }
+        }
+
+        public static Attack IceStorm
+        {
+            get
+            {
+                return iceStorm;
+            }
+        }
+
+        public static Attack FrostRay
+        {
+            get
+            {
+                return frostRay;
+            }
+        }
+
+        public static Attack RarysTsunami
+        {
+            get
+            {
+                return rarysTsunami;
+            }
+        }
+
+        public static Attack MagicMissile
+        {
+            get
+            {
+                return magicMissile;
+            }
+        }
+
+        public static Attack EldritchBlast
+        {
+            get
+            {
+                return eldritchBlast;
+            }
+        }
+
+        public static Attack ArcaneBeam
+        {
+            get
+            {
+                return arcaneBeam;
+            }
+        }
+
+        public static Attack TashasLaugh
+        {
+            get
+            {
+                return tashasLaugh;
+            }
+        }
     }
 }
