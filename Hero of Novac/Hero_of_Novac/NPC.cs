@@ -160,18 +160,19 @@ namespace Hero_of_Novac
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(isTalking)
+            spriteBatch.Draw(tex, rec, source, Color.White, 0f, Vector2.Zero, SpriteEffects.None, (float)(window.Height - rec.Bottom) / window.Height);
+            if (!isTalking)
+                spriteBatch.Draw(bubblez, new Rectangle(rec.X + 10, rec.Y - 20, 30, 30), bubblezSourceRec, Color.White, 0f, Vector2.Zero, SpriteEffects.None, (float)(window.Height - rec.Bottom) / window.Height);
+            
+        }
+
+        public void DrawWindow(SpriteBatch spriteBatch)
+        {
+            if (isTalking)
             {
-                spriteBatch.Draw(tex, rec, source, Color.White);
-                spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White,0f,new Vector2(0,0),SpriteEffects.None,1);
+                spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White, 0f, new Vector2(0, 0), SpriteEffects.None, 1);
                 spriteBatch.DrawString(font, Talk(chat, name), new Vector2(35, window.Height / 4 * 3 + 20), Color.White);
             }
-            else
-            {
-                spriteBatch.Draw(bubblez, new Rectangle(rec.X + 10, rec.Y - 20, 30, 30), bubblezSourceRec, Color.White);
-                spriteBatch.Draw(tex, rec, source, Color.White);
-            }
-            
         }
 
         public static void Load(SpriteFont f, Player player, Texture2D b, Texture2D w)
