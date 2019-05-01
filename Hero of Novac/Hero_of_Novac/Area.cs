@@ -550,7 +550,7 @@ namespace Hero_of_Novac
                 }
                 else if (speed.Y < 0)
                 {
-                    if (areaRec.Bottom > window.Bottom && player.Hitbox.Top >= 2 * window.Height / 3)
+                    if (areaRec.Bottom > window.Bottom && player.Hitbox.Top > 2 * window.Height / 3)
                     {
                         areaRec.Y += (int)speed.Y;
                         foreach (NPC n in npcs)
@@ -659,8 +659,7 @@ namespace Hero_of_Novac
             foreach (Enemy e in enemies)
                 e.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            foreach (NPC n in npcs)
-                n.Draw(spriteBatch);
+            
             player.Draw(spriteBatch);
             for (int i = objectTilesStart; i < tiles.Count; i++)
             {
@@ -670,6 +669,8 @@ namespace Hero_of_Novac
                 if (tileRec.Intersects(window) && tiles[i].IsOnTop)
                     spriteBatch.Draw(tiles[i].Texture, tileRec, tiles[i].SourceRec, Color.White);
             }
+            foreach (NPC n in npcs)
+                n.Draw(spriteBatch);
         }
     }
 }

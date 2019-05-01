@@ -61,6 +61,7 @@ namespace Hero_of_Novac
             battleRec = new Rectangle(window.Right - rec.Width * 4, window.Bottom / 4 - rec.Height, rec.Width, rec.Height);
             healthRect = new Rectangle(window.Left + window.Width * 3 / 4 + 25, window.Height / 2 + 100, barWidth * 5, barHeight * 5);
             battleSourceRec = sourceRec;
+            battleSourceRec.Y = 116;
         }
 
         public static void LoadContent(Player player)
@@ -91,6 +92,28 @@ namespace Hero_of_Novac
                 rec.Y = space.Top;
             if (rec.Y > space.Bottom)
                 rec.Y = space.Bottom;
+
+            if (vol.X == 0 && vol.Y == 0)
+                sourceRec.X = sourceRec.Width;
+            else if (Math.Abs(vol.Y) >= Math.Abs(vol.X))
+            {
+                if (vol.Y > 0)
+                    sourceRec.Y = 0;
+                else
+                    sourceRec.Y = 348;
+
+            }
+            else if (Math.Abs(vol.X) > Math.Abs(vol.Y))
+            {
+                if (vol.X > 0)
+                    sourceRec.Y = 232;
+                else
+                    sourceRec.Y = 116;
+            }
+
+            if (timer % 6 == 0 && vol != Vector2.Zero)
+                    sourceRec.X = (sourceRec.X + sourceRec.Width) % tex.Width;
+            timer++;
         }
 
         private void OverworldUpdate(GameTime gameTime)
@@ -112,11 +135,13 @@ namespace Hero_of_Novac
         public void MoveY(int speed)
         {
             rec.Y += speed;
+            space.Y += speed;
         }
 
         public void MoveX(int speed)
         {
             rec.X -= speed;
+            space.X -= speed;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -124,10 +149,10 @@ namespace Hero_of_Novac
             switch (currentGameState)
             {
                 case GameState.Overworld:
-                    spriteBatch.Draw(tex, rec, sourceRec, Color.Black);
+                    spriteBatch.Draw(tex, rec, sourceRec, Color.White);
                     break;
                 case GameState.Battlemenu:
-                    spriteBatch.Draw(tex, battleRec, battleSourceRec, Color.Black);
+                    spriteBatch.Draw(tex, battleRec, battleSourceRec, Color.White);
                     healthBar.Draw(spriteBatch, true);
                     break;
             }
@@ -153,7 +178,7 @@ namespace Hero_of_Novac
             if (timer % 60 == 0 && ranMov == false)
             {
                 // change the second number for how often you want to proc it
-                if (ran.Next(100) < 30)
+                if (ran.Next(100) < 50)
                 {
                     ranMov = true;
                 }

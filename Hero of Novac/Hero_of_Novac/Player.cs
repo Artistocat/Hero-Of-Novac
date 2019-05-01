@@ -33,11 +33,12 @@ namespace Hero_of_Novac
         private Texture2D combatTex;
         private Texture2D pixel;
         private Rectangle sourceRecWorld;
-        private Rectangle sourceRecBattle;
+        public Rectangle sourceRecBattle;
         public Rectangle SourceRec
         {
             get { return sourceRecWorld; }
         }
+        private Boolean attackTest = false;
         private Vector2 playerPos;
         private Vector2 battlePos;
         public Vector2 Position
@@ -82,10 +83,30 @@ namespace Hero_of_Novac
             }
         }
 
+        public BasicAttack[] BasicAttacks
+        {
+            get
+            {
+                return basicAttacks;
+            }
+        }
+
+        public Dictionary<Element, MagicAttack[]> MagicAttacks
+        {
+            get
+            {
+                return magicAttacks;
+            }
+        }
+
         public int Elementlvl(Element element)
         {
             return elementLevels[(int)element];
         }
+
+        private BasicAttack[] basicAttacks;
+        private Dictionary<Element, MagicAttack[]> magicAttacks;
+        public Attack currentAttack;
 
         //private PercentageRectangle battleHealthBar;
         //private PercentageRectangle battleMagicBar;
@@ -105,7 +126,7 @@ namespace Hero_of_Novac
             this.combatTex = combatTex;
             pixel = p;
             sourceRecWorld = new Rectangle(OVERWORLD_SPRITE_WIDTH, 0, OVERWORLD_SPRITE_WIDTH, OVERWORLD_SPRITE_HEIGHT);
-            sourceRecBattle = new Rectangle( 0, 0, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
+            sourceRecBattle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
             playerPos = new Vector2((window.Width - OVERWORLD_SPRITE_WIDTH) / 2, (window.Height - OVERWORLD_SPRITE_HEIGHT) / 2);
 
             healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, barWidth, barHeight), 100, Color.Red);
@@ -131,6 +152,7 @@ namespace Hero_of_Novac
             timer = 0;
 
             hitbox = new Rectangle((int)playerPos.X + (sourceRecWorld.Width - 32) / 2, (int)playerPos.Y + sourceRecWorld.Height - 32, 32, 32);
+                        
         }
 
         public void death()
@@ -157,6 +179,7 @@ namespace Hero_of_Novac
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
+            attackTest = false;
                     //World Border
                     if (hitbox.Top < 0)
                     {
@@ -206,7 +229,19 @@ namespace Hero_of_Novac
                         if (healthBar.CurrentValue <= 0)
                             death();
                     }
-        
+
+                    //Attacc animation tests
+                    if(pad1.IsButtonDown(Buttons.X))
+            {
+                attackTest = true;
+                sourceRecBattle.X = 96 * 3;
+                if (sourceRecBattle.X >= 96 * 6)
+                {
+                    if (timer % 4 == 0)
+                        sourceRecBattle.X += 96;
+                }
+            }
+
             //Use to test health bar stuff
             if (pad1.IsButtonDown(Buttons.DPadDown))
                 healthBar.CurrentValue--;
@@ -252,11 +287,8 @@ namespace Hero_of_Novac
 
         private void UpdateBattlemenu(GameTime gameTime)
         {
+            GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             timer++;
-            //TODO
-            /*
-             *Update source rectangle for the battlemenu 
-             */
             //battleHealthBar.CurrentValue = healthPoints;
             //battleMagicBar.CurrentValue = magicPoints;
             //battleChargeBar.CurrentValue = chargePoints;
@@ -266,6 +298,7 @@ namespace Hero_of_Novac
                 sourceRecBattle.X += BATTLE_SPRITE_WIDTH;
             if (sourceRecBattle.X >= BATTLE_SPRITE_WIDTH * 3)
                 sourceRecBattle.X = 0;
+                
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -297,7 +330,7 @@ namespace Hero_of_Novac
         public void Overworld()
         {
             currentGameState = GameState.Overworld;
-            //TODO resetting the values for the health and magic bars in the overworld
+            //TODO resetting the locations for the health and magic bars in the overworld
         }
     }
 }
