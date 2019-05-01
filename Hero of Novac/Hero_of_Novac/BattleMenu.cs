@@ -301,7 +301,7 @@ namespace Hero_of_Novac
             {
                 Vector2 selected = GetSelected(Basic);
                 currentBattleState = BattleState.Charging;
-                player.currentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)];
+                player.CurrentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)].AttackName;
             }
 
             Direction dir = GetInputDirection();
@@ -361,7 +361,7 @@ namespace Hero_of_Novac
                 Vector2 selected = GetSelected(Magic);
                 Element element = GetSelectedElement();
                 currentBattleState = BattleState.Charging;
-                player.currentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)];
+                player.CurrentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)].AttackName;
             }
 
             if (gamePad.Buttons.RightShoulder == ButtonState.Released && oldGamePad.Buttons.RightShoulder == ButtonState.Pressed)
@@ -466,31 +466,32 @@ namespace Hero_of_Novac
 
         private void Charging()
         {
-
+            currentBattleState = BattleState.Attacking;
+            player.isAttacking = true;
         }
 
         private void Attacking()
         {
-            //switch (currentAttack)
-            //{
-            //    case Attack.Slash:
-            //        player.sourceRecBattle.X = 96 * 3;
-            //        if (player.sourceRecBattle.X >= 96 * 6)
-            //        {
-            //            if (timer % 4 == 0)
-            //                player.sourceRecBattle.X += 96;
-            //        }
-            //        break;
-            //    case Attack.Lunge:
-            //        if (player.sourceRecBattle.X >= 96 * 6)
-            //        {
-            //            if (timer % 4 == 0)
-            //                player.sourceRecBattle.X += 96;
-            //        }
-            //        break;
-            //    case Attack.Punch:
-            //        break;
-            //}
+            Console.WriteLine(player.CurrentAttack);
+            switch (player.CurrentAttack)
+            {
+                case Attack.AttackOptions.slash:
+                    if (player.sourceRecBattle.X <= 96 * 6)
+                    {
+                        if (timer % 4 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    break;
+                case Attack.AttackOptions.lunge:
+                    if (player.sourceRecBattle.X <= 96 * 6)
+                    {
+                        if (timer % 4 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    break;
+                case Attack.AttackOptions.punch:
+                    break;
+            }
         }
 
         private void EnemyAttacking()

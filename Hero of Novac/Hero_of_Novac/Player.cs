@@ -38,7 +38,8 @@ namespace Hero_of_Novac
         {
             get { return sourceRecWorld; }
         }
-        private Boolean attackTest = false;
+        private bool attackTest = false;
+        public bool isAttacking;
         private Vector2 playerPos;
         private Vector2 battlePos;
         public Vector2 Position
@@ -83,7 +84,7 @@ namespace Hero_of_Novac
             }
         }
 
-        public BasicAttack[] BasicAttacks
+        public Attack[] BasicAttacks
         {
             get
             {
@@ -91,7 +92,7 @@ namespace Hero_of_Novac
             }
         }
 
-        public Dictionary<Element, MagicAttack[]> MagicAttacks
+        public Dictionary<Element, Attack[]> MagicAttacks
         {
             get
             {
@@ -104,9 +105,28 @@ namespace Hero_of_Novac
             return elementLevels[(int)element];
         }
 
-        private BasicAttack[] basicAttacks;
-        private Dictionary<Element, MagicAttack[]> magicAttacks;
-        public Attack currentAttack;
+        private Attack[] basicAttacks;
+        private Dictionary<Element, Attack[]> magicAttacks;
+        private Attack.AttackOptions currentAttack;
+
+        public Attack.AttackOptions CurrentAttack
+        {
+            get
+            {
+                return currentAttack;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case Attack.AttackOptions.slash:
+                        sourceRecBattle.X = 96 * 3;
+                        sourceRecBattle.Y = 96;
+                        break;
+                }
+                currentAttack = value;
+            }
+        }
 
         //private PercentageRectangle battleHealthBar;
         //private PercentageRectangle battleMagicBar;
@@ -152,7 +172,9 @@ namespace Hero_of_Novac
             timer = 0;
 
             hitbox = new Rectangle((int)playerPos.X + (sourceRecWorld.Width - 32) / 2, (int)playerPos.Y + sourceRecWorld.Height - 32, 32, 32);
-                        
+            basicAttacks = new Attack[4];
+            magicAttacks = new Dictionary<Element, Attack[]>();
+            isAttacking = false;
         }
 
         public void death()
@@ -180,58 +202,58 @@ namespace Hero_of_Novac
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             attackTest = false;
-                    //World Border
-                    if (hitbox.Top < 0)
-                    {
-                        hitbox.Y = 0;
-                        playerPos.Y = -sourceRecWorld.Height + hitbox.Height;
-                    }
-                    else if (hitbox.Bottom > window.Height)
-                    {
-                        hitbox.Y = window.Height - hitbox.Height;
-                        playerPos.Y = window.Height - sourceRecWorld.Height;
-                    }
-                    if (hitbox.Left < 0)
-                    {
-                        hitbox.X = 0;
-                        playerPos.X = -(sourceRecWorld.Width - hitbox.Width) / 2;
-                    }
-                    else if (hitbox.Right > window.Width)
-                    {
-                        hitbox.X = window.Width - hitbox.Width;
-                        playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - hitbox.Width) / 2;
-                    }
+            //World Border
+            if (hitbox.Top < 0)
+            {
+                hitbox.Y = 0;
+                playerPos.Y = -sourceRecWorld.Height + hitbox.Height;
+            }
+            else if (hitbox.Bottom > window.Height)
+            {
+                hitbox.Y = window.Height - hitbox.Height;
+                playerPos.Y = window.Height - sourceRecWorld.Height;
+            }
+            if (hitbox.Left < 0)
+            {
+                hitbox.X = 0;
+                playerPos.X = -(sourceRecWorld.Width - hitbox.Width) / 2;
+            }
+            else if (hitbox.Right > window.Width)
+            {
+                hitbox.X = window.Width - hitbox.Width;
+                playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - hitbox.Width) / 2;
+            }
 
-                    if (!dead)
-                    {
-                        if (speed == Vector2.Zero)
-                            sourceRecWorld.X = OVERWORLD_SPRITE_WIDTH;
-                        else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
-                        {
-                            if (speed.Y > 0)
-                                sourceRecWorld.Y = 216;
-                            else
-                                sourceRecWorld.Y = 0;
+            if (!dead)
+            {
+                if (speed == Vector2.Zero)
+                    sourceRecWorld.X = OVERWORLD_SPRITE_WIDTH;
+                else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
+                {
+                    if (speed.Y > 0)
+                        sourceRecWorld.Y = 216;
+                    else
+                        sourceRecWorld.Y = 0;
 
-                        }
-                        else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
-                        {
-                            if (speed.X > 0)
-                                sourceRecWorld.Y = 144;
-                            else
-                                sourceRecWorld.Y = 72;
-                        }
-                        if (speed != Vector2.Zero)
-                        {
-                            if (timer % 6 == 0)
-                                sourceRecWorld.X = (sourceRecWorld.X + OVERWORLD_SPRITE_WIDTH) % overworldTex.Width;
-                        }
-                        if (healthBar.CurrentValue <= 0)
-                            death();
-                    }
+                }
+                else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
+                {
+                    if (speed.X > 0)
+                        sourceRecWorld.Y = 144;
+                    else
+                        sourceRecWorld.Y = 72;
+                }
+                if (speed != Vector2.Zero)
+                {
+                    if (timer % 6 == 0)
+                        sourceRecWorld.X = (sourceRecWorld.X + OVERWORLD_SPRITE_WIDTH) % overworldTex.Width;
+                }
+                if (healthBar.CurrentValue <= 0)
+                    death();
+            }
 
-                    //Attacc animation tests
-                    if(pad1.IsButtonDown(Buttons.X))
+            //Attacc animation tests
+            if (pad1.IsButtonDown(Buttons.X))
             {
                 attackTest = true;
                 sourceRecBattle.X = 96 * 3;
@@ -294,11 +316,44 @@ namespace Hero_of_Novac
             //battleChargeBar.CurrentValue = chargePoints;
             healthBar.Rect = healthRect;
             magicBar.Rect = magicRect;
-            if (timer % 5 == 0)
-                sourceRecBattle.X += BATTLE_SPRITE_WIDTH;
-            if (sourceRecBattle.X >= BATTLE_SPRITE_WIDTH * 3)
-                sourceRecBattle.X = 0;
-                
+            if (!isAttacking)
+            {
+                if (timer % 5 == 0)
+                    sourceRecBattle.X += BATTLE_SPRITE_WIDTH;
+                if (sourceRecBattle.X >= BATTLE_SPRITE_WIDTH * 3)
+                    sourceRecBattle.X = 0;
+            }
+        }
+
+        public void LearnAttack(Attack attack)
+        {
+            if (attack.GetType() == Attack.Chop.GetType())
+            {
+                for (int i = 0; i < basicAttacks.Length; i++)
+                {
+                    if (basicAttacks[i] == null)
+                    {
+                        basicAttacks[i] = attack;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                MagicAttack mAttack = (MagicAttack)attack;
+                Attack[] magicArray;
+                magicAttacks.TryGetValue(mAttack.Element, out magicArray);
+                for (int i = 0; i < magicArray.Length; i++)
+                {
+                    if (magicArray[i] == null)
+                    {
+                        magicArray[i] = attack;
+                        magicAttacks.Add(mAttack.Element, magicArray);
+                        return;
+                    }
+                }
+            }
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
