@@ -107,6 +107,11 @@ namespace Hero_of_Novac
             NPC.Window = window;
 
             Enemy.LoadContent(area.Player);
+            Attack.LoadContent(area.Player);
+            area.Player.LearnAttack(Attack.Lunge);
+            area.Player.LearnAttack(Attack.Slash);
+            area.Player.LearnAttack(Attack.Chop);
+            area.Player.LearnAttack(Attack.Punch);
             Enemy.Window = window;
 
             BattleMenu.LoadContent(area.Player, font, pix, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
