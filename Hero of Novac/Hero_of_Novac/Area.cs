@@ -530,6 +530,7 @@ namespace Hero_of_Novac
                 if (n.isTalking)
                     inMenu = true;
             }
+            //if()
             if (!inMenu)
             {
                 Vector2 speed = pad1.ThumbSticks.Left * 4;

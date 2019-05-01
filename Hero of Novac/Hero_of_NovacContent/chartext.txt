@@ -7,9 +7,9 @@ b Good bye!
 s Welcome to my store!
 s Take a look around.
 s I hope you found what you were looking for!
-h 
-h 
-h 
+h How are you?
+h Can I see your wares?
+h I have to go.
 p Welcome to the church Jon!
 p What do you want to learn?
 p Have a blessed day!
