@@ -530,6 +530,7 @@ namespace Hero_of_Novac
                 if (n.isTalking)
                     inMenu = true;
             }
+            //if()
             if (!inMenu)
             {
                 Vector2 speed = pad1.ThumbSticks.Left * 4;
@@ -646,7 +647,7 @@ namespace Hero_of_Novac
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public void DrawFirstLayer(GameTime gameTime, SpriteBatch spriteBatch)
         {
             foreach (Tile t in tiles)
             {
@@ -656,11 +657,21 @@ namespace Hero_of_Novac
                 if (tileRec.Intersects(window) && !t.IsOnTop)
                     spriteBatch.Draw(t.Texture, tileRec, t.SourceRec, Color.White);
             }
+        }
+
+        public void DrawEntities(GameTime gameTime, SpriteBatch spriteBatch)
+        {
             foreach (Enemy e in enemies)
                 e.Draw(spriteBatch);
+
+            foreach (NPC n in npcs)
+                n.Draw(spriteBatch);
+
             player.Draw(spriteBatch);
-            
-            player.Draw(spriteBatch);
+        }
+
+        public void DrawSecondLayer(GameTime gameTime, SpriteBatch spriteBatch)
+        {
             for (int i = objectTilesStart; i < tiles.Count; i++)
             {
                 Rectangle tileRec = tiles[i].Rectangle;
@@ -670,7 +681,7 @@ namespace Hero_of_Novac
                     spriteBatch.Draw(tiles[i].Texture, tileRec, tiles[i].SourceRec, Color.White);
             }
             foreach (NPC n in npcs)
-                n.Draw(spriteBatch);
+                n.DrawWindow(spriteBatch);
         }
     }
 }

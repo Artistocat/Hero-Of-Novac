@@ -201,67 +201,72 @@ namespace Hero_of_Novac
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
-            attackTest = false;
-            //World Border
-            if (hitbox.Top < 0)
+            if (!attackTest)
             {
-                hitbox.Y = 0;
-                playerPos.Y = -sourceRecWorld.Height + hitbox.Height;
-            }
-            else if (hitbox.Bottom > window.Height)
-            {
-                hitbox.Y = window.Height - hitbox.Height;
-                playerPos.Y = window.Height - sourceRecWorld.Height;
-            }
-            if (hitbox.Left < 0)
-            {
-                hitbox.X = 0;
-                playerPos.X = -(sourceRecWorld.Width - hitbox.Width) / 2;
-            }
-            else if (hitbox.Right > window.Width)
-            {
-                hitbox.X = window.Width - hitbox.Width;
-                playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - hitbox.Width) / 2;
-            }
-
-            if (!dead)
-            {
-                if (speed == Vector2.Zero)
-                    sourceRecWorld.X = OVERWORLD_SPRITE_WIDTH;
-                else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
+                //World Border
+                if (hitbox.Top < 0)
                 {
-                    if (speed.Y > 0)
-                        sourceRecWorld.Y = 216;
-                    else
-                        sourceRecWorld.Y = 0;
+                    hitbox.Y = 0;
+                    playerPos.Y = -sourceRecWorld.Height + hitbox.Height;
+                }
+                else if (hitbox.Bottom > window.Height)
+                {
+                    hitbox.Y = window.Height - hitbox.Height;
+                    playerPos.Y = window.Height - sourceRecWorld.Height;
+                }
+                if (hitbox.Left < 0)
+                {
+                    hitbox.X = 0;
+                    playerPos.X = -(sourceRecWorld.Width - hitbox.Width) / 2;
+                }
+                else if (hitbox.Right > window.Width)
+                {
+                    hitbox.X = window.Width - hitbox.Width;
+                    playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - hitbox.Width) / 2;
+                }
 
-                }
-                else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
+                if (!dead)
                 {
-                    if (speed.X > 0)
-                        sourceRecWorld.Y = 144;
-                    else
-                        sourceRecWorld.Y = 72;
+                    if (speed == Vector2.Zero)
+                        sourceRecWorld.X = OVERWORLD_SPRITE_WIDTH;
+                    else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
+                    {
+                        if (speed.Y > 0)
+                            sourceRecWorld.Y = 216;
+                        else
+                            sourceRecWorld.Y = 0;
+
+                    }
+                    else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
+                    {
+                        if (speed.X > 0)
+                            sourceRecWorld.Y = 144;
+                        else
+                            sourceRecWorld.Y = 72;
+                    }
+                    if (speed != Vector2.Zero)
+                    {
+                        if (timer % 6 == 0)
+                            sourceRecWorld.X = (sourceRecWorld.X + OVERWORLD_SPRITE_WIDTH) % overworldTex.Width;
+                    }
+                    if (healthBar.CurrentValue <= 0)
+                        death();
                 }
-                if (speed != Vector2.Zero)
-                {
-                    if (timer % 6 == 0)
-                        sourceRecWorld.X = (sourceRecWorld.X + OVERWORLD_SPRITE_WIDTH) % overworldTex.Width;
-                }
-                if (healthBar.CurrentValue <= 0)
-                    death();
             }
-
+            if (attackTest)
+            {
+                if (timer % 6 == 0)
+                    sourceRecBattle.X += 96;
+                if (sourceRecBattle.X >= 96 * 6)
+                {
+                    attackTest = false;
+                }
+            }
             //Attacc animation tests
             if (pad1.IsButtonDown(Buttons.X))
             {
                 attackTest = true;
                 sourceRecBattle.X = 96 * 3;
-                if (sourceRecBattle.X >= 96 * 6)
-                {
-                    if (timer % 4 == 0)
-                        sourceRecBattle.X += 96;
-                }
             }
 
             //Use to test health bar stuff
@@ -361,10 +366,10 @@ namespace Hero_of_Novac
             switch (currentGameState)
             {
                 case GameState.Overworld:
-                    if (dead)
+                    if (dead || attackTest)
                         spriteBatch.Draw(combatTex, playerPos, sourceRecBattle, color);
                     else
-                        spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color);
+                        spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, (float)(window.Height - hitbox.Bottom) / window.Height);
                     break;
                 case GameState.Battlemenu:
                     spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
