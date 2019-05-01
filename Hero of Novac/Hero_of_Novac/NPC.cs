@@ -33,6 +33,8 @@ namespace Hero_of_Novac
         Rectangle rec;
         Texture2D tex;
         Rectangle source;
+        Texture2D headshot;
+        static Texture2D heroHead;
         private static Rectangle sourceHome;
         Vector2 vol;
         Color color;
@@ -42,7 +44,7 @@ namespace Hero_of_Novac
         private int r1;
         private int r2;
         private Speech chat;
-        
+
         private Rectangle space;
 
         private List<string> blackSmith;
@@ -60,7 +62,7 @@ namespace Hero_of_Novac
 
         }
 
-        public NPC(Rectangle r, Texture2D t, Rectangle s, Rectangle sp, Vector2 v, bool i, char n, Speech c, Random ran)
+        public NPC(Rectangle r, Texture2D t, Rectangle s, Rectangle sp, Vector2 v, bool i, char n, Speech c, Random ran, Texture2D face)
         {
             rec = r;
             tex = t;
@@ -71,6 +73,7 @@ namespace Hero_of_Novac
             name = n;
             chat = c;
             space = sp;
+            headshot = face;
             blackSmith = new List<string>();
             armourer = new List<string>();
             shopkeep = new List<string>();
@@ -160,26 +163,32 @@ namespace Hero_of_Novac
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(isTalking)
-            {
-                spriteBatch.Draw(tex, rec, source, Color.White);
-                spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White,0f,new Vector2(0,0),SpriteEffects.None,1);
-                spriteBatch.DrawString(font, Talk(chat, name), new Vector2(35, window.Height / 4 * 3 + 20), Color.White);
-            }
-            else
-            {
-                spriteBatch.Draw(bubblez, new Rectangle(rec.X + 10, rec.Y - 20, 30, 30), bubblezSourceRec, Color.White);
-                spriteBatch.Draw(tex, rec, source, Color.White);
-            }
+            spriteBatch.Draw(tex, rec, source, Color.White, 0f, Vector2.Zero, SpriteEffects.None, (float)(window.Height - rec.Bottom) / window.Height);
+            if (!isTalking)
+                spriteBatch.Draw(bubblez, new Rectangle(rec.X + 10, rec.Y - 20, 30, 30), bubblezSourceRec, Color.White, 0f, Vector2.Zero, SpriteEffects.None, (float)(window.Height - rec.Bottom) / window.Height);
             
         }
 
-        public static void Load(SpriteFont f, Player player, Texture2D b, Texture2D w)
+        public void DrawWindow(SpriteBatch spriteBatch)
+        {
+            if (isTalking)
+            {
+                drawTalkingMenu(spriteBatch);
+                spriteBatch.Draw(tex, rec, source, Color.White);
+                spriteBatch.Draw(headshot, new Rectangle(window.Width - 360, window.Height / 4 * 3 - 480, 360, 480), Color.White);
+                spriteBatch.Draw(heroHead, new Rectangle(0, window.Height / 4 * 3 - 480, 360, 480), Color.White);
+                spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White);
+                spriteBatch.DrawString(font, Talk(chat, name), new Vector2(35, window.Height / 4 * 3 + 20), Color.White);
+            }
+        }
+
+        public static void Load(SpriteFont f, Player player, Texture2D b, Texture2D w, Texture2D heroFace)
         {
             bubblez = b;
             font = f;
             NPC.player = player;
             talkW = w;
+            heroHead = heroFace;
         }
 
         public string Talk(Speech s, char c)
@@ -311,6 +320,17 @@ namespace Hero_of_Novac
                 }
             }
         }
+        public void drawTalkingMenu(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(talkW, new Rectangle(360, window.Height / 4 * 3 - 150, 480, 160), Color.White);
+            spriteBatch.DrawString(font, Talk(Speech.Greeting, 'h'), new Vector2(370, window.Height / 4 * 3 - 140), Color.Red, 0f, new Vector2(0, 0), .5f, SpriteEffects.None, 1);
+            spriteBatch.DrawString(font, Talk(Speech.Interactable, 'h'), new Vector2(370, window.Height / 4 * 3 - 100), Color.Red, 0f, new Vector2(0, 0), .5f, SpriteEffects.None, 1);
+            spriteBatch.DrawString(font,Talk(Speech.Farewell,'h'), new Vector2(370, window.Height / 4 * 3 - 60), Color.Red,0f,new Vector2(0,0),.5f,SpriteEffects.None,1);
+            spriteBatch.Draw(talkW, new Rectangle(360, window.Height / 4 * 3 - 150, 480, 40), Color.WhiteSmoke);
+        }
+        //spriteBatch.Draw(headshot, new Rectangle(window.Width - 360, window.Height / 4 * 3 - 480, 360, 480), Color.White);
+        //spriteBatch.Draw(heroHead, new Rectangle(0, window.Height / 4 * 3 - 480, 360, 480), Color.White);
+        //spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White);
     }
 }
 

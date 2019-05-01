@@ -316,7 +316,7 @@ namespace Hero_of_Novac
                     if (dead || attackTest)
                         spriteBatch.Draw(combatTex, playerPos, sourceRecBattle, color);
                     else
-                        spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color);
+                        spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, (float)(window.Height - hitbox.Bottom) / window.Height);
                     break;
                 case GameState.Battlemenu:
                     spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
