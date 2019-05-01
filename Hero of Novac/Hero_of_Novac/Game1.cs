@@ -103,7 +103,7 @@ namespace Hero_of_Novac
                 area = new Area(Services, @"Content/Village", pix, window, randomSeed);
             }
 
-            NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"), Content.Load<Texture2D>("window"));
+            NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"), Content.Load<Texture2D>("window"), Content.Load<Texture2D>("player_walking"));
             NPC.Window = window;
 
             Enemy.LoadContent(area.Player);
