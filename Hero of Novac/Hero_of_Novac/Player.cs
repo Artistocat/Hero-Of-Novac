@@ -234,7 +234,9 @@ namespace Hero_of_Novac
             if (attackTest)
             {
                 if (timer % 6 == 0)
+                {
                     sourceRecBattle.X += 96;
+                }
                 if (sourceRecBattle.X >= 96 * 6)
                 {
                     attackTest = false;
