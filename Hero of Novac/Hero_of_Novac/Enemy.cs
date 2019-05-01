@@ -149,7 +149,7 @@ namespace Hero_of_Novac
             switch (currentGameState)
             {
                 case GameState.Overworld:
-                    spriteBatch.Draw(tex, rec, sourceRec, Color.White);
+                    spriteBatch.Draw(tex, rec, sourceRec, Color.White, 0f, Vector2.Zero, SpriteEffects.None, (float)(window.Height - rec.Bottom) / window.Height);
                     break;
                 case GameState.Battlemenu:
                     spriteBatch.Draw(tex, battleRec, battleSourceRec, Color.White);

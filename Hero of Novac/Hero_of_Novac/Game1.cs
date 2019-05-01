@@ -174,19 +174,29 @@ namespace Hero_of_Novac
             GraphicsDevice.Clear(new Color(53, 65, 73));
 
             spriteBatch.Begin();
-            
             switch (currentGameState)
             {
                 case GameState.MainMenu:
                     break;
                 case GameState.Overworld:
-                    area.Draw(gameTime, spriteBatch);
+                    area.DrawFirstLayer(gameTime, spriteBatch);
                     break;
                 case GameState.BattleMenu:
                     battleMenu.Draw(spriteBatch);
                     break;
             }
             spriteBatch.End();
+
+            if (currentGameState == GameState.Overworld)
+            {
+                spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied);
+                area.DrawEntities(gameTime, spriteBatch);
+                spriteBatch.End();
+
+                spriteBatch.Begin();
+                area.DrawSecondLayer(gameTime, spriteBatch);
+                spriteBatch.End();
+            }
 
             base.Draw(gameTime);
         }
