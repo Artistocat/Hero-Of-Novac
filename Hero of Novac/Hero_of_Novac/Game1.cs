@@ -37,6 +37,8 @@ namespace Hero_of_Novac
         BattleMenu battleMenu;
         MainMenu mainMenu;
 
+        const bool TESTING = true;
+
         Random randomSeed = new Random(1102);
         Random randomNoSeed = new Random();
 
@@ -83,21 +85,33 @@ namespace Hero_of_Novac
             font = Content.Load<SpriteFont>("SpriteFont1");
             fontC = Content.Load<SpriteFont>("CharacterTalk");
 
-            area = new Area(Services, @"Content/Test", pix, window, randomSeed);
-            List<NPC> npcs = new List<NPC>();
-            npcs.Add(new NPC(new Rectangle(300, 300, 52, 72), Content.Load<Texture2D>("blacksmith"), new Rectangle(52, 0, 52, 72), new Rectangle(100, 100, 200, 200), new Vector2(0, 0), true, 'b', Speech.None, randomNoSeed, Content.Load<Texture2D>("speechballoons")));
-            npcs.Add(new NPC(new Rectangle(200, 300, 52, 72), Content.Load<Texture2D>("shopkeeper"), new Rectangle(52, 0, 52, 72), new Rectangle(0, 400, 200, 200), new Vector2(0, 0), true, 's', Speech.None, randomNoSeed, Content.Load<Texture2D>("speechballoons")));
-            npcs.Add(new NPC(new Rectangle(400, 300, 52, 72), Content.Load<Texture2D>("priestess"), new Rectangle(52, 0, 52, 72), new Rectangle(400, 0, 200, 200), new Vector2(0, 0), true, 'p', Speech.None, randomNoSeed, Content.Load<Texture2D>("speechballoons")));
-            npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), Content.Load<Texture2D>("armour"), new Rectangle(52, 0, 52, 72), new Rectangle(500, 500, 200, 200), new Vector2(0, 0), true, 'a', Speech.None, randomNoSeed, Content.Load<Texture2D>("speechballoons")));
-            area.AddNPCs(npcs);
-            List<Enemy> enemies = new List<Enemy>();
-            enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(146, 0, 146, 116), new Rectangle(0, 0, 200, 200), Content.Load<Texture2D>("gryphon"), new Vector2(0, 0), window, randomNoSeed, new Vector2(0, 0)));
-            area.AddEnemies(enemies);
+            if (TESTING)
+            {
+                area = new Area(Services, @"Content/Test", pix, window, randomSeed);
+                List<NPC> npcs = new List<NPC>();
+                npcs.Add(new NPC(new Rectangle(300, 300, 52, 72), Content.Load<Texture2D>("blacksmith"), new Rectangle(52, 0, 52, 72), new Rectangle(100, 100, 200, 136), new Vector2(0, 0), true, 'b', Speech.None, randomNoSeed, pix));
+                npcs.Add(new NPC(new Rectangle(200, 300, 52, 72), Content.Load<Texture2D>("shopkeeper"), new Rectangle(52, 0, 52, 72), new Rectangle(0, 400, 200, 200), new Vector2(0, 0), true, 's', Speech.None, randomNoSeed, pix));
+                npcs.Add(new NPC(new Rectangle(400, 300, 52, 72), Content.Load<Texture2D>("priestess"), new Rectangle(52, 0, 52, 72), new Rectangle(464, 0, 200, 200), new Vector2(0, 0), true, 'p', Speech.None, randomNoSeed, pix));
+                npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), Content.Load<Texture2D>("armour"), new Rectangle(52, 0, 52, 72), new Rectangle(564, 500, 200, 168), new Vector2(0, 0), true, 'a', Speech.None, randomNoSeed, pix));
+                area.AddNPCs(npcs);
+                List<Enemy> enemies = new List<Enemy>();
+                enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(146, 0, 146, 116), new Rectangle(0, 0, 200, 200), Content.Load<Texture2D>("gryphon"), new Vector2(0, 0), window, randomNoSeed, new Vector2(0, 0)));
+                area.AddEnemies(enemies);
+            }
+            else
+            {
+                area = new Area(Services, @"Content/Village", pix, window, randomSeed);
+            }
 
             NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"), Content.Load<Texture2D>("window"), Content.Load<Texture2D>("player_walking"));
             NPC.Window = window;
 
             Enemy.LoadContent(area.Player);
+            Attack.LoadContent(area.Player);
+            area.Player.LearnAttack(Attack.Lunge);
+            area.Player.LearnAttack(Attack.Slash);
+            area.Player.LearnAttack(Attack.Chop);
+            area.Player.LearnAttack(Attack.Punch);
             Enemy.Window = window;
 
             BattleMenu.LoadContent(area.Player, font, pix, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
