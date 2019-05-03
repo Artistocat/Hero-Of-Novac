@@ -46,6 +46,7 @@ namespace Hero_of_Novac
         public int MaxValue
         {
             get { return maxValue; }
+            set { maxValue = value; }
         }
 
         public Color Color
