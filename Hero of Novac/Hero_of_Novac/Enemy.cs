@@ -41,6 +41,7 @@ namespace Hero_of_Novac
         private Rectangle battleSourceRec;
         private PercentageRectangle healthBar;
         private Rectangle healthRect;
+        private PercentageRectangle chargeBar;
 
         /*
          * 146 x 116
@@ -55,11 +56,14 @@ namespace Hero_of_Novac
             this.pos = pos;
             this.ran = ran;
             currentGameState = GameState.Overworld;
-            healthBar = new PercentageRectangle(new Rectangle(rec.X - 10, rec.Y - 10, barWidth, barHeight), 50, Color.Red); ;
+            healthBar = new PercentageRectangle(new Rectangle(rec.X - 10, rec.Y - 10, barWidth, barHeight), 50, Color.Red);
+            chargeBar = new PercentageRectangle(new Rectangle(healthBar.Rect.X, healthBar.Rect.Y + 50, barWidth, barHeight), 100, Color.Gray);
             timer = 0;
-            //TODO
             battleRec = new Rectangle(window.Right - rec.Width * 4, window.Bottom / 4 - rec.Height, rec.Width, rec.Height);
             healthRect = new Rectangle(window.Left + window.Width * 3 / 4 + 25, window.Height / 2 + 100, barWidth * 5, barHeight * 5);
+            Rectangle chargeRect = healthRect;
+            chargeRect.Y += 50;
+            chargeBar.Rect = chargeRect;                 
             battleSourceRec = sourceRec;
             battleSourceRec.Y = 116;
         }
@@ -154,8 +158,14 @@ namespace Hero_of_Novac
                 case GameState.Battlemenu:
                     spriteBatch.Draw(tex, battleRec, battleSourceRec, Color.White);
                     healthBar.Draw(spriteBatch, true);
+                    chargeBar.Draw(spriteBatch, true);
                     break;
             }
+        }
+
+        public void Damage(int damage)
+        {
+            healthBar.CurrentValue -= damage;
         }
 
         public bool IsInBattle()

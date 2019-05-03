@@ -37,6 +37,35 @@ namespace Hero_of_Novac
         }
         ChoiceState currentChoiceState;
 
+        private ChoiceState CurrentChoiceState
+        {
+            get
+            {
+                return currentChoiceState;
+            }
+            set
+            {
+                currentChoiceState = value;
+                foreach (NavigableMenuItem mi in Element)
+                {
+                    mi.isSelected = false;
+                }
+                Element[0].isSelected = true;
+                for (int i = 0; i < 2; i++)
+                {
+                    for (int k = 0; k < 2; k++)
+                        Magic[i, k].isSelected = false;
+                }
+                Magic[0, 0].isSelected = true;
+                for (int i = 0; i < 2; i++)
+                {
+                    for (int k = 0; k < 2; k++)
+                        Basic[i, k].isSelected = false;
+                }
+                Basic[0, 0].isSelected = true;
+            }
+        }
+
         //enum MenuChoice
         //{
         //    One, Two, Three, Four, Basic, Magic, Items
@@ -46,7 +75,7 @@ namespace Hero_of_Novac
         public BattleMenu(Enemy[] enemies)
         {
             currentBattleState = BattleState.BeginningBattle;
-            currentChoiceState = ChoiceState.MainChoice;
+            CurrentChoiceState = ChoiceState.MainChoice;
             //currentMenuChoice = MenuChoice.Basic;
             this.enemies = enemies;
             timer = 0;
@@ -127,7 +156,7 @@ namespace Hero_of_Novac
             int elementY = attackRects[0].Y - elementHeight;
             Element = new NavigableMenuItem[5];
             Element[0] = new NavigableMenuItem(new Rectangle(width / 4, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
-            Element[1] = new NavigableMenuItem(new Rectangle(width / 4 + width / 2/ 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
+            Element[1] = new NavigableMenuItem(new Rectangle(width / 4 + width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
             Element[2] = new NavigableMenuItem(new Rectangle(width / 4 + 2 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
             Element[3] = new NavigableMenuItem(new Rectangle(width / 4 + 3 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
             Element[4] = new NavigableMenuItem(new Rectangle(width / 4 + 4 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
@@ -174,7 +203,7 @@ namespace Hero_of_Novac
 
         private void ChoosingAttack()
         {
-            switch (currentChoiceState)
+            switch (CurrentChoiceState)
             {
                 case ChoiceState.MainChoice:
                     ChoosingMainChoice();
@@ -189,9 +218,9 @@ namespace Hero_of_Novac
                     ChoosingItems();
                     break;
             }
-            if (currentChoiceState != ChoiceState.MainChoice)
+            if (CurrentChoiceState != ChoiceState.MainChoice)
                 if (oldGamePad.Buttons.B == ButtonState.Pressed && gamePad.Buttons.B != ButtonState.Pressed)
-                    currentChoiceState = ChoiceState.MainChoice;
+                    CurrentChoiceState = ChoiceState.MainChoice;
         }
 
         enum Direction
@@ -234,16 +263,16 @@ namespace Hero_of_Novac
                 switch (selected)
                 {
                     case TOP:
-                        currentChoiceState = ChoiceState.Basic;
+                        CurrentChoiceState = ChoiceState.Basic;
                         Basic[0, 0].isSelected = true;
                         break;
                     case BOTTOM:
-                        currentChoiceState = ChoiceState.Magic;
+                        CurrentChoiceState = ChoiceState.Magic;
                         Magic[0, 0].isSelected = true;
                         Element[0].isSelected = true;
                         break;
                     case LEFT:
-                        currentChoiceState = ChoiceState.Items;
+                        CurrentChoiceState = ChoiceState.Items;
                         break;
                 }
 
@@ -512,8 +541,9 @@ namespace Hero_of_Novac
             if (doneAttacking)
             {
                 currentBattleState = BattleState.ChoosingAttack;
+                CurrentChoiceState = ChoiceState.MainChoice;
+                enemies[0].Damage(player.CurrentAttack.Damage);
                 player.CurrentAttack = null;
-                currentChoiceState = ChoiceState.MainChoice;
             }
         }
 
@@ -531,7 +561,7 @@ namespace Hero_of_Novac
         {
 
             spriteBatch.Draw(pix, menuRect, Color.Black);
-            switch (currentChoiceState)
+            switch (CurrentChoiceState)
             {
                 case ChoiceState.MainChoice:
                     DrawMainChoice(spriteBatch);
