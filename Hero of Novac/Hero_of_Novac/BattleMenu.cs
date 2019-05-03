@@ -484,7 +484,7 @@ namespace Hero_of_Novac
 
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
-                        if (timer % 4 == 0)
+                        if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
                     }
                     else
@@ -497,7 +497,7 @@ namespace Hero_of_Novac
 
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
-                        if (timer % 4 == 0)
+                        if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
                     }
                     else
@@ -507,9 +507,10 @@ namespace Hero_of_Novac
                     break;
 
                 case Attack.AttackOptions.punch:
+
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
-                        if (timer % 4 == 0)
+                        if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
                     }
                     else
@@ -517,6 +518,20 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
+
+                case Attack.AttackOptions.chop:
+
+                    if (player.sourceRecBattle.X <= 96 * 5)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+
                 default:
                     if (timer % 200 == 0)
                     {

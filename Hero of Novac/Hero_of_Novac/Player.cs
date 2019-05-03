@@ -120,6 +120,7 @@ namespace Hero_of_Novac
             {
                 if (value != null)
                 {
+                    isAttacking = true;
                     switch (value.AttackName)
                     {
                         case Attack.AttackOptions.slash:
@@ -132,7 +133,7 @@ namespace Hero_of_Novac
                             break;
                         case Attack.AttackOptions.punch:
                             sourceRecBattle.X = 96 * 3;
-                            sourceRecBattle.Y = 96 * 4;
+                            sourceRecBattle.Y = 96 * 5;
                             break;
                     }
                     chargeBar.MaxValue = value.ChargeTime;
@@ -354,6 +355,7 @@ namespace Hero_of_Novac
             magicBar.Rect = magicRect;
             if (!isAttacking)
             {
+                sourceRecBattle.Y = 96;
                 if (timer % 5 == 0)
                     sourceRecBattle.X += BATTLE_SPRITE_WIDTH;
                 if (sourceRecBattle.X >= BATTLE_SPRITE_WIDTH * 3)
