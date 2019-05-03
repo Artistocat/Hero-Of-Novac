@@ -1,15 +1,19 @@
 a Hows it going?
 a Need some protection ;)?
 a I'll see you around!
+a I'm doing alot better now that you're here.
 b Hello there!
 b Want some swords?
 b Good bye!
+b It's been a good work day, lots of customers!
 s Welcome to my store!
 s Take a look around.
 s I hope you found what you were looking for!
+s Buiness as usual, haHA!
 h How are you?
 h Can I see your wares?
 h I have to go.
 p Welcome to the church Jon!
 p What do you want to learn?
 p Have a blessed day!
+p The lord has been kind to me today!
