@@ -41,7 +41,7 @@ namespace Hero_of_Novac
         private bool attackTest = false;
         public bool isAttacking;
         private Vector2 playerPos;
-        private Vector2 battlePos;
+        public Vector2 battlePos;
         public Vector2 Position
         {
             get { return playerPos; }
@@ -122,6 +122,14 @@ namespace Hero_of_Novac
                     case Attack.AttackOptions.slash:
                         sourceRecBattle.X = 96 * 3;
                         sourceRecBattle.Y = 96;
+                        break;
+                    case Attack.AttackOptions.lunge:
+                        sourceRecBattle.X = 96 * 3;
+                        sourceRecBattle.Y = 0;
+                        break;
+                    case Attack.AttackOptions.punch:
+                        sourceRecBattle.X = 96 * 3;
+                        sourceRecBattle.Y = 96 * 4;
                         break;
                 }
                 currentAttack = value;

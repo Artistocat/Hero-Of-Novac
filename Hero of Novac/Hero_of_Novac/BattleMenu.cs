@@ -24,6 +24,7 @@ namespace Hero_of_Novac
         private GamePadState gamePad;
         private GamePadState oldGamePad;
         private int timer;
+        private bool animationFlag1;
 
         enum BattleState
         {
@@ -50,6 +51,7 @@ namespace Hero_of_Novac
             //currentMenuChoice = MenuChoice.Basic;
             this.enemies = enemies;
             timer = 0;
+            animationFlag1 = false;
 
 
             foreach (NavigableMenuItem m in MainChoices)
@@ -476,20 +478,29 @@ namespace Hero_of_Novac
             switch (player.CurrentAttack)
             {
                 case Attack.AttackOptions.slash:
-                    if (player.sourceRecBattle.X <= 96 * 6)
+
+                    if (player.sourceRecBattle.X <= 96 * 5)
                     {
                         if (timer % 4 == 0)
                             player.sourceRecBattle.X += 96;
                     }
                     break;
+
                 case Attack.AttackOptions.lunge:
-                    if (player.sourceRecBattle.X <= 96 * 6)
+
+                    if (player.sourceRecBattle.X <= 96 * 5)
                     {
                         if (timer % 4 == 0)
                             player.sourceRecBattle.X += 96;
                     }
                     break;
+
                 case Attack.AttackOptions.punch:
+                    if (player.sourceRecBattle.X <= 96 * 5)
+                    {
+                        if (timer % 4 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
                     break;
             }
         }
