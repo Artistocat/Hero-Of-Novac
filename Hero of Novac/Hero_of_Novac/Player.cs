@@ -40,6 +40,7 @@ namespace Hero_of_Novac
         }
         private bool attackTest = false;
         public bool isAttacking;
+        public bool isCharging;
         private Vector2 playerPos;
         private Vector2 battlePos;
         public Vector2 Position
@@ -107,9 +108,9 @@ namespace Hero_of_Novac
 
         private Attack[] basicAttacks;
         private Dictionary<Element, Attack[]> magicAttacks;
-        private Attack.AttackOptions currentAttack;
+        private Attack currentAttack;
 
-        public Attack.AttackOptions CurrentAttack
+        public Attack CurrentAttack
         {
             get
             {
@@ -117,14 +118,26 @@ namespace Hero_of_Novac
             }
             set
             {
-                switch (value)
+                if (value != null)
                 {
-                    case Attack.AttackOptions.slash:
-                        sourceRecBattle.X = 96 * 3;
-                        sourceRecBattle.Y = 96;
-                        break;
+                    switch (value.AttackName)
+                    {
+                        case Attack.AttackOptions.slash:
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            break;
+                    }
+                    chargeBar.MaxValue = value.ChargeTime;
+                    isCharging = true;
+                }
+                else
+                {
+                    isCharging = false;
+                    isAttacking = false;
+                    chargeBar.CurrentValue = 0;
                 }
                 currentAttack = value;
+                chargeBar.CurrentValue = 0;
             }
         }
 
@@ -165,6 +178,7 @@ namespace Hero_of_Novac
             //battleHealthBar = new PercentageRectangle(healthRect, healthBar.MaxValue, healthBar.Color);
             //battleMagicBar = new PercentageRectangle(magicRect, magicBar.MaxValue, magicBar.Color);
             chargeBar = new PercentageRectangle(new Rectangle(25, window.Height / 2 + 200, 66 * 5, 5 * 5), 100, Color.Gray);
+            chargeBar.CurrentValue = 0;
 
             battlePos = new Vector2(200, 200);
             color = Color.White;
@@ -175,6 +189,13 @@ namespace Hero_of_Novac
             basicAttacks = new Attack[4];
             magicAttacks = new Dictionary<Element, Attack[]>();
             isAttacking = false;
+            isCharging = false;
+
+            elementLevels = new int[5];
+            for (int i = 0; i < elementLevels.Length; i++)
+            {
+                elementLevels[i] = 1;
+            }
         }
 
         public void death()
@@ -330,6 +351,16 @@ namespace Hero_of_Novac
                 if (sourceRecBattle.X >= BATTLE_SPRITE_WIDTH * 3)
                     sourceRecBattle.X = 0;
             }
+            if (isCharging)
+            {
+                if (chargeBar.CurrentValue == chargeBar.MaxValue)
+                {
+                    isCharging = false;
+                    isAttacking = true;
+                }
+                if (timer % 2 == 0)
+                    chargeBar.CurrentValue++;
+            }
         }
 
         public void LearnAttack(Attack attack)
@@ -387,6 +418,7 @@ namespace Hero_of_Novac
             currentGameState = GameState.Battlemenu;
             healthBar.Rect = healthRect;
             magicBar.Rect = magicRect;
+            chargeBar.CurrentValue = 0;
         }
 
         public void Overworld()

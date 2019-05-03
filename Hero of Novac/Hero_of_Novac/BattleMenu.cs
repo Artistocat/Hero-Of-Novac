@@ -301,7 +301,7 @@ namespace Hero_of_Novac
             {
                 Vector2 selected = GetSelected(Basic);
                 currentBattleState = BattleState.Charging;
-                player.CurrentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)].AttackName;
+                player.CurrentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)];
             }
 
             Direction dir = GetInputDirection();
@@ -361,7 +361,7 @@ namespace Hero_of_Novac
                 Vector2 selected = GetSelected(Magic);
                 Element element = GetSelectedElement();
                 currentBattleState = BattleState.Charging;
-                player.CurrentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)].AttackName;
+                player.CurrentAttack = player.MagicAttacks[element][(int)(selected.X + 2 * selected.Y)];
             }
 
             if (gamePad.Buttons.RightShoulder == ButtonState.Released && oldGamePad.Buttons.RightShoulder == ButtonState.Pressed)
@@ -466,31 +466,54 @@ namespace Hero_of_Novac
 
         private void Charging()
         {
-            currentBattleState = BattleState.Attacking;
-            player.isAttacking = true;
+            if (!player.isCharging)
+            {
+                currentBattleState = BattleState.Attacking;
+                player.isAttacking = true;
+            }
         }
 
         private void Attacking()
         {
-            Console.WriteLine(player.CurrentAttack);
-            switch (player.CurrentAttack)
+            bool doneAttacking = false;
+            switch (player.CurrentAttack.AttackName)
             {
                 case Attack.AttackOptions.slash:
-                    if (player.sourceRecBattle.X <= 96 * 6)
+                    if (player.sourceRecBattle.X <= 96 * 5)
                     {
                         if (timer % 4 == 0)
                             player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
                     }
                     break;
                 case Attack.AttackOptions.lunge:
-                    if (player.sourceRecBattle.X <= 96 * 6)
+                    if (player.sourceRecBattle.X <= 96 * 5)
                     {
                         if (timer % 4 == 0)
                             player.sourceRecBattle.X += 96;
                     }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
                     break;
-                case Attack.AttackOptions.punch:
+                //case Attack.AttackOptions.punch:
+                //    break;
+                default:
+                    if (timer % 200 == 0)
+                    {
+                        doneAttacking = true;
+                    }
                     break;
+            }
+            if (doneAttacking)
+            {
+                currentBattleState = BattleState.ChoosingAttack;
+                player.CurrentAttack = null;
+                currentChoiceState = ChoiceState.MainChoice;
             }
         }
 
