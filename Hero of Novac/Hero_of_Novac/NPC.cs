@@ -21,8 +21,9 @@ namespace Hero_of_Novac
         GamePadState gp;
         GamePadState oldGP;
 
+        int test = 0;
         public bool isTalking;
-
+        int talkwindow = 145;
         private static Texture2D talkW;
 
         private static Rectangle window;
@@ -44,6 +45,7 @@ namespace Hero_of_Novac
         private int r1;
         private int r2;
         private Speech chat;
+        bool doneTalk = false;
 
         private Rectangle space;
 
@@ -91,17 +93,48 @@ namespace Hero_of_Novac
         {
             gp = GamePad.GetState(PlayerIndex.One);
             timer++;
+            //if (doneTalk)
+            //    doneTalk = false;
             Rectangle r = new Rectangle(0, 0, 0, 0);
             if (gp.Buttons.A == ButtonState.Pressed && oldGP.Buttons.A != ButtonState.Pressed)
             {
+
                 Vector2 v = player.Position;
                 r = new Rectangle((int)v.X - 55, (int)v.Y - 55, 125, 125);
                 if (rec.Intersects(r))
                 {
-                    if ((int)chat < 4)
-                        chat++;
+                    if (doneTalk)
+                    {
+                        chat = Speech.None;
+                        doneTalk = false;
+                        talkwindow = 145;
+
+                    }
                     else
-                        chat = 0;
+                    {
+
+                        switch (talkwindow)
+                        {
+                            case 145:
+                                if (gp.Buttons.A == ButtonState.Pressed && test > 0)
+                                    chat = Speech.Flavor;
+                                else
+                                {
+                                    chat = Speech.Greeting;
+                                    test++;
+                                }
+                                break;
+                            case 100:
+                                chat = Speech.Interactable;
+                                break;
+                            case 55:
+                                chat = Speech.Farewell;
+                                doneTalk = true;
+                                test = 0;
+                                break;
+                        }
+                    }
+                    
                 }
                 Talk(chat, name);
             }
@@ -111,6 +144,22 @@ namespace Hero_of_Novac
                 randomMove();
                 rec.X += (int)vol.X;
                 rec.Y += (int)vol.Y;
+            }
+            if (gp.DPad.Down == ButtonState.Pressed && oldGP.DPad.Down != ButtonState.Pressed)
+            {
+
+                if (talkwindow <= 55)
+                    talkwindow = 145;
+                else
+                    talkwindow -= 45;
+            }
+            if (gp.DPad.Up == ButtonState.Pressed && oldGP.DPad.Up != ButtonState.Pressed)
+            {
+
+                if (talkwindow >= 145)
+                    talkwindow = 55;
+                else
+                    talkwindow += 45;
             }
             if (vol.X == 0 && vol.Y == 0)
                 source.X = source.Width;
@@ -166,13 +215,14 @@ namespace Hero_of_Novac
             spriteBatch.Draw(tex, rec, source, Color.White, 0f, Vector2.Zero, SpriteEffects.None, (float)(window.Height - rec.Bottom) / window.Height);
             if (!isTalking)
                 spriteBatch.Draw(bubblez, new Rectangle(rec.X + 10, rec.Y - 20, 30, 30), bubblezSourceRec, Color.White, 0f, Vector2.Zero, SpriteEffects.None, (float)(window.Height - rec.Bottom) / window.Height);
-            
+
         }
 
         public void DrawWindow(SpriteBatch spriteBatch)
         {
             if (isTalking)
             {
+
                 drawTalkingMenu(spriteBatch);
                 spriteBatch.Draw(tex, rec, source, Color.White);
                 spriteBatch.Draw(headshot, new Rectangle(window.Width - 360, window.Height / 4 * 3 - 480, 360, 480), Color.White);
@@ -243,6 +293,24 @@ namespace Hero_of_Novac
                         return hero[2];
                     case 'p':
                         return priest[2];
+
+                }
+            }
+            else if (s == Speech.Flavor)
+            {
+                isTalking = true;
+                switch (c)
+                {
+                    case 'b':
+                        return blackSmith[3];
+                    case 's':
+                        return shopkeep[3];
+                    case 'a':
+                        return armourer[3];
+                    case 'h':
+                        return hero[3];
+                    case 'p':
+                        return priest[3];
 
                 }
             }
@@ -323,10 +391,11 @@ namespace Hero_of_Novac
         public void drawTalkingMenu(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(talkW, new Rectangle(360, window.Height / 4 * 3 - 150, 480, 160), Color.White);
-            spriteBatch.DrawString(font, Talk(Speech.Greeting, 'h'), new Vector2(370, window.Height / 4 * 3 - 140), Color.Red, 0f, new Vector2(0, 0), .5f, SpriteEffects.None, 1);
+            spriteBatch.DrawString(font, Talk(Speech.Greeting, 'h'), new Vector2(370, window.Height / 4 * 3 - 150), Color.Red, 0f, new Vector2(0, 0), .5f, SpriteEffects.None, 1);
             spriteBatch.DrawString(font, Talk(Speech.Interactable, 'h'), new Vector2(370, window.Height / 4 * 3 - 100), Color.Red, 0f, new Vector2(0, 0), .5f, SpriteEffects.None, 1);
-            spriteBatch.DrawString(font,Talk(Speech.Farewell,'h'), new Vector2(370, window.Height / 4 * 3 - 60), Color.Red,0f,new Vector2(0,0),.5f,SpriteEffects.None,1);
-            spriteBatch.Draw(talkW, new Rectangle(360, window.Height / 4 * 3 - 150, 480, 40), Color.WhiteSmoke);
+            spriteBatch.DrawString(font,Talk(Speech.Farewell,'h'), new Vector2(370, window.Height / 4 * 3 - 50), Color.Red,0f,new Vector2(0,0),.5f,SpriteEffects.None,1);
+            spriteBatch.Draw(talkW, new Rectangle(360, window.Height / 4 * 3 - talkwindow, 480, 50), Color.AliceBlue * .5f);
+            oldGP = gp;
         }
         //spriteBatch.Draw(headshot, new Rectangle(window.Width - 360, window.Height / 4 * 3 - 480, 360, 480), Color.White);
         //spriteBatch.Draw(heroHead, new Rectangle(0, window.Height / 4 * 3 - 480, 360, 480), Color.White);

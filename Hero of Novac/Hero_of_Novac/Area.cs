@@ -14,6 +14,7 @@ namespace Hero_of_Novac
 {
     class Area
     {
+
         private const int TILE_WIDTH = 32;
         private const int TILE_HEIGHT = 32;
 
