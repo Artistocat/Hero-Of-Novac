@@ -24,6 +24,7 @@ namespace Hero_of_Novac
         private GamePadState gamePad;
         private GamePadState oldGamePad;
         private int timer;
+        private bool animationFlag1;
 
         enum BattleState
         {
@@ -79,6 +80,7 @@ namespace Hero_of_Novac
             //currentMenuChoice = MenuChoice.Basic;
             this.enemies = enemies;
             timer = 0;
+            animationFlag1 = false;
 
 
             foreach (NavigableMenuItem m in MainChoices)
@@ -508,9 +510,10 @@ namespace Hero_of_Novac
             switch (player.CurrentAttack.AttackName)
             {
                 case Attack.AttackOptions.slash:
+
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
-                        if (timer % 4 == 0)
+                        if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
                     }
                     else
@@ -518,10 +521,12 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
+
                 case Attack.AttackOptions.lunge:
+
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
-                        if (timer % 4 == 0)
+                        if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
                     }
                     else
@@ -529,8 +534,33 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                //case Attack.AttackOptions.punch:
-                //    break;
+
+                case Attack.AttackOptions.punch:
+
+                    if (player.sourceRecBattle.X <= 96 * 5)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+
+                case Attack.AttackOptions.chop:
+
+                    if (player.sourceRecBattle.X <= 96 * 5)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+
                 default:
                     if (timer % 200 == 0)
                     {

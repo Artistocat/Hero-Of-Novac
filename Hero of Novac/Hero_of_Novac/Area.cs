@@ -14,6 +14,7 @@ namespace Hero_of_Novac
 {
     class Area
     {
+
         private const int TILE_WIDTH = 32;
         private const int TILE_HEIGHT = 32;
 
@@ -87,6 +88,25 @@ namespace Hero_of_Novac
             sourceRecs.Add("water", new Rectangle(0, 0, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("lilypad", new Rectangle(320, 0, TILE_WIDTH, TILE_HEIGHT));
 
+
+            sourceRecs.Add("farmland_topleft", new Rectangle(0, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_top", new Rectangle(32, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_topright", new Rectangle(64, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_left", new Rectangle(96, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland", new Rectangle(128, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_right", new Rectangle(160, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_bottomleft", new Rectangle(192, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_bottom", new Rectangle(224, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_bottomright", new Rectangle(256, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("onion", new Rectangle(0, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("potato", new Rectangle(128, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("carrot", new Rectangle(256, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("raspberry", new Rectangle(384, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("cabbage", new Rectangle(0, 320, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("cauliflower", new Rectangle(128, 320, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("eggplant", new Rectangle(256, 320, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("melon", new Rectangle(384, 320, TILE_WIDTH, TILE_HEIGHT));
+
             sourceRecs.Add("tree1", new Rectangle(0, 0, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("tree2", new Rectangle(128, 0, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("tree3", new Rectangle(192, 128, TILE_WIDTH, TILE_HEIGHT));
@@ -121,6 +141,24 @@ namespace Hero_of_Novac
             tileSheets.Add("snow", Content.Load<Texture2D>("terrain"));
             tileSheets.Add("water", Content.Load<Texture2D>("water"));
             tileSheets.Add("lilypad", Content.Load<Texture2D>("trees"));
+
+            tileSheets.Add("farmland_topleft", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_top", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_topright", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_left", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_right", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_bottomleft", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_bottom", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_bottomright", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("onion", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("potato", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("carrot", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("raspberry", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("cabbage", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("cauliflower", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("eggplant", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("melon", Content.Load<Texture2D>("terrain"));
 
             tileSheets.Add("tree1", Content.Load<Texture2D>("trees"));
             tileSheets.Add("tree2", Content.Load<Texture2D>("trees"));
@@ -231,6 +269,26 @@ namespace Hero_of_Novac
                         case 'c':
                             LoadTile("snow", x, y, 8);
                             AddEdge(lines, x, y);
+                            break;
+                        case 'f':
+                            if (x > 0 && y > 0 && lines[y - 1][x] != 'f' && lines[y][x - 1] != 'f')
+                                LoadTile("farmland_topleft", x, y, 1);
+                            else if (x < Width - 1 && y > 0 && lines[y - 1][x] != 'f' && lines[y][x + 1] != 'f')
+                                LoadTile("farmland_topright", x, y, 1);
+                            else if (x > 0 && y < Height - 1 && lines[y + 1][x] != 'f' && lines[y][x - 1] != 'f')
+                                LoadTile("farmland_bottomleft", x, y, 1);
+                            else if (x < Width - 1 && y < Height - 1 && lines[y + 1][x] != 'f' && lines[y][x + 1] != 'f')
+                                LoadTile("farmland_bottomright", x, y, 1);
+                            else if (y > 0 && lines[y - 1][x] != 'f')
+                                LoadTile("farmland_top", x, y, 1);
+                            else if (y < Height - 1 && lines[y + 1][x] != 'f')
+                                LoadTile("farmland_bottom", x, y, 1);
+                            else if (x > 0 && lines[y][x - 1] != 'f')
+                                LoadTile("farmland_left", x, y, 1);
+                            else if (x < Width - 1 && lines[y][x + 1] != 'f')
+                                LoadTile("farmland_right", x, y, 1);
+                            else
+                                LoadTile("farmland", x, y, 1);
                             break;
                         case 'w':
                             LoadWaterTiles(lines, x, y);
@@ -361,7 +419,6 @@ namespace Hero_of_Novac
         /// <param name="path">Provides the path to the object data.</param>
         private void LoadObjectTiles(List<string> lines)
         {
-            int objectNum = 0;
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
                 {
@@ -398,7 +455,6 @@ namespace Hero_of_Novac
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                             }
-                            objectNum++;
                             break;
                         case 's':
                             int r = random.Next(4);
@@ -419,10 +475,57 @@ namespace Hero_of_Novac
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                             }
-                            objectNum++;
                             break;
                         case 'l':
                             LoadTile("lilypad", x, y, 4);
+                            break;
+                        case 'c':
+                            x++;
+                            switch (lines[y][x])
+                            {
+                                case '1':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("onion", x - 1 + j, y + i, 4);
+                                    break;
+                                case '2':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("potato", x - 1 + j, y + i, 4);
+                                    break;
+                                case '3':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("carrot", x - 1 + j, y + i, 4);
+                                    break;
+                                case '4':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("raspberry", x - 1 + j, y + i, 4);
+                                    break;
+                                case '5':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("cabbage", x - 1 + j, y + i, 4);
+                                    break;
+                                case '6':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("cauliflower", x - 1 + j, y + i, 4);
+                                    break;
+                                case '7':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("eggplant", x - 1 + j, y + i, 4);
+                                    break;
+                                case '8':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("melon", x - 1 + j, y + i, 4);
+                                    break;
+                                default:
+                                    throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
+                            }
                             break;
                         case 'h':
                             x++;
@@ -449,7 +552,6 @@ namespace Hero_of_Novac
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                             }
-                            objectNum++;
                             break;
                         case 'b':
                             r = random.Next(4);
@@ -470,7 +572,6 @@ namespace Hero_of_Novac
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                             }
-                            objectNum++;
                             break;
                         case '.':
                             break;

@@ -42,7 +42,7 @@ namespace Hero_of_Novac
         public bool isAttacking;
         public bool isCharging;
         private Vector2 playerPos;
-        private Vector2 battlePos;
+        public Vector2 battlePos;
         public Vector2 Position
         {
             get { return playerPos; }
@@ -120,11 +120,20 @@ namespace Hero_of_Novac
             {
                 if (value != null)
                 {
+                    isAttacking = true;
                     switch (value.AttackName)
                     {
                         case Attack.AttackOptions.slash:
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
+                            break;
+                        case Attack.AttackOptions.lunge:
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 0;
+                            break;
+                        case Attack.AttackOptions.punch:
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96 * 5;
                             break;
                     }
                     chargeBar.MaxValue = value.ChargeTime;
@@ -346,6 +355,7 @@ namespace Hero_of_Novac
             magicBar.Rect = magicRect;
             if (!isAttacking)
             {
+                sourceRecBattle.Y = 96;
                 if (timer % 5 == 0)
                     sourceRecBattle.X += BATTLE_SPRITE_WIDTH;
                 if (sourceRecBattle.X >= BATTLE_SPRITE_WIDTH * 3)
