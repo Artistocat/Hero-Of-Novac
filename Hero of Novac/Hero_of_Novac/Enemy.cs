@@ -26,6 +26,10 @@ namespace Hero_of_Novac
         {
             Overworld, Battlemenu
         }
+        private enum BattleState
+        {
+            Charging, Attacking
+        }
 
         private Random ran;
         private int timer = 0;
@@ -42,6 +46,9 @@ namespace Hero_of_Novac
         private PercentageRectangle healthBar;
         private Rectangle healthRect;
         private PercentageRectangle chargeBar;
+        private BattleState currentBattleState;
+
+        private Attack currentAttack;
 
         /*
          * 146 x 116
@@ -61,17 +68,20 @@ namespace Hero_of_Novac
             timer = 0;
             battleRec = new Rectangle(window.Right - rec.Width * 4, window.Bottom / 4 - rec.Height, rec.Width, rec.Height);
             healthRect = new Rectangle(window.Left + window.Width * 3 / 4 + 25, window.Height / 2 + 100, barWidth * 5, barHeight * 5);
+            chargeBar.Rect = healthRect;
             Rectangle chargeRect = healthRect;
             chargeRect.Y += 50;
-            chargeBar.Rect = chargeRect;                 
+            chargeBar.Rect = chargeRect;
+            chargeBar.CurrentValue = 0;         
             battleSourceRec = sourceRec;
             battleSourceRec.Y = 116;
+            currentBattleState = BattleState.Charging;
+            currentAttack = Attack.Slash;
         }
 
         public static void LoadContent(Player player)
         {
             Enemy.player = player;
-
         }
 
         public void Update(GameTime gametime)
@@ -128,12 +138,30 @@ namespace Hero_of_Novac
                 Battle();
                 currentGameState = GameState.Battlemenu;
             }
-            healthBar.SetLocation(rec.X - 10, rec.Y - 10);
+            //healthBar.SetLocation(rec.X - 10, rec.Y - 10);
         }
 
         private void BattleMenuUpdate(GameTime gameTime)
         {
-            healthBar.Rect = healthRect;
+            //healthBar.Rect = healthRect;
+            if (player.isCharging)
+            {
+                if (timer % 2 == 0)
+                {
+                    chargeBar.CurrentValue++;
+                }
+                if (chargeBar.CurrentValue == chargeBar.MaxValue)
+                {
+                    currentBattleState = BattleState.Attacking;
+                }
+            }
+        }
+
+        public void AttackComplete()
+        {
+            currentBattleState = BattleState.Charging;
+            chargeBar.CurrentValue = 0;
+            chargeBar.CurrentValue = 0;
         }
 
         public void MoveY(int speed)
@@ -168,15 +196,49 @@ namespace Hero_of_Novac
             healthBar.CurrentValue -= damage;
         }
 
+        public int Health
+        {
+            get
+            {
+                return healthBar.CurrentValue;
+            }
+        }
+
+        public Attack CurrentAttack
+        {
+            get
+            {
+                return currentAttack;
+            }
+            set
+            {
+                currentAttack = value;
+            }
+        }
+
         public bool IsInBattle()
         {
             return currentGameState == GameState.Battlemenu;
+        }
+
+        public bool IsAttacking()
+        {
+            return currentBattleState == BattleState.Attacking;
+        }
+
+        public bool IsCharging
+        {
+            get
+            {
+                return currentBattleState == BattleState.Charging;
+            }
         }
 
         public void Battle()
         {
             currentGameState = GameState.Battlemenu;
             healthBar.Rect = healthRect;
+            chargeBar.CurrentValue = 0;
         }
 
         public void Overworld()

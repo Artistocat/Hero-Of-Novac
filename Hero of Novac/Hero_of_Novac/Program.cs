@@ -12,15 +12,7 @@ namespace Hero_of_Novac
         {
             using (Game1 game = new Game1())
             {
-                try
-                {
-                    game.Run();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    Console.WriteLine("Wtf happened");
-                }
+                game.Run();
             }
         }
     }

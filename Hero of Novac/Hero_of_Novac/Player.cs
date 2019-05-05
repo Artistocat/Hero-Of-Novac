@@ -58,6 +58,14 @@ namespace Hero_of_Novac
         //private int magicPoints;
         //private int chargePoints;
 
+        public int Health
+        {
+            get
+            {
+                return healthBar.CurrentValue;
+            }
+        }
+
         private PercentageRectangle healthBar;
         private PercentageRectangle magicBar;
         private PercentageRectangle chargeBar;
@@ -371,6 +379,11 @@ namespace Hero_of_Novac
                 if (timer % 2 == 0)
                     chargeBar.CurrentValue++;
             }
+        }
+
+        public void Damage(int damage)
+        {
+            healthBar.CurrentValue -= damage;
         }
 
         public void LearnAttack(Attack attack)

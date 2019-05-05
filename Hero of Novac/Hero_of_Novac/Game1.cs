@@ -88,6 +88,8 @@ namespace Hero_of_Novac
             if (TESTING)
             {
                 area = new Area(Services, @"Content/Test", pix, window, randomSeed);
+                Enemy.LoadContent(area.Player);
+                Attack.LoadContent(area.Player);
                 List<NPC> npcs = new List<NPC>();
                 npcs.Add(new NPC(new Rectangle(300, 300, 52, 72), Content.Load<Texture2D>("blacksmith"), new Rectangle(52, 0, 52, 72), new Rectangle(100, 100, 200, 136), new Vector2(0, 0), true, 'b', Speech.None, randomNoSeed, pix));
                 npcs.Add(new NPC(new Rectangle(200, 300, 52, 72), Content.Load<Texture2D>("shopkeeper"), new Rectangle(52, 0, 52, 72), new Rectangle(0, 400, 200, 200), new Vector2(0, 0), true, 's', Speech.None, randomNoSeed, pix));
@@ -105,9 +107,6 @@ namespace Hero_of_Novac
 
             NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"), Content.Load<Texture2D>("window"), Content.Load<Texture2D>("player_walking"));
             NPC.Window = window;
-
-            Enemy.LoadContent(area.Player);
-            Attack.LoadContent(area.Player);
             area.Player.LearnAttack(Attack.Lunge);
             area.Player.LearnAttack(Attack.Slash);
             area.Player.LearnAttack(Attack.Chop);
@@ -165,6 +164,12 @@ namespace Hero_of_Novac
                 case GameState.BattleMenu:
                     battleMenu.Update(gameTime);
                     area.Player.Update(gameTime, new Vector2(0, 0));
+                    if (battleMenu.BattleIsOver)
+                    {
+                        currentGameState = GameState.Overworld;
+                        area.RemoveEnemies(battleMenu.Enemies);
+                        area.Player.Overworld();
+                    }
                     break;
                 case GameState.Inventory:
                     break;

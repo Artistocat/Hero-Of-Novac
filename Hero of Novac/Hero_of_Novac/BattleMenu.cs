@@ -21,6 +21,7 @@ namespace Hero_of_Novac
         private static Rectangle menuRect;
 
         private Enemy[] enemies;
+        private List<int> attackingEnemies;
         private GamePadState gamePad;
         private GamePadState oldGamePad;
         private int timer;
@@ -28,7 +29,7 @@ namespace Hero_of_Novac
 
         enum BattleState
         {
-            BeginningBattle, Charging, Attacking, EnemyAttacking, ChoosingAttack, EndingBattle
+            BeginningBattle, Charging, Attacking, EnemyAttacking, ChoosingAttack, Victory, Defeat
         }
         BattleState currentBattleState;
 
@@ -99,6 +100,8 @@ namespace Hero_of_Novac
             }
 
             MainChoices[0].isSelected = true;
+
+            attackingEnemies = new List<int>();
 
             //TESTING
             currentBattleState = BattleState.ChoosingAttack;
@@ -187,8 +190,11 @@ namespace Hero_of_Novac
                 case BattleState.EnemyAttacking:
                     EnemyAttacking();
                     break;
-                case BattleState.EndingBattle:
-                    EndingBattle();
+                case BattleState.Victory:
+                    Victory();
+                    break;
+                case BattleState.Defeat:
+                    Defeat();
                     break;
             }
             timer++;
@@ -411,6 +417,22 @@ namespace Hero_of_Novac
                 }
             }
 
+            if (gamePad.Buttons.LeftShoulder == ButtonState.Released && oldGamePad.Buttons.LeftShoulder == ButtonState.Pressed)
+            {
+                for (int i = 0; i < Element.Length; i++)
+                {
+                    if (Element[i].isSelected)
+                    {
+                        Element[i].isSelected = false;
+                        if (i == 0)
+                            Element[Element.Length - 1].isSelected = true;
+                        else
+                            Element[i - 1].isSelected = true;
+                        break;
+                    }
+                }
+            }
+
             Direction dir = GetInputDirection();
             if (dir == Direction.Neutral)
                 return;
@@ -502,6 +524,15 @@ namespace Hero_of_Novac
                 currentBattleState = BattleState.Attacking;
                 player.isAttacking = true;
             }
+            for(int i = 0; i < enemies.Length; i++)
+            {
+                Enemy enemy = enemies[i];
+                if (!enemy.IsCharging)
+                {
+                    currentBattleState = BattleState.EnemyAttacking;
+                    attackingEnemies.Add(i);
+                }
+            }
         }
 
         private void Attacking()
@@ -572,19 +603,57 @@ namespace Hero_of_Novac
             {
                 currentBattleState = BattleState.ChoosingAttack;
                 CurrentChoiceState = ChoiceState.MainChoice;
-                enemies[0].Damage(player.CurrentAttack.Damage);
+                enemies[0].Damage(player.CurrentAttack.Damage); //TODO if we implement multiple enemies, we will have to then specify which is attacked, and do that in the choice update, where we can choose who is attacked
+                if (enemies[0].Health <= 0)
+                {
+                    currentBattleState = BattleState.Victory;
+                }
                 player.CurrentAttack = null;
             }
         }
 
         private void EnemyAttacking()
         {
+            bool doneAttacking = true; //do similar to Attacking if we do an animation for the enemy
+            if (doneAttacking)
+            {
+                currentBattleState = BattleState.Charging;
+                foreach (int index in attackingEnemies)
+                {
+                    player.Damage(enemies[index].CurrentAttack.Damage);
+                    enemies[index].AttackComplete();
+                    if (player.Health <= 0)
+                        currentBattleState = BattleState.Defeat;
+                }
+                attackingEnemies.Clear();
+            }
+        }
+
+        private void Victory()
+        {
 
         }
 
-        private void EndingBattle()
+        private void Defeat()
         {
 
+        }
+
+        public bool BattleIsOver
+        {
+            get
+            {
+                return currentBattleState == BattleState.Defeat ||
+                    currentBattleState == BattleState.Victory;
+            }
+        }
+
+        public List<Enemy> Enemies
+        {
+            get
+            {
+                return enemies.ToList();
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -610,6 +679,15 @@ namespace Hero_of_Novac
             foreach (Enemy enemy in enemies)
             {
                 enemy.Draw(spriteBatch);
+            }
+
+            if (currentBattleState == BattleState.Victory)
+            {
+                //VICTORY
+            }
+            if (currentBattleState == BattleState.Defeat)
+            {
+                //DEFEAT
             }
         }
 

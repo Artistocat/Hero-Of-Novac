@@ -618,6 +618,19 @@ namespace Hero_of_Novac
             enemies = list;
         }
 
+        public void RemoveEnemies(List<Enemy> list)
+        {
+            foreach (Enemy enemy in list)
+            {
+                RemoveEnemy(enemy);
+            }
+        }
+
+        public void RemoveEnemy(Enemy enemy)
+        {
+            enemies.Remove(enemy);
+        }
+
         /// <summary>
         /// Updates the area.
         /// </summary>
