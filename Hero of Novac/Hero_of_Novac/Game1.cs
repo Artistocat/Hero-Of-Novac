@@ -123,7 +123,7 @@ namespace Hero_of_Novac
 
             SpriteFont smallBattleFont = Content.Load<SpriteFont>("SmallBattleFont");
             SpriteFont battleFont = Content.Load<SpriteFont>("BattleFont");
-            BattleMenu.LoadContent(area.Player, battleFont, smallBattleFont, pix, FX1, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            BattleMenu.LoadContent(area.Player, battleFont, smallBattleFont, pix, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             PercentageRectangle.LoadContent(pix, font);
 
             battleMenu = new BattleMenu(new Enemy[0], BattleMenu.Biome.Plains);

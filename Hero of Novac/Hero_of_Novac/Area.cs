@@ -198,7 +198,7 @@ namespace Hero_of_Novac
             LoadObjectTiles(ReadFile(path + "/objects.txt"));
 
             pix = p;
-            player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), Content.Load<Texture2D>("HeroProfile"), pix, window);
+            player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), Content.Load<Texture2D>("combatFX"), Content.Load<Texture2D>("HeroProfile"), pix, window);
             SpriteFont font = Content.Load<SpriteFont>("SpriteFont1");
             npcs = new List<NPC>();
             //AddNPCs(font);
