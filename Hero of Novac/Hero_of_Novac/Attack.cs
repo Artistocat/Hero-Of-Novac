@@ -14,7 +14,7 @@ namespace Hero_of_Novac
         protected int chargeTime;
         protected int damage;
 
-        protected AttackOptions attackName;
+        protected string attackName;
 
         public int ChargeTime
         {
@@ -32,15 +32,15 @@ namespace Hero_of_Novac
             }
         }
 
-        public AttackOptions AttackName
+        public string AttackName
         {
             get
-            {
+            {  
                 return attackName;
             }
         }
 
-        public Attack(int defaultChargeTime, int defaultDamage, AttackOptions attackName)
+        public Attack(int defaultChargeTime, int defaultDamage, String attackName)
         {
             this.defaultChargeTime = defaultChargeTime;
             this.defaultDamage = defaultDamage;
@@ -64,45 +64,35 @@ namespace Hero_of_Novac
         public static void LoadContent(Player player)
         {
             Attack.player = player;
-            lunge = new BasicAttack(5, 4, AttackOptions.lunge);
-            slash = new BasicAttack(4, 3, AttackOptions.slash);
-            chop = new BasicAttack(8, 7, AttackOptions.chop);
-            punch = new BasicAttack(1, 1, AttackOptions.punch);
+            lunge = new BasicAttack(5, 4, "Lunge");
+            slash = new BasicAttack(4, 3, "Slash");
+            chop = new BasicAttack(8, 7, "Chop");
+            punch = new BasicAttack(1, 1, "Punch");
 
-            whirlwind = new MagicAttack(5, 5, AttackOptions.whirlwind, Element.Air);
-            airSlash = new MagicAttack(3, 3, AttackOptions.airSlash, Element.Air);
-            windStrike = new MagicAttack(4, 4, AttackOptions.windStrike, Element.Air);
-            faldorsWind = new MagicAttack(4, 5, AttackOptions.faldorsWind, Element.Air);
+            whirlwind = new MagicAttack(5, 5, "Whirlwind", Element.Air);
+            airSlash = new MagicAttack(3, 3, "Air Slash", Element.Air);
+            windStrike = new MagicAttack(4, 4, "Wind Strike", Element.Air);
+            faldorsWind = new MagicAttack(4, 5, "Faldor's Wind", Element.Air);
 
-            wallOfFire = new MagicAttack(8, 8, AttackOptions.wallOfFire, Element.Fire);
-            fireBall = new MagicAttack(12, 12, AttackOptions.fireBall, Element.Fire);
-            incendiaryCloud = new MagicAttack(6, 6, AttackOptions.incendiaryCloud, Element.Fire);
-            ottosFireStorm = new MagicAttack(7, 9, AttackOptions.ottosFireStorm, Element.Fire);
+            wallOfFire = new MagicAttack(8, 8, "Wall of Fire", Element.Fire);
+            fireBall = new MagicAttack(12, 12, "Fire Ball", Element.Fire);
+            incendiaryCloud = new MagicAttack(6, 6, "Incendiary Cloud", Element.Fire);
+            ottosFireStorm = new MagicAttack(7, 9, "Otto's Firestorm", Element.Fire);
 
-            thornWhip = new MagicAttack(15, 15, AttackOptions.thornWhip, Element.Earth);
-            stoneThrow = new MagicAttack(20, 20, AttackOptions.stoneThrow, Element.Earth);
-            earthquake = new MagicAttack(25, 25, AttackOptions.earthquake, Element.Earth);
-            otilukesWrath = new MagicAttack(22, 26, AttackOptions.otilukesWrath, Element.Earth);
+            thornWhip = new MagicAttack(15, 15, "Thorn Whip", Element.Earth);
+            stoneThrow = new MagicAttack(20, 20, "Stone Throw", Element.Earth);
+            earthquake = new MagicAttack(25, 25, "Earthquake", Element.Earth);
+            otilukesWrath = new MagicAttack(22, 26, "Otiluke's Wrath", Element.Earth);
 
-            coneOfCold = new MagicAttack(12, 12, AttackOptions.coneOfCold, Element.Water);
-            iceStorm = new MagicAttack(20, 20, AttackOptions.iceStorm, Element.Water);
-            frostRay = new MagicAttack(16, 16, AttackOptions.frostRay, Element.Water);
-            rarysTsunami = new MagicAttack(17, 20, AttackOptions.rarysTsunami, Element.Water);
+            coneOfCold = new MagicAttack(12, 12, "Cone of Cold", Element.Water);
+            iceStorm = new MagicAttack(20, 20, "Ice Storm", Element.Water);
+            frostRay = new MagicAttack(16, 16, "Frost Ray", Element.Water);
+            rarysTsunami = new MagicAttack(17, 20, "Rary's Tsunami", Element.Water);
 
-            magicMissile = new MagicAttack(9, 9, AttackOptions.magicMissile, Element.Aether);
-            eldritchBlast = new MagicAttack(15, 15, AttackOptions.eldritchBlast, Element.Aether);
-            arcaneBeam = new MagicAttack(12, 12, AttackOptions.arcaneBeam, Element.Aether);
-            tashasLaugh = new MagicAttack(13, 15, AttackOptions.tashasLaugh, Element.Aether);
-        }
-
-        public enum AttackOptions
-        {
-            lunge, slash, chop, punch,
-            whirlwind, airSlash, windStrike, faldorsWind,
-            wallOfFire, fireBall, incendiaryCloud, ottosFireStorm,
-            thornWhip, stoneThrow, earthquake, otilukesWrath,
-            coneOfCold, iceStorm, frostRay, rarysTsunami,
-            magicMissile, eldritchBlast, arcaneBeam, tashasLaugh
+            magicMissile = new MagicAttack(9, 9, "Magic Missile", Element.Aether);
+            eldritchBlast = new MagicAttack(15, 15, "Eldritch Blast", Element.Aether);
+            arcaneBeam = new MagicAttack(12, 12, "Arcane Beam", Element.Aether);
+            tashasLaugh = new MagicAttack(13, 15, "Tasha's Laugh", Element.Aether);
         }
         
         //Basic attacks

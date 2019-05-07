@@ -20,6 +20,8 @@ namespace Hero_of_Novac
         private Rectangle bubblezSourceRec;
         GamePadState gp;
         GamePadState oldGP;
+        Direction dir;
+        Direction oldDir;
 
         int test = 0;
         public bool isTalking;
@@ -87,11 +89,14 @@ namespace Hero_of_Novac
             this.ran = ran;
             isTalking = false;
             bubblezSourceRec = new Rectangle(0, 224, 32, 32);
+            oldDir = dir = GetInputDirection();
         }
 
         public void Update(GameTime gameTime)
         {
             gp = GamePad.GetState(PlayerIndex.One);
+            oldDir = dir;
+            dir = GetInputDirection();
             timer++;
             //if (doneTalk)
             //    doneTalk = false;
@@ -145,7 +150,7 @@ namespace Hero_of_Novac
                 rec.X += (int)vol.X;
                 rec.Y += (int)vol.Y;
             }
-            if (gp.DPad.Down == ButtonState.Pressed && oldGP.DPad.Down != ButtonState.Pressed)
+            if (dir == Direction.Down && oldDir != Direction.Down)
             {
 
                 if (talkwindow <= 55)
@@ -153,7 +158,7 @@ namespace Hero_of_Novac
                 else
                     talkwindow -= 45;
             }
-            if (gp.DPad.Up == ButtonState.Pressed && oldGP.DPad.Up != ButtonState.Pressed)
+            if (dir == Direction.Up && oldDir != Direction.Up) //up
             {
 
                 if (talkwindow >= 145)
@@ -195,6 +200,26 @@ namespace Hero_of_Novac
             if (rec.Y > space.Bottom)
                 rec.Y = space.Bottom;
             oldGP = gp;
+        }
+
+        
+        enum Direction
+        {
+            Up, Down, Left, Right, Neutral
+        }
+        //Helper Method for Getting Direction
+        private Direction GetInputDirection()
+        {
+            Direction dir = Direction.Neutral;
+            if (gp.ThumbSticks.Left.Y >= .9)
+                dir = Direction.Up;
+            if (gp.ThumbSticks.Left.Y <= -.9)
+                dir = Direction.Down;
+            if (gp.ThumbSticks.Left.X <= -.9)
+                dir = Direction.Left;
+            if (gp.ThumbSticks.Left.X >= .9)
+                dir = Direction.Right;
+            return dir;
         }
 
         public void MoveY(int speed)

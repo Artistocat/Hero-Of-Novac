@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 namespace Hero_of_Novac
 {
 
-    public class Player : Entity
+    public class Player// : Entity
     {
         private Rectangle window;
 
@@ -31,9 +31,11 @@ namespace Hero_of_Novac
 
         private Texture2D overworldTex;
         private Texture2D combatTex;
+        private Texture2D profileTex;
         private Texture2D pixel;
         private Rectangle sourceRecWorld;
         public Rectangle sourceRecBattle;
+        public Rectangle sourceRecProfile;
         public Rectangle SourceRec
         {
             get { return sourceRecWorld; }
@@ -131,15 +133,15 @@ namespace Hero_of_Novac
                     isAttacking = true;
                     switch (value.AttackName)
                     {
-                        case Attack.AttackOptions.slash:
+                        case "Slash":
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
                             break;
-                        case Attack.AttackOptions.lunge:
+                        case "Lunge":
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 0;
                             break;
-                        case Attack.AttackOptions.punch:
+                        case "Punch":
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96 * 5;
                             break;
@@ -167,16 +169,18 @@ namespace Hero_of_Novac
         private Color color;
         private int timer;
 
-        public Player(Texture2D overworldTex, Texture2D combatTex, Texture2D p, Rectangle window)
+        public Player(Texture2D overworldTex, Texture2D combatTex, Texture2D profileTex, Texture2D p, Rectangle window)
         {
             currentGameState = GameState.Overworld;
             this.window = window;
 
             this.overworldTex = overworldTex;
             this.combatTex = combatTex;
+            this.profileTex = profileTex;
             pixel = p;
             sourceRecWorld = new Rectangle(OVERWORLD_SPRITE_WIDTH, 0, OVERWORLD_SPRITE_WIDTH, OVERWORLD_SPRITE_HEIGHT);
             sourceRecBattle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
+            sourceRecProfile = new Rectangle(0, 6, 292, 509 - 6);
             playerPos = new Vector2((window.Width - OVERWORLD_SPRITE_WIDTH) / 2, (window.Height - OVERWORLD_SPRITE_HEIGHT) / 2);
 
             healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, barWidth, barHeight), 100, Color.Red);
@@ -213,6 +217,11 @@ namespace Hero_of_Novac
             {
                 elementLevels[i] = 1;
             }
+
+            for (int i = 0; i < 5; i++)
+            {
+                magicAttacks.Add((Element)i, new Attack[4]);
+            }
         }
 
         public void death()
@@ -233,7 +242,7 @@ namespace Hero_of_Novac
                     UpdateBattlemenu(gameTime);
                     break;
             }
-            rec = new Rectangle((int)playerPos.X, (int)playerPos.Y, sourceRecWorld.Width, sourceRecWorld.Height);
+            //rec = new Rectangle((int)playerPos.X, (int)playerPos.Y, sourceRecWorld.Width, sourceRecWorld.Height);
         }
 
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
@@ -403,13 +412,17 @@ namespace Hero_of_Novac
             {
                 MagicAttack mAttack = (MagicAttack)attack;
                 Attack[] magicArray;
-                magicAttacks.TryGetValue(mAttack.Element, out magicArray);
+                if (!magicAttacks.TryGetValue(mAttack.Element, out magicArray))
+                {
+                    Console.WriteLine("Could not find element " + mAttack.Element);
+                    throw new Exception("Element not found");
+                }
                 for (int i = 0; i < magicArray.Length; i++)
                 {
                     if (magicArray[i] == null)
                     {
                         magicArray[i] = attack;
-                        magicAttacks.Add(mAttack.Element, magicArray);
+                        magicAttacks[mAttack.Element] = magicArray;
                         return;
                     }
                 }
@@ -417,7 +430,7 @@ namespace Hero_of_Novac
 
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             switch (currentGameState)
             {
@@ -434,6 +447,12 @@ namespace Hero_of_Novac
                     chargeBar.Draw(spriteBatch, true);
                     break;
             }
+        }
+
+        //10 X 17
+        public void DrawProfile(SpriteBatch spriteBatch, Rectangle rect)
+        {
+            spriteBatch.Draw(profileTex, rect, sourceRecProfile, Color.White);
         }
 
         public void Battle()

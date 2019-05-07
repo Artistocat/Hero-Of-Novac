@@ -13,6 +13,8 @@ namespace Hero_of_Novac
         protected Rectangle rec;
         protected Rectangle sourceRec;
         protected Texture2D tex;
+        protected Rectangle sourceRecProfile;
+        protected Texture2D profileTex;
         protected Vector2 pos;
 
         public Rectangle Rec

@@ -7,7 +7,7 @@ namespace Hero_of_Novac
 {
     public class BasicAttack : Attack
     {
-        public BasicAttack(int defaultChargeTime, int defaultDamage, AttackOptions attackName) :base(defaultChargeTime, defaultDamage, attackName)
+        public BasicAttack(int defaultChargeTime, int defaultDamage, string attackName) :base(defaultChargeTime, defaultDamage, attackName)
         {
         }
 

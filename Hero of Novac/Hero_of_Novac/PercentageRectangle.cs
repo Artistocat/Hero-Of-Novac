@@ -21,11 +21,11 @@ namespace Hero_of_Novac
             get { return currentValue; }
             set
             {
-                if (currentValue > MaxValue - 1)
+                if (value > MaxValue)
                 {
-                    currentValue = MaxValue - 1;
+                    currentValue = MaxValue;
                 }
-                else if (currentValue < 0)
+                else if (value < 0)
                     currentValue = 0;
                 else
                     currentValue = value;

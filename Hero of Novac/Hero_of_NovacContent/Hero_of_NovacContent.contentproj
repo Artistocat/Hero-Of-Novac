@@ -111,6 +111,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BattleFont.spritefont">
+      <Name>BattleFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+    <Compile Include="SmallBattleFont.spritefont">
+      <Name>SmallBattleFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="Test\objects.txt">
       <Name>objects</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -189,8 +199,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="GriffinProfile.png">
-      <Name>GriffinProfile</Name>
+    <Compile Include="GryphonProfile.png">
+      <Name>GryphonProfile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

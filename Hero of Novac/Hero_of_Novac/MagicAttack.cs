@@ -16,7 +16,7 @@ namespace Hero_of_Novac
             }
         }
 
-        public MagicAttack(int defaultChargeTime, int defaultDamage, AttackOptions attackName, Element element) : base(defaultChargeTime, defaultDamage, attackName)
+        public MagicAttack(int defaultChargeTime, int defaultDamage, string attackName, Element element) : base(defaultChargeTime, defaultDamage, attackName)
         {
             this.element = element;
             int elementlvl = player.Elementlvl(element);

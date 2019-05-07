@@ -39,6 +39,12 @@ namespace Hero_of_Novac
         }
         ChoiceState currentChoiceState;
 
+        public enum Biome
+        {
+            Plains, Forest, Ice, Water
+        }
+        Biome currentBiome;
+
         private ChoiceState CurrentChoiceState
         {
             get
@@ -74,8 +80,9 @@ namespace Hero_of_Novac
         //}
         //MenuChoice currentMenuChoice;
 
-        public BattleMenu(Enemy[] enemies)
+        public BattleMenu(Enemy[] enemies, Biome biome)
         {
+            currentBiome = biome;
             currentBattleState = BattleState.BeginningBattle;
             CurrentChoiceState = ChoiceState.MainChoice;
             //currentMenuChoice = MenuChoice.Basic;
@@ -83,32 +90,43 @@ namespace Hero_of_Novac
             timer = 0;
             animationFlag1 = false;
 
-
+            int count = 0;
             foreach (NavigableMenuItem m in MainChoices)
             {
                 m.isSelected = false;
+                count++;
             }
-
+            count = 0;
             foreach (NavigableMenuItem m in Basic)
             {
                 m.isSelected = false;
+                m.Name = "" + player.BasicAttacks[count].AttackName;
+                count++;
             }
-
+            count = 0;
             foreach (NavigableMenuItem m in Magic)
             {
                 m.isSelected = false;
+                try
+                {
+                    Attack[] magicAttacks = player.MagicAttacks[0];
+                    m.Name = "" + magicAttacks[count].AttackName;
+                }
+                catch
+                {
+                    //do nothing cuz I'm lazy and realize there is no name
+                }
+                count++;
             }
-
             MainChoices[0].isSelected = true;
 
             attackingEnemies = new List<int>();
-
-            //TESTING
-            currentBattleState = BattleState.ChoosingAttack;
         }
 
-        public static void LoadContent(Player player, SpriteFont Font, Texture2D p, Rectangle screenRect)
+        public static void LoadContent(Player player, SpriteFont Font, SpriteFont SmallFont, Texture2D p, Rectangle screenRect)
         {
+            NavigableMenuItem.SmallFont = SmallFont;
+            NavigableMenuItem.Font = Font;
             BattleMenu.player = player;
             BattleMenu.Font = Font;
             pix = p;
@@ -141,30 +159,30 @@ namespace Hero_of_Novac
 
             Rectangle singleRect = new Rectangle(0, 0, 1, 1);
             MainChoices = new NavigableMenuItem[3];
-            MainChoices[0] = new NavigableMenuItem(basicRect, pix, singleRect, Color.Blue);
-            MainChoices[1] = new NavigableMenuItem(magicRect, pix, singleRect, Color.Purple);
-            MainChoices[2] = new NavigableMenuItem(itemsRect, pix, singleRect, Color.Green);
+            MainChoices[0] = new NavigableMenuItem(basicRect, pix, singleRect, Color.Blue, "Basic", false);
+            MainChoices[1] = new NavigableMenuItem(magicRect, pix, singleRect, Color.Purple, "Magic", false);
+            MainChoices[2] = new NavigableMenuItem(itemsRect, pix, singleRect, Color.Green, "Items", false);
 
             Basic = new NavigableMenuItem[2, 2];
-            Basic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Red);
-            Basic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Yellow);
-            Basic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Yellow);
-            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Red);
+            Basic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Red, "Slash", false);
+            Basic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Yellow, "Punch", false);
+            Basic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Yellow, "Chop", false);
+            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Red, "Bitch slap", false);
 
             Magic = new NavigableMenuItem[2, 2];
-            Magic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Purple);
-            Magic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Blue);
-            Magic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Blue);
-            Magic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Purple);
+            Magic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Purple, "M1", false);
+            Magic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Blue, "M2", false);
+            Magic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Blue, "M3", false);
+            Magic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Purple, "M4", false);
 
             int elementHeight = 20;
             int elementY = attackRects[0].Y - elementHeight;
             Element = new NavigableMenuItem[5];
-            Element[0] = new NavigableMenuItem(new Rectangle(width / 4, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
-            Element[1] = new NavigableMenuItem(new Rectangle(width / 4 + width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
-            Element[2] = new NavigableMenuItem(new Rectangle(width / 4 + 2 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
-            Element[3] = new NavigableMenuItem(new Rectangle(width / 4 + 3 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
-            Element[4] = new NavigableMenuItem(new Rectangle(width / 4 + 4 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond);
+            Element[0] = new NavigableMenuItem(new Rectangle(width / 4, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond, "" + Hero_of_Novac.Element.Air, true);
+            Element[1] = new NavigableMenuItem(new Rectangle(width / 4 + width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond, "" + Hero_of_Novac.Element.Fire, true);
+            Element[2] = new NavigableMenuItem(new Rectangle(width / 4 + 2 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond, "" + Hero_of_Novac.Element.Aether, true);
+            Element[3] = new NavigableMenuItem(new Rectangle(width / 4 + 3 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond, "" + Hero_of_Novac.Element.Water, true);
+            Element[4] = new NavigableMenuItem(new Rectangle(width / 4 + 4 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond, "" + Hero_of_Novac.Element.Earth, true);
             //WHY DIDN'T I DO THIS IN A FOR LOOP?????
 
         }
@@ -206,7 +224,10 @@ namespace Hero_of_Novac
 
         private void BeginningBattle()
         {
-
+            if (timer >= 120)
+            {
+                currentBattleState = BattleState.ChoosingAttack;
+            }
         }
 
         private void ChoosingAttack()
@@ -337,8 +358,8 @@ namespace Hero_of_Novac
             if (oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed)
             {
                 Vector2 selected = GetSelected(Basic);
-                currentBattleState = BattleState.Charging;
                 player.CurrentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)];
+                currentBattleState = BattleState.Charging;
             }
 
             Direction dir = GetInputDirection();
@@ -397,8 +418,12 @@ namespace Hero_of_Novac
             {
                 Vector2 selected = GetSelected(Magic);
                 Element element = GetSelectedElement();
-                currentBattleState = BattleState.Charging;
-                player.CurrentAttack = player.MagicAttacks[element][(int)(selected.X + 2 * selected.Y)];
+                Attack selectedAttack = player.MagicAttacks[element][(int)(selected.X + 2 * selected.Y)];
+                if (selectedAttack != null)
+                {
+                    player.CurrentAttack = selectedAttack;
+                    currentBattleState = BattleState.Charging;
+                }
             }
 
             if (gamePad.Buttons.RightShoulder == ButtonState.Released && oldGamePad.Buttons.RightShoulder == ButtonState.Pressed)
@@ -407,11 +432,40 @@ namespace Hero_of_Novac
                 {
                     if (Element[i].isSelected)
                     {
+                        int newSelectedElement;
                         Element[i].isSelected = false;
                         if (i == Element.Length - 1)
+                        {
                             Element[0].isSelected = true;
+                            newSelectedElement = 0;
+                        }
                         else
+                        {
                             Element[i + 1].isSelected = true;
+                            newSelectedElement = i + 1;
+                        }
+                        int count = 0;
+                        for (int k = 0; k < Magic.Length; k++)
+                        {
+                            int x = k;
+                            int y = 0;
+                            if (x >= 2)
+                            {
+                                x -= 2;
+                                y++;
+                            }
+                            NavigableMenuItem m = Magic[y, x];
+                            try
+                            {
+                                Attack[] magicAttacks = player.MagicAttacks[(Element)(newSelectedElement)];
+                                m.Name = "" + magicAttacks[count].AttackName;
+                            }
+                            catch
+                            {
+                                m.Name = "M" + (k + 1);
+                            }
+                            count++;
+                        }
                         break;
                     }
                 }
@@ -423,11 +477,41 @@ namespace Hero_of_Novac
                 {
                     if (Element[i].isSelected)
                     {
+                        int newSelectedElement;
                         Element[i].isSelected = false;
                         if (i == 0)
+                        {
                             Element[Element.Length - 1].isSelected = true;
+                            newSelectedElement = Element.Length - 1;
+                        }
                         else
+                        {
                             Element[i - 1].isSelected = true;
+                            newSelectedElement = i - 1;
+                        }
+
+                        int count = 0;
+                        for (int k = 0; k < Magic.Length; k++)
+                        {
+                            int x = k;
+                            int y = 0;
+                            if (x >= 2)
+                            {
+                                x -= 2;
+                                y++;
+                            }
+                            NavigableMenuItem m = Magic[y, x];
+                            try
+                            {
+                                Attack[] magicAttacks = player.MagicAttacks[(Element)(newSelectedElement)];
+                                m.Name = "" + magicAttacks[count].AttackName;
+                            }
+                            catch
+                            {
+                                m.Name = "M" + (k + 1);
+                            }
+                            count++;
+                        }
                         break;
                     }
                 }
@@ -524,7 +608,7 @@ namespace Hero_of_Novac
                 currentBattleState = BattleState.Attacking;
                 player.isAttacking = true;
             }
-            for(int i = 0; i < enemies.Length; i++)
+            for (int i = 0; i < enemies.Length; i++)
             {
                 Enemy enemy = enemies[i];
                 if (!enemy.IsCharging)
@@ -540,7 +624,7 @@ namespace Hero_of_Novac
             bool doneAttacking = false;
             switch (player.CurrentAttack.AttackName)
             {
-                case Attack.AttackOptions.slash:
+                case "Slash":
 
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
@@ -553,7 +637,7 @@ namespace Hero_of_Novac
                     }
                     break;
 
-                case Attack.AttackOptions.lunge:
+                case "Lunge":
 
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
@@ -566,7 +650,7 @@ namespace Hero_of_Novac
                     }
                     break;
 
-                case Attack.AttackOptions.punch:
+                case "Punch":
 
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
@@ -579,7 +663,7 @@ namespace Hero_of_Novac
                     }
                     break;
 
-                case Attack.AttackOptions.chop:
+                case "Chop":
 
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
@@ -658,27 +742,50 @@ namespace Hero_of_Novac
 
         public void Draw(SpriteBatch spriteBatch)
         {
-
-            spriteBatch.Draw(pix, menuRect, Color.Black);
-            switch (CurrentChoiceState)
+            //TODO Background that looks nice af
+            switch (currentBiome)
             {
-                case ChoiceState.MainChoice:
-                    DrawMainChoice(spriteBatch);
+                case Biome.Plains:
                     break;
-                case ChoiceState.Basic:
-                    DrawBasic(spriteBatch);
+                case Biome.Forest:
                     break;
-                case ChoiceState.Magic:
-                    DrawMagic(spriteBatch);
+                case Biome.Ice:
                     break;
-                case ChoiceState.Items:
-                    DrawItems(spriteBatch);
+                case Biome.Water:
                     break;
             }
-            player.Draw(spriteBatch);
-            foreach (Enemy enemy in enemies)
+            if (currentBattleState == BattleState.BeginningBattle)
             {
-                enemy.Draw(spriteBatch);
+                int ratio = 50;
+                player.DrawProfile(spriteBatch, new Rectangle(50, 50, 10 * ratio, 17 * ratio));
+                foreach (Enemy enemy in enemies)
+                {
+                    enemy.DrawProfile(spriteBatch, new Rectangle(1920 - 50 - 10 * ratio, 50, 10 * ratio, 17 * ratio));
+                }
+            }
+            else
+            {
+                spriteBatch.Draw(pix, menuRect, Color.Black);
+                switch (CurrentChoiceState)
+                {
+                    case ChoiceState.MainChoice:
+                        DrawMainChoice(spriteBatch);
+                        break;
+                    case ChoiceState.Basic:
+                        DrawBasic(spriteBatch);
+                        break;
+                    case ChoiceState.Magic:
+                        DrawMagic(spriteBatch);
+                        break;
+                    case ChoiceState.Items:
+                        DrawItems(spriteBatch);
+                        break;
+                }
+                player.Draw(spriteBatch);
+                foreach (Enemy enemy in enemies)
+                {
+                    enemy.Draw(spriteBatch);
+                }
             }
 
             if (currentBattleState == BattleState.Victory)
@@ -719,26 +826,55 @@ namespace Hero_of_Novac
 
         private class NavigableMenuItem
         {
+            public static SpriteFont SmallFont;
+            public static SpriteFont Font;
             Rectangle rect;
             Texture2D texture;
             Rectangle sourceRect;
             Color color;
             Color selectedColor;
             public bool isSelected;
+            String name;
+            Vector2 nameV;
+            bool isSmallName;
 
-            public NavigableMenuItem(Rectangle rect, Texture2D texture, Rectangle sourceRect, Color color)
+            public String Name
+            {
+                get { return name; }
+                set
+                {
+                    name = value;
+                    if (name.Length > 0)
+                    {
+                        Vector2 nameDimensions;
+                        if (isSmallName)
+                            nameDimensions = SmallFont.MeasureString(name);
+                        else
+                            nameDimensions = Font.MeasureString(name);
+                        if (nameDimensions.X > rect.Width ||
+                            nameDimensions.Y > rect.Height)
+                        {
+                            Console.WriteLine(name);
+                            throw new Exception(name + " is too long for the navigable menu item");
+                        }
+                        float x = (rect.Width - nameDimensions.X) / 2;
+                        float y = (rect.Height - nameDimensions.Y) / 2;
+                        nameV = new Vector2(rect.X + x, rect.Y + y);
+                    }
+                }
+            }
+
+            public NavigableMenuItem(Rectangle rect, Texture2D texture, Rectangle sourceRect, Color color, String name, bool isSmallName)
             {
                 this.rect = rect;
                 this.texture = texture;
                 this.sourceRect = sourceRect;
                 this.color = color;
+                this.isSmallName = isSmallName;
 
                 selectedColor = Color.White;
-                //selectedColor.A++;
-                //selectedColor.R -= 10;
-                //selectedColor.G -= 10;
-                //selectedColor.B -= 10;
                 isSelected = false;
+                Name = name;
             }
 
             public void Draw(SpriteBatch spriteBatch)
@@ -747,6 +883,13 @@ namespace Hero_of_Novac
                 if (isSelected)
                     drawColor = selectedColor;
                 spriteBatch.Draw(texture, rect, sourceRect, drawColor);
+                if (name.Length > 0)
+                {
+                    if (isSmallName)
+                        spriteBatch.DrawString(SmallFont, name, nameV, Color.Gray);
+                    else
+                        spriteBatch.DrawString(Font, name, nameV, Color.Gray);
+                }
             }
         }
     }

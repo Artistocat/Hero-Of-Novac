@@ -97,7 +97,7 @@ namespace Hero_of_Novac
                 npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), Content.Load<Texture2D>("armour"), new Rectangle(52, 0, 52, 72), new Rectangle(564, 500, 200, 168), new Vector2(0, 0), true, 'a', Speech.None, randomNoSeed, pix));
                 area.AddNPCs(npcs);
                 List<Enemy> enemies = new List<Enemy>();
-                enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(146, 0, 146, 116), new Rectangle(0, 0, 200, 200), Content.Load<Texture2D>("gryphon"), new Vector2(0, 0), window, randomNoSeed, new Vector2(0, 0)));
+                enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(146, 0, 146, 116), new Rectangle(0, 0, 200, 200), Content.Load<Texture2D>("gryphon"), new Rectangle(0, 0, 414, 560), Content.Load<Texture2D>("GryphonProfile"), new Vector2(0, 0), window, randomNoSeed, new Vector2(0, 0)));
                 area.AddEnemies(enemies);
             }
             else
@@ -111,12 +111,16 @@ namespace Hero_of_Novac
             area.Player.LearnAttack(Attack.Slash);
             area.Player.LearnAttack(Attack.Chop);
             area.Player.LearnAttack(Attack.Punch);
+            area.Player.LearnAttack(Attack.AirSlash);
+            area.Player.LearnAttack(Attack.IncendiaryCloud);
             Enemy.Window = window;
 
-            BattleMenu.LoadContent(area.Player, font, pix, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            SpriteFont smallBattleFont = Content.Load<SpriteFont>("SmallBattleFont");
+            SpriteFont battleFont = Content.Load<SpriteFont>("BattleFont");
+            BattleMenu.LoadContent(area.Player, battleFont, smallBattleFont, pix, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             PercentageRectangle.LoadContent(pix, font);
 
-            battleMenu = new BattleMenu(new Enemy[0]);
+            battleMenu = new BattleMenu(new Enemy[0], BattleMenu.Biome.Plains);
 
             //TESTING
             currentGameState = GameState.Overworld;
@@ -179,7 +183,7 @@ namespace Hero_of_Novac
             {
                 currentGameState = GameState.BattleMenu;
                 Console.WriteLine("going to battle");
-                battleMenu = new BattleMenu(enemiesInBattle.ToArray());
+                battleMenu = new BattleMenu(enemiesInBattle.ToArray(), BattleMenu.Biome.Plains);
             }
             base.Update(gameTime);
         }

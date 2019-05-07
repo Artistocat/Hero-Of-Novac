@@ -17,6 +17,7 @@ namespace Hero_of_Novac
         private static Rectangle window;
         public static Rectangle Window
         {
+            get { return window; }
             set { window = value; }
         }
 
@@ -53,7 +54,7 @@ namespace Hero_of_Novac
         /*
          * 146 x 116
          */
-        public Enemy(Rectangle rec, Rectangle sourceRec,Rectangle space, Texture2D tex, Vector2 pos, Rectangle window, Random ran, Vector2 vol) 
+        public Enemy(Rectangle rec, Rectangle sourceRec,Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, Vector2 vol) 
         {
             this.space = space;
             this.vol = vol;
@@ -62,6 +63,8 @@ namespace Hero_of_Novac
             this.tex = tex;
             this.pos = pos;
             this.ran = ran;
+            this.sourceRecProfile = sourceRecProfile;
+            this.profileTex = profileTex;
             currentGameState = GameState.Overworld;
             healthBar = new PercentageRectangle(new Rectangle(rec.X - 10, rec.Y - 10, barWidth, barHeight), 50, Color.Red);
             chargeBar = new PercentageRectangle(new Rectangle(healthBar.Rect.X, healthBar.Rect.Y + 50, barWidth, barHeight), 100, Color.Gray);
@@ -189,6 +192,11 @@ namespace Hero_of_Novac
                     chargeBar.Draw(spriteBatch, true);
                     break;
             }
+        }
+
+        public void DrawProfile(SpriteBatch spritebatch, Rectangle rect)
+        {
+            spritebatch.Draw(profileTex, rect, sourceRecProfile, Color.White);
         }
 
         public void Damage(int damage)
