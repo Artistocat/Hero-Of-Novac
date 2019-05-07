@@ -172,10 +172,10 @@ namespace Hero_of_Novac
             Basic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Red, "Bitch slap", false);
 
             Magic = new NavigableMenuItem[2, 2];
-            Magic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Purple, "M1", false);
-            Magic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Blue, "M2", false);
-            Magic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Blue, "M3", false);
-            Magic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Purple, "M4", false);
+            Magic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Purple, "", false);
+            Magic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Blue, "", false);
+            Magic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Blue, "", false);
+            Magic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Purple, "", false);
 
             int elementHeight = 20;
             int elementY = attackRects[0].Y - elementHeight;
@@ -464,7 +464,7 @@ namespace Hero_of_Novac
                             }
                             catch
                             {
-                                m.Name = "M" + (k + 1);
+                                m.Name = "";
                             }
                             count++;
                         }
@@ -510,7 +510,7 @@ namespace Hero_of_Novac
                             }
                             catch
                             {
-                                m.Name = "M" + (k + 1);
+                                m.Name = "" + (k + 1);
                             }
                             count++;
                         }
