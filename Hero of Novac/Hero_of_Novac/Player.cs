@@ -31,10 +31,12 @@ namespace Hero_of_Novac
 
         private Texture2D overworldTex;
         private Texture2D combatTex;
+        private Texture2D combatFX;
         private Texture2D profileTex;
         private Texture2D pixel;
         private Rectangle sourceRecWorld;
         public Rectangle sourceRecBattle;
+        public Rectangle sourceRecFX;
         public Rectangle sourceRecProfile;
         public Rectangle SourceRec
         {
@@ -169,18 +171,21 @@ namespace Hero_of_Novac
         private Color color;
         private int timer;
 
-        public Player(Texture2D overworldTex, Texture2D combatTex, Texture2D profileTex, Texture2D p, Rectangle window)
+        public Player(Texture2D overworldTex, Texture2D combatTex, Texture2D combatFX, Texture2D profileTex, Texture2D p, Rectangle window)
         {
             currentGameState = GameState.Overworld;
             this.window = window;
 
             this.overworldTex = overworldTex;
             this.combatTex = combatTex;
+            this.combatFX = combatFX;
             this.profileTex = profileTex;
             pixel = p;
+
             sourceRecWorld = new Rectangle(OVERWORLD_SPRITE_WIDTH, 0, OVERWORLD_SPRITE_WIDTH, OVERWORLD_SPRITE_HEIGHT);
             sourceRecBattle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
-            sourceRecProfile = new Rectangle(0, 6, 292, 509 - 6);
+            sourceRecFX = new Rectangle(0, 0, 64, 64);
+            sourceRecProfile = new Rectangle(0, 6, 292, 503);
             playerPos = new Vector2((window.Width - OVERWORLD_SPRITE_WIDTH) / 2, (window.Height - OVERWORLD_SPRITE_HEIGHT) / 2);
 
             healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, barWidth, barHeight), 100, Color.Red);
@@ -302,9 +307,12 @@ namespace Hero_of_Novac
             }
             if (attackTest)
             {
-                if (timer % 6 == 0)
+                if (sourceRecBattle.X <= 96 * 5)
                 {
+                    if(timer % 8 == 0)
                     sourceRecBattle.X += 96;
+                    if(timer % 4 == 0)
+                    sourceRecFX.X += 64;
                 }
                 if (sourceRecBattle.X >= 96 * 6)
                 {
@@ -370,6 +378,7 @@ namespace Hero_of_Novac
             //battleChargeBar.CurrentValue = chargePoints;
             healthBar.Rect = healthRect;
             magicBar.Rect = magicRect;
+            //idle Animation
             if (!isAttacking)
             {
                 sourceRecBattle.Y = 96;
@@ -378,6 +387,7 @@ namespace Hero_of_Novac
                 if (sourceRecBattle.X >= BATTLE_SPRITE_WIDTH * 3)
                     sourceRecBattle.X = 0;
             }
+            //Charging
             if (isCharging)
             {
                 if (chargeBar.CurrentValue == chargeBar.MaxValue)
@@ -441,6 +451,7 @@ namespace Hero_of_Novac
                         spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, (float)(window.Height - hitbox.Bottom) / window.Height);
                     break;
                 case GameState.Battlemenu:
+                    spriteBatch.Draw(combatFX, battlePos, sourceRecFX, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
                     spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
                     healthBar.Draw(spriteBatch, true);
                     magicBar.Draw(spriteBatch, true);
