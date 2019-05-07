@@ -62,15 +62,11 @@ namespace Hero_of_Novac
         {
             IsMouseVisible = true;
             window = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-            currentGameState = GameState.Overworld;
+            currentGameState = GameState.MainMenu;
             pix = new Texture2D(GraphicsDevice, 1, 1);
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
             pix.SetData(pixelColors);
-            currentGameState = GameState.Overworld;
-            //TESTING
-            if (currentGameState == GameState.BattleMenu)
-                area.Battle();
             base.Initialize();
         }
 
@@ -85,6 +81,8 @@ namespace Hero_of_Novac
             font = Content.Load<SpriteFont>("SpriteFont1");
             fontC = Content.Load<SpriteFont>("CharacterTalk");
 
+            MainMenu.LoadContent(GraphicsDevice, window, font);
+            mainMenu = new MainMenu();
             if (TESTING)
             {
                 area = new Area(Services, @"Content/Test", pix, window, randomSeed);
@@ -103,6 +101,8 @@ namespace Hero_of_Novac
             else
             {
                 area = new Area(Services, @"Content/Village", pix, window, randomSeed);
+                Enemy.LoadContent(area.Player);
+                Attack.LoadContent(area.Player);
             }
 
             NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"), Content.Load<Texture2D>("window"), Content.Load<Texture2D>("player_walking"));
@@ -121,13 +121,6 @@ namespace Hero_of_Novac
             PercentageRectangle.LoadContent(pix, font);
 
             battleMenu = new BattleMenu(new Enemy[0], BattleMenu.Biome.Plains);
-
-            //TESTING
-            currentGameState = GameState.Overworld;
-            if (currentGameState == GameState.BattleMenu)
-            {
-                area.Battle();
-            }
         }
 
         /// <summary>
@@ -147,7 +140,7 @@ namespace Hero_of_Novac
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || mainMenu.quitGame)
                 this.Exit();
             bool willBattle = false;
             List<Enemy> enemiesInBattle = new List<Enemy>();
@@ -155,6 +148,15 @@ namespace Hero_of_Novac
             switch (currentGameState)
             {
                 case GameState.MainMenu:
+                    mainMenu.Update();
+                    if (mainMenu.loadOldGame)
+                    {
+                        //TODO
+                    }
+                    if (mainMenu.startNewGame)
+                    {
+                        currentGameState = GameState.Overworld;
+                    }
                     break;
                 case GameState.Overworld:
                     area.Update(gameTime);
@@ -200,6 +202,7 @@ namespace Hero_of_Novac
             switch (currentGameState)
             {
                 case GameState.MainMenu:
+                    mainMenu.Draw(spriteBatch);
                     break;
                 case GameState.Overworld:
                     area.DrawFirstLayer(gameTime, spriteBatch);
