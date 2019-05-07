@@ -12,6 +12,7 @@ namespace Hero_of_Novac
     {
         private static Player player;
         private static Texture2D pix;
+        private static Texture2D FX1;
         private static SpriteFont Font;
 
         private static NavigableMenuItem[] MainChoices;
@@ -123,13 +124,14 @@ namespace Hero_of_Novac
             attackingEnemies = new List<int>();
         }
 
-        public static void LoadContent(Player player, SpriteFont Font, SpriteFont SmallFont, Texture2D p, Rectangle screenRect)
+        public static void LoadContent(Player player, SpriteFont Font, SpriteFont SmallFont, Texture2D p, Texture2D FX_1, Rectangle screenRect)
         {
             NavigableMenuItem.SmallFont = SmallFont;
             NavigableMenuItem.Font = Font;
             BattleMenu.player = player;
             BattleMenu.Font = Font;
             pix = p;
+            FX1 = FX_1;
 
             Rectangle basicRect;
             Rectangle magicRect;

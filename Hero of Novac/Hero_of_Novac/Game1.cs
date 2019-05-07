@@ -27,6 +27,7 @@ namespace Hero_of_Novac
         SpriteFont fontC;
 
         Texture2D pix;
+        Texture2D FX1;
 
         enum GameState
         {
@@ -81,6 +82,8 @@ namespace Hero_of_Novac
             font = Content.Load<SpriteFont>("SpriteFont1");
             fontC = Content.Load<SpriteFont>("CharacterTalk");
 
+            FX1 = Content.Load<Texture2D>("combatFX");
+
             MainMenu.LoadContent(GraphicsDevice, window, font);
             mainMenu = new MainMenu();
             if (TESTING)
@@ -117,7 +120,7 @@ namespace Hero_of_Novac
 
             SpriteFont smallBattleFont = Content.Load<SpriteFont>("SmallBattleFont");
             SpriteFont battleFont = Content.Load<SpriteFont>("BattleFont");
-            BattleMenu.LoadContent(area.Player, battleFont, smallBattleFont, pix, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            BattleMenu.LoadContent(area.Player, battleFont, smallBattleFont, pix, FX1, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             PercentageRectangle.LoadContent(pix, font);
 
             battleMenu = new BattleMenu(new Enemy[0], BattleMenu.Biome.Plains);
