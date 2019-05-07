@@ -33,12 +33,12 @@ namespace Hero_of_Novac
         {
             set { window = value; }
         }
-        Rectangle rec;
-        Texture2D tex;
-        Rectangle source;
-        Texture2D headshot;
+        public Rectangle rec;
+        public Texture2D tex;
+        public Rectangle source;
+        public Texture2D headshot;
         static Texture2D heroHead;
-        private static Rectangle sourceHome;
+        //private static Rectangle sourceHome;
         Vector2 vol;
         Color color;
         private int timer = 0;
@@ -49,7 +49,7 @@ namespace Hero_of_Novac
         private Speech chat;
         bool doneTalk = false;
 
-        private Rectangle space;
+        public Rectangle space;
 
         private List<string> blackSmith;
         private List<string> armourer;
@@ -59,7 +59,7 @@ namespace Hero_of_Novac
 
         bool interact;
         bool ranMov;
-        char name;
+        public char name;
 
         public NPC()
         {
@@ -71,7 +71,7 @@ namespace Hero_of_Novac
             rec = r;
             tex = t;
             source = s;
-            sourceHome = source;
+            //sourceHome = source;
             vol = v;
             interact = i;
             name = n;

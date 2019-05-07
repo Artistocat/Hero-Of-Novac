@@ -21,6 +21,8 @@ namespace Hero_of_Novac
 
         Rectangle window;
 
+        Save save;
+
         Area area;
 
         SpriteFont font;
@@ -67,6 +69,7 @@ namespace Hero_of_Novac
             Color[] pixelColors = new Color[1];
             pixelColors[0] = Color.White;
             pix.SetData(pixelColors);
+            save = new Save();
             base.Initialize();
         }
 
@@ -144,7 +147,10 @@ namespace Hero_of_Novac
                 this.Exit();
             bool willBattle = false;
             List<Enemy> enemiesInBattle = new List<Enemy>();
-
+            if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start))
+            {
+                save.SaveAll(area);
+            }
             switch (currentGameState)
             {
                 case GameState.MainMenu:

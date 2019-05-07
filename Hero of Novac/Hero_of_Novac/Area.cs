@@ -12,7 +12,7 @@ using System.IO;
 
 namespace Hero_of_Novac
 {
-    class Area
+    public class Area
     {
 
         private const int TILE_WIDTH = 32;
@@ -49,6 +49,10 @@ namespace Hero_of_Novac
         }
 
         private List<NPC> npcs;
+        public List<NPC> Npc
+        {
+            get { return npcs; }
+        }
         private List<Enemy> enemies;
         public List<Enemy> Enemies
         {

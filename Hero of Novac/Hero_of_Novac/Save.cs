@@ -9,19 +9,39 @@ namespace Hero_of_Novac
     public class Save
     {
         StreamWriter file;
-        public Save(String savePath)
+        public Save()
         {
-            file = new StreamWriter(@"C:\Users\Public\SaveData.save");
+           
+        }
+        public void SaveAll(Area area)
+        {
+            file = new StreamWriter(@"Content/SaveData.save");
+            PlayerSave(area.Player);
+            EnemySave(area.Enemies);
+            NPCSave(area.Npc);
+            file.Close();
+        }
+        private void PlayerSave(Player player)
+        {
+
+        }
+        private void EnemySave(List<Enemy> enemies)
+        {
+
         }
 
-        public void playerSave(Player player)
+        private void NPCSave(List<NPC> npcs)
         {
-            file.WriteLine("stuff");
-        }
-
-        public void enemySave(List<Enemy> enemies)
-        {
-
+            foreach (NPC n in npcs)
+            {
+                file.WriteLine("" + n.name);
+                file.WriteLine("" + n.rec);
+                file.WriteLine("" + n.tex);
+                file.WriteLine("" + n.source);
+                file.WriteLine("" + n.space);
+                file.WriteLine("" + n.headshot);
+                //file.WriteLine("" + n.);
+            }
         }
 
 

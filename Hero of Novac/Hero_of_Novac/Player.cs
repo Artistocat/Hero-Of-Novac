@@ -15,7 +15,7 @@ namespace Hero_of_Novac
     public class Player// : Entity
     {
         private Rectangle window;
-
+        
         private const int OVERWORLD_SPRITE_WIDTH = 52;
         private const int OVERWORLD_SPRITE_HEIGHT = 72;
         private const int BATTLE_SPRITE_WIDTH = 96;
@@ -312,7 +312,7 @@ namespace Hero_of_Novac
                 }
             }
             //Attacc animation tests
-            if (pad1.IsButtonDown(Buttons.X))
+            if (pad1.IsButtonDown(Buttons.Start))
             {
                 attackTest = true;
                 sourceRecBattle.X = 96 * 3;
