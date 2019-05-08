@@ -340,12 +340,12 @@ namespace Hero_of_Novac
                 healthBar.CurrentValue++;
             timer++;
             //Testing death stuff
-            if (pad1.IsButtonDown(Buttons.LeftShoulder))
+            if (pad1.IsButtonDown(Buttons.LeftShoulder) || KB.IsKeyDown(Keys.K))
             {
                 healthBar.CurrentValue = 0;
                 death();
             }
-            if (pad1.IsButtonDown(Buttons.RightShoulder))
+            if (pad1.IsButtonDown(Buttons.RightShoulder) || KB.IsKeyDown(Keys.L))
             {
                 healthBar.CurrentValue = 100;
                 dead = false;
