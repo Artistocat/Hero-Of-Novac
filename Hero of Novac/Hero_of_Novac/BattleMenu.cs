@@ -24,6 +24,8 @@ namespace Hero_of_Novac
         private List<int> attackingEnemies;
         private GamePadState gamePad;
         private GamePadState oldGamePad;
+        private KeyboardState KB;
+        private KeyboardState oldKB;
         private int timer;
         private bool animationFlag1;
 
@@ -191,6 +193,8 @@ namespace Hero_of_Novac
         {
             oldGamePad = gamePad;
             gamePad = GamePad.GetState(PlayerIndex.One);
+            oldKB = KB;
+            KB = Keyboard.GetState();
             switch (currentBattleState)
             {
                 case BattleState.BeginningBattle:
@@ -248,7 +252,7 @@ namespace Hero_of_Novac
                     break;
             }
             if (CurrentChoiceState != ChoiceState.MainChoice)
-                if (oldGamePad.Buttons.B == ButtonState.Pressed && gamePad.Buttons.B != ButtonState.Pressed)
+                if ((oldGamePad.Buttons.B == ButtonState.Pressed && gamePad.Buttons.B != ButtonState.Pressed) || (oldKB.IsKeyDown(Keys.Back) && KB.IsKeyUp(Keys.Back)))
                     CurrentChoiceState = ChoiceState.MainChoice;
         }
 
@@ -268,6 +272,15 @@ namespace Hero_of_Novac
                 dir = Direction.Left;
             if (gamePad.ThumbSticks.Left.X >= .9)
                 dir = Direction.Right;
+
+            if (KB.IsKeyDown(Keys.W))
+                dir = Direction.Up;
+            if (KB.IsKeyDown(Keys.A))
+                dir = Direction.Left;
+            if (KB.IsKeyDown(Keys.S))
+                dir = Direction.Down;
+            if (KB.IsKeyDown(Keys.D))
+                dir = Direction.Right;
             return dir;
         }
 
@@ -277,7 +290,7 @@ namespace Hero_of_Novac
             const int BOTTOM = 1;
             const int LEFT = 2;
 
-            if (oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed)
+            if ((oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed) || (oldKB.IsKeyDown(Keys.Enter) && KB.IsKeyUp(Keys.Enter)))
             {
                 int selected = -1;
                 for (int i = 0; i < MainChoices.Length; i++)
@@ -355,7 +368,7 @@ namespace Hero_of_Novac
 
         private void ChoosingBasic()
         {
-            if (oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed)
+            if ((oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed) || (oldKB.IsKeyDown(Keys.Enter) && KB.IsKeyUp(Keys.Enter)))
             {
                 Vector2 selected = GetSelected(Basic);
                 player.CurrentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)];
@@ -414,7 +427,7 @@ namespace Hero_of_Novac
 
         private void ChoosingMagic()
         {
-            if (oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed)
+            if ((oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed) || (oldKB.IsKeyDown(Keys.Enter) && KB.IsKeyUp(Keys.Enter)))
             {
                 Vector2 selected = GetSelected(Magic);
                 Element element = GetSelectedElement();
@@ -630,6 +643,8 @@ namespace Hero_of_Novac
                     {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                        if (timer % 4 == 0)
+                            player.sourceRecFX.X += 64;
                     }
                     else
                     {
