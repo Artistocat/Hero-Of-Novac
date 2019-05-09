@@ -250,9 +250,9 @@ namespace Hero_of_Novac
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(tex, rec, source, Color.White, 0f, Vector2.Zero, SpriteEffects.None, (float)(window.Height - rec.Bottom) / window.Height);
+            spriteBatch.Draw(tex, rec, source, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 1f / rec.Bottom);
             if (!isTalking)
-                spriteBatch.Draw(bubblez, new Rectangle(rec.X + 10, rec.Y - 20, 30, 30), bubblezSourceRec, Color.White, 0f, Vector2.Zero, SpriteEffects.None, (float)(window.Height - rec.Bottom) / window.Height);
+                spriteBatch.Draw(bubblez, new Rectangle(rec.X + 10, rec.Y - 20, 30, 30), bubblezSourceRec, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 1f / rec.Bottom);
 
         }
 

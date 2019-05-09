@@ -100,7 +100,8 @@ namespace Hero_of_Novac
                 npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), Content.Load<Texture2D>("armour"), new Rectangle(52, 0, 52, 72), new Rectangle(564, 500, 200, 168), new Vector2(0, 0), true, 'a', Speech.None, randomNoSeed, Content.Load<Texture2D>("ArmourerProfile")));
                 area.AddNPCs(npcs);
                 List<Enemy> enemies = new List<Enemy>();
-                enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(146, 0, 146, 116), new Rectangle(0, 0, 200, 200), Content.Load<Texture2D>("gryphon"), new Rectangle(0, 0, 414, 560), Content.Load<Texture2D>("GryphonProfile"), new Vector2(0, 0), window, randomNoSeed, new Vector2(0, 0)));
+                enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(146, 0, 146, 116), new Rectangle(0, 0, 200, 200), Content.Load<Texture2D>("gryphon"), new Rectangle(0, 0, 414, 560), Content.Load<Texture2D>("GryphonProfile"), new Vector2(0, 0), window, randomNoSeed, false, new Vector2(0, 0)));
+                enemies.Add(new Enemy(new Rectangle(200, 0, 100, 100), new Rectangle(146, 0, 146, 116), new Rectangle(200, 0, 200, 200), Content.Load<Texture2D>("wasp"), new Rectangle(0, 0, 1, 1), pix, new Vector2(200, 0), window, randomNoSeed, true, new Vector2(0, 0)));
                 area.AddEnemies(enemies);
             }
             else

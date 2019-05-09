@@ -458,7 +458,7 @@ namespace Hero_of_Novac
                         spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color);
                     }
                     else
-                        spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, (float)(window.Height - hitbox.Bottom) / window.Height);
+                        spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f / hitbox.Bottom);
                     break;
                 case GameState.Battlemenu:
                     spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color);
