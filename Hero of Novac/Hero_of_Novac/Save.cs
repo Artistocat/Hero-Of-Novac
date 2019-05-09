@@ -57,14 +57,14 @@ namespace Hero_of_Novac
             {
                 file.WriteLine("" + n.name);
                 file.WriteLine("" + n.rec);
-                file.WriteLine("" + n.tex);
-                file.WriteLine("" + n.source);
+                file.WriteLine("" + n.tex.Name);
                 file.WriteLine("" + n.space);
-                file.WriteLine("" + n.headshot);
+                file.WriteLine("" + n.headshot.Name);
+                file.WriteLine("next");
                 //file.WriteLine("" + n.);
             }
         }
-
+        
 
     }
 }
