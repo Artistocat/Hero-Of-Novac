@@ -371,8 +371,9 @@ namespace Hero_of_Novac
             if ((oldGamePad.Buttons.A == ButtonState.Pressed && gamePad.Buttons.A != ButtonState.Pressed) || (oldKB.IsKeyDown(Keys.Enter) && KB.IsKeyUp(Keys.Enter)))
             {
                 Vector2 selected = GetSelected(Basic);
-                player.CurrentAttack = player.BasicAttacks[(int)(selected.X + 2 * selected.Y)];
+                player.CurrentAttack = player.BasicAttacks[(int)(2 * selected.X + selected.Y)];
                 currentBattleState = BattleState.Charging;
+                Console.WriteLine("attack is " + player.CurrentAttack.AttackName);
             }
 
             Direction dir = GetInputDirection();
@@ -431,7 +432,7 @@ namespace Hero_of_Novac
             {
                 Vector2 selected = GetSelected(Magic);
                 Element element = GetSelectedElement();
-                Attack selectedAttack = player.MagicAttacks[element][(int)(selected.X + 2 * selected.Y)];
+                Attack selectedAttack = player.MagicAttacks[element][(int)(2 * selected.X + selected.Y)];
                 if (selectedAttack != null)
                 {
                     player.CurrentAttack = selectedAttack;
