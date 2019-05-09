@@ -73,7 +73,6 @@ namespace Hero_of_Novac
             save = new Save();
             base.Initialize();
         }
-
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.

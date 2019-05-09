@@ -15,6 +15,8 @@ namespace Hero_of_Novac
         private static NavigableMenuItem exitGame;
         private GamePadState gp;
         private GamePadState oldgp;
+        private KeyboardState KB;
+        private KeyboardState oldKB;
 
         public bool startNewGame = false;
         public bool loadOldGame = false;
@@ -24,6 +26,8 @@ namespace Hero_of_Novac
         {
             gp = GamePad.GetState(PlayerIndex.One);
             oldgp = gp;
+            KB = Keyboard.GetState();
+            oldKB = KB;
             newGame.isSelected = true;
             loadGame.isSelected = false;
             exitGame.isSelected = false;
@@ -50,7 +54,7 @@ namespace Hero_of_Novac
             Up, Down, Left, Right, Neutral
         }
         //Helper Method for Getting Direction
-        private Direction GetInputDirection(GamePadState gamePad)
+        private Direction GetInputDirection(GamePadState gamePad, KeyboardState KB)
         {
             Direction dir = Direction.Neutral;
             if (gamePad.ThumbSticks.Left.Y >= .9)
@@ -61,6 +65,15 @@ namespace Hero_of_Novac
                 dir = Direction.Left;
             if (gamePad.ThumbSticks.Left.X >= .9)
                 dir = Direction.Right;
+
+            if (KB.IsKeyDown(Keys.W))
+                dir = Direction.Up;
+            if (KB.IsKeyDown(Keys.A))
+                dir = Direction.Left;
+            if (KB.IsKeyDown(Keys.S))
+                dir = Direction.Down;
+            if (KB.IsKeyDown(Keys.D))
+                dir = Direction.Right;
             return dir;
         }
 
@@ -68,8 +81,10 @@ namespace Hero_of_Novac
         {
             oldgp = gp;
             gp = GamePad.GetState(PlayerIndex.One);
+            oldKB = KB;
+            KB = Keyboard.GetState();
 
-            if (!gp.IsButtonDown(Buttons.A) && oldgp.IsButtonDown(Buttons.A))
+            if ((!gp.IsButtonDown(Buttons.A) && oldgp.IsButtonDown(Buttons.A)) || (KB.IsKeyDown(Keys.Enter) && oldKB.IsKeyUp(Keys.Enter)))
             {
                 if (newGame.isSelected)
                 {
@@ -85,8 +100,8 @@ namespace Hero_of_Novac
                 }
             }
 
-            Direction dir = GetInputDirection(gp);
-            Direction oldDir = GetInputDirection(oldgp);
+            Direction dir = GetInputDirection(gp, KB);
+            Direction oldDir = GetInputDirection(oldgp, oldKB);
             if (dir == Direction.Down && oldDir != Direction.Down)
             {
                 if (newGame.isSelected)

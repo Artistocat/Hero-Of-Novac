@@ -20,6 +20,8 @@ namespace Hero_of_Novac
         private Rectangle bubblezSourceRec;
         GamePadState gp;
         GamePadState oldGP;
+        KeyboardState KB;
+        KeyboardState oldKB;
         Direction dir;
         Direction oldDir;
 
@@ -95,13 +97,14 @@ namespace Hero_of_Novac
         public void Update(GameTime gameTime)
         {
             gp = GamePad.GetState(PlayerIndex.One);
+            KB = Keyboard.GetState();
             oldDir = dir;
             dir = GetInputDirection();
             timer++;
             //if (doneTalk)
             //    doneTalk = false;
             Rectangle r = new Rectangle(0, 0, 0, 0);
-            if (gp.Buttons.A == ButtonState.Pressed && oldGP.Buttons.A != ButtonState.Pressed)
+            if ((gp.Buttons.A == ButtonState.Pressed && oldGP.Buttons.A != ButtonState.Pressed) || (KB.IsKeyDown(Keys.Enter) && oldKB.IsKeyUp(Keys.Enter)))
             {
 
                 Vector2 v = player.Position;
@@ -200,6 +203,7 @@ namespace Hero_of_Novac
             if (rec.Y > space.Bottom)
                 rec.Y = space.Bottom;
             oldGP = gp;
+            oldKB = KB;
         }
 
         
@@ -218,6 +222,15 @@ namespace Hero_of_Novac
             if (gp.ThumbSticks.Left.X <= -.9)
                 dir = Direction.Left;
             if (gp.ThumbSticks.Left.X >= .9)
+                dir = Direction.Right;
+
+            if (KB.IsKeyDown(Keys.W))
+                dir = Direction.Up;
+            if (KB.IsKeyDown(Keys.A))
+                dir = Direction.Left;
+            if (KB.IsKeyDown(Keys.S))
+                dir = Direction.Down;
+            if (KB.IsKeyDown(Keys.D))
                 dir = Direction.Right;
             return dir;
         }

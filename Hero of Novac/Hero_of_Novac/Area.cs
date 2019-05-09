@@ -642,6 +642,8 @@ namespace Hero_of_Novac
         public void Update(GameTime gameTime)
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
+            KeyboardState KB = Keyboard.GetState();
+
             inMenu = false;
             foreach (NPC n in npcs)
             {
@@ -654,6 +656,16 @@ namespace Hero_of_Novac
                 Vector2 speed = pad1.ThumbSticks.Left * 4;
                 speed.X = (int)Math.Round(speed.X);
                 speed.Y = (int)Math.Round(speed.Y);
+
+                if (KB.IsKeyDown(Keys.W))
+                    speed.Y = 4;
+                if (KB.IsKeyDown(Keys.A))
+                    speed.X = -4;
+                if (KB.IsKeyDown(Keys.S))
+                    speed.Y = -4;
+                if (KB.IsKeyDown(Keys.D))
+                    speed.X = 4;
+
                 if (speed.Y > 0)
                 {
                     if (areaRec.Top < window.Top && player.Hitbox.Bottom <= window.Height / 3)
