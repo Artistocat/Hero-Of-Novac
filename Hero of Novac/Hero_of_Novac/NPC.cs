@@ -438,6 +438,7 @@ namespace Hero_of_Novac
         //spriteBatch.Draw(headshot, new Rectangle(window.Width - 360, window.Height / 4 * 3 - 480, 360, 480), Color.White);
         //spriteBatch.Draw(heroHead, new Rectangle(0, window.Height / 4 * 3 - 480, 360, 480), Color.White);
         //spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White);
+
     }
 }
 

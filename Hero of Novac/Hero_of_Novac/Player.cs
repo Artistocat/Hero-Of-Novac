@@ -14,6 +14,12 @@ namespace Hero_of_Novac
 
     public class Player// : Entity
     {
+        ContentManager content;
+        public ContentManager Content
+        {
+            get { return content; }
+        }
+
         private Rectangle window;
         
         private const int OVERWORLD_SPRITE_WIDTH = 52;
@@ -148,6 +154,15 @@ namespace Hero_of_Novac
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96 * 5;
                             break;
+                        case "Chop":
+                            break;
+                        case "Incendiary Cloud":
+                            sourceRecBattle.X = 0;
+                            sourceRecBattle.Y = 96 * 2;
+                            sourceRecFX.X = 0;
+                            sourceRecFX.Y = 64;
+                            
+                            break;
                     }
                     chargeBar.MaxValue = value.ChargeTime;
                     isCharging = true;
@@ -172,8 +187,10 @@ namespace Hero_of_Novac
         private Color color;
         private int timer;
 
-        public Player(Texture2D overworldTex, Texture2D combatTex, Texture2D combatFX, Texture2D profileTex, Texture2D p, Rectangle window)
+        public Player(Texture2D overworldTex, Texture2D combatTex, Texture2D combatFX, Texture2D profileTex, Texture2D p, Rectangle window, IServiceProvider serviceProvider)
         {
+            content = new ContentManager(serviceProvider, "Content");
+
             currentGameState = GameState.Overworld;
             this.window = window;
 
@@ -311,7 +328,7 @@ namespace Hero_of_Novac
             }
 
             //Attacc animation tests
-            if (KB.IsKeyDown(Keys.E) && !attackTest)
+            if ((pad1.IsButtonDown(Buttons.X) || KB.IsKeyDown(Keys.E)) && !attackTest)
             {
                 attackTest = true;
                 sourceRecBattle.X = 96 * 3;
@@ -455,7 +472,7 @@ namespace Hero_of_Novac
                     if (dead || attackTest)
                     {
                         spriteBatch.Draw(combatTex, playerPos, sourceRecBattle, color);
-                        spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color);
+                        //spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color);
                     }
                     else
                         spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f / hitbox.Bottom);
