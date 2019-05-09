@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Hero_of_Novac
 {
-    class Load
+    public class Load
     {
         private List<String> npcInfo = new List<string>();
         private List<String> enemyInfo = new List<string>();
@@ -37,9 +37,15 @@ namespace Hero_of_Novac
         {
 
         }
+        enum SaveReading
+        {
+            player, enemy, npc
+        }
+
         private void ReadFileAsStrings(string path)
         {
             int lines = 0;
+            SaveReading currentRead = SaveReading.player;
             try
             {
                 // Create an instance of StreamReader to read from a file.
@@ -49,7 +55,30 @@ namespace Hero_of_Novac
                     while (!reader.EndOfStream)
                     {
                         string line = reader.ReadLine();
-                        if (line == "next") ;
+                        switch (line)
+                        {
+                            case Save.playerStart:
+                                currentRead = SaveReading.player;
+                                break;
+                            case Save.enemyStart:
+                                currentRead = SaveReading.enemy;
+                                break;
+                            case Save.npcStart:
+                                currentRead = SaveReading.npc;
+                                break;
+                        }
+
+                        switch (currentRead)
+                        {
+                            case SaveReading.player:
+                                //read player stuff
+                                break;
+                            case SaveReading.enemy:
+
+                                break;
+                            case SaveReading.npc:
+                                break;
+                        }
 
                     }
                 }

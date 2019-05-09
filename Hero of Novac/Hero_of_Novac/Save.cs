@@ -27,7 +27,6 @@ namespace Hero_of_Novac
         private void PlayerSave(Player player)
         {
             file.WriteLine(playerStart);
-
         }
 
         private void EnemySave(List<Enemy> enemies)
