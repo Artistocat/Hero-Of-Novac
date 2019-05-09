@@ -39,7 +39,6 @@ namespace Hero_of_Novac
         }
         private void ReadFileAsStrings(string path)
         {
-            int lines = 0;
             try
             {
                 // Create an instance of StreamReader to read from a file.
@@ -49,8 +48,6 @@ namespace Hero_of_Novac
                     while (!reader.EndOfStream)
                     {
                         string line = reader.ReadLine();
-                        if (line == "next") ;
-
                     }
                 }
             }
