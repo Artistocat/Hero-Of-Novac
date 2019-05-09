@@ -44,7 +44,6 @@ namespace Hero_of_Novac
 
         private void ReadFileAsStrings(string path)
         {
-            int lines = 0;
             SaveReading currentRead = SaveReading.player;
             try
             {

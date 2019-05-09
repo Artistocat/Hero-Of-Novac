@@ -55,9 +55,9 @@ namespace Hero_of_Novac
             foreach (NPC n in npcs)
             {
                 file.WriteLine("" + n.name);
-                file.WriteLine("" + n.rec);
+                file.WriteLine("" + n.rec.X + " " + n.rec.Y + " " + n.rec.Width + " " + n.rec.Height);
                 file.WriteLine("" + n.tex.Name);
-                file.WriteLine("" + n.space);
+                file.WriteLine("" + n.space.X + " " + n.space.Y + " " + n.space.Width + " " + n.space.Height);
                 file.WriteLine("" + n.headshot.Name);
                 file.WriteLine("next");
                 //file.WriteLine("" + n.);
