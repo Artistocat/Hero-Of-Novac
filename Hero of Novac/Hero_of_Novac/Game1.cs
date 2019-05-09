@@ -45,6 +45,8 @@ namespace Hero_of_Novac
         Random randomSeed = new Random(1102);
         Random randomNoSeed = new Random();
 
+        GamePadState oldgp;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -72,6 +74,7 @@ namespace Hero_of_Novac
             pix.SetData(pixelColors);
             save = new Save();
             base.Initialize();
+            oldgp = GamePad.GetState(PlayerIndex.One);
         }
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -109,6 +112,10 @@ namespace Hero_of_Novac
                 npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), NPCTex[3, 0], new Rectangle(52, 0, 52, 72), new Rectangle(564, 500, 200, 168), new Vector2(0, 0), true, 'a', Speech.None, randomNoSeed, NPCTex[3, 1]));
                 area.AddNPCs(npcs);
                 List<Enemy> enemies = new List<Enemy>();
+                Texture2D enemyTex = Content.Load<Texture2D>("gryphon");
+                Texture2D enemyProfileTex = Content.Load<Texture2D>("GryphonProfile");
+                enemyTex.Name = "gryphon";
+                enemyProfileTex.Name = "GryphonProfile";
                 enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(146, 0, 146, 116), new Rectangle(0, 0, 200, 200), Content.Load<Texture2D>("gryphon"), new Rectangle(0, 0, 414, 560), Content.Load<Texture2D>("GryphonProfile"), new Vector2(0, 0), window, randomNoSeed, new Vector2(0, 0)));
                 area.AddEnemies(enemies);
             }
@@ -158,7 +165,7 @@ namespace Hero_of_Novac
                 this.Exit();
             bool willBattle = false;
             List<Enemy> enemiesInBattle = new List<Enemy>();
-            if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start))
+            if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start) && oldgp.IsButtonUp(Buttons.Start))
             {
                 save.SaveAll(area);
             }
@@ -204,6 +211,7 @@ namespace Hero_of_Novac
                 Console.WriteLine("going to battle");
                 battleMenu = new BattleMenu(enemiesInBattle.ToArray(), BattleMenu.Biome.Plains);
             }
+            oldgp = GamePad.GetState(PlayerIndex.One);
             base.Update(gameTime);
         }
 

@@ -9,6 +9,20 @@ namespace Hero_of_Novac
 {
     public class PercentageRectangle
     {
+        public string SaveData
+        {
+            get
+            {
+                string str = "";
+                str += rect.X + " " + rect.Y + " " + rect.Width + " " + rect.Height; //rect
+                str += "\n";
+                str += Color.R + " " + Color.G + " " + Color.B; //color
+                str += "\n";
+                str += "" + maxValue;
+                str += "" + currentValue;
+                return str;
+            }
+        }
         private Rectangle rect;
         private Rectangle partialRect;
         private Color color;

@@ -39,22 +39,88 @@ namespace Hero_of_Novac
         private int r2;
         private Vector2 vol;
         private bool ranMov;
-        private Rectangle space;
+
+        public Rectangle Space
+        {
+            get { return space; }
+        }
+
+        public Rectangle BattleRec
+        {
+            get { return battleRec; }
+        }
+
+        public Rectangle BattleSourceRec
+        {
+            get { return battleSourceRec; }
+        }
+
+        public string HealthBar
+        {
+            get { return healthBar.SaveData; }
+        }
+
+        public Rectangle HealthRect
+        {
+            get { return healthRect; }
+        }
+
+        public string ChargeBar
+        {
+            get { return chargeBar.SaveData; }
+        }
+
+        private Rectangle space; //save
 
         private GameState currentGameState;
-        private Rectangle battleRec;
-        private Rectangle battleSourceRec;
-        private PercentageRectangle healthBar;
-        private Rectangle healthRect;
-        private PercentageRectangle chargeBar;
+        private Rectangle battleRec; //save
+        private Rectangle battleSourceRec; //save
+        private PercentageRectangle healthBar; //save
+        private Rectangle healthRect; //save
+        private PercentageRectangle chargeBar; //save
         private BattleState currentBattleState;
 
         private Attack currentAttack;
 
+        /*public string SaveInfo
+        {
+            get
+            {
+                string str = "";
+                str += rec.X + " " + rec.Y + " " + rec.Width + " " + rec.Height; //rec
+                str += "\n";
+                str += sourceRec.X + " " + sourceRec.Y + " " + sourceRec.Width + " " + sourceRec.Height; //sourceRec
+                str += "\n";
+                str += tex.Name; //texName
+                str += "\n";
+                str += sourceRecProfile.X + " " + sourceRecProfile.Y + " " + sourceRecProfile.Width + " " + sourceRecProfile.Height; //sourceRecProfile
+                str += "\n";
+                str += profileTex.Name;
+                str += "\n";
+                str += pos.X + " " + pos.Y;
+                str += "\n";
+
+                str += space.X + " " + space.Y + " " + space.Width + " " + space.Height;
+                str += "\n";
+                str += battleRec.X + " " + battleRec.Y + " " + battleRec.Width + " " + battleRec.Height;
+                str += "\n";
+                str += battleSourceRec.X + " " + battleSourceRec.Y + " " + battleSourceRec.Width + " " + battleSourceRec.Height;
+                str += "\n";
+                str += healthBar.SaveData;
+                str += "\n";
+                str += healthRect.X + " " + healthRect.Y + " " + healthRect.Width + " " + healthRect.Height;
+                str += "\n";
+                str += chargeBar.SaveData;
+                str += "\n";
+                return str;
+            }
+        }
+       */
+
         /*
          * 146 x 116
          */
-        public Enemy(Rectangle rec, Rectangle sourceRec,Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, Vector2 vol) 
+        public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, Vector2 vol)
         {
             this.space = space;
             this.vol = vol;
@@ -75,7 +141,7 @@ namespace Hero_of_Novac
             Rectangle chargeRect = healthRect;
             chargeRect.Y += 50;
             chargeBar.Rect = chargeRect;
-            chargeBar.CurrentValue = 0;         
+            chargeBar.CurrentValue = 0;
             battleSourceRec = sourceRec;
             battleSourceRec.Y = 116;
             currentBattleState = BattleState.Charging;
@@ -129,7 +195,7 @@ namespace Hero_of_Novac
             }
 
             if (timer % 6 == 0 && vol != Vector2.Zero)
-                    sourceRec.X = (sourceRec.X + sourceRec.Width) % tex.Width;
+                sourceRec.X = (sourceRec.X + sourceRec.Width) % tex.Width;
             timer++;
         }
 
@@ -285,3 +351,4 @@ namespace Hero_of_Novac
     }
 
 }
+
