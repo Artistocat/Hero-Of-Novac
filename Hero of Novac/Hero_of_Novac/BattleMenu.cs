@@ -693,6 +693,19 @@ namespace Hero_of_Novac
                     }
                     break;
 
+                case "Incendiary Cloud":
+                    if(player.sourceRecBattle.X <= 96 * 2)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    if(player.sourceRecFX.X <= 64 * 9)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 64;
+                    }
+                    break;
+
                 default:
                     if (timer % 200 == 0)
                     {
