@@ -97,19 +97,10 @@ namespace Hero_of_Novac
                 Enemy.LoadContent(area.Player);
                 Attack.LoadContent(area.Player);
                 List<NPC> npcs = new List<NPC>();
-                Texture2D[,] NPCTex = new Texture2D[4,2];
-                NPCTex[0, 0] = Content.Load<Texture2D>("blacksmith"); NPCTex[0, 0].Name = "blacksmith";
-                NPCTex[0, 1] = pix; NPCTex[0, 1].Name = "pix";
-                NPCTex[1, 0] = Content.Load<Texture2D>("shopkeeper"); NPCTex[1, 0].Name = "shopkeeper";
-                NPCTex[1, 1] = pix; NPCTex[1, 1].Name = "pix";
-                NPCTex[2, 0] = Content.Load<Texture2D>("priestess"); NPCTex[2,0].Name = "priestess";
-                NPCTex[2, 1] = Content.Load<Texture2D>("PriestessProfile"); NPCTex[2, 1].Name = "PriestessProfile";
-                NPCTex[3, 0] = Content.Load<Texture2D>("armour"); NPCTex[3, 0].Name = "armour";
-                NPCTex[3, 1] = Content.Load<Texture2D>("ArmourerProfile"); NPCTex[3, 1].Name = "ArmourerProfile";
-                npcs.Add(new NPC(new Rectangle(300, 300, 52, 72), NPCTex[0, 0], new Rectangle(52, 0, 52, 72), new Rectangle(100, 100, 200, 136), new Vector2(0, 0), true, 'b', Speech.None, randomNoSeed, NPCTex[0, 1]));
-                npcs.Add(new NPC(new Rectangle(200, 300, 52, 72), NPCTex[1, 0], new Rectangle(52, 0, 52, 72), new Rectangle(0, 400, 200, 200), new Vector2(0, 0), true, 's', Speech.None, randomNoSeed, NPCTex[1, 1]));
-                npcs.Add(new NPC(new Rectangle(400, 300, 52, 72), NPCTex[2,0], new Rectangle(52, 0, 52, 72), new Rectangle(464, 0, 200, 200), new Vector2(0, 0), true, 'p', Speech.None, randomNoSeed, NPCTex[2, 1]));
-                npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), NPCTex[3, 0], new Rectangle(52, 0, 52, 72), new Rectangle(564, 500, 200, 168), new Vector2(0, 0), true, 'a', Speech.None, randomNoSeed, NPCTex[3, 1]));
+                npcs.Add(CreateNPC("blacksmith", new Rectangle(100, 100, 200, 136), true, 'b'));
+                npcs.Add(CreateNPC("shopkeeper", new Rectangle(0, 400, 200, 200), true, 's'));
+                npcs.Add(CreateNPC("priestess", new Rectangle(464, 0, 200, 200), true, 'p'));
+                npcs.Add(CreateNPC("armorer", new Rectangle(564, 500, 200, 168), true, 'a'));
                 area.AddNPCs(npcs);
                 List<Enemy> enemies = new List<Enemy>();
                 enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false));
@@ -149,6 +140,16 @@ namespace Hero_of_Novac
             enemyProfileTex.Name = name + "Profile";
             return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, new Vector2(0, 0));
         }
+
+        private NPC CreateNPC(string name, Rectangle space, bool interact, char type)
+        {
+            Texture2D npcTex = Content.Load<Texture2D>(name);
+            Texture2D npcProfileTex = Content.Load<Texture2D>(name + "Profile");
+            npcTex.Name = name;
+            npcProfileTex.Name = name + "Profile";
+            return new NPC(new Rectangle(0, 0, 52, 72), npcTex, new Rectangle(52, 0, 52, 72), space, new Vector2(0, 0), interact, type, Speech.None, randomNoSeed, npcProfileTex);
+        }
+
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
