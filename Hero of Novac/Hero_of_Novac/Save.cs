@@ -46,6 +46,7 @@ namespace Hero_of_Novac
                 file.WriteLine(enemy.HealthBar);
                 file.WriteLine(enemy.HealthRect);
                 file.WriteLine(enemy.ChargeBar);
+                file.WriteLine(enemy.ConstantMove);
             }
         }
 

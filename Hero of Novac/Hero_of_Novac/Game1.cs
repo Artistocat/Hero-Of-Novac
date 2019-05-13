@@ -156,6 +156,26 @@ namespace Hero_of_Novac
             enemyProfileTex.Name = name + "Profile";
             return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, new Vector2(0, 0));
         }
+        /*private Enemy LoadEnemy(List<string> enemyInfo)
+        {
+            Rectangle rec = ParseStringToRectangle(enemyInfo[0]);
+            Rectangle sourceRec = ParseStringToRectangle(enemyInfo[1]);
+            Texture2D tex = Content.Load<Texture2D>(enemyInfo[2]);
+            tex.Name = enemyInfo[2];
+            Rectangle sourceRecProfile = ParseStringToRectangle(enemyInfo[3]);
+            Texture2D profileTex = Content.Load<Texture2D>(enemyInfo[4]);
+            profileTex.Name = enemyInfo[4];
+            Vector2 pos = ParseStringToVector(string str);
+        }*/
+
+        private Rectangle ParseStringToRectangle(string str)
+        {
+            Rectangle parsedRect = new Rectangle();
+
+            return parsedRect;
+        }
+
+        //private Vector2
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload

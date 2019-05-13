@@ -15,26 +15,43 @@ namespace Hero_of_Novac
 {
     public class Load
     {
-        private List<String> npcInfo = new List<string>();
-        private List<String> enemyInfo = new List<string>();
-        private string playerInfo = "";
+        private List<string> npcInfo;
+        private List<List<string>> enemyInfo;
+        private string playerInfo;
 
-        StreamReader file;
+        public List<string> NpcInfo
+        {
+            get { return npcInfo; }
+        }
+        public List<List<string>> EnemyInfo
+        {
+            get { return enemyInfo; }
+        }
+        public string PlayerInfo
+        {
+            get { return playerInfo; }
+        }
+
+        StreamReader reader;
         public Load()
         {
-
+            npcInfo = new List<string>();
+            enemyInfo = new List<List<string>>();
+            playerInfo = "";
+            LoadAll();
         }
-        public void LoadAll(Area area)
+        private void LoadAll()
         {
-            file = new StreamReader(@"Content/SaveData.save");
-            ReadFileAsStrings(@"Content/SaveData.save");
-            file.Close();
+            reader = new StreamReader(@"Content/SaveData.save");
+            //ReadFileAsStrings(@"Content/SaveData.save");
+            ReadFile();
+            reader.Close();
         }
-        private void LoadPlayer(StreamReader reader)
+        private void LoadPlayer()
         {
             //playerInfo+=nextLine;
         }
-        private void LoadNextEnemy(StreamReader reader)
+        private void LoadNextEnemy()
         {
             string rec = reader.ReadLine();
             string sourceRec = reader.ReadLine();
@@ -48,17 +65,72 @@ namespace Hero_of_Novac
             string healthBar = reader.ReadLine();
             string healthRect = reader.ReadLine();
             string chargeBar = reader.ReadLine();
-
-            enemies.Add(new Enemy(rec, sourceRec, texName, sourceRecProfile, profileTexName, pos, space, battleRec, battleSourceRec, healthBar, healthRect, chargeBar));
-
+            string constantMove = reader.ReadLine();
+            List<string> addedEnemy = new List<string>();
+            addedEnemy.Add(rec);
+            addedEnemy.Add(sourceRec);
+            addedEnemy.Add(texName);
+            addedEnemy.Add(sourceRecProfile);
+            addedEnemy.Add(profileTexName);
+            addedEnemy.Add(pos);
+            addedEnemy.Add(space);
+            addedEnemy.Add(battleRec);
+            addedEnemy.Add(battleSourceRec);
+            addedEnemy.Add(healthBar);
+            addedEnemy.Add(healthRect);
+            addedEnemy.Add(chargeBar);
+            addedEnemy.Add(constantMove);
+            enemyInfo.Add(addedEnemy);
         }
-        private void LoadNextNPC(StreamReader reader)
+        private void LoadNextNPC()
         {
             //npcList.Add(new NPC()
         }
         enum SaveReading
         {
             player, enemy, npc, none
+        }
+
+        private void ReadFile()
+        {
+            SaveReading currentRead = SaveReading.player;
+            while (!reader.EndOfStream)
+            {
+                string line = reader.ReadLine();
+                switch (line)
+                {
+                    case Save.playerStart:
+                        currentRead = SaveReading.player;
+                        break;
+                    case Save.enemyStart:
+                        currentRead = SaveReading.enemy;
+                        break;
+                    case Save.npcStart:
+                        currentRead = SaveReading.npc;
+                        break;
+                    default:
+                        currentRead = SaveReading.none;
+                        break;
+                }
+                if (currentRead == SaveReading.none)
+                {
+                    throw new Exception("Save file has incorrect format, or code can't read correctly");
+                }
+
+                switch (currentRead)
+                {
+                    case SaveReading.player:
+
+                        break;
+                    case SaveReading.enemy:
+                        LoadNextEnemy();
+                        break;
+                    case SaveReading.npc:
+                        npcInfo.Add(line);
+                        break;
+                }
+
+            }
         }
         private void ReadFileAsStrings(string path)
         {

@@ -71,6 +71,11 @@ namespace Hero_of_Novac
             get { return chargeBar.SaveData; }
         }
 
+        public bool ConstantMove
+        {
+            get { return constantMove; }
+        }
+
         private Rectangle space; //save
 
         private GameState currentGameState;
@@ -80,6 +85,7 @@ namespace Hero_of_Novac
         private Rectangle healthRect; //save
         private PercentageRectangle chargeBar; //save
         private BattleState currentBattleState;
+        bool constantMove;
 
         private Attack currentAttack;
 
@@ -121,7 +127,7 @@ namespace Hero_of_Novac
         /*
          * 146 x 116
          */
-        public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, Vector2 vol)
+        public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, bool constantMove, Vector2 vol)
         {
             this.space = space;
             this.vol = vol;
@@ -130,6 +136,7 @@ namespace Hero_of_Novac
             this.tex = tex;
             this.pos = pos;
             this.ran = ran;
+            this.constantMove = constantMove;
             this.sourceRecProfile = sourceRecProfile;
             this.profileTex = profileTex;
             currentGameState = GameState.Overworld;
@@ -147,20 +154,6 @@ namespace Hero_of_Novac
             battleSourceRec.Y = 116;
             currentBattleState = BattleState.Charging;
             currentAttack = Attack.Slash;
-        }
-
-        public Enemy(string rec, string sourceRec, string texName, string sourceRecProfile, string profileTexName, string pos, string space, string battleRec, string battleSourceRec, string healthBar, string healthRect, string chargeBar)
-        {
-            this.rec = ParseStringToRectangle(rec);
-            this.sourceRec = ParseStringToRectangle(rec);
-            this.tex = 
-        }
-
-        private Rectangle ParseStringToRectangle(string str)
-        {
-            Rectangle parsedRect = new Rectangle();
-
-            return parsedRect;
         }
 
         public static void LoadContent(Player player)
@@ -191,7 +184,7 @@ namespace Hero_of_Novac
             if (rec.Y > space.Bottom)
                 rec.Y = space.Bottom;
 
-            if (vol.X == 0 && vol.Y == 0)
+            if (vol == Vector2.Zero && !constantMove)
                 sourceRec.X = sourceRec.Width;
             else if (Math.Abs(vol.Y) >= Math.Abs(vol.X))
             {
@@ -209,7 +202,7 @@ namespace Hero_of_Novac
                     sourceRec.Y = 116;
             }
 
-            if (timer % 6 == 0 && vol != Vector2.Zero)
+            if (timer % 6 == 0 && (constantMove || vol != Vector2.Zero))
                 sourceRec.X = (sourceRec.X + sourceRec.Width) % tex.Width;
             timer++;
         }
@@ -265,7 +258,7 @@ namespace Hero_of_Novac
             switch (currentGameState)
             {
                 case GameState.Overworld:
-                    spriteBatch.Draw(tex, rec, sourceRec, Color.White, 0f, Vector2.Zero, SpriteEffects.None, (float)(window.Height - rec.Bottom) / window.Height);
+                    spriteBatch.Draw(tex, rec, sourceRec, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 1f / rec.Bottom);
                     break;
                 case GameState.Battlemenu:
                     spriteBatch.Draw(tex, battleRec, battleSourceRec, Color.White);
