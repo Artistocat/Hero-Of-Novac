@@ -194,13 +194,13 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="ChromanticoreProfile.png">
-      <Name>ChromanticoreProfile</Name>
+    <Compile Include="manticoreProfile.png">
+      <Name>manticoreProfile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="GryphonProfile.png">
-      <Name>GryphonProfile</Name>
+    <Compile Include="gryphonProfile.png">
+      <Name>gryphonProfile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -214,8 +214,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="KawaiiSlimeProfile.png">
-      <Name>KawaiiSlimeProfile</Name>
+    <Compile Include="slimeProfile.png">
+      <Name>slimeProfile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -242,6 +242,13 @@
   <ItemGroup>
     <Compile Include="wasp.png">
       <Name>wasp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="waspProfile.png">
+      <Name>waspProfile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

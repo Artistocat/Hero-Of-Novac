@@ -1,17 +1,23 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using System.IO;
 
 namespace Hero_of_Novac
 {
     public class Load
     {
         private List<String> npcInfo = new List<string>();
-        private List<Enemy> enemies = new List<Enemy>();
-        private String playerInfo = "";
+        private List<String> enemyInfo = new List<string>();
+        private string playerInfo = "";
 
         StreamReader file;
         public Load()
@@ -48,13 +54,12 @@ namespace Hero_of_Novac
         }
         private void LoadNextNPC(StreamReader reader)
         {
-
+            //npcList.Add(new NPC()
         }
         enum SaveReading
         {
             player, enemy, npc, none
         }
-
         private void ReadFileAsStrings(string path)
         {
             SaveReading currentRead = SaveReading.player;
@@ -90,12 +95,13 @@ namespace Hero_of_Novac
                         switch (currentRead)
                         {
                             case SaveReading.player:
-                                //read player stuff
+
                                 break;
                             case SaveReading.enemy:
 
                                 break;
                             case SaveReading.npc:
+                                npcInfo.Add(line);
                                 break;
                         }
 
