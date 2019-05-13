@@ -41,6 +41,7 @@ namespace Hero_of_Novac
         private Texture2D profileTex;
         private Texture2D pixel;
         private Rectangle sourceRecWorld;
+        private Rectangle sourceRecIdle;
         public Rectangle sourceRecBattle;
         public Rectangle sourceRecFX;
         public Rectangle sourceRecProfile;
@@ -139,7 +140,7 @@ namespace Hero_of_Novac
             {
                 if (value != null)
                 {
-                    isAttacking = true;
+                    isAttacking = false;
                     switch (value.AttackName)
                     {
                         case "Slash":
@@ -155,11 +156,21 @@ namespace Hero_of_Novac
                             sourceRecBattle.Y = 96 * 5;
                             break;
                         case "Chop":
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 0;
+                            break;
+                        case "Air Slash":
+                            combatFX = Content.Load<Texture2D>("WindAttacc");
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 0;
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
                             break;
                         case "Incendiary Cloud":
+                            combatFX = Content.Load<Texture2D>("explosions");
                             sourceRecBattle.X = 0;
                             sourceRecBattle.Y = 96 * 2;
-                            sourceRecFX.X = 0;
+                            sourceRecFX.X = -64;
                             sourceRecFX.Y = 64;
                             
                             break;
@@ -201,6 +212,7 @@ namespace Hero_of_Novac
             pixel = p;
 
             sourceRecWorld = new Rectangle(OVERWORLD_SPRITE_WIDTH, 0, OVERWORLD_SPRITE_WIDTH, OVERWORLD_SPRITE_HEIGHT);
+            sourceRecIdle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
             sourceRecBattle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
             sourceRecFX = new Rectangle(0, 64 * 4, 64, 64);
             sourceRecProfile = new Rectangle(0, 6, 292, 503);
@@ -225,8 +237,8 @@ namespace Hero_of_Novac
             chargeBar.CurrentValue = 0;
 
             battlePos = new Vector2(200, 200);
-            battleFXPos.X = battlePos.X + 500;
-            battleFXPos.Y = battlePos.Y + 24;
+            battleFXPos.X = battlePos.X + 1350;
+            battleFXPos.Y = battlePos.Y;
             color = Color.White;
             pixel = p;
             timer = 0;
@@ -403,13 +415,13 @@ namespace Hero_of_Novac
             healthBar.Rect = healthRect;
             magicBar.Rect = magicRect;
             //idle Animation
-            if (!isAttacking)
+            if (!isAttacking || isCharging)
             {
-                sourceRecBattle.Y = 96;
+                sourceRecIdle.Y = 96;
                 if (timer % 5 == 0)
-                    sourceRecBattle.X += BATTLE_SPRITE_WIDTH;
-                if (sourceRecBattle.X >= BATTLE_SPRITE_WIDTH * 3)
-                    sourceRecBattle.X = 0;
+                    sourceRecIdle.X += BATTLE_SPRITE_WIDTH;
+                if (sourceRecIdle.X >= BATTLE_SPRITE_WIDTH * 3)
+                    sourceRecIdle.X = 0;
             }
             //Charging
             if (isCharging)
@@ -478,8 +490,11 @@ namespace Hero_of_Novac
                         spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f / hitbox.Bottom);
                     break;
                 case GameState.Battlemenu:
-                    spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color);
-                    spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                    spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                    if(!isAttacking)
+                        spriteBatch.Draw(combatTex, battlePos, sourceRecIdle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                    else
+                        spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
                     healthBar.Draw(spriteBatch, true);
                     magicBar.Draw(spriteBatch, true);
                     chargeBar.Draw(spriteBatch, true);
