@@ -85,8 +85,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="armour.png">
-      <Name>armour</Name>
+    <Compile Include="armorer.png">
+      <Name>armorer</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -189,8 +189,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArmourerProfile.png">
-      <Name>ArmourerProfile</Name>
+    <Compile Include="armorerProfile.png">
+      <Name>armorerProfile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -209,8 +209,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="HeroProfile.png">
-      <Name>HeroProfile</Name>
+    <Compile Include="heroProfile.png">
+      <Name>heroProfile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -219,8 +219,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="PriestessProfile.png">
-      <Name>PriestessProfile</Name>
+    <Compile Include="priestessProfile.png">
+      <Name>priestessProfile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -249,6 +249,18 @@
   <ItemGroup>
     <Compile Include="waspProfile.png">
       <Name>waspProfile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="blacksmithProfile.png">
+      <Name>blacksmithProfile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="shopkeeperProfile.png">
+      <Name>shopkeeperProfile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
