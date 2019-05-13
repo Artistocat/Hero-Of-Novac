@@ -64,7 +64,24 @@ namespace Hero_of_Novac
                 for (int i = 0; i < 2; i++)
                 {
                     for (int k = 0; k < 2; k++)
+                    {
                         Magic[i, k].isSelected = false;
+                    }
+                }
+                int count = 0;
+                foreach (NavigableMenuItem m in Magic)
+                {
+                    m.isSelected = false;
+                    try
+                    {
+                        Attack[] magicAttacks = player.MagicAttacks[0];
+                        m.Name = "" + magicAttacks[count].AttackName;
+                    }
+                    catch
+                    {
+                        //do nothing cuz I'm lazy and realize there is no name
+                    }
+                    count++;
                 }
                 Magic[0, 0].isSelected = true;
                 for (int i = 0; i < 2; i++)
@@ -522,7 +539,7 @@ namespace Hero_of_Novac
                             }
                             catch
                             {
-                                m.Name = "" + (k + 1);
+                                m.Name = "";
                             }
                             count++;
                         }
@@ -691,19 +708,6 @@ namespace Hero_of_Novac
                     else
                     {
                         doneAttacking = true;
-                    }
-                    break;
-
-                case "Incendiary Cloud":
-                    if(player.sourceRecBattle.X <= 96 * 2)
-                    {
-                        if (timer % 8 == 0)
-                            player.sourceRecBattle.X += 96;
-                    }
-                    if(player.sourceRecFX.X <= 64 * 9)
-                    {
-                        if (timer % 8 == 0)
-                            player.sourceRecFX.X += 64;
                     }
                     break;
 

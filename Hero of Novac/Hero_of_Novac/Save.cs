@@ -63,7 +63,9 @@ namespace Hero_of_Novac
                 //file.WriteLine("" + n.);
             }
         }
-        
+
 
     }
 }
+
+

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Hero_of_Novac
     public class Load
     {
         private List<String> npcInfo = new List<string>();
-        private List<String> enemyInfo = new List<string>();
-        private List<String> playerInfo = new List<string>();
+        private List<Enemy> enemies = new List<Enemy>();
+        private String playerInfo = "";
 
         StreamReader file;
         public Load()
@@ -19,21 +20,31 @@ namespace Hero_of_Novac
         }
         public void LoadAll(Area area)
         {
-            file = new StreamReader(@"Content/SaveData.save");
-            LoadPlayer(area.Player);
-            LoadEnemies(area.Enemies);
-            LoadNPCs(area.Npc);
-            file.Close();
+            //file = new StreamReader(@"Content/SaveData.save");
+            ReadFileAsStrings(@"Content/SaveData.save");
+            //file.Close();
         }
-        public void LoadPlayer(Player player)
+        private void LoadPlayer(StreamReader reader)
         {
+            //playerInfo+=nextLine;
+        }
+        private void LoadNextEnemy(StreamReader reader)
+        {
+            string rec = reader.ReadLine();
+            string sourceRec = reader.ReadLine();
+            string texName = reader.ReadLine();
+            string sourceRecProfile = reader.ReadLine();
+            string profileTexName = reader.ReadLine();
+            string pos = reader.ReadLine();
+            string space = reader.ReadLine();
+            string battleRec = reader.ReadLine();
+            string battleSourceRec = reader.ReadLine();
+            string healthBar = reader.ReadLine();
+            string healthRect = reader.ReadLine();
+            string chargeBar = reader.ReadLine();
 
         }
-        public void LoadEnemies(List<Enemy> enemy)
-        {
-
-        }
-        public void LoadNPCs(List<NPC> npc)
+        private void LoadNextNPC(StreamReader reader)
         {
 
         }
