@@ -20,9 +20,9 @@ namespace Hero_of_Novac
         }
         public void LoadAll(Area area)
         {
-            //file = new StreamReader(@"Content/SaveData.save");
+            file = new StreamReader(@"Content/SaveData.save");
             ReadFileAsStrings(@"Content/SaveData.save");
-            //file.Close();
+            file.Close();
         }
         private void LoadPlayer(StreamReader reader)
         {
@@ -43,6 +43,8 @@ namespace Hero_of_Novac
             string healthRect = reader.ReadLine();
             string chargeBar = reader.ReadLine();
 
+            enemies.Add(new Enemy(rec, sourceRec, texName, sourceRecProfile, profileTexName, pos, space, battleRec, battleSourceRec, healthBar, healthRect, chargeBar));
+
         }
         private void LoadNextNPC(StreamReader reader)
         {
@@ -50,7 +52,7 @@ namespace Hero_of_Novac
         }
         enum SaveReading
         {
-            player, enemy, npc
+            player, enemy, npc, none
         }
 
         private void ReadFileAsStrings(string path)
@@ -76,6 +78,13 @@ namespace Hero_of_Novac
                             case Save.npcStart:
                                 currentRead = SaveReading.npc;
                                 break;
+                            default:
+                                currentRead = SaveReading.none;
+                                break;
+                        }
+                        if (currentRead == SaveReading.none)
+                        {
+                            throw new Exception("Save file has incorrect format, or code can't read correctly");
                         }
 
                         switch (currentRead)

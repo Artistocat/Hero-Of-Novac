@@ -149,6 +149,20 @@ namespace Hero_of_Novac
             currentAttack = Attack.Slash;
         }
 
+        public Enemy(string rec, string sourceRec, string texName, string sourceRecProfile, string profileTexName, string pos, string space, string battleRec, string battleSourceRec, string healthBar, string healthRect, string chargeBar)
+        {
+            this.rec = ParseStringToRectangle(rec);
+            this.sourceRec = ParseStringToRectangle(rec);
+            this.tex = 
+        }
+
+        private Rectangle ParseStringToRectangle(string str)
+        {
+            Rectangle parsedRect = new Rectangle();
+
+            return parsedRect;
+        }
+
         public static void LoadContent(Player player)
         {
             Enemy.player = player;
