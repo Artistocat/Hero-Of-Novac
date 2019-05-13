@@ -577,12 +577,20 @@ namespace Hero_of_Novac
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                             }
                             break;
+                        case 'f':
+                            AddFence(lines, x, y);
+                            break;
                         case '.':
                             break;
                         default:
                             throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                     }
                 }
+        }
+
+        private void AddFence(List<string> lines, int x, int y)
+        {
+
         }
 
         private void LoadObject(string type, int x, int y, int width, int height)
