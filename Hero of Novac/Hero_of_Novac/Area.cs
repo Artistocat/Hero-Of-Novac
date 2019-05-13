@@ -134,6 +134,7 @@ namespace Hero_of_Novac
             sourceRecs.Add("barrel2", new Rectangle(32, 480, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("barrel3", new Rectangle(64, 480, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("barrel4", new Rectangle(96, 480, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("fence", new Rectangle(128, 480, TILE_WIDTH, TILE_HEIGHT));
 
             tileSheets = new Dictionary<string, Texture2D>();
             tileSheets.Add("grass", Content.Load<Texture2D>("terrain"));
@@ -188,6 +189,7 @@ namespace Hero_of_Novac
             tileSheets.Add("barrel2", Content.Load<Texture2D>("houses"));
             tileSheets.Add("barrel3", Content.Load<Texture2D>("houses"));
             tileSheets.Add("barrel4", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("fence", Content.Load<Texture2D>("houses"));
 
             tiles = new List<Tile>();
             LoadTerrainTiles(ReadFile(path + "/terrain.txt"));
@@ -590,7 +592,13 @@ namespace Hero_of_Novac
 
         private void AddFence(List<string> lines, int x, int y)
         {
-
+            LoadObject("fence", x, y, 1, 1);
+            if (x < lines[y].Length - 1 && lines[y][x + 1] == 'f')
+                tiles.Add(new Tile(new Vector2(x, y), new Rectangle(160, 480, TILE_WIDTH, TILE_HEIGHT), tileSheets["fence"]));
+            if (x > 0 && lines[y][x - 1] == 'f')
+                tiles.Add(new Tile(new Vector2(x, y), new Rectangle(192, 480, TILE_WIDTH, TILE_HEIGHT), tileSheets["fence"]));
+            if (y < lines.Count - 1 && lines[y + 1][x] == 'f')
+                tiles.Add(new Tile(new Vector2(x, y), new Rectangle(224, 480, TILE_WIDTH, TILE_HEIGHT), tileSheets["fence"]));
         }
 
         private void LoadObject(string type, int x, int y, int width, int height)
