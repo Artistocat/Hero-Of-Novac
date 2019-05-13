@@ -149,7 +149,6 @@ namespace Hero_of_Novac
             enemyProfileTex.Name = name + "Profile";
             return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, new Vector2(0, 0));
         }
-
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
