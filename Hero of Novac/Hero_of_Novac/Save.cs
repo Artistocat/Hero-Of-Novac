@@ -9,7 +9,7 @@ namespace Hero_of_Novac
     public class Save
     {
         public const string playerStart = "Player info starts here";
-        public const string enemyStart = "Enemies' info begins here";
+        public const string enemyStart = "Enemies' info starts here";
         public const string npcStart = "Npc info starts here";
         StreamWriter file;
         public Save()

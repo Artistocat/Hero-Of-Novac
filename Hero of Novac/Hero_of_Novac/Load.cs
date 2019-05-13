@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using System.IO;
 
 namespace Hero_of_Novac
 {
     public class Load
     {
         private List<String> npcInfo = new List<string>();
+        private List<NPC> npcList = new List<NPC>();
         private List<String> enemyInfo = new List<string>();
-        private List<String> playerInfo = new List<string>();
+        private string playerInfo = "";
 
         StreamReader file;
         public Load()
@@ -19,29 +26,24 @@ namespace Hero_of_Novac
         }
         public void LoadAll(Area area)
         {
-            file = new StreamReader(@"Content/SaveData.save");
-            LoadPlayer(area.Player);
-            LoadEnemies(area.Enemies);
-            LoadNPCs(area.Npc);
-            file.Close();
+            ReadFileAsStrings(@"Content/SaveData.save");
         }
-        public void LoadPlayer(Player player)
+        public void LoadNextPlayer(Player player)
         {
 
         }
-        public void LoadEnemies(List<Enemy> enemy)
+        public void LoadNextEnemies(List<Enemy> enemy)
         {
 
         }
-        public void LoadNPCs(List<NPC> npc)
+        public void LoadNextNPCs(List<NPC> npc)
         {
-
+            //npcList.Add(new NPC()
         }
         enum SaveReading
         {
             player, enemy, npc
         }
-
         private void ReadFileAsStrings(string path)
         {
             SaveReading currentRead = SaveReading.player;
@@ -70,12 +72,13 @@ namespace Hero_of_Novac
                         switch (currentRead)
                         {
                             case SaveReading.player:
-                                //read player stuff
+
                                 break;
                             case SaveReading.enemy:
 
                                 break;
                             case SaveReading.npc:
+                                npcInfo.Add(line);
                                 break;
                         }
 
