@@ -694,16 +694,44 @@ namespace Hero_of_Novac
                     }
                     break;
 
-                case "Incendiary Cloud":
-                    if(player.sourceRecBattle.X <= 96 * 2)
+                case "Air Slash":
+                    if (player.sourceRecBattle.X <= 96 * 1)
                     {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 64 * 3)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 64;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Incendiary Cloud":
+                    if(player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.X = 0;
                     }
                     if(player.sourceRecFX.X <= 64 * 9)
                     {
                         if (timer % 8 == 0)
                             player.sourceRecFX.X += 64;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
                     }
                     break;
 
