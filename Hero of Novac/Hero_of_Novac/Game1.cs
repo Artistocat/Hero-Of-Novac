@@ -112,13 +112,8 @@ namespace Hero_of_Novac
                 npcs.Add(new NPC(new Rectangle(300, 400, 52, 72), NPCTex[3, 0], new Rectangle(52, 0, 52, 72), new Rectangle(564, 500, 200, 168), new Vector2(0, 0), true, 'a', Speech.None, randomNoSeed, NPCTex[3, 1]));
                 area.AddNPCs(npcs);
                 List<Enemy> enemies = new List<Enemy>();
-
-                Texture2D enemyTex = Content.Load<Texture2D>("gryphon");
-                Texture2D enemyProfileTex = Content.Load<Texture2D>("GryphonProfile");
-                enemyTex.Name = "gryphon";
-                enemyProfileTex.Name = "GryphonProfile";
-                enemies.Add(new Enemy(new Rectangle(0, 0, 100, 100), new Rectangle(146, 0, 146, 116), new Rectangle(0, 0, 200, 200), Content.Load<Texture2D>("gryphon"), new Rectangle(0, 0, 414, 560), Content.Load<Texture2D>("GryphonProfile"), new Vector2(0, 0), window, randomNoSeed, false, new Vector2(0, 0)));
-                enemies.Add(new Enemy(new Rectangle(200, 0, 100, 100), new Rectangle(146, 0, 146, 116), new Rectangle(200, 0, 200, 200), Content.Load<Texture2D>("wasp"), new Rectangle(0, 0, 1, 1), pix, new Vector2(200, 0), window, randomNoSeed, true, new Vector2(0, 0)));
+                enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false));
+                enemies.Add(CreateEnemy("wasp", new Rectangle(320, 0, 320, 320), true));
                 area.AddEnemies(enemies);
             }
             else
@@ -144,6 +139,15 @@ namespace Hero_of_Novac
             PercentageRectangle.LoadContent(pix, font);
 
             battleMenu = new BattleMenu(new Enemy[0], BattleMenu.Biome.Plains);
+        }
+
+        private Enemy CreateEnemy(string name, Rectangle space, bool constantMove)
+        {
+            Texture2D enemyTex = Content.Load<Texture2D>(name);
+            Texture2D enemyProfileTex = Content.Load<Texture2D>(name + "Profile");
+            enemyTex.Name = name;
+            enemyProfileTex.Name = name + "Profile";
+            return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, new Vector2(0, 0));
         }
 
         /// <summary>
