@@ -22,7 +22,7 @@ namespace Hero_of_Novac
         Rectangle window;
 
         Save save;
-
+        Load load;
         Area area;
 
         SpriteFont font;
@@ -285,7 +285,8 @@ namespace Hero_of_Novac
                     mainMenu.Update();
                     if (mainMenu.loadOldGame)
                     {
-                        //TODO
+                        //load.LoadAll();
+                        
                     }
                     if (mainMenu.startNewGame)
                     {
