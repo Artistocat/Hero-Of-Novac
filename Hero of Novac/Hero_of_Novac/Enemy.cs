@@ -76,6 +76,16 @@ namespace Hero_of_Novac
             get { return constantMove; }
         }
 
+        public bool IsIdle
+        {
+            get { return isIdle; }
+        }
+
+        public Vector2 Vol
+        {
+            get { return vol; }
+        }
+
         private Rectangle space; //save
 
         private GameState currentGameState;
@@ -156,6 +166,17 @@ namespace Hero_of_Novac
             battleSourceRec.Y = 116;
             currentBattleState = BattleState.Charging;
             currentAttack = Attack.Slash;
+        }
+
+        public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, 
+            bool constantMove, bool idleAnimation, Vector2 vol, Rectangle battleRec, Rectangle battleSourceRec, PercentageRectangle healthBar, Rectangle healthRect, PercentageRectangle chargeBar) 
+            : this(rec, sourceRec, space, tex, sourceRecProfile, profileTex, pos, window, ran, constantMove, idleAnimation, vol)
+        {
+            this.battleRec = battleRec;
+            this.battleSourceRec = battleSourceRec;
+            this.healthBar = healthBar;
+            this.healthRect = healthRect;
+            this.chargeBar = chargeBar;
         }
 
         public static void LoadContent(Player player)

@@ -33,7 +33,7 @@ namespace Hero_of_Novac
         }
 
         StreamReader reader;
-        public Load()
+        public Load(int selectedSave)
         {
             npcInfo = new List<string>();
             enemyInfo = new List<List<string>>();
@@ -66,6 +66,8 @@ namespace Hero_of_Novac
             string healthRect = reader.ReadLine();
             string chargeBar = reader.ReadLine();
             string constantMove = reader.ReadLine();
+            string isIdle = reader.ReadLine();
+            string vol = reader.ReadLine();
             List<string> addedEnemy = new List<string>();
             addedEnemy.Add(rec);
             addedEnemy.Add(sourceRec);
@@ -80,6 +82,8 @@ namespace Hero_of_Novac
             addedEnemy.Add(healthRect);
             addedEnemy.Add(chargeBar);
             addedEnemy.Add(constantMove);
+            addedEnemy.Add(isIdle);
+            addedEnemy.Add(vol);
             enemyInfo.Add(addedEnemy);
         }
         private void LoadNextNPC()
