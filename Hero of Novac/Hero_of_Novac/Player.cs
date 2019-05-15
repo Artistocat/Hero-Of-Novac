@@ -160,6 +160,7 @@ namespace Hero_of_Novac
                             sourceRecBattle.Y = 0;
                             break;
                         case "Whirlwind":
+                            combatFX = Content.Load<Texture2D>("WindAttacc");
                             sourceRecBattle.X = 0;
                             sourceRecBattle.Y = 96 * 2;
                             sourceRecFX.X = -64;
@@ -276,7 +277,7 @@ namespace Hero_of_Novac
             chargeBar.CurrentValue = 0;
 
             battlePos = new Vector2(200, 200);
-            battleFXPos.X = battlePos.X + 300;
+            battleFXPos.X = battlePos.X + 1300;
             battleFXPos.Y = battlePos.Y;
             color = Color.White;
             pixel = p;

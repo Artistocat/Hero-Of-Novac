@@ -58,8 +58,8 @@ namespace Hero_of_Novac
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 1366;//1920
-            graphics.PreferredBackBufferHeight = 768;//1080
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;//1920
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;//1080
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
@@ -127,8 +127,26 @@ namespace Hero_of_Novac
             area.Player.LearnAttack(Attack.Slash);
             area.Player.LearnAttack(Attack.Chop);
             area.Player.LearnAttack(Attack.Punch);
+            area.Player.LearnAttack(Attack.Whirlwind);
             area.Player.LearnAttack(Attack.AirSlash);
+            area.Player.LearnAttack(Attack.WindStrike);
+            area.Player.LearnAttack(Attack.FaldorsWind);
+            area.Player.LearnAttack(Attack.WallOfFire);
+            area.Player.LearnAttack(Attack.FireBall);
             area.Player.LearnAttack(Attack.IncendiaryCloud);
+            area.Player.LearnAttack(Attack.OttosFireStorm);
+            area.Player.LearnAttack(Attack.ThornWhip);
+            area.Player.LearnAttack(Attack.StoneThrow);
+            area.Player.LearnAttack(Attack.Earthquake);
+            area.Player.LearnAttack(Attack.OtilukesWrath);
+            area.Player.LearnAttack(Attack.ConeOfCold);
+            area.Player.LearnAttack(Attack.IceStorm);
+            area.Player.LearnAttack(Attack.FrostRay);
+            area.Player.LearnAttack(Attack.RarysTsunami);
+            area.Player.LearnAttack(Attack.MagicMissile);
+            area.Player.LearnAttack(Attack.EldritchBlast);
+            area.Player.LearnAttack(Attack.ArcaneBeam);
+            area.Player.LearnAttack(Attack.TashasLaugh);
             Enemy.Window = window;
 
             SpriteFont smallBattleFont = Content.Load<SpriteFont>("SmallBattleFont");
