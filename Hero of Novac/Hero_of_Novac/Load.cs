@@ -15,16 +15,14 @@ namespace Hero_of_Novac
     public class Load
     {
         private List<String> npcInfo = new List<string>();
-        private List<NPC> npcList = new List<NPC>();
         private List<String> enemyInfo = new List<string>();
         private string playerInfo = "";
-
         StreamReader file;
         public Load()
         {
 
         }
-        public void LoadAll(Area area)
+        public void LoadAll()
         {
             ReadFileAsStrings(@"Content/SaveData.save");
         }

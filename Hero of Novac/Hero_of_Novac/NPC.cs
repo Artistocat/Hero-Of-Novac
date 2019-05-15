@@ -139,6 +139,7 @@ namespace Hero_of_Novac
                                 chat = Speech.Farewell;
                                 doneTalk = true;
                                 test = 0;
+                                talkwindow = 145;
                                 break;
                         }
                     }
