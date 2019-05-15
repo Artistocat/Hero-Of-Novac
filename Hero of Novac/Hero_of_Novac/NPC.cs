@@ -60,6 +60,10 @@ namespace Hero_of_Novac
         private List<string> priest;
 
         bool interact;
+        public bool IsInteractable
+        {
+            get { return interact; }
+        }
         bool ranMov;
         public char name;
 
@@ -139,6 +143,7 @@ namespace Hero_of_Novac
                                 chat = Speech.Farewell;
                                 doneTalk = true;
                                 test = 0;
+                                talkwindow = 145;
                                 break;
                         }
                     }

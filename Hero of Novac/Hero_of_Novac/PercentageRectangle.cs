@@ -15,11 +15,11 @@ namespace Hero_of_Novac
             {
                 string str = "";
                 str += rect.X + " " + rect.Y + " " + rect.Width + " " + rect.Height; //rect
-                str += "\n";
-                str += Color.R + " " + Color.G + " " + Color.B; //color
-                str += "\n";
-                str += "" + maxValue;
-                str += "" + currentValue;
+                //str += "\n";
+                str += " " + Color.R + " " + Color.G + " " + Color.B; //color
+                //str += "\n";
+                str += " " + maxValue;
+                str += " " + currentValue;
                 return str;
             }
         }
