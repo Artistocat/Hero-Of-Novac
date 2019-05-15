@@ -58,8 +58,8 @@ namespace Hero_of_Novac
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1366;//1920
+            graphics.PreferredBackBufferHeight = 768;//1080
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
@@ -110,8 +110,8 @@ namespace Hero_of_Novac
                 npcs.Add(CreateNPC("armorer", new Rectangle(564, 500, 200, 168), true, 'a'));
                 area.AddNPCs(npcs);
                 List<Enemy> enemies = new List<Enemy>();
-                enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false));
-                enemies.Add(CreateEnemy("wasp", new Rectangle(320, 0, 320, 320), true));
+                enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false, false));
+                enemies.Add(CreateEnemy("wasp", new Rectangle(320, 0, 320, 320), true, true));
                 area.AddEnemies(enemies);
             }
             else
@@ -139,13 +139,13 @@ namespace Hero_of_Novac
             battleMenu = new BattleMenu(new Enemy[0], BattleMenu.Biome.Plains);
         }
 
-        private Enemy CreateEnemy(string name, Rectangle space, bool constantMove)
+        private Enemy CreateEnemy(string name, Rectangle space, bool constantMove, bool idleAnimation)
         {
             Texture2D enemyTex = Content.Load<Texture2D>(name);
             Texture2D enemyProfileTex = Content.Load<Texture2D>(name + "Profile");
             enemyTex.Name = name;
             enemyProfileTex.Name = name + "Profile";
-            return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, new Vector2(0, 0));
+            return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, idleAnimation, new Vector2(0, 0));
         }
         /*private Enemy LoadEnemy(List<string> enemyInfo)
         {
