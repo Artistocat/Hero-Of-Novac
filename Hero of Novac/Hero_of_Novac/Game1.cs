@@ -47,12 +47,19 @@ namespace Hero_of_Novac
 
         GamePadState oldgp;
 
+        static Dictionary<string, Texture2D> textures;
+
+        public static Dictionary<string, Texture2D> Textures
+        {
+            get { return textures; }
+        }
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1366;//1920
+            graphics.PreferredBackBufferHeight = 768;//1080
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
@@ -73,8 +80,8 @@ namespace Hero_of_Novac
             pixelColors[0] = Color.White;
             pix.SetData(pixelColors);
             save = new Save();
-            base.Initialize();
             oldgp = GamePad.GetState(PlayerIndex.One);
+            base.Initialize();
         }
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -103,8 +110,8 @@ namespace Hero_of_Novac
                 npcs.Add(CreateNPC("armorer", new Rectangle(564, 500, 200, 168), true, 'a'));
                 area.AddNPCs(npcs);
                 List<Enemy> enemies = new List<Enemy>();
-                enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false));
-                enemies.Add(CreateEnemy("wasp", new Rectangle(320, 0, 320, 320), true));
+                enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false, false));
+                enemies.Add(CreateEnemy("wasp", new Rectangle(320, 0, 320, 320), true, true));
                 area.AddEnemies(enemies);
             }
             else
@@ -132,14 +139,34 @@ namespace Hero_of_Novac
             battleMenu = new BattleMenu(new Enemy[0], BattleMenu.Biome.Plains);
         }
 
-        private Enemy CreateEnemy(string name, Rectangle space, bool constantMove)
+        private Enemy CreateEnemy(string name, Rectangle space, bool constantMove, bool idleAnimation)
         {
             Texture2D enemyTex = Content.Load<Texture2D>(name);
             Texture2D enemyProfileTex = Content.Load<Texture2D>(name + "Profile");
             enemyTex.Name = name;
             enemyProfileTex.Name = name + "Profile";
-            return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, new Vector2(0, 0));
+            return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, idleAnimation, new Vector2(0, 0));
         }
+        /*private Enemy LoadEnemy(List<string> enemyInfo)
+        {
+            Rectangle rec = ParseStringToRectangle(enemyInfo[0]);
+            Rectangle sourceRec = ParseStringToRectangle(enemyInfo[1]);
+            Texture2D tex = Content.Load<Texture2D>(enemyInfo[2]);
+            tex.Name = enemyInfo[2];
+            Rectangle sourceRecProfile = ParseStringToRectangle(enemyInfo[3]);
+            Texture2D profileTex = Content.Load<Texture2D>(enemyInfo[4]);
+            profileTex.Name = enemyInfo[4];
+            Vector2 pos = ParseStringToVector(string str);
+        }*/
+
+        private Rectangle ParseStringToRectangle(string str)
+        {
+            Rectangle parsedRect = new Rectangle();
+
+            return parsedRect;
+        }
+
+        //private Vector2
 
         private NPC CreateNPC(string name, Rectangle space, bool interact, char type)
         {

@@ -64,7 +64,24 @@ namespace Hero_of_Novac
                 for (int i = 0; i < 2; i++)
                 {
                     for (int k = 0; k < 2; k++)
+                    {
                         Magic[i, k].isSelected = false;
+                    }
+                }
+                int count = 0;
+                foreach (NavigableMenuItem m in Magic)
+                {
+                    m.isSelected = false;
+                    try
+                    {
+                        Attack[] magicAttacks = player.MagicAttacks[0];
+                        m.Name = "" + magicAttacks[count].AttackName;
+                    }
+                    catch
+                    {
+                        //do nothing cuz I'm lazy and realize there is no name
+                    }
+                    count++;
                 }
                 Magic[0, 0].isSelected = true;
                 for (int i = 0; i < 2; i++)
@@ -440,7 +457,7 @@ namespace Hero_of_Novac
                 }
             }
 
-            if (gamePad.Buttons.RightShoulder == ButtonState.Released && oldGamePad.Buttons.RightShoulder == ButtonState.Pressed)
+            if ((gamePad.Buttons.RightShoulder == ButtonState.Released && oldGamePad.Buttons.RightShoulder == ButtonState.Pressed) || (KB.IsKeyUp(Keys.E) && oldKB.IsKeyDown(Keys.E)))
             {
                 for (int i = 0; i < Element.Length; i++)
                 {
@@ -485,7 +502,7 @@ namespace Hero_of_Novac
                 }
             }
 
-            if (gamePad.Buttons.LeftShoulder == ButtonState.Released && oldGamePad.Buttons.LeftShoulder == ButtonState.Pressed)
+            if ((gamePad.Buttons.LeftShoulder == ButtonState.Released && oldGamePad.Buttons.LeftShoulder == ButtonState.Pressed) || (KB.IsKeyUp(Keys.Q) && oldKB.IsKeyDown(Keys.Q)))
             {
                 for (int i = 0; i < Element.Length; i++)
                 {
@@ -522,7 +539,7 @@ namespace Hero_of_Novac
                             }
                             catch
                             {
-                                m.Name = "" + (k + 1);
+                                m.Name = "";
                             }
                             count++;
                         }
@@ -639,7 +656,6 @@ namespace Hero_of_Novac
             switch (player.CurrentAttack.AttackName)
             {
                 case "Slash":
-
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
                         if (timer % 8 == 0)
@@ -652,9 +668,7 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-
                 case "Lunge":
-
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
                         if (timer % 8 == 0)
@@ -665,9 +679,7 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-
                 case "Punch":
-
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
                         if (timer % 8 == 0)
@@ -680,9 +692,7 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-
                 case "Chop":
-
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
                         if (timer % 8 == 0)
@@ -693,7 +703,26 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-
+                case "Whirlwind":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 64 * 14)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 64;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
                 case "Air Slash":
                     if (player.sourceRecBattle.X <= 96 * 1)
                     {
@@ -713,6 +742,14 @@ namespace Hero_of_Novac
                     {
                         doneAttacking = true;
                     }
+                    break;
+                case "Wind Strike":
+                    break;
+                case "Faldor's Wind":
+                    break;
+                case "Wall of Fire":
+                    break;
+                case "Fire Ball":
                     break;
                 case "Incendiary Cloud":
                     if(player.sourceRecBattle.X <= 96 * 1)
@@ -734,7 +771,32 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-
+                case "Otto's Firestorm":
+                    break;
+                case "Thorn Whip":
+                    break;
+                case "Stone Throw":
+                    break;
+                case "Earthquake":
+                    break;
+                case "Otiluke's Wrath":
+                    break;
+                case "Cone of Cold":
+                    break;
+                case "Ice Storm":
+                    break;
+                case "Frost Ray":
+                    break;
+                case "Rary's Tsunami":
+                    break;
+                case "Magic Missile":
+                    break;
+                case "Eldritch Blast":
+                    break;
+                case "Arcane Beam":
+                    break;
+                case "Tasha's Laugh":
+                    break;
                 default:
                     if (timer % 200 == 0)
                     {

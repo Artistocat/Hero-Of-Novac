@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -70,6 +71,11 @@ namespace Hero_of_Novac
             get { return chargeBar.SaveData; }
         }
 
+        public bool ConstantMove
+        {
+            get { return constantMove; }
+        }
+
         private Rectangle space; //save
 
         private GameState currentGameState;
@@ -80,6 +86,7 @@ namespace Hero_of_Novac
         private PercentageRectangle chargeBar; //save
         private BattleState currentBattleState;
         bool constantMove;
+        bool isIdle;
 
         private Attack currentAttack;
 
@@ -121,7 +128,7 @@ namespace Hero_of_Novac
         /*
          * 146 x 116
          */
-        public Enemy(Rectangle rec, Rectangle sourceRec,Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, bool constantMove, Vector2 vol) 
+        public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, bool constantMove, bool idleAnimation, Vector2 vol)
         {
             this.space = space;
             this.vol = vol;
@@ -131,6 +138,7 @@ namespace Hero_of_Novac
             this.pos = pos;
             this.ran = ran;
             this.constantMove = constantMove;
+            this.isIdle = idleAnimation;
             this.sourceRecProfile = sourceRecProfile;
             this.profileTex = profileTex;
             currentGameState = GameState.Overworld;
@@ -197,7 +205,7 @@ namespace Hero_of_Novac
             }
 
             if (timer % 6 == 0 && (constantMove || vol != Vector2.Zero))
-                    sourceRec.X = (sourceRec.X + sourceRec.Width) % tex.Width;
+                sourceRec.X = (sourceRec.X + sourceRec.Width) % tex.Width;
             timer++;
         }
 
@@ -214,6 +222,7 @@ namespace Hero_of_Novac
 
         private void BattleMenuUpdate(GameTime gameTime)
         {
+            timer++;
             //healthBar.Rect = healthRect;
             if (player.isCharging)
             {
@@ -225,6 +234,14 @@ namespace Hero_of_Novac
                 {
                     currentBattleState = BattleState.Attacking;
                 }
+            }
+            if (isIdle)
+            {
+                sourceRec.Y = 96;
+                if (timer % 5 == 0)
+                    sourceRec.X += sourceRec.Width;
+                if (sourceRec.X >= sourceRec.Width * 3)
+                    sourceRec.X = 0;
             }
         }
 
@@ -353,4 +370,3 @@ namespace Hero_of_Novac
     }
 
 }
-

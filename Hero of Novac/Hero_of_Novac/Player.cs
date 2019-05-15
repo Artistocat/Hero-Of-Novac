@@ -159,6 +159,12 @@ namespace Hero_of_Novac
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 0;
                             break;
+                        case "Whirlwind":
+                            sourceRecBattle.X = 0;
+                            sourceRecBattle.Y = 96 * 2;
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 64 * 2;
+                            break;
                         case "Air Slash":
                             combatFX = Content.Load<Texture2D>("WindAttacc");
                             sourceRecFX.X = -64;
@@ -166,13 +172,46 @@ namespace Hero_of_Novac
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
                             break;
+                        case "Wind Strike":
+                            break;
+                        case "Faldor's Wind":
+                            break;
+                        case "Wall of Fire":
+                            break;
+                        case "Fire Ball":
+                            break;
                         case "Incendiary Cloud":
                             combatFX = Content.Load<Texture2D>("explosions");
                             sourceRecBattle.X = 0;
                             sourceRecBattle.Y = 96 * 2;
                             sourceRecFX.X = -64;
                             sourceRecFX.Y = 64;
-                            
+                            break;
+                        case "Otto's Firestorm":
+                            break;
+                        case "Thorn Whip":
+                            break;
+                        case "Stone Throw":
+                            break;
+                        case "Earthquake":
+                            break;
+                        case "Otiluke's Wrath":
+                            break;
+                        case "Cone of Cold":
+                            break;
+                        case "Ice Storm":
+                            break;
+                        case "Frost Ray":
+                            break;
+                        case "Rary's Tsunami":
+                            break;
+                        case "Magic Missile":
+                            break;
+                        case "Eldritch Blast":
+                            break;
+                        case "Arcane Beam":
+                            break;
+                        case "Tasha's Laugh":
                             break;
                     }
                     chargeBar.MaxValue = value.ChargeTime;
@@ -237,7 +276,7 @@ namespace Hero_of_Novac
             chargeBar.CurrentValue = 0;
 
             battlePos = new Vector2(200, 200);
-            battleFXPos.X = battlePos.X + 1350;
+            battleFXPos.X = battlePos.X + 300;
             battleFXPos.Y = battlePos.Y;
             color = Color.White;
             pixel = p;
@@ -340,7 +379,7 @@ namespace Hero_of_Novac
             }
 
             //Attacc animation tests
-            if ((pad1.IsButtonDown(Buttons.X) || KB.IsKeyDown(Keys.E)) && !attackTest)
+            if ((pad1.IsButtonDown(Buttons.X) || KB.IsKeyDown(Keys.F)) && !attackTest)
             {
                 attackTest = true;
                 sourceRecBattle.X = 96 * 3;
