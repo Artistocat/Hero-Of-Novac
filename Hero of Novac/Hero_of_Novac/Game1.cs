@@ -293,7 +293,8 @@ namespace Hero_of_Novac
                 this.Exit();
             bool willBattle = false;
             List<Enemy> enemiesInBattle = new List<Enemy>();
-            if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start) && oldgp.IsButtonUp(Buttons.Start))
+            if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start) && oldgp.IsButtonUp(Buttons.Start) ||
+                Keyboard.GetState().IsKeyDown(Keys.OemTilde))
             {
                 save.SaveAll(area);
             }
