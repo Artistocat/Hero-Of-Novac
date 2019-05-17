@@ -92,7 +92,6 @@ namespace Hero_of_Novac
             sourceRecs.Add("water", new Rectangle(0, 0, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("lilypad", new Rectangle(320, 0, TILE_WIDTH, TILE_HEIGHT));
 
-
             sourceRecs.Add("farmland_topleft", new Rectangle(0, 256, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("farmland_top", new Rectangle(32, 256, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("farmland_topright", new Rectangle(64, 256, TILE_WIDTH, TILE_HEIGHT));
@@ -110,6 +109,10 @@ namespace Hero_of_Novac
             sourceRecs.Add("cauliflower", new Rectangle(128, 320, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("eggplant", new Rectangle(256, 320, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("melon", new Rectangle(384, 320, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("wheat1", new Rectangle(512, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("wheat2", new Rectangle(544, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("corn1", new Rectangle(576, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("corn2", new Rectangle(608, 288, TILE_WIDTH, TILE_HEIGHT));
 
             sourceRecs.Add("tree1", new Rectangle(0, 0, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("tree2", new Rectangle(128, 0, TILE_WIDTH, TILE_HEIGHT));
@@ -164,6 +167,10 @@ namespace Hero_of_Novac
             tileSheets.Add("cauliflower", Content.Load<Texture2D>("terrain"));
             tileSheets.Add("eggplant", Content.Load<Texture2D>("terrain"));
             tileSheets.Add("melon", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("wheat1", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("wheat2", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("corn1", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("corn2", Content.Load<Texture2D>("terrain"));
 
             tileSheets.Add("tree1", Content.Load<Texture2D>("trees"));
             tileSheets.Add("tree2", Content.Load<Texture2D>("trees"));
@@ -197,6 +204,7 @@ namespace Hero_of_Novac
             objectData = new Dictionary<Texture2D, List<string>>();
             objectData.Add(Content.Load<Texture2D>("trees"), ReadFile(@"Content/trees_data.txt"));
             objectData.Add(Content.Load<Texture2D>("houses"), ReadFile(@"Content/houses_data.txt"));
+            objectData.Add(Content.Load<Texture2D>("terrain"), ReadFile(@"Content/terrain_data.txt"));
             LoadObjectTiles(ReadFile(path + "/objects.txt"));
 
             pix = p;
@@ -542,6 +550,28 @@ namespace Hero_of_Novac
                                         for (int j = 0; j < 3; j++)
                                             LoadTile("melon", x - 1 + j, y + i, 4);
                                     break;
+                                case '9':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                        {
+                                            r = random.Next(2);
+                                            if (r == 0)
+                                                LoadObject("wheat1", x - 1 + j, y + i, 1, 2);
+                                            else
+                                                LoadObject("wheat2", x - 1 + j, y + i, 1, 2);
+                                        }
+                                    break;
+                                case '0':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                        {
+                                            r = random.Next(2);
+                                            if (r == 0)
+                                                LoadObject("corn1", x - 1 + j, y + i, 1, 2);
+                                            else
+                                                LoadObject("corn2", x - 1 + j, y + i, 1, 2);
+                                        }
+                                    break;
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                             }
@@ -762,6 +792,40 @@ namespace Hero_of_Novac
                             else
                                 player.MoveX((int)depth.X);
                         }
+                        foreach (NPC n in npcs)
+                            if (tileRec.Intersects(n.Rectangle))
+                            {
+                                Vector2 depth = n.Rectangle.GetIntersectionDepth(tileRec);
+                                if (Math.Abs(depth.Y) < Math.Abs(depth.X))
+                                {
+                                    Rectangle temp = n.Rectangle;
+                                    temp.Y += (int)depth.Y;
+                                    n.Rectangle = temp;
+                                }
+                                else
+                                {
+                                    Rectangle temp = n.Rectangle;
+                                    temp.X += (int)depth.X;
+                                    n.Rectangle = temp;
+                                }
+                            }
+                        foreach (Enemy e in enemies)
+                            if (tileRec.Intersects(e.Rectangle))
+                            {
+                                Vector2 depth = e.Rectangle.GetIntersectionDepth(tileRec);
+                                if (Math.Abs(depth.Y) < Math.Abs(depth.X))
+                                {
+                                    Rectangle temp = e.Rectangle;
+                                    temp.Y += (int)depth.Y;
+                                    e.Rectangle = temp;
+                                }
+                                else
+                                {
+                                    Rectangle temp = e.Rectangle;
+                                    temp.X += (int)depth.X;
+                                    e.Rectangle = temp;
+                                }
+                            }
                     }
 
                 player.Update(gameTime, speed);

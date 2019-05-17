@@ -1009,7 +1009,9 @@ namespace Hero_of_Novac
                     if (isSmallName)
                         spriteBatch.DrawString(SmallFont, name, nameV, Color.Gray);
                     else
+                    {
                         spriteBatch.DrawString(Font, name, nameV, Color.Gray);
+                    }
                 }
             }
         }
