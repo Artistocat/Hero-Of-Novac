@@ -256,7 +256,7 @@ namespace Hero_of_Novac
                     currentBattleState = BattleState.Attacking;
                 }
             }
-            if (isIdle)
+            if (constantMove)
             {
                 sourceRec.Y = 96;
                 if (timer % 5 == 0)
