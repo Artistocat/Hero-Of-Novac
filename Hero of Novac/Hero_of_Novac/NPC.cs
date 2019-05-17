@@ -27,8 +27,10 @@ namespace Hero_of_Novac
 
         int test = 0;
         public bool isTalking;
+        public bool isTrading = false;
         int talkwindow = 145;
         private static Texture2D talkW;
+        Vector2 tradeWindow;
 
         private static Rectangle window;
         public static Rectangle Window
@@ -101,6 +103,7 @@ namespace Hero_of_Novac
             isTalking = false;
             bubblezSourceRec = new Rectangle(0, 224, 32, 32);
             oldDir = dir = GetInputDirection();
+            tradeWindow = new Vector2(window.Width / 8, window.Height / 8);
         }
 
         public void Update(GameTime gameTime)
@@ -115,7 +118,6 @@ namespace Hero_of_Novac
             Rectangle r = new Rectangle(0, 0, 0, 0);
             if ((gp.Buttons.A == ButtonState.Pressed && oldGP.Buttons.A != ButtonState.Pressed) || (KB.IsKeyDown(Keys.Enter) && oldKB.IsKeyUp(Keys.Enter)))
             {
-
                 Vector2 v = player.Position;
                 r = new Rectangle((int)v.X - 55, (int)v.Y - 55, 125, 125);
                 if (rec.Intersects(r))
@@ -143,12 +145,12 @@ namespace Hero_of_Novac
                                 break;
                             case 100:
                                 chat = Speech.Interactable;
+                                isTrading = true;
                                 break;
                             case 55:
                                 chat = Speech.Farewell;
                                 doneTalk = true;
                                 test = 0;
-                                talkwindow = 145;
                                 break;
                         }
                     }
@@ -163,21 +165,42 @@ namespace Hero_of_Novac
                 rec.X += (int)vol.X;
                 rec.Y += (int)vol.Y;
             }
-            if (dir == Direction.Down && oldDir != Direction.Down)
+            if(isTalking)
             {
+                if (dir == Direction.Down && oldDir != Direction.Down)
+                {
 
-                if (talkwindow <= 55)
-                    talkwindow = 145;
-                else
-                    talkwindow -= 45;
+                    if (talkwindow <= 55)
+                        talkwindow = 145;
+                    else
+                        talkwindow -= 45;
+                }
+                if (dir == Direction.Up && oldDir != Direction.Up) //up
+                {
+
+                    if (talkwindow >= 145)
+                        talkwindow = 55;
+                    else
+                        talkwindow += 45;
+                }
             }
-            if (dir == Direction.Up && oldDir != Direction.Up) //up
+            if(isTrading)
             {
+                if (dir == Direction.Down && oldDir != Direction.Down)
+                {
+                    if (tradeWindow.Y <= window.Height/8)
+                        tradeWindow.Y = window.Height / 8 + tradeWindow.X + 90;
+                    else
+                        tradeWindow.Y -= 90;
+                }
+                if (dir == Direction.Up && oldDir != Direction.Up) //up
+                {
 
-                if (talkwindow >= 145)
-                    talkwindow = 55;
-                else
-                    talkwindow += 45;
+                    if (tradeWindow.Y >= window.Height / 8 * 7)
+                        tradeWindow.Y = window.Width / 8 + 90;
+                    else
+                        tradeWindow.Y += 90;
+                }
             }
             if (vol.X == 0 && vol.Y == 0)
                 source.X = source.Width;
@@ -269,13 +292,20 @@ namespace Hero_of_Novac
         {
             if (isTalking)
             {
-
                 drawTalkingMenu(spriteBatch);
                 spriteBatch.Draw(tex, rec, source, Color.White);
                 spriteBatch.Draw(headshot, new Rectangle(window.Width - 360, window.Height / 4 * 3 - 480, 360, 480), Color.White);
                 spriteBatch.Draw(heroHead, new Rectangle(0, window.Height / 4 * 3 - 480, 360, 480), Color.White);
                 spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White);
                 spriteBatch.DrawString(font, Talk(chat, name), new Vector2(35, window.Height / 4 * 3 + 20), Color.White);
+            }
+            if(isTrading)
+            {
+                drawTradeMenu(spriteBatch);
+
+
+                if (gp.IsButtonDown(Buttons.Start))
+                    isTrading = false;
             }
         }
 
@@ -443,6 +473,11 @@ namespace Hero_of_Novac
             spriteBatch.DrawString(font,Talk(Speech.Farewell,'h'), new Vector2(370, window.Height / 4 * 3 - 50), Color.Red,0f,new Vector2(0,0),.5f,SpriteEffects.None,1);
             spriteBatch.Draw(talkW, new Rectangle(360, window.Height / 4 * 3 - talkwindow, 480, 50), Color.AliceBlue * .5f);
             oldGP = gp;
+        }
+        public void drawTradeMenu(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(talkW, new Rectangle(window.Width /8, window.Height / 8, window.Width/4 * 3, window.Height / 4 * 3), Color.White);
+            spriteBatch.Draw(talkW, new Rectangle(window.Width / 8 - (int)tradeWindow.X + 90, window.Height / 8 - (int)tradeWindow.Y + 90, 90, 90), Color.AliceBlue * .5f);
         }
         //spriteBatch.Draw(headshot, new Rectangle(window.Width - 360, window.Height / 4 * 3 - 480, 360, 480), Color.White);
         //spriteBatch.Draw(heroHead, new Rectangle(0, window.Height / 4 * 3 - 480, 360, 480), Color.White);

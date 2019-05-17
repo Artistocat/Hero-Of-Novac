@@ -58,8 +58,8 @@ namespace Hero_of_Novac
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;//1920
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;//1080
+            graphics.PreferredBackBufferWidth = 1920;//1920
+            graphics.PreferredBackBufferHeight = 1080;//1080
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
@@ -96,7 +96,8 @@ namespace Hero_of_Novac
 
             FX1 = Content.Load<Texture2D>("combatFX");
 
-            MainMenu.LoadContent(GraphicsDevice, window, font);
+            MainMenu.LoadContent(GraphicsDevice, window, font, Content.Load<Texture2D>("MainMenu"));
+            
             mainMenu = new MainMenu();
             if (TESTING)
             {

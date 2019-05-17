@@ -17,7 +17,9 @@ namespace Hero_of_Novac
         private GamePadState oldgp;
         private KeyboardState KB;
         private KeyboardState oldKB;
-
+        private static int width;
+        private static int height;
+        private static Texture2D background;
         public bool startNewGame = false;
         public bool loadOldGame = false;
         public bool quitGame = false;
@@ -33,7 +35,7 @@ namespace Hero_of_Novac
             exitGame.isSelected = false;
         }
 
-        public static void LoadContent(GraphicsDevice graphicsDevice, Rectangle window, SpriteFont Font)
+        public static void LoadContent(GraphicsDevice graphicsDevice, Rectangle window, SpriteFont Font, Texture2D background)
         {
             NavigableMenuItem.Font = Font;
             Texture2D pixel = new Texture2D(graphicsDevice, 1, 1);
@@ -43,6 +45,9 @@ namespace Hero_of_Novac
             
             int width = window.Width / 4;
             int height = window.Height / 10;
+            MainMenu.height = window.Height;
+            MainMenu.width = window.Width;
+            MainMenu.background = background;
             newGame = new NavigableMenuItem(new Rectangle((window.Width - width) / 2, 200, width, height), pixel, new Rectangle(0, 0, 1, 1), Color.Purple, "New Game");
             loadGame = new NavigableMenuItem(new Rectangle((window.Width - width) / 2, 250 + height, width, height), pixel, new Rectangle(0, 0, 1, 1), Color.Purple, "Load Game");
             exitGame = new NavigableMenuItem(new Rectangle((window.Width - width) / 2, 300 + 2 * height, width, height), pixel, new Rectangle(0, 0, 1, 1), Color.Purple, "Exit");
@@ -135,6 +140,7 @@ namespace Hero_of_Novac
         {
             //TODO
             //background.draw
+            spriteBatch.Draw(background, new Rectangle(0,0,MainMenu.width,MainMenu.height), Color.White);
             newGame.Draw(spriteBatch);
             loadGame.Draw(spriteBatch);
             exitGame.Draw(spriteBatch);
