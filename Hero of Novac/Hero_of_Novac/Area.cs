@@ -208,6 +208,19 @@ namespace Hero_of_Novac
             //AddEnemies();
         }
 
+        public void LoadSave(List<Enemy> enemies, List<NPC> npcs, List<string> playerInfo)
+        {
+            this.enemies = enemies;
+            this.npcs = npcs;
+            int pHealth, level;
+            Vector2 position = Game1.ParseStringToVector(playerInfo[2]);
+            Int32.TryParse(playerInfo[0], out pHealth);
+            Int32.TryParse(playerInfo[1], out level);
+            player.Health = pHealth;
+            player.Position = position;
+            player.Level = level;
+        }
+
         /// <summary>
         /// Reads a file at the indicated path.
         /// </summary>

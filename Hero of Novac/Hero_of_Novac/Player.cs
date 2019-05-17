@@ -76,6 +76,10 @@ namespace Hero_of_Novac
             {
                 return healthBar.CurrentValue;
             }
+            set
+            {
+                healthBar.CurrentValue = value;
+            }
         }
 
         private PercentageRectangle healthBar;
@@ -92,6 +96,17 @@ namespace Hero_of_Novac
         private PercentageRectangle[] xpElementBars;
         private int[] elementLevels;
         private int level;
+        public int Level
+        {
+            get
+            {
+                return level;
+            }
+            set
+            {
+                level = value;
+            }
+        }
         public double LevelModifier
         {
             get

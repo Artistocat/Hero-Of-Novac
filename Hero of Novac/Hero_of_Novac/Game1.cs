@@ -204,7 +204,7 @@ namespace Hero_of_Novac
             return parsedRect;
         }
 
-        private Vector2 ParseStringToVector(string str)
+        public static Vector2 ParseStringToVector(string str)
         {
             Vector2 parsedVector;
             int xIndex = str.IndexOf('X');
@@ -216,28 +216,29 @@ namespace Hero_of_Novac
             return parsedVector;
         }
 
-        private PercentageRectangle ParseStringToPercentageRectangle(string str)
+        private PercentageRectangle ParseStringToPercentageRectangle(string stri)
         {
+            string str = stri;
             PercentageRectangle parsedRect;
             int x, y, width, height, r, g, b, maxValue, currentValue;
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out x);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + x).Length, str.Length - (" " + x).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out y);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + y).Length, str.Length - (" " + y).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out width);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + width).Length, str.Length - (" " + width).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out height);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + height).Length, str.Length - (" " + height).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out r);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + r).Length, str.Length - (" " + r).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out g);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + g).Length, str.Length - (" " + g).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out b);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + b).Length, str.Length - (" " + b).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out maxValue);
-            str = str.Substring(str.IndexOf(' ') + 1);
-            Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out currentValue);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + maxValue).Length, str.Length - (" " + maxValue).Length);
+            Int32.TryParse(str, out currentValue);
+            //str = str.Substring((" " + currentValue).Length, str.Length - (" " + currentValue).Length);
             parsedRect = new PercentageRectangle(new Rectangle(x, y, width, height), maxValue, new Color(r, g, b));
             parsedRect.CurrentValue = currentValue;
             return parsedRect;
@@ -304,8 +305,19 @@ namespace Hero_of_Novac
                     mainMenu.Update();
                     if (mainMenu.loadOldGame)
                     {
-                        //load.LoadAll();
-                        
+                        load = new Load(1);
+                        List<Enemy> enemies = new List<Enemy>();
+                        List<NPC> npcs = new List<NPC>();
+                        foreach (List<string> enemyInfo in load.EnemyInfo)
+                        {
+                            enemies.Add(LoadEnemy(enemyInfo));
+                        }
+                        foreach (List<string> npcInfo in load.NpcInfo)
+                        {
+                            npcs.Add(LoadNPC(npcInfo));
+                        }
+                        area.LoadSave(enemies, npcs, load.PlayerInfo);
+                        currentGameState = GameState.Overworld;
                     }
                     if (mainMenu.startNewGame)
                     {
