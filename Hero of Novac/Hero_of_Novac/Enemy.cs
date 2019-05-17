@@ -165,7 +165,7 @@ namespace Hero_of_Novac
             battleSourceRec = sourceRec;
             battleSourceRec.Y = 116;
             currentBattleState = BattleState.Charging;
-            currentAttack = Attack.Slash;
+            currentAttack = new Attack(12, 3, "enemyAttack");
         }
 
         public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, 
@@ -247,6 +247,7 @@ namespace Hero_of_Novac
             //healthBar.Rect = healthRect;
             if (player.isCharging)
             {
+                //Console.WriteLine("This shit is happening for the " + tex.Name);
                 if (timer % 2 == 0)
                 {
                     chargeBar.CurrentValue++;
