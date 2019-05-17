@@ -183,19 +183,18 @@ namespace Hero_of_Novac
             {
                 if (dir == Direction.Down && oldDir != Direction.Down)
                 {
-
-                    if (tradeWindow.X <= window.Height/8)
-                        tradeWindow.X = window.Height / 8 - (int)tradeWindow.Y + 90;
+                    if (tradeWindow.Y <= window.Height/8)
+                        tradeWindow.Y = window.Height / 8 + tradeWindow.X + 90;
                     else
-                        tradeWindow.X -= 90;
+                        tradeWindow.Y -= 90;
                 }
                 if (dir == Direction.Up && oldDir != Direction.Up) //up
                 {
 
-                    if (tradeWindow.X >= window.Height / 8 * 7)
-                        tradeWindow.X = window.Width / 8 - (int)tradeWindow.X + 90;
+                    if (tradeWindow.Y >= window.Height / 8 * 7)
+                        tradeWindow.Y = window.Width / 8 + 90;
                     else
-                        tradeWindow.X += 90;
+                        tradeWindow.Y += 90;
                 }
             }
             if (vol.X == 0 && vol.Y == 0)

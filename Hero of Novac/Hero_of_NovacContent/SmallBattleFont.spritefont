@@ -9,9 +9,9 @@ with.
   <Asset Type="Graphics:FontDescription">
 
     <!--
-    Modify this string to change the font that will be imported.
+    Modify this string to change the font that will be imported.  old english text mt
     -->
-    <FontName>Segoe UI Mono</FontName>
+    <FontName>old english text mt</FontName>
 
     <!--
     Size is a float value, measured in points. Modify this value to change
