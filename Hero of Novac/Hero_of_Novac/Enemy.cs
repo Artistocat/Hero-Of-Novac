@@ -76,6 +76,16 @@ namespace Hero_of_Novac
             get { return constantMove; }
         }
 
+        public bool IsIdle
+        {
+            get { return isIdle; }
+        }
+
+        public Vector2 Vol
+        {
+            get { return vol; }
+        }
+
         private Rectangle space; //save
 
         private GameState currentGameState;
@@ -145,7 +155,7 @@ namespace Hero_of_Novac
             healthBar = new PercentageRectangle(new Rectangle(rec.X - 10, rec.Y - 10, barWidth, barHeight), 50, Color.Red);
             chargeBar = new PercentageRectangle(new Rectangle(healthBar.Rect.X, healthBar.Rect.Y + 50, barWidth, barHeight), 100, Color.Gray);
             timer = 0;
-            battleRec = new Rectangle(window.Right - rec.Width * 4, window.Bottom / 4 - rec.Height, rec.Width, rec.Height);
+            battleRec = new Rectangle(window.Right - rec.Width * 4, window.Top + rec.Height, rec.Width, rec.Height);
             healthRect = new Rectangle(window.Left + window.Width * 3 / 4 + 25, window.Height / 2 + 100, barWidth * 5, barHeight * 5);
             chargeBar.Rect = healthRect;
             Rectangle chargeRect = healthRect;
@@ -156,6 +166,17 @@ namespace Hero_of_Novac
             battleSourceRec.Y = 116;
             currentBattleState = BattleState.Charging;
             currentAttack = Attack.Slash;
+        }
+
+        public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, 
+            bool constantMove, bool idleAnimation, Vector2 vol, Rectangle battleRec, Rectangle battleSourceRec, PercentageRectangle healthBar, Rectangle healthRect, PercentageRectangle chargeBar) 
+            : this(rec, sourceRec, space, tex, sourceRecProfile, profileTex, pos, window, ran, constantMove, idleAnimation, vol)
+        {
+            this.battleRec = battleRec;
+            this.battleSourceRec = battleSourceRec;
+            this.healthBar = healthBar;
+            this.healthRect = healthRect;
+            this.chargeBar = chargeBar;
         }
 
         public static void LoadContent(Player player)

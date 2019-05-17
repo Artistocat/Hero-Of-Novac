@@ -47,12 +47,12 @@ namespace Hero_of_Novac
 
         GamePadState oldgp;
 
-        static Dictionary<string, Texture2D> textures;
+        /*static Dictionary<string, Texture2D> textures;
 
         public static Dictionary<string, Texture2D> Textures
         {
             get { return textures; }
-        }
+        }*/
 
         public Game1()
         {
@@ -127,8 +127,26 @@ namespace Hero_of_Novac
             area.Player.LearnAttack(Attack.Slash);
             area.Player.LearnAttack(Attack.Chop);
             area.Player.LearnAttack(Attack.Punch);
+            area.Player.LearnAttack(Attack.Whirlwind);
             area.Player.LearnAttack(Attack.AirSlash);
+            area.Player.LearnAttack(Attack.WindStrike);
+            area.Player.LearnAttack(Attack.FaldorsWind);
+            area.Player.LearnAttack(Attack.WallOfFire);
+            area.Player.LearnAttack(Attack.FireBall);
             area.Player.LearnAttack(Attack.IncendiaryCloud);
+            area.Player.LearnAttack(Attack.OttosFireStorm);
+            area.Player.LearnAttack(Attack.ThornWhip);
+            area.Player.LearnAttack(Attack.StoneThrow);
+            area.Player.LearnAttack(Attack.Earthquake);
+            area.Player.LearnAttack(Attack.OtilukesWrath);
+            area.Player.LearnAttack(Attack.ConeOfCold);
+            area.Player.LearnAttack(Attack.IceStorm);
+            area.Player.LearnAttack(Attack.FrostRay);
+            area.Player.LearnAttack(Attack.RarysTsunami);
+            area.Player.LearnAttack(Attack.MagicMissile);
+            area.Player.LearnAttack(Attack.EldritchBlast);
+            area.Player.LearnAttack(Attack.ArcaneBeam);
+            area.Player.LearnAttack(Attack.TashasLaugh);
             Enemy.Window = window;
 
             SpriteFont smallBattleFont = Content.Load<SpriteFont>("SmallBattleFont");
@@ -147,7 +165,8 @@ namespace Hero_of_Novac
             enemyProfileTex.Name = name + "Profile";
             return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, idleAnimation, new Vector2(0, 0));
         }
-        /*private Enemy LoadEnemy(List<string> enemyInfo)
+
+        private Enemy LoadEnemy(List<string> enemyInfo)
         {
             Rectangle rec = ParseStringToRectangle(enemyInfo[0]);
             Rectangle sourceRec = ParseStringToRectangle(enemyInfo[1]);
@@ -156,17 +175,80 @@ namespace Hero_of_Novac
             Rectangle sourceRecProfile = ParseStringToRectangle(enemyInfo[3]);
             Texture2D profileTex = Content.Load<Texture2D>(enemyInfo[4]);
             profileTex.Name = enemyInfo[4];
-            Vector2 pos = ParseStringToVector(string str);
-        }*/
+            Vector2 pos = ParseStringToVector(enemyInfo[5]);
+            Rectangle space = ParseStringToRectangle(enemyInfo[6]);
+            Rectangle battleRec = ParseStringToRectangle(enemyInfo[7]);
+            Rectangle battleSourceRec = ParseStringToRectangle(enemyInfo[8]);
+            PercentageRectangle healthBar = ParseStringToPercentageRectangle(enemyInfo[9]);
+            Rectangle healthRect = ParseStringToRectangle(enemyInfo[10]);
+            PercentageRectangle chargeBar = ParseStringToPercentageRectangle(enemyInfo[11]);
+            bool constantMove = ParseStringToBool(enemyInfo[12]);
+            bool isIdle = ParseStringToBool(enemyInfo[13]);
+            Vector2 vol = ParseStringToVector(enemyInfo[14]);
+            return new Enemy(rec, sourceRec, space, tex, sourceRecProfile, profileTex, pos, window, randomNoSeed, constantMove, isIdle, vol, battleRec, battleSourceRec, healthBar, healthRect, chargeBar);
+        }
 
         private Rectangle ParseStringToRectangle(string str)
         {
-            Rectangle parsedRect = new Rectangle();
-
+            Rectangle parsedRect;
+            int xIndex = str.IndexOf('X');
+            int yIndex = str.IndexOf('Y');
+            int widthIndex = str.IndexOf('W');
+            int heightIndex = str.IndexOf('H');
+            int x, y, width, height;
+            Int32.TryParse(str.Substring(xIndex + 2, yIndex - xIndex - 3), out x); //x
+            Int32.TryParse(str.Substring(yIndex + 2, widthIndex - yIndex - 3), out y); //y
+            Int32.TryParse(str.Substring(widthIndex + 6, heightIndex - widthIndex - 7), out width); //width;
+            Int32.TryParse(str.Substring(heightIndex + 7, str.Length - heightIndex - 8), out height); //height;
+            parsedRect = new Rectangle(x, y, width, height);
             return parsedRect;
         }
 
-        //private Vector2
+        private Vector2 ParseStringToVector(string str)
+        {
+            Vector2 parsedVector;
+            int xIndex = str.IndexOf('X');
+            int yIndex = str.IndexOf('Y');
+            int x, y;
+            Int32.TryParse(str.Substring(xIndex + 2, yIndex - xIndex - 3), out x);
+            Int32.TryParse(str.Substring(yIndex + 2, str.Length - yIndex - 3), out y);
+            parsedVector = new Vector2(x, y);
+            return parsedVector;
+        }
+
+        private PercentageRectangle ParseStringToPercentageRectangle(string str)
+        {
+            PercentageRectangle parsedRect;
+            int x, y, width, height, r, g, b, maxValue, currentValue;
+            Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out x);
+            str = str.Substring(str.IndexOf(' ') + 1);
+            Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out y);
+            str = str.Substring(str.IndexOf(' ') + 1);
+            Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out width);
+            str = str.Substring(str.IndexOf(' ') + 1);
+            Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out height);
+            str = str.Substring(str.IndexOf(' ') + 1);
+            Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out r);
+            str = str.Substring(str.IndexOf(' ') + 1);
+            Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out g);
+            str = str.Substring(str.IndexOf(' ') + 1);
+            Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out b);
+            str = str.Substring(str.IndexOf(' ') + 1);
+            Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out maxValue);
+            str = str.Substring(str.IndexOf(' ') + 1);
+            Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out currentValue);
+            str = str.Substring(str.IndexOf(' ') + 1);
+            parsedRect = new PercentageRectangle(new Rectangle(x, y, width, height), maxValue, new Color(r, g, b));
+            parsedRect.CurrentValue = currentValue;
+            return parsedRect;
+        }
+
+        private bool ParseStringToBool(string str)
+        {
+            if (str.Equals("true"))
+                return true;
+            return false;
+        }
 
         private NPC CreateNPC(string name, Rectangle space, bool interact, char type)
         {
@@ -175,6 +257,19 @@ namespace Hero_of_Novac
             npcTex.Name = name;
             npcProfileTex.Name = name + "Profile";
             return new NPC(new Rectangle(0, 0, 52, 72), npcTex, new Rectangle(52, 0, 52, 72), space, new Vector2(0, 0), interact, type, Speech.None, randomNoSeed, npcProfileTex);
+        }
+
+        private NPC LoadNPC(List<string> npcInfo)
+        {
+            char name = npcInfo[0].ToCharArray()[0];
+            Rectangle rec = ParseStringToRectangle(npcInfo[1]);
+            Texture2D npcTex = Content.Load<Texture2D>(npcInfo[2]);
+            npcTex.Name = npcInfo[2];
+            Rectangle space = ParseStringToRectangle(npcInfo[3]);
+            Texture2D npcProfileTex = Content.Load<Texture2D>(npcInfo[4]);
+            npcProfileTex.Name = npcInfo[4];
+            bool isInteractable = ParseStringToBool(npcInfo[5]);
+            return new NPC(new Rectangle(0, 0, 52, 72), npcTex, new Rectangle(52, 0, 52, 72), space, new Vector2(0, 0), isInteractable, name, Speech.None, randomNoSeed, npcProfileTex);
         }
 
         /// <summary>
@@ -198,7 +293,8 @@ namespace Hero_of_Novac
                 this.Exit();
             bool willBattle = false;
             List<Enemy> enemiesInBattle = new List<Enemy>();
-            if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start) && oldgp.IsButtonUp(Buttons.Start))
+            if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start) && oldgp.IsButtonUp(Buttons.Start) ||
+                Keyboard.GetState().IsKeyDown(Keys.OemTilde))
             {
                 save.SaveAll(area);
             }

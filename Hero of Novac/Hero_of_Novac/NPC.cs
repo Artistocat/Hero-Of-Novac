@@ -62,6 +62,10 @@ namespace Hero_of_Novac
         private List<string> priest;
 
         bool interact;
+        public bool IsInteractable
+        {
+            get { return interact; }
+        }
         bool ranMov;
         public char name;
 

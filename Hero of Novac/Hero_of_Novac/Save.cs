@@ -47,6 +47,8 @@ namespace Hero_of_Novac
                 file.WriteLine(enemy.HealthRect);
                 file.WriteLine(enemy.ChargeBar);
                 file.WriteLine(enemy.ConstantMove);
+                file.WriteLine(enemy.IsIdle);
+                file.WriteLine(enemy.Vol);
             }
         }
 
@@ -56,16 +58,13 @@ namespace Hero_of_Novac
             foreach (NPC n in npcs)
             {
                 file.WriteLine("" + n.name);
-                file.WriteLine("" + n.rec.X + " " + n.rec.Y + " " + n.rec.Width + " " + n.rec.Height);
+                file.WriteLine("" + n.rec);
                 file.WriteLine("" + n.tex.Name);
-                file.WriteLine("" + n.space.X + " " + n.space.Y + " " + n.space.Width + " " + n.space.Height);
+                file.WriteLine("" + n.space);
                 file.WriteLine("" + n.headshot.Name);
-                file.WriteLine("next");
-                //file.WriteLine("" + n.);
+                file.WriteLine("" + n.IsInteractable);
             }
         }
-
-
     }
 }
 

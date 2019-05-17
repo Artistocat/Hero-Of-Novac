@@ -15,11 +15,11 @@ namespace Hero_of_Novac
 {
     public class Load
     {
-        private List<string> npcInfo;
+        private List<List<string>> npcInfo;
         private List<List<string>> enemyInfo;
         private string playerInfo;
 
-        public List<string> NpcInfo
+        public List<List<string>> NpcInfo
         {
             get { return npcInfo; }
         }
@@ -33,9 +33,9 @@ namespace Hero_of_Novac
         }
 
         StreamReader reader;
-        public Load()
+        public Load(int selectedSave)
         {
-            npcInfo = new List<string>();
+            npcInfo = new List<List<string>>();
             enemyInfo = new List<List<string>>();
             playerInfo = "";
             LoadAll();
@@ -43,7 +43,6 @@ namespace Hero_of_Novac
         private void LoadAll()
         {
             reader = new StreamReader(@"Content/SaveData.save");
-            //ReadFileAsStrings(@"Content/SaveData.save");
             ReadFile();
             reader.Close();
         }
@@ -66,6 +65,8 @@ namespace Hero_of_Novac
             string healthRect = reader.ReadLine();
             string chargeBar = reader.ReadLine();
             string constantMove = reader.ReadLine();
+            string isIdle = reader.ReadLine();
+            string vol = reader.ReadLine();
             List<string> addedEnemy = new List<string>();
             addedEnemy.Add(rec);
             addedEnemy.Add(sourceRec);
@@ -80,11 +81,26 @@ namespace Hero_of_Novac
             addedEnemy.Add(healthRect);
             addedEnemy.Add(chargeBar);
             addedEnemy.Add(constantMove);
+            addedEnemy.Add(isIdle);
+            addedEnemy.Add(vol);
             enemyInfo.Add(addedEnemy);
         }
         private void LoadNextNPC()
         {
-            //npcList.Add(new NPC()
+            string name = reader.ReadLine();
+            string rec = reader.ReadLine();
+            string texName = reader.ReadLine();
+            string space = reader.ReadLine();
+            string headshotName = reader.ReadLine();
+            string interact = reader.ReadLine();
+            List<string> addedNPC = new List<string>();
+            addedNPC.Add(name);
+            addedNPC.Add(rec);
+            addedNPC.Add(texName);
+            addedNPC.Add(space);
+            addedNPC.Add(headshotName);
+            addedNPC.Add(interact);
+            npcInfo.Add(addedNPC);
         }
         enum SaveReading
         {
@@ -120,69 +136,16 @@ namespace Hero_of_Novac
                 switch (currentRead)
                 {
                     case SaveReading.player:
-
+                        LoadPlayer();
                         break;
                     case SaveReading.enemy:
                         LoadNextEnemy();
                         break;
                     case SaveReading.npc:
-                        npcInfo.Add(line);
+                        LoadNextEnemy();
                         break;
                 }
 
-            }
-        }
-        private void ReadFileAsStrings(string path)
-        {
-            SaveReading currentRead = SaveReading.player;
-            try
-            {
-                // Create an instance of StreamReader to read from a file.
-                // The using statement also closes the StreamReader.
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    while (!reader.EndOfStream)
-                    {
-                        string line = reader.ReadLine();
-                        switch (line)
-                        {
-                            case Save.playerStart:
-                                currentRead = SaveReading.player;
-                                break;
-                            case Save.enemyStart:
-                                currentRead = SaveReading.enemy;
-                                break;
-                            case Save.npcStart:
-                                currentRead = SaveReading.npc;
-                                break;
-                            default:
-                                currentRead = SaveReading.none;
-                                break;
-                        }
-                        if (currentRead == SaveReading.none)
-                        {
-                            throw new Exception("Save file has incorrect format, or code can't read correctly");
-                        }
-
-                        switch (currentRead)
-                        {
-                            case SaveReading.player:
-
-                                break;
-                            case SaveReading.enemy:
-
-                                break;
-                            case SaveReading.npc:
-                                npcInfo.Add(line);
-                                break;
-                        }
-
-                    }
-                }
-            }
-            catch (FileNotFoundException e)
-            {
-                Console.WriteLine("The file could not be read:\n" + e.Message);
             }
         }
     }
