@@ -64,6 +64,7 @@ namespace Hero_of_Novac
         public Rectangle Hitbox
         {
             get { return hitbox; }
+            set { hitbox = value; }
         }
 
         //private int healthPoints;

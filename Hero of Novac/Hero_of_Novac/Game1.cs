@@ -190,7 +190,7 @@ namespace Hero_of_Novac
             return new Enemy(rec, sourceRec, space, tex, sourceRecProfile, profileTex, pos, window, randomNoSeed, constantMove, isIdle, vol, battleRec, battleSourceRec, healthBar, healthRect, chargeBar);
         }
 
-        private Rectangle ParseStringToRectangle(string str)
+        public static Rectangle ParseStringToRectangle(string str)
         {
             Rectangle parsedRect;
             int xIndex = str.IndexOf('X');
@@ -218,7 +218,7 @@ namespace Hero_of_Novac
             return parsedVector;
         }
 
-        private PercentageRectangle ParseStringToPercentageRectangle(string stri)
+        public static PercentageRectangle ParseStringToPercentageRectangle(string stri)
         {
             string str = stri;
             PercentageRectangle parsedRect;
@@ -246,7 +246,7 @@ namespace Hero_of_Novac
             return parsedRect;
         }
 
-        private bool ParseStringToBool(string str)
+        public static bool ParseStringToBool(string str)
         {
             if (str.Equals("true"))
                 return true;
@@ -318,7 +318,7 @@ namespace Hero_of_Novac
                         {
                             npcs.Add(LoadNPC(npcInfo));
                         }
-                        area.LoadSave(enemies, npcs, load.PlayerInfo);
+                        area.LoadSave(enemies, npcs, load.PlayerInfo, load.AreaInfo);
                         currentGameState = GameState.Overworld;
                     }
                     if (mainMenu.startNewGame)

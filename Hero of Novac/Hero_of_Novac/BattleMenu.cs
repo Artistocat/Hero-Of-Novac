@@ -821,32 +821,32 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                case "Otto's Firestorm":
-                    break;
-                case "Thorn Whip":
-                    break;
-                case "Stone Throw":
-                    break;
-                case "Earthquake":
-                    break;
-                case "Otiluke's Wrath":
-                    break;
-                case "Cone of Cold":
-                    break;
-                case "Ice Storm":
-                    break;
-                case "Frost Ray":
-                    break;
-                case "Rary's Tsunami":
-                    break;
-                case "Magic Missile":
-                    break;
-                case "Eldritch Blast":
-                    break;
-                case "Arcane Beam":
-                    break;
-                case "Tasha's Laugh":
-                    break;
+                //case "Otto's Firestorm":
+                //    break;
+                //case "Thorn Whip":
+                //    break;
+                //case "Stone Throw":
+                //    break;
+                //case "Earthquake":
+                //    break;
+                //case "Otiluke's Wrath":
+                //    break;
+                //case "Cone of Cold":
+                //    break;
+                //case "Ice Storm":
+                //    break;
+                //case "Frost Ray":
+                //    break;
+                //case "Rary's Tsunami":
+                //    break;
+                //case "Magic Missile":
+                //    break;
+                //case "Eldritch Blast":
+                //    break;
+                //case "Arcane Beam":
+                //    break;
+                //case "Tasha's Laugh":
+                //    break;
                 default:
                     if (timer % 200 == 0)
                     {

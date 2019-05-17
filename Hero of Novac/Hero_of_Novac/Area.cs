@@ -21,6 +21,14 @@ namespace Hero_of_Novac
         private bool inMenu;
 
         private List<Tile> tiles;
+        public List<Tile> Tiles
+        {
+            get
+            {
+                return tiles;
+            }
+        }
+
         private int objectTilesStart;
 
         private int areaWidth;
@@ -35,7 +43,20 @@ namespace Hero_of_Novac
         }
         private Rectangle areaRec;
         private Rectangle window;
-
+        public Rectangle Window
+        {
+            get
+            {
+                return window;
+            }
+        }
+        public Rectangle AreaRec
+        {
+            get
+            {
+                return areaRec;
+            }
+        }
         Dictionary<string, Rectangle> sourceRecs;
         Dictionary<string, Texture2D> tileSheets;
         Dictionary<Texture2D, List<string>> objectData;
@@ -216,7 +237,7 @@ namespace Hero_of_Novac
             //AddEnemies();
         }
 
-        public void LoadSave(List<Enemy> enemies, List<NPC> npcs, List<string> playerInfo)
+        public void LoadSave(List<Enemy> enemies, List<NPC> npcs, List<string> playerInfo, List<string> areaInfo)
         {
             this.enemies = enemies;
             this.npcs = npcs;
@@ -227,6 +248,13 @@ namespace Hero_of_Novac
             player.Health = pHealth;
             player.Position = position;
             player.Level = level;
+            player.Hitbox = Game1.ParseStringToRectangle(playerInfo[3]);
+            window = Game1.ParseStringToRectangle(areaInfo[0]);
+            areaRec = Game1.ParseStringToRectangle(areaInfo[1]);
+            for (int i = 2; i < areaInfo.Count; i++)
+            {
+                tiles[i - 2].Rectangle = Game1.ParseStringToRectangle(areaInfo[i]);
+            }
         }
 
         /// <summary>
