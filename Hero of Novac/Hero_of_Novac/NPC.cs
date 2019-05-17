@@ -35,7 +35,12 @@ namespace Hero_of_Novac
         {
             set { window = value; }
         }
-        public Rectangle rec;
+        private Rectangle rec;
+        public Rectangle Rectangle
+        {
+            get { return rec; }
+            set { rec = value; }
+        }
         public Texture2D tex;
         public Rectangle source;
         public Texture2D headshot;
@@ -210,7 +215,6 @@ namespace Hero_of_Novac
             oldGP = gp;
             oldKB = KB;
         }
-
         
         enum Direction
         {

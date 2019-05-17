@@ -85,6 +85,11 @@ namespace Hero_of_Novac
         {
             get { return vol; }
         }
+        public Rectangle Rectangle
+        {
+            get { return rec; }
+            set { rec = value; }
+        }
 
         private Rectangle space; //save
 
