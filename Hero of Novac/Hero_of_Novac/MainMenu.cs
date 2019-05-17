@@ -19,6 +19,7 @@ namespace Hero_of_Novac
         private KeyboardState oldKB;
         private static int width;
         private static int height;
+        private static SpriteFont font;
         private static Texture2D background;
         public bool startNewGame = false;
         public bool loadOldGame = false;
@@ -35,7 +36,7 @@ namespace Hero_of_Novac
             exitGame.isSelected = false;
         }
 
-        public static void LoadContent(GraphicsDevice graphicsDevice, Rectangle window, SpriteFont Font, Texture2D background)
+        public static void LoadContent(GraphicsDevice graphicsDevice, Rectangle window, SpriteFont Font, Texture2D background, SpriteFont font)
         {
             NavigableMenuItem.Font = Font;
             Texture2D pixel = new Texture2D(graphicsDevice, 1, 1);
@@ -45,12 +46,15 @@ namespace Hero_of_Novac
             
             int width = window.Width / 4;
             int height = window.Height / 10;
+
             MainMenu.height = window.Height;
             MainMenu.width = window.Width;
             MainMenu.background = background;
-            newGame = new NavigableMenuItem(new Rectangle((window.Width - width) / 2, 200, width, height), pixel, new Rectangle(0, 0, 1, 1), Color.Purple, "New Game");
-            loadGame = new NavigableMenuItem(new Rectangle((window.Width - width) / 2, 250 + height, width, height), pixel, new Rectangle(0, 0, 1, 1), Color.Purple, "Load Game");
-            exitGame = new NavigableMenuItem(new Rectangle((window.Width - width) / 2, 300 + 2 * height, width, height), pixel, new Rectangle(0, 0, 1, 1), Color.Purple, "Exit");
+            MainMenu.font = font;
+
+            newGame = new NavigableMenuItem(new Rectangle((window.Width - width) / 2, 200, width, height), pixel, new Rectangle(0, 0, 1, 1), Color.Black, "New Game");
+            loadGame = new NavigableMenuItem(new Rectangle((window.Width - width) / 2, 250 + height, width, height), pixel, new Rectangle(0, 0, 1, 1), Color.Black, "Load Game");
+            exitGame = new NavigableMenuItem(new Rectangle((window.Width - width) / 2, 300 + 2 * height, width, height), pixel, new Rectangle(0, 0, 1, 1), Color.Black, "Exit");
             newGame.isSelected = true;
         }
 
@@ -140,7 +144,9 @@ namespace Hero_of_Novac
         {
             //TODO
             //background.draw
+            //spriteBatch.DrawString(font, Talk(Speech.Farewell, 'h'), new Vector2(370, window.Height / 4 * 3 - 50), Color.Red, 0f, new Vector2(0, 0), .5f, SpriteEffects.None, 1);
             spriteBatch.Draw(background, new Rectangle(0,0,MainMenu.width,MainMenu.height), Color.White);
+            spriteBatch.DrawString(font, "Hero Of Novac", new Vector2(width/2- 300, 50),Color.Goldenrod/*, 0f,new Vector2(0,0),2f,SpriteEffects.None,1*/);
             newGame.Draw(spriteBatch);
             loadGame.Draw(spriteBatch);
             exitGame.Draw(spriteBatch);
@@ -197,12 +203,12 @@ namespace Hero_of_Novac
                 Color drawColor = color;
                 if (isSelected)
                 {
-                    drawColor = Color.LightPink;
+                    drawColor = Color.White;
                 }
                 spriteBatch.Draw(texture, rect, sourceRect, drawColor);
                 if (name.Length > 0)
                 {
-                    spriteBatch.DrawString(Font, name, nameV, Color.Black);
+                    spriteBatch.DrawString(Font, name, nameV, Color.Goldenrod);
                 }
             }
         }

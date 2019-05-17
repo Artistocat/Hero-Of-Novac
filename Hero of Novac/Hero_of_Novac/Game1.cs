@@ -96,7 +96,7 @@ namespace Hero_of_Novac
 
             FX1 = Content.Load<Texture2D>("combatFX");
 
-            MainMenu.LoadContent(GraphicsDevice, window, font, Content.Load<Texture2D>("MainMenu"));
+            MainMenu.LoadContent(GraphicsDevice, window, font, Content.Load<Texture2D>("MainMenu"), Content.Load<SpriteFont>("MainFont"));
             
             mainMenu = new MainMenu();
             if (TESTING)
