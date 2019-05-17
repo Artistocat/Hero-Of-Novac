@@ -17,7 +17,7 @@ namespace Hero_of_Novac
     {
         private List<List<string>> npcInfo;
         private List<List<string>> enemyInfo;
-        private string playerInfo;
+        private List<string> playerInfo;
 
         public List<List<string>> NpcInfo
         {
@@ -27,7 +27,7 @@ namespace Hero_of_Novac
         {
             get { return enemyInfo; }
         }
-        public string PlayerInfo
+        public List<string> PlayerInfo
         {
             get { return playerInfo; }
         }
@@ -37,7 +37,7 @@ namespace Hero_of_Novac
         {
             npcInfo = new List<List<string>>();
             enemyInfo = new List<List<string>>();
-            playerInfo = "";
+            playerInfo = new List<string>();
             LoadAll();
         }
         private void LoadAll()
@@ -48,7 +48,12 @@ namespace Hero_of_Novac
         }
         private void LoadPlayer()
         {
-            //playerInfo+=nextLine;
+            string health = reader.ReadLine();
+            string level = reader.ReadLine();
+            string position = reader.ReadLine();
+            playerInfo.Add(health);
+            playerInfo.Add(level);
+            playerInfo.Add(position);
         }
         private void LoadNextEnemy()
         {
@@ -142,7 +147,7 @@ namespace Hero_of_Novac
                         LoadNextEnemy();
                         break;
                     case SaveReading.npc:
-                        LoadNextEnemy();
+                        LoadNextNPC();
                         break;
                 }
 

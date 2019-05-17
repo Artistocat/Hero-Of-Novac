@@ -27,13 +27,16 @@ namespace Hero_of_Novac
         private void PlayerSave(Player player)
         {
             file.WriteLine(playerStart);
+            file.WriteLine(player.Health);
+            file.WriteLine(player.Level);
+            file.WriteLine(player.Position);
         }
 
         private void EnemySave(List<Enemy> enemies)
         {
-            file.WriteLine(enemyStart);
             foreach (Enemy enemy in enemies)
             {
+                file.WriteLine(enemyStart);
                 file.WriteLine(enemy.Rec);
                 file.WriteLine(enemy.SourceRec);
                 file.WriteLine(enemy.Tex.Name);
@@ -54,9 +57,9 @@ namespace Hero_of_Novac
 
         private void NPCSave(List<NPC> npcs)
         {
-            file.WriteLine(npcStart);
             foreach (NPC n in npcs)
             {
+                file.WriteLine(npcStart);
                 file.WriteLine("" + n.name);
                 file.WriteLine("" + n.Rectangle);
                 file.WriteLine("" + n.tex.Name);
