@@ -40,7 +40,7 @@ namespace Hero_of_Novac
         BattleMenu battleMenu;
         MainMenu mainMenu;
 
-        const bool TESTING = true;
+        const bool TESTING = false;
 
         Random randomSeed = new Random(1102);
         Random randomNoSeed = new Random();

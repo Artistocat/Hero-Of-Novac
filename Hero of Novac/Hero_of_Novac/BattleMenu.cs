@@ -798,14 +798,6 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                case "Fire Ball":
-                    break;
-                //case "Wind Strike":
-                //    break;
-                //case "Faldor's Wind":
-                //    break;
-                //case "Wall of Fire":
-                //    break;
                 //case "Fire Ball":
                 //    break;
                 case "Incendiary Cloud":
