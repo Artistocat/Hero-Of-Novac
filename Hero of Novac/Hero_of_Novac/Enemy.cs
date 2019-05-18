@@ -90,6 +90,10 @@ namespace Hero_of_Novac
             get { return rec; }
             set { rec = value; }
         }
+        public int Xp
+        {
+            get { return xp; }
+        }
 
         private Rectangle space; //save
 
@@ -100,45 +104,11 @@ namespace Hero_of_Novac
         private Rectangle healthRect; //save
         private PercentageRectangle chargeBar; //save
         private BattleState currentBattleState;
+        private int xp;
         bool constantMove;
         bool isIdle;
 
         private Attack currentAttack;
-
-        /*public string SaveInfo
-        {
-            get
-            {
-                string str = "";
-                str += rec.X + " " + rec.Y + " " + rec.Width + " " + rec.Height; //rec
-                str += "\n";
-                str += sourceRec.X + " " + sourceRec.Y + " " + sourceRec.Width + " " + sourceRec.Height; //sourceRec
-                str += "\n";
-                str += tex.Name; //texName
-                str += "\n";
-                str += sourceRecProfile.X + " " + sourceRecProfile.Y + " " + sourceRecProfile.Width + " " + sourceRecProfile.Height; //sourceRecProfile
-                str += "\n";
-                str += profileTex.Name;
-                str += "\n";
-                str += pos.X + " " + pos.Y;
-                str += "\n";
-
-                str += space.X + " " + space.Y + " " + space.Width + " " + space.Height;
-                str += "\n";
-                str += battleRec.X + " " + battleRec.Y + " " + battleRec.Width + " " + battleRec.Height;
-                str += "\n";
-                str += battleSourceRec.X + " " + battleSourceRec.Y + " " + battleSourceRec.Width + " " + battleSourceRec.Height;
-                str += "\n";
-                str += healthBar.SaveData;
-                str += "\n";
-                str += healthRect.X + " " + healthRect.Y + " " + healthRect.Width + " " + healthRect.Height;
-                str += "\n";
-                str += chargeBar.SaveData;
-                str += "\n";
-                return str;
-            }
-        }
-       */
 
         /*
          * 146 x 116
@@ -170,6 +140,8 @@ namespace Hero_of_Novac
             battleSourceRec.Y = 116;
             currentBattleState = BattleState.Charging;
             currentAttack = new Attack(12, 3, "enemyAttack");
+            //xp = (int)Math.Round(player.LevelModifier);
+            UpdateXP();
         }
 
         public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, 
@@ -351,6 +323,11 @@ namespace Hero_of_Novac
             currentGameState = GameState.Battlemenu;
             healthBar.Rect = healthRect;
             chargeBar.CurrentValue = 0;
+        }
+
+        public void UpdateXP()
+        {
+            xp = (int)(Math.Round(13.5 * player.LevelModifier));
         }
 
         public void Overworld()

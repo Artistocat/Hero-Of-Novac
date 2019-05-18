@@ -40,7 +40,7 @@ namespace Hero_of_Novac
         BattleMenu battleMenu;
         MainMenu mainMenu;
 
-        const bool TESTING = false;
+        const bool TESTING = true;
 
         Random randomSeed = new Random(1102);
         Random randomNoSeed = new Random();
@@ -343,6 +343,10 @@ namespace Hero_of_Novac
                         currentGameState = GameState.Overworld;
                         area.RemoveEnemies(battleMenu.Enemies);
                         area.Player.Overworld();
+                        foreach(Enemy enemy in area.Enemies)
+                        {
+                            enemy.UpdateXP();
+                        }
                     }
                     break;
                 case GameState.Inventory:

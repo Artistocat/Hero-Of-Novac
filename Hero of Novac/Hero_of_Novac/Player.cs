@@ -14,6 +14,7 @@ namespace Hero_of_Novac
 
     public class Player// : Entity
     {
+        //public static List<Enemy> enemies;
         ContentManager content;
         public ContentManager Content
         {
@@ -21,7 +22,7 @@ namespace Hero_of_Novac
         }
 
         private Rectangle window;
-        
+
         private const int OVERWORLD_SPRITE_WIDTH = 52;
         private const int OVERWORLD_SPRITE_HEIGHT = 72;
         private const int BATTLE_SPRITE_WIDTH = 96;
@@ -93,8 +94,27 @@ namespace Hero_of_Novac
         private Rectangle healthRect; //for battles
         private Rectangle magicRect;
 
+        private int xp;
         private PercentageRectangle xpBar;
         private PercentageRectangle[] xpElementBars;
+        public int Xp
+        {
+            get
+            {
+                return xp;
+            }
+            set
+            {
+                xp = value;
+                while (xp > xpBar.MaxValue)
+                {
+                    xp -= xpBar.MaxValue;
+                    //xpBar.MaxValue = (int)(Math.Round(xpBar.MaxValue * 1.5));
+                    Level++;
+                }
+                xpBar.CurrentValue = xp;
+            }
+        }
         private int[] elementLevels;
         private int level;
         public int Level
@@ -105,6 +125,14 @@ namespace Hero_of_Novac
             }
             set
             {
+                if (level + 1 == value)
+                {
+                    xpBar.MaxValue = (int)(Math.Round(xpBar.MaxValue * 1.5));
+                }
+                else
+                {
+                    xpBar.MaxValue = (int)(Math.Round(100 * Math.Pow(1.5, value)));
+                }
                 level = value;
             }
         }
@@ -308,16 +336,18 @@ namespace Hero_of_Novac
             healthRect.Width *= 5;
             healthRect.Height *= 5;
             healthRect.X = 25;
-            healthRect.Y = window.Height / 2 + 100;
+            healthRect.Y = window.Height / 2 + 50;
             magicRect = magicBar.Rect;
             magicRect.Width *= 5;
             magicRect.Height *= 5;
             magicRect.X = 25;
-            magicRect.Y = window.Height / 2 + 150;
+            magicRect.Y = window.Height / 2 + 100;
             //battleHealthBar = new PercentageRectangle(healthRect, healthBar.MaxValue, healthBar.Color);
             //battleMagicBar = new PercentageRectangle(magicRect, magicBar.MaxValue, magicBar.Color);
-            chargeBar = new PercentageRectangle(new Rectangle(25, window.Height / 2 + 200, 66 * 5, 5 * 5), 100, Color.Gray);
+            chargeBar = new PercentageRectangle(new Rectangle(25, window.Height / 2 + 150, 66 * 5, 5 * 5), 100, Color.Gray);
             chargeBar.CurrentValue = 0;
+            xpBar = new PercentageRectangle(new Rectangle(chargeBar.Rect.X, chargeBar.Rect.Y + 50, 66 * 5, 5 * 5), 100, Color.Green);
+            xpBar.CurrentValue = xp = 0;
 
             battlePos = new Vector2(window.Width / 5, 200);
             battleFXPos.X = window.Right - window.Width / 3 + 8;
@@ -583,6 +613,7 @@ namespace Hero_of_Novac
                     healthBar.Draw(spriteBatch, true);
                     magicBar.Draw(spriteBatch, true);
                     chargeBar.Draw(spriteBatch, true);
+                    xpBar.Draw(spriteBatch, true);
                     break;
             }
         }

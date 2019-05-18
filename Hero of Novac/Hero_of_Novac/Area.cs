@@ -241,13 +241,15 @@ namespace Hero_of_Novac
         {
             this.enemies = enemies;
             this.npcs = npcs;
-            int pHealth, level;
+            int pHealth, level, xp;
             Vector2 position = Game1.ParseStringToVector(playerInfo[2]);
             Int32.TryParse(playerInfo[0], out pHealth);
             Int32.TryParse(playerInfo[1], out level);
+            Int32.TryParse(playerInfo[4], out xp);
             player.Health = pHealth;
             player.Position = position;
             player.Level = level;
+            player.Xp = xp;
             player.Hitbox = Game1.ParseStringToRectangle(playerInfo[3]);
             window = Game1.ParseStringToRectangle(areaInfo[0]);
             areaRec = Game1.ParseStringToRectangle(areaInfo[1]);

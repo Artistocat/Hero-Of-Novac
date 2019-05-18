@@ -34,6 +34,7 @@ namespace Hero_of_Novac
             file.WriteLine(player.Level);
             file.WriteLine(player.Position);
             file.WriteLine(player.Hitbox);
+            file.WriteLine(player.Xp);
         }
 
         private void EnemySave(List<Enemy> enemies)
