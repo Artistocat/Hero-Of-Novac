@@ -64,6 +64,7 @@
     <Compile Include="Element.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="Load.cs" />
     <Compile Include="MagicAttack.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="NPC.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="RectangleExtensions.cs" />
+    <Compile Include="Save.cs" />
     <Compile Include="Speech.cs" />
     <Compile Include="Tile.cs" />
   </ItemGroup>

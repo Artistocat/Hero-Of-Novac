@@ -7,6 +7,6 @@ namespace Hero_of_Novac
 {
     public enum Speech
     {
-        None, Greeting, Interactable, Farewell
+        None, Greeting, Interactable, Farewell, Flavor
     }
 }

@@ -9,6 +9,20 @@ namespace Hero_of_Novac
 {
     public class PercentageRectangle
     {
+        public string SaveData
+        {
+            get
+            {
+                string str = "";
+                str += rect.X + " " + rect.Y + " " + rect.Width + " " + rect.Height; //rect
+                //str += "\n";
+                str += " " + Color.R + " " + Color.G + " " + Color.B; //color
+                //str += "\n";
+                str += " " + maxValue;
+                str += " " + currentValue;
+                return str;
+            }
+        }
         private Rectangle rect;
         private Rectangle partialRect;
         private Color color;
@@ -21,11 +35,11 @@ namespace Hero_of_Novac
             get { return currentValue; }
             set
             {
-                if (currentValue > MaxValue - 1)
+                if (value > MaxValue)
                 {
-                    currentValue = MaxValue - 1;
+                    currentValue = MaxValue;
                 }
-                else if (currentValue < 0)
+                else if (value < 0)
                     currentValue = 0;
                 else
                     currentValue = value;
@@ -46,6 +60,7 @@ namespace Hero_of_Novac
         public int MaxValue
         {
             get { return maxValue; }
+            set { maxValue = value; }
         }
 
         public Color Color

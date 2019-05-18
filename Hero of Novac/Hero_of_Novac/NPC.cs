@@ -20,20 +20,34 @@ namespace Hero_of_Novac
         private Rectangle bubblezSourceRec;
         GamePadState gp;
         GamePadState oldGP;
+        KeyboardState KB;
+        KeyboardState oldKB;
+        Direction dir;
+        Direction oldDir;
 
+        int test = 0;
         public bool isTalking;
-
+        public bool isTrading = false;
+        int talkwindow = 145;
         private static Texture2D talkW;
+        Vector2 tradeWindow;
 
         private static Rectangle window;
         public static Rectangle Window
         {
             set { window = value; }
         }
-        Rectangle rec;
-        Texture2D tex;
-        Rectangle source;
-        private static Rectangle sourceHome;
+        private Rectangle rec;
+        public Rectangle Rectangle
+        {
+            get { return rec; }
+            set { rec = value; }
+        }
+        public Texture2D tex;
+        public Rectangle source;
+        public Texture2D headshot;
+        static Texture2D heroHead;
+        //private static Rectangle sourceHome;
         Vector2 vol;
         Color color;
         private int timer = 0;
@@ -42,8 +56,9 @@ namespace Hero_of_Novac
         private int r1;
         private int r2;
         private Speech chat;
-        
-        private Rectangle space;
+        bool doneTalk = false;
+
+        public Rectangle space;
 
         private List<string> blackSmith;
         private List<string> armourer;
@@ -52,25 +67,30 @@ namespace Hero_of_Novac
         private List<string> priest;
 
         bool interact;
+        public bool IsInteractable
+        {
+            get { return interact; }
+        }
         bool ranMov;
-        char name;
+        public char name;
 
         public NPC()
         {
 
         }
 
-        public NPC(Rectangle r, Texture2D t, Rectangle s, Rectangle sp, Vector2 v, bool i, char n, Speech c, Random ran)
+        public NPC(Rectangle r, Texture2D t, Rectangle s, Rectangle sp, Vector2 v, bool i, char n, Speech c, Random ran, Texture2D face)
         {
             rec = r;
             tex = t;
             source = s;
-            sourceHome = source;
+            //sourceHome = source;
             vol = v;
             interact = i;
             name = n;
             chat = c;
             space = sp;
+            headshot = face;
             blackSmith = new List<string>();
             armourer = new List<string>();
             shopkeep = new List<string>();
@@ -82,23 +102,59 @@ namespace Hero_of_Novac
             this.ran = ran;
             isTalking = false;
             bubblezSourceRec = new Rectangle(0, 224, 32, 32);
+            oldDir = dir = GetInputDirection();
+            tradeWindow = new Vector2(window.Width / 8, window.Height / 8);
         }
 
         public void Update(GameTime gameTime)
         {
             gp = GamePad.GetState(PlayerIndex.One);
+            KB = Keyboard.GetState();
+            oldDir = dir;
+            dir = GetInputDirection();
             timer++;
+            //if (doneTalk)
+            //    doneTalk = false;
             Rectangle r = new Rectangle(0, 0, 0, 0);
-            if (gp.Buttons.A == ButtonState.Pressed && oldGP.Buttons.A != ButtonState.Pressed)
+            if ((gp.Buttons.A == ButtonState.Pressed && oldGP.Buttons.A != ButtonState.Pressed) || (KB.IsKeyDown(Keys.Enter) && oldKB.IsKeyUp(Keys.Enter)))
             {
                 Vector2 v = player.Position;
                 r = new Rectangle((int)v.X - 55, (int)v.Y - 55, 125, 125);
                 if (rec.Intersects(r))
                 {
-                    if ((int)chat < 4)
-                        chat++;
+                    if (doneTalk)
+                    {
+                        chat = Speech.None;
+                        doneTalk = false;
+                        talkwindow = 145;
+
+                    }
                     else
-                        chat = 0;
+                    {
+
+                        switch (talkwindow)
+                        {
+                            case 145:
+                                if (gp.Buttons.A == ButtonState.Pressed && test > 0)
+                                    chat = Speech.Flavor;
+                                else
+                                {
+                                    chat = Speech.Greeting;
+                                    test++;
+                                }
+                                break;
+                            case 100:
+                                chat = Speech.Interactable;
+                                isTrading = true;
+                                break;
+                            case 55:
+                                chat = Speech.Farewell;
+                                doneTalk = true;
+                                test = 0;
+                                break;
+                        }
+                    }
+                    
                 }
                 Talk(chat, name);
             }
@@ -108,6 +164,43 @@ namespace Hero_of_Novac
                 randomMove();
                 rec.X += (int)vol.X;
                 rec.Y += (int)vol.Y;
+            }
+            if(isTalking)
+            {
+                if (dir == Direction.Down && oldDir != Direction.Down)
+                {
+
+                    if (talkwindow <= 55)
+                        talkwindow = 145;
+                    else
+                        talkwindow -= 45;
+                }
+                if (dir == Direction.Up && oldDir != Direction.Up) //up
+                {
+
+                    if (talkwindow >= 145)
+                        talkwindow = 55;
+                    else
+                        talkwindow += 45;
+                }
+            }
+            if(isTrading)
+            {
+                if (dir == Direction.Down && oldDir != Direction.Down)
+                {
+                    if (tradeWindow.Y <= window.Height/8)
+                        tradeWindow.Y = window.Height / 8 + tradeWindow.X + 90;
+                    else
+                        tradeWindow.Y -= 90;
+                }
+                if (dir == Direction.Up && oldDir != Direction.Up) //up
+                {
+
+                    if (tradeWindow.Y >= window.Height / 8 * 7)
+                        tradeWindow.Y = window.Width / 8 + 90;
+                    else
+                        tradeWindow.Y += 90;
+                }
             }
             if (vol.X == 0 && vol.Y == 0)
                 source.X = source.Width;
@@ -143,6 +236,35 @@ namespace Hero_of_Novac
             if (rec.Y > space.Bottom)
                 rec.Y = space.Bottom;
             oldGP = gp;
+            oldKB = KB;
+        }
+        
+        enum Direction
+        {
+            Up, Down, Left, Right, Neutral
+        }
+        //Helper Method for Getting Direction
+        private Direction GetInputDirection()
+        {
+            Direction dir = Direction.Neutral;
+            if (gp.ThumbSticks.Left.Y >= .9)
+                dir = Direction.Up;
+            if (gp.ThumbSticks.Left.Y <= -.9)
+                dir = Direction.Down;
+            if (gp.ThumbSticks.Left.X <= -.9)
+                dir = Direction.Left;
+            if (gp.ThumbSticks.Left.X >= .9)
+                dir = Direction.Right;
+
+            if (KB.IsKeyDown(Keys.W))
+                dir = Direction.Up;
+            if (KB.IsKeyDown(Keys.A))
+                dir = Direction.Left;
+            if (KB.IsKeyDown(Keys.S))
+                dir = Direction.Down;
+            if (KB.IsKeyDown(Keys.D))
+                dir = Direction.Right;
+            return dir;
         }
 
         public void MoveY(int speed)
@@ -160,26 +282,40 @@ namespace Hero_of_Novac
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(isTalking)
-            {
-                spriteBatch.Draw(tex, rec, source, Color.White);
-                spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White,0f,new Vector2(0,0),SpriteEffects.None,1);
-                spriteBatch.DrawString(font, Talk(chat, name), new Vector2(35, window.Height / 4 * 3 + 20), Color.White);
-            }
-            else
-            {
-                spriteBatch.Draw(bubblez, new Rectangle(rec.X + 10, rec.Y - 20, 30, 30), bubblezSourceRec, Color.White);
-                spriteBatch.Draw(tex, rec, source, Color.White);
-            }
-            
+            spriteBatch.Draw(tex, rec, source, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 1f / rec.Bottom);
+            if (!isTalking)
+                spriteBatch.Draw(bubblez, new Rectangle(rec.X + 10, rec.Y - 20, 30, 30), bubblezSourceRec, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 1f / rec.Bottom);
+
         }
 
-        public static void Load(SpriteFont f, Player player, Texture2D b, Texture2D w)
+        public void DrawWindow(SpriteBatch spriteBatch)
+        {
+            if (isTalking)
+            {
+                drawTalkingMenu(spriteBatch);
+                spriteBatch.Draw(tex, rec, source, Color.White);
+                spriteBatch.Draw(headshot, new Rectangle(window.Width - 360, window.Height / 4 * 3 - 480, 360, 480), Color.White);
+                spriteBatch.Draw(heroHead, new Rectangle(0, window.Height / 4 * 3 - 480, 360, 480), Color.White);
+                spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White);
+                spriteBatch.DrawString(font, Talk(chat, name), new Vector2(35, window.Height / 4 * 3 + 20), Color.White);
+            }
+            if(isTrading)
+            {
+                drawTradeMenu(spriteBatch);
+
+
+                if (gp.IsButtonDown(Buttons.Start))
+                    isTrading = false;
+            }
+        }
+
+        public static void Load(SpriteFont f, Player player, Texture2D b, Texture2D w, Texture2D heroFace)
         {
             bubblez = b;
             font = f;
             NPC.player = player;
             talkW = w;
+            heroHead = heroFace;
         }
 
         public string Talk(Speech s, char c)
@@ -234,6 +370,24 @@ namespace Hero_of_Novac
                         return hero[2];
                     case 'p':
                         return priest[2];
+
+                }
+            }
+            else if (s == Speech.Flavor)
+            {
+                isTalking = true;
+                switch (c)
+                {
+                    case 'b':
+                        return blackSmith[3];
+                    case 's':
+                        return shopkeep[3];
+                    case 'a':
+                        return armourer[3];
+                    case 'h':
+                        return hero[3];
+                    case 'p':
+                        return priest[3];
 
                 }
             }
@@ -311,6 +465,24 @@ namespace Hero_of_Novac
                 }
             }
         }
+        public void drawTalkingMenu(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(talkW, new Rectangle(360, window.Height / 4 * 3 - 150, 480, 160), Color.White);
+            spriteBatch.DrawString(font, Talk(Speech.Greeting, 'h'), new Vector2(370, window.Height / 4 * 3 - 150), Color.Red, 0f, new Vector2(0, 0), .5f, SpriteEffects.None, 1);
+            spriteBatch.DrawString(font, Talk(Speech.Interactable, 'h'), new Vector2(370, window.Height / 4 * 3 - 100), Color.Red, 0f, new Vector2(0, 0), .5f, SpriteEffects.None, 1);
+            spriteBatch.DrawString(font,Talk(Speech.Farewell,'h'), new Vector2(370, window.Height / 4 * 3 - 50), Color.Red,0f,new Vector2(0,0),.5f,SpriteEffects.None,1);
+            spriteBatch.Draw(talkW, new Rectangle(360, window.Height / 4 * 3 - talkwindow, 480, 50), Color.AliceBlue * .5f);
+            oldGP = gp;
+        }
+        public void drawTradeMenu(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(talkW, new Rectangle(window.Width /8, window.Height / 8, window.Width/4 * 3, window.Height / 4 * 3), Color.White);
+            spriteBatch.Draw(talkW, new Rectangle(window.Width / 8 - (int)tradeWindow.X + 90, window.Height / 8 - (int)tradeWindow.Y + 90, 90, 90), Color.AliceBlue * .5f);
+        }
+        //spriteBatch.Draw(headshot, new Rectangle(window.Width - 360, window.Height / 4 * 3 - 480, 360, 480), Color.White);
+        //spriteBatch.Draw(heroHead, new Rectangle(0, window.Height / 4 * 3 - 480, 360, 480), Color.White);
+        //spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White);
+
     }
 }
 

@@ -12,10 +12,16 @@ using Microsoft.Xna.Framework.Media;
 namespace Hero_of_Novac
 {
 
-    public class Player : Entity
+    public class Player// : Entity
     {
-        private Rectangle window;
+        ContentManager content;
+        public ContentManager Content
+        {
+            get { return content; }
+        }
 
+        private Rectangle window;
+        
         private const int OVERWORLD_SPRITE_WIDTH = 52;
         private const int OVERWORLD_SPRITE_HEIGHT = 72;
         private const int BATTLE_SPRITE_WIDTH = 96;
@@ -31,16 +37,24 @@ namespace Hero_of_Novac
 
         private Texture2D overworldTex;
         private Texture2D combatTex;
+        private Texture2D combatFX;
+        private Texture2D profileTex;
         private Texture2D pixel;
         private Rectangle sourceRecWorld;
+        private Rectangle sourceRecIdle;
         public Rectangle sourceRecBattle;
+        public Rectangle sourceRecFX;
+        public Rectangle sourceRecProfile;
         public Rectangle SourceRec
         {
             get { return sourceRecWorld; }
         }
-        private Boolean attackTest = false;
+        private bool attackTest = false;
+        public bool isAttacking;
+        public bool isCharging;
         private Vector2 playerPos;
-        private Vector2 battlePos;
+        public Vector2 battlePos;
+        public Vector2 battleFXPos;
         public Vector2 Position
         {
             get { return playerPos; }
@@ -50,11 +64,24 @@ namespace Hero_of_Novac
         public Rectangle Hitbox
         {
             get { return hitbox; }
+            set { hitbox = value; }
         }
 
         //private int healthPoints;
         //private int magicPoints;
         //private int chargePoints;
+
+        public int Health
+        {
+            get
+            {
+                return healthBar.CurrentValue;
+            }
+            set
+            {
+                healthBar.CurrentValue = value;
+            }
+        }
 
         private PercentageRectangle healthBar;
         private PercentageRectangle magicBar;
@@ -70,6 +97,17 @@ namespace Hero_of_Novac
         private PercentageRectangle[] xpElementBars;
         private int[] elementLevels;
         private int level;
+        public int Level
+        {
+            get
+            {
+                return level;
+            }
+            set
+            {
+                level = value;
+            }
+        }
         public double LevelModifier
         {
             get
@@ -83,7 +121,7 @@ namespace Hero_of_Novac
             }
         }
 
-        public BasicAttack[] BasicAttacks
+        public Attack[] BasicAttacks
         {
             get
             {
@@ -91,7 +129,7 @@ namespace Hero_of_Novac
             }
         }
 
-        public Dictionary<Element, MagicAttack[]> MagicAttacks
+        public Dictionary<Element, Attack[]> MagicAttacks
         {
             get
             {
@@ -104,9 +142,123 @@ namespace Hero_of_Novac
             return elementLevels[(int)element];
         }
 
-        private BasicAttack[] basicAttacks;
-        private Dictionary<Element, MagicAttack[]> magicAttacks;
-        public Attack currentAttack;
+        private Attack[] basicAttacks;
+        private Dictionary<Element, Attack[]> magicAttacks;
+        private Attack currentAttack;
+
+        public Attack CurrentAttack
+        {
+            get
+            {
+                return currentAttack;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    isAttacking = false;
+                    switch (value.AttackName)
+                    {
+                        case "Slash":
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            break;
+                        case "Lunge":
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 0;
+                            break;
+                        case "Punch":
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96 * 5;
+                            break;
+                        case "Chop":
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 0;
+                            break;
+                        case "Whirlwind":
+                            combatFX = Content.Load<Texture2D>("WindAttacc");
+                            sourceRecBattle.X = 0;
+                            sourceRecBattle.Y = 96 * 2;
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 64 * 2;
+                            break;
+                        case "Air Slash":
+                            combatFX = Content.Load<Texture2D>("WindAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 0;
+                            break;
+                        case "Wind Strike":
+                            combatFX = Content.Load<Texture2D>("WindAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 0;
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 64;
+                            break;
+                        case "Faldor's Wind": //Animation might change in the future & twitches
+                            combatFX = Content.Load<Texture2D>("WindAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 64;
+                            break;
+                        case "Wall of Fire":
+                            combatFX = Content.Load<Texture2D>("FireAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 64 * 3;
+                            break;
+                        case "Fire Ball":
+                            break;
+                        case "Incendiary Cloud":
+                            combatFX = Content.Load<Texture2D>("explosions");
+                            sourceRecBattle.X = 0;
+                            sourceRecBattle.Y = 96 * 2;
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 64;
+                            break;
+                        case "Otto's Firestorm":
+                            break;
+                        case "Thorn Whip":
+                            break;
+                        case "Stone Throw":
+                            break;
+                        case "Earthquake":
+                            break;
+                        case "Otiluke's Wrath":
+                            break;
+                        case "Cone of Cold":
+                            break;
+                        case "Ice Storm":
+                            break;
+                        case "Frost Ray":
+                            break;
+                        case "Rary's Tsunami":
+                            break;
+                        case "Magic Missile":
+                            break;
+                        case "Eldritch Blast":
+                            break;
+                        case "Arcane Beam":
+                            break;
+                        case "Tasha's Laugh":
+                            break;
+                    }
+                    chargeBar.MaxValue = value.ChargeTime;
+                    isCharging = true;
+                }
+                else
+                {
+                    isCharging = false;
+                    isAttacking = false;
+                    chargeBar.CurrentValue = 0;
+                }
+                currentAttack = value;
+                chargeBar.CurrentValue = 0;
+            }
+        }
 
         //private PercentageRectangle battleHealthBar;
         //private PercentageRectangle battleMagicBar;
@@ -117,16 +269,24 @@ namespace Hero_of_Novac
         private Color color;
         private int timer;
 
-        public Player(Texture2D overworldTex, Texture2D combatTex, Texture2D p, Rectangle window)
+        public Player(Texture2D overworldTex, Texture2D combatTex, Texture2D combatFX, Texture2D profileTex, Texture2D p, Rectangle window, IServiceProvider serviceProvider)
         {
+            content = new ContentManager(serviceProvider, "Content");
+
             currentGameState = GameState.Overworld;
             this.window = window;
 
             this.overworldTex = overworldTex;
             this.combatTex = combatTex;
+            this.combatFX = combatFX;
+            this.profileTex = profileTex;
             pixel = p;
+
             sourceRecWorld = new Rectangle(OVERWORLD_SPRITE_WIDTH, 0, OVERWORLD_SPRITE_WIDTH, OVERWORLD_SPRITE_HEIGHT);
+            sourceRecIdle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
             sourceRecBattle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
+            sourceRecFX = new Rectangle(-64, 64 * 4, 64, 64);
+            sourceRecProfile = new Rectangle(0, 6, 292, 503);
             playerPos = new Vector2((window.Width - OVERWORLD_SPRITE_WIDTH) / 2, (window.Height - OVERWORLD_SPRITE_HEIGHT) / 2);
 
             healthBar = new PercentageRectangle(new Rectangle((int)playerPos.X - 10, (int)playerPos.Y - 10, barWidth, barHeight), 100, Color.Red);
@@ -145,14 +305,31 @@ namespace Hero_of_Novac
             //battleHealthBar = new PercentageRectangle(healthRect, healthBar.MaxValue, healthBar.Color);
             //battleMagicBar = new PercentageRectangle(magicRect, magicBar.MaxValue, magicBar.Color);
             chargeBar = new PercentageRectangle(new Rectangle(25, window.Height / 2 + 200, 66 * 5, 5 * 5), 100, Color.Gray);
+            chargeBar.CurrentValue = 0;
 
             battlePos = new Vector2(200, 200);
+            battleFXPos.X = battlePos.X + 1300;
+            battleFXPos.Y = battlePos.Y;
             color = Color.White;
             pixel = p;
             timer = 0;
 
             hitbox = new Rectangle((int)playerPos.X + (sourceRecWorld.Width - 32) / 2, (int)playerPos.Y + sourceRecWorld.Height - 32, 32, 32);
-                        
+            basicAttacks = new Attack[4];
+            magicAttacks = new Dictionary<Element, Attack[]>();
+            isAttacking = false;
+            isCharging = false;
+
+            elementLevels = new int[5];
+            for (int i = 0; i < elementLevels.Length; i++)
+            {
+                elementLevels[i] = 1;
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                magicAttacks.Add((Element)i, new Attack[4]);
+            }
         }
 
         public void death()
@@ -173,72 +350,86 @@ namespace Hero_of_Novac
                     UpdateBattlemenu(gameTime);
                     break;
             }
-            rec = new Rectangle((int)playerPos.X, (int)playerPos.Y, sourceRecWorld.Width, sourceRecWorld.Height);
+            //rec = new Rectangle((int)playerPos.X, (int)playerPos.Y, sourceRecWorld.Width, sourceRecWorld.Height);
         }
 
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
-            attackTest = false;
-                    //World Border
-                    if (hitbox.Top < 0)
-                    {
-                        hitbox.Y = 0;
-                        playerPos.Y = -sourceRecWorld.Height + hitbox.Height;
-                    }
-                    else if (hitbox.Bottom > window.Height)
-                    {
-                        hitbox.Y = window.Height - hitbox.Height;
-                        playerPos.Y = window.Height - sourceRecWorld.Height;
-                    }
-                    if (hitbox.Left < 0)
-                    {
-                        hitbox.X = 0;
-                        playerPos.X = -(sourceRecWorld.Width - hitbox.Width) / 2;
-                    }
-                    else if (hitbox.Right > window.Width)
-                    {
-                        hitbox.X = window.Width - hitbox.Width;
-                        playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - hitbox.Width) / 2;
-                    }
+            KeyboardState KB = Keyboard.GetState();
+            //World Border
+            if (hitbox.Top < 0)
+            {
+                hitbox.Y = 0;
+                playerPos.Y = -sourceRecWorld.Height + hitbox.Height;
+            }
+            else if (hitbox.Bottom > window.Height)
+            {
+                hitbox.Y = window.Height - hitbox.Height;
+                playerPos.Y = window.Height - sourceRecWorld.Height;
+            }
+            if (hitbox.Left < 0)
+            {
+                hitbox.X = 0;
+                playerPos.X = -(sourceRecWorld.Width - hitbox.Width) / 2;
+            }
+            else if (hitbox.Right > window.Width)
+            {
+                hitbox.X = window.Width - hitbox.Width;
+                playerPos.X = window.Width - sourceRecWorld.Width + (sourceRecWorld.Width - hitbox.Width) / 2;
+            }
 
-                    if (!dead)
+            if (!attackTest)
+            {
+
+                if (!dead)
+                {
+                    if (speed == Vector2.Zero)
+                        sourceRecWorld.X = OVERWORLD_SPRITE_WIDTH;
+                    else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
                     {
-                        if (speed == Vector2.Zero)
-                            sourceRecWorld.X = OVERWORLD_SPRITE_WIDTH;
-                        else if (Math.Abs(speed.Y) > Math.Abs(speed.X))
-                        {
-                            if (speed.Y > 0)
-                                sourceRecWorld.Y = 216;
-                            else
-                                sourceRecWorld.Y = 0;
-
-                        }
-                        else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
-                        {
-                            if (speed.X > 0)
-                                sourceRecWorld.Y = 144;
-                            else
-                                sourceRecWorld.Y = 72;
-                        }
-                        if (speed != Vector2.Zero)
-                        {
-                            if (timer % 6 == 0)
-                                sourceRecWorld.X = (sourceRecWorld.X + OVERWORLD_SPRITE_WIDTH) % overworldTex.Width;
-                        }
-                        if (healthBar.CurrentValue <= 0)
-                            death();
+                        if (speed.Y > 0)
+                            sourceRecWorld.Y = 216;
+                        else
+                            sourceRecWorld.Y = 0;
                     }
+                    else if (Math.Abs(speed.X) > Math.Abs(speed.Y))
+                    {
+                        if (speed.X > 0)
+                            sourceRecWorld.Y = 144;
+                        else
+                            sourceRecWorld.Y = 72;
+                    }
+                    if (speed != Vector2.Zero)
+                    {
+                        if (timer % 6 == 0)
+                            sourceRecWorld.X = (sourceRecWorld.X + OVERWORLD_SPRITE_WIDTH) % overworldTex.Width;
+                    }
+                    if (healthBar.CurrentValue <= 0)
+                        death();
+                }
+            }
 
-                    //Attacc animation tests
-                    if(pad1.IsButtonDown(Buttons.X))
+            //Attacc animation tests
+            if ((pad1.IsButtonDown(Buttons.X) || KB.IsKeyDown(Keys.F)) && !attackTest)
             {
                 attackTest = true;
                 sourceRecBattle.X = 96 * 3;
+                sourceRecFX.X = 0;
+            }
+
+            if (attackTest)
+            {
+                if (sourceRecBattle.X <= 96 * 5)
+                {
+                    if (timer % 8 == 0)
+                        sourceRecBattle.X += 96;
+                    if (timer % 4 == 0)
+                        sourceRecFX.X += 64;
+                }
                 if (sourceRecBattle.X >= 96 * 6)
                 {
-                    if (timer % 4 == 0)
-                        sourceRecBattle.X += 96;
+                    attackTest = false;
                 }
             }
 
@@ -249,12 +440,12 @@ namespace Hero_of_Novac
                 healthBar.CurrentValue++;
             timer++;
             //Testing death stuff
-            if (pad1.IsButtonDown(Buttons.LeftShoulder))
+            if (pad1.IsButtonDown(Buttons.LeftShoulder) || KB.IsKeyDown(Keys.K))
             {
                 healthBar.CurrentValue = 0;
                 death();
             }
-            if (pad1.IsButtonDown(Buttons.RightShoulder))
+            if (pad1.IsButtonDown(Buttons.RightShoulder) || KB.IsKeyDown(Keys.L))
             {
                 healthBar.CurrentValue = 100;
                 dead = false;
@@ -294,25 +485,87 @@ namespace Hero_of_Novac
             //battleChargeBar.CurrentValue = chargePoints;
             healthBar.Rect = healthRect;
             magicBar.Rect = magicRect;
-            if (timer % 5 == 0)
-                sourceRecBattle.X += BATTLE_SPRITE_WIDTH;
-            if (sourceRecBattle.X >= BATTLE_SPRITE_WIDTH * 3)
-                sourceRecBattle.X = 0;
-                
+            //idle Animation
+            if (!isAttacking || isCharging)
+            {
+                sourceRecIdle.Y = 96;
+                if (timer % 5 == 0)
+                    sourceRecIdle.X += BATTLE_SPRITE_WIDTH;
+                if (sourceRecIdle.X >= BATTLE_SPRITE_WIDTH * 3)
+                    sourceRecIdle.X = 0;
+            }
+            //Charging
+            if (isCharging)
+            {
+                if (chargeBar.CurrentValue == chargeBar.MaxValue)
+                {
+                    isCharging = false;
+                    isAttacking = true;
+                }
+                if (timer % 2 == 0)
+                    chargeBar.CurrentValue++;
+            }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void Damage(int damage)
+        {
+            healthBar.CurrentValue -= damage;
+        }
+
+        public void LearnAttack(Attack attack)
+        {
+            if (attack.GetType() == Attack.Chop.GetType())
+            {
+                for (int i = 0; i < basicAttacks.Length; i++)
+                {
+                    if (basicAttacks[i] == null)
+                    {
+                        basicAttacks[i] = attack;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                MagicAttack mAttack = (MagicAttack)attack;
+                Attack[] magicArray;
+                if (!magicAttacks.TryGetValue(mAttack.Element, out magicArray))
+                {
+                    Console.WriteLine("Could not find element " + mAttack.Element);
+                    throw new Exception("Element not found");
+                }
+                for (int i = 0; i < magicArray.Length; i++)
+                {
+                    if (magicArray[i] == null)
+                    {
+                        magicArray[i] = attack;
+                        magicAttacks[mAttack.Element] = magicArray;
+                        return;
+                    }
+                }
+            }
+
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
         {
             switch (currentGameState)
             {
                 case GameState.Overworld:
-                    if (dead)
+                    if (dead || attackTest)
+                    {
                         spriteBatch.Draw(combatTex, playerPos, sourceRecBattle, color);
+                        //spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color);
+                    }
                     else
-                        spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color);
+                        spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f / hitbox.Bottom);
                     break;
                 case GameState.Battlemenu:
-                    spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                    spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                    if (!isAttacking)
+                        spriteBatch.Draw(combatTex, battlePos, sourceRecIdle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f); //Idle
+                    else
+                        spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
                     healthBar.Draw(spriteBatch, true);
                     magicBar.Draw(spriteBatch, true);
                     chargeBar.Draw(spriteBatch, true);
@@ -320,11 +573,18 @@ namespace Hero_of_Novac
             }
         }
 
+        //10 X 17
+        public void DrawProfile(SpriteBatch spriteBatch, Rectangle rect)
+        {
+            spriteBatch.Draw(profileTex, rect, sourceRecProfile, Color.White);
+        }
+
         public void Battle()
         {
             currentGameState = GameState.Battlemenu;
             healthBar.Rect = healthRect;
             magicBar.Rect = magicRect;
+            chargeBar.CurrentValue = 0;
         }
 
         public void Overworld()

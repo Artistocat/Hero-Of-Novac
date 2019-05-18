@@ -14,6 +14,8 @@ namespace Hero_of_Novac
         protected int chargeTime;
         protected int damage;
 
+        protected string attackName;
+
         public int ChargeTime
         {
             get
@@ -30,46 +32,67 @@ namespace Hero_of_Novac
             }
         }
 
-        public Attack(int defaultChargeTime, int defaultDamage)
+        public string AttackName
+        {
+            get
+            {  
+                return attackName;
+            }
+        }
+
+        public Attack(int defaultChargeTime, int defaultDamage, String attackName)
         {
             this.defaultChargeTime = defaultChargeTime;
             this.defaultDamage = defaultDamage;
 
-            chargeTime = (int)(defaultChargeTime / player.LevelModifier);
-            damage = (int)(defaultDamage * player.LevelModifier);
+            chargeTime = (int)(defaultChargeTime / player.LevelModifier) * 20;
+            damage = (int)(defaultDamage * player.LevelModifier) * 5;
+
+            this.attackName = attackName;
         }
 
-        public static void LoadContent()
+        public virtual bool IsBasic()
         {
-            lunge = new BasicAttack(5, 4);
-            slash = new BasicAttack(4, 3);
-            chop = new BasicAttack(8, 7);
-            punch = new BasicAttack(1, 1);
+            return false;
+        }
 
-            whirlwind = new MagicAttack(5, 5, Element.Air);
-            airSlash = new MagicAttack(3, 3, Element.Air);
-            windStrike = new MagicAttack(4, 4, Element.Air);
-            faldorsWind = new MagicAttack(4, 5, Element.Air);
+        public virtual bool IsMagic()
+        {
+            return false;
+        }
 
-            wallOfFire = new MagicAttack(8, 8, Element.Fire);
-            fireBall = new MagicAttack(12, 12, Element.Fire);
-            incendiaryCloud = new MagicAttack(6, 6, Element.Fire);
-            ottosFireStorm = new MagicAttack(7, 9, Element.Fire);
+        public static void LoadContent(Player player)
+        {
+            Attack.player = player;
+            lunge = new BasicAttack(5, 4, "Lunge");
+            slash = new BasicAttack(4, 3, "Slash");
+            chop = new BasicAttack(8, 7, "Chop");
+            punch = new BasicAttack(1, 1, "Punch");
 
-            thornWhip = new MagicAttack(15, 15, Element.Earth);
-            stoneThrow = new MagicAttack(20, 20, Element.Earth);
-            earthquake = new MagicAttack(25, 25, Element.Earth);
-            otilukesWrath = new MagicAttack(22, 26, Element.Earth);
+            whirlwind = new MagicAttack(5, 5, "Whirlwind", Element.Air);
+            airSlash = new MagicAttack(3, 3, "Air Slash", Element.Air);
+            windStrike = new MagicAttack(4, 4, "Wind Strike", Element.Air);
+            faldorsWind = new MagicAttack(4, 5, "Faldor's Wind", Element.Air);
 
-            coneOfCold = new MagicAttack(12, 12, Element.Water);
-            iceStorm = new MagicAttack(20, 20, Element.Water);
-            frostRay = new MagicAttack(16, 16, Element.Water);
-            rarysTsunami = new MagicAttack(17, 20, Element.Water);
+            wallOfFire = new MagicAttack(8, 8, "Wall of Fire", Element.Fire);
+            fireBall = new MagicAttack(12, 12, "Fire Ball", Element.Fire);
+            incendiaryCloud = new MagicAttack(6, 6, "Incendiary Cloud", Element.Fire);
+            ottosFireStorm = new MagicAttack(7, 9, "Otto's Firestorm", Element.Fire);
 
-            magicMissile = new MagicAttack(9, 9, Element.Aether);
-            eldritchBlast = new MagicAttack(15, 15, Element.Aether);
-            arcaneBeam = new MagicAttack(12, 12, Element.Aether);
-            tashasLaugh = new MagicAttack(13, 15, Element.Aether);
+            thornWhip = new MagicAttack(15, 15, "Thorn Whip", Element.Earth);
+            stoneThrow = new MagicAttack(20, 20, "Stone Throw", Element.Earth);
+            earthquake = new MagicAttack(25, 25, "Earthquake", Element.Earth);
+            otilukesWrath = new MagicAttack(22, 26, "Otiluke's Wrath", Element.Earth);
+
+            coneOfCold = new MagicAttack(12, 12, "Cone of Cold", Element.Water);
+            iceStorm = new MagicAttack(20, 20, "Ice Storm", Element.Water);
+            frostRay = new MagicAttack(16, 16, "Frost Ray", Element.Water);
+            rarysTsunami = new MagicAttack(17, 20, "Rary's Tsunami", Element.Water);
+
+            magicMissile = new MagicAttack(9, 9, "Magic Missile", Element.Aether);
+            eldritchBlast = new MagicAttack(15, 15, "Eldritch Blast", Element.Aether);
+            arcaneBeam = new MagicAttack(12, 12, "Arcane Beam", Element.Aether);
+            tashasLaugh = new MagicAttack(13, 15, "Tasha's Laugh", Element.Aether);
         }
         
         //Basic attacks

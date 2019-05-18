@@ -12,14 +12,23 @@ using System.IO;
 
 namespace Hero_of_Novac
 {
-    class Area
+    public class Area
     {
+
         private const int TILE_WIDTH = 32;
         private const int TILE_HEIGHT = 32;
 
         private bool inMenu;
 
         private List<Tile> tiles;
+        public List<Tile> Tiles
+        {
+            get
+            {
+                return tiles;
+            }
+        }
+
         private int objectTilesStart;
 
         private int areaWidth;
@@ -34,7 +43,20 @@ namespace Hero_of_Novac
         }
         private Rectangle areaRec;
         private Rectangle window;
-
+        public Rectangle Window
+        {
+            get
+            {
+                return window;
+            }
+        }
+        public Rectangle AreaRec
+        {
+            get
+            {
+                return areaRec;
+            }
+        }
         Dictionary<string, Rectangle> sourceRecs;
         Dictionary<string, Texture2D> tileSheets;
         Dictionary<Texture2D, List<string>> objectData;
@@ -48,6 +70,10 @@ namespace Hero_of_Novac
         }
 
         private List<NPC> npcs;
+        public List<NPC> Npc
+        {
+            get { return npcs; }
+        }
         private List<Enemy> enemies;
         public List<Enemy> Enemies
         {
@@ -87,6 +113,28 @@ namespace Hero_of_Novac
             sourceRecs.Add("water", new Rectangle(0, 0, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("lilypad", new Rectangle(320, 0, TILE_WIDTH, TILE_HEIGHT));
 
+            sourceRecs.Add("farmland_topleft", new Rectangle(0, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_top", new Rectangle(32, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_topright", new Rectangle(64, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_left", new Rectangle(96, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland", new Rectangle(128, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_right", new Rectangle(160, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_bottomleft", new Rectangle(192, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_bottom", new Rectangle(224, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("farmland_bottomright", new Rectangle(256, 256, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("onion", new Rectangle(0, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("potato", new Rectangle(128, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("carrot", new Rectangle(256, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("raspberry", new Rectangle(384, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("cabbage", new Rectangle(0, 320, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("cauliflower", new Rectangle(128, 320, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("eggplant", new Rectangle(256, 320, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("melon", new Rectangle(384, 320, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("wheat1", new Rectangle(512, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("wheat2", new Rectangle(544, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("corn1", new Rectangle(576, 288, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("corn2", new Rectangle(608, 288, TILE_WIDTH, TILE_HEIGHT));
+
             sourceRecs.Add("tree1", new Rectangle(0, 0, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("tree2", new Rectangle(128, 0, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("tree3", new Rectangle(192, 128, TILE_WIDTH, TILE_HEIGHT));
@@ -110,6 +158,7 @@ namespace Hero_of_Novac
             sourceRecs.Add("barrel2", new Rectangle(32, 480, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("barrel3", new Rectangle(64, 480, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("barrel4", new Rectangle(96, 480, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("fence", new Rectangle(128, 480, TILE_WIDTH, TILE_HEIGHT));
 
             tileSheets = new Dictionary<string, Texture2D>();
             tileSheets.Add("grass", Content.Load<Texture2D>("terrain"));
@@ -121,6 +170,28 @@ namespace Hero_of_Novac
             tileSheets.Add("snow", Content.Load<Texture2D>("terrain"));
             tileSheets.Add("water", Content.Load<Texture2D>("water"));
             tileSheets.Add("lilypad", Content.Load<Texture2D>("trees"));
+
+            tileSheets.Add("farmland_topleft", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_top", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_topright", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_left", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_right", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_bottomleft", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_bottom", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("farmland_bottomright", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("onion", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("potato", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("carrot", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("raspberry", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("cabbage", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("cauliflower", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("eggplant", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("melon", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("wheat1", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("wheat2", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("corn1", Content.Load<Texture2D>("terrain"));
+            tileSheets.Add("corn2", Content.Load<Texture2D>("terrain"));
 
             tileSheets.Add("tree1", Content.Load<Texture2D>("trees"));
             tileSheets.Add("tree2", Content.Load<Texture2D>("trees"));
@@ -146,6 +217,7 @@ namespace Hero_of_Novac
             tileSheets.Add("barrel2", Content.Load<Texture2D>("houses"));
             tileSheets.Add("barrel3", Content.Load<Texture2D>("houses"));
             tileSheets.Add("barrel4", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("fence", Content.Load<Texture2D>("houses"));
 
             tiles = new List<Tile>();
             LoadTerrainTiles(ReadFile(path + "/terrain.txt"));
@@ -153,15 +225,36 @@ namespace Hero_of_Novac
             objectData = new Dictionary<Texture2D, List<string>>();
             objectData.Add(Content.Load<Texture2D>("trees"), ReadFile(@"Content/trees_data.txt"));
             objectData.Add(Content.Load<Texture2D>("houses"), ReadFile(@"Content/houses_data.txt"));
+            objectData.Add(Content.Load<Texture2D>("terrain"), ReadFile(@"Content/terrain_data.txt"));
             LoadObjectTiles(ReadFile(path + "/objects.txt"));
 
             pix = p;
-            player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), pix, window);
+            player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), Content.Load<Texture2D>("combatFX"), Content.Load<Texture2D>("HeroProfile"), pix, window, serviceProvider);
             SpriteFont font = Content.Load<SpriteFont>("SpriteFont1");
             npcs = new List<NPC>();
             //AddNPCs(font);
             enemies = new List<Enemy>();
             //AddEnemies();
+        }
+
+        public void LoadSave(List<Enemy> enemies, List<NPC> npcs, List<string> playerInfo, List<string> areaInfo)
+        {
+            this.enemies = enemies;
+            this.npcs = npcs;
+            int pHealth, level;
+            Vector2 position = Game1.ParseStringToVector(playerInfo[2]);
+            Int32.TryParse(playerInfo[0], out pHealth);
+            Int32.TryParse(playerInfo[1], out level);
+            player.Health = pHealth;
+            player.Position = position;
+            player.Level = level;
+            player.Hitbox = Game1.ParseStringToRectangle(playerInfo[3]);
+            window = Game1.ParseStringToRectangle(areaInfo[0]);
+            areaRec = Game1.ParseStringToRectangle(areaInfo[1]);
+            for (int i = 2; i < areaInfo.Count; i++)
+            {
+                tiles[i - 2].Rectangle = Game1.ParseStringToRectangle(areaInfo[i]);
+            }
         }
 
         /// <summary>
@@ -231,6 +324,26 @@ namespace Hero_of_Novac
                         case 'c':
                             LoadTile("snow", x, y, 8);
                             AddEdge(lines, x, y);
+                            break;
+                        case 'f':
+                            if (x > 0 && y > 0 && lines[y - 1][x] != 'f' && lines[y][x - 1] != 'f')
+                                LoadTile("farmland_topleft", x, y, 1);
+                            else if (x < Width - 1 && y > 0 && lines[y - 1][x] != 'f' && lines[y][x + 1] != 'f')
+                                LoadTile("farmland_topright", x, y, 1);
+                            else if (x > 0 && y < Height - 1 && lines[y + 1][x] != 'f' && lines[y][x - 1] != 'f')
+                                LoadTile("farmland_bottomleft", x, y, 1);
+                            else if (x < Width - 1 && y < Height - 1 && lines[y + 1][x] != 'f' && lines[y][x + 1] != 'f')
+                                LoadTile("farmland_bottomright", x, y, 1);
+                            else if (y > 0 && lines[y - 1][x] != 'f')
+                                LoadTile("farmland_top", x, y, 1);
+                            else if (y < Height - 1 && lines[y + 1][x] != 'f')
+                                LoadTile("farmland_bottom", x, y, 1);
+                            else if (x > 0 && lines[y][x - 1] != 'f')
+                                LoadTile("farmland_left", x, y, 1);
+                            else if (x < Width - 1 && lines[y][x + 1] != 'f')
+                                LoadTile("farmland_right", x, y, 1);
+                            else
+                                LoadTile("farmland", x, y, 1);
                             break;
                         case 'w':
                             LoadWaterTiles(lines, x, y);
@@ -361,7 +474,6 @@ namespace Hero_of_Novac
         /// <param name="path">Provides the path to the object data.</param>
         private void LoadObjectTiles(List<string> lines)
         {
-            int objectNum = 0;
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
                 {
@@ -398,7 +510,6 @@ namespace Hero_of_Novac
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                             }
-                            objectNum++;
                             break;
                         case 's':
                             int r = random.Next(4);
@@ -419,10 +530,79 @@ namespace Hero_of_Novac
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                             }
-                            objectNum++;
                             break;
                         case 'l':
                             LoadTile("lilypad", x, y, 4);
+                            break;
+                        case 'c':
+                            x++;
+                            switch (lines[y][x])
+                            {
+                                case '1':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("onion", x - 1 + j, y + i, 4);
+                                    break;
+                                case '2':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("potato", x - 1 + j, y + i, 4);
+                                    break;
+                                case '3':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("carrot", x - 1 + j, y + i, 4);
+                                    break;
+                                case '4':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("raspberry", x - 1 + j, y + i, 4);
+                                    break;
+                                case '5':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("cabbage", x - 1 + j, y + i, 4);
+                                    break;
+                                case '6':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("cauliflower", x - 1 + j, y + i, 4);
+                                    break;
+                                case '7':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("eggplant", x - 1 + j, y + i, 4);
+                                    break;
+                                case '8':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                            LoadTile("melon", x - 1 + j, y + i, 4);
+                                    break;
+                                case '9':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                        {
+                                            r = random.Next(2);
+                                            if (r == 0)
+                                                LoadObject("wheat1", x - 1 + j, y + i, 1, 2);
+                                            else
+                                                LoadObject("wheat2", x - 1 + j, y + i, 1, 2);
+                                        }
+                                    break;
+                                case '0':
+                                    for (int i = 0; i < 3; i++)
+                                        for (int j = 0; j < 3; j++)
+                                        {
+                                            r = random.Next(2);
+                                            if (r == 0)
+                                                LoadObject("corn1", x - 1 + j, y + i, 1, 2);
+                                            else
+                                                LoadObject("corn2", x - 1 + j, y + i, 1, 2);
+                                        }
+                                    break;
+                                default:
+                                    throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
+                            }
                             break;
                         case 'h':
                             x++;
@@ -449,7 +629,6 @@ namespace Hero_of_Novac
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                             }
-                            objectNum++;
                             break;
                         case 'b':
                             r = random.Next(4);
@@ -470,7 +649,9 @@ namespace Hero_of_Novac
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                             }
-                            objectNum++;
+                            break;
+                        case 'f':
+                            AddFence(lines, x, y);
                             break;
                         case '.':
                             break;
@@ -478,6 +659,17 @@ namespace Hero_of_Novac
                             throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                     }
                 }
+        }
+
+        private void AddFence(List<string> lines, int x, int y)
+        {
+            LoadObject("fence", x, y, 1, 1);
+            if (x < lines[y].Length - 1 && lines[y][x + 1] == 'f')
+                tiles.Add(new Tile(new Vector2(x, y), new Rectangle(160, 480, TILE_WIDTH, TILE_HEIGHT), tileSheets["fence"]));
+            if (x > 0 && lines[y][x - 1] == 'f')
+                tiles.Add(new Tile(new Vector2(x, y), new Rectangle(192, 480, TILE_WIDTH, TILE_HEIGHT), tileSheets["fence"]));
+            if (y < lines.Count - 1 && lines[y + 1][x] == 'f')
+                tiles.Add(new Tile(new Vector2(x, y), new Rectangle(224, 480, TILE_WIDTH, TILE_HEIGHT), tileSheets["fence"]));
         }
 
         private void LoadObject(string type, int x, int y, int width, int height)
@@ -517,6 +709,19 @@ namespace Hero_of_Novac
             enemies = list;
         }
 
+        public void RemoveEnemies(List<Enemy> list)
+        {
+            foreach (Enemy enemy in list)
+            {
+                RemoveEnemy(enemy);
+            }
+        }
+
+        public void RemoveEnemy(Enemy enemy)
+        {
+            enemies.Remove(enemy);
+        }
+
         /// <summary>
         /// Updates the area.
         /// </summary>
@@ -524,17 +729,30 @@ namespace Hero_of_Novac
         public void Update(GameTime gameTime)
         {
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
+            KeyboardState KB = Keyboard.GetState();
+
             inMenu = false;
             foreach (NPC n in npcs)
             {
                 if (n.isTalking)
                     inMenu = true;
             }
+            //if()
             if (!inMenu)
             {
                 Vector2 speed = pad1.ThumbSticks.Left * 4;
                 speed.X = (int)Math.Round(speed.X);
                 speed.Y = (int)Math.Round(speed.Y);
+
+                if (KB.IsKeyDown(Keys.W))
+                    speed.Y = 4;
+                if (KB.IsKeyDown(Keys.A))
+                    speed.X = -4;
+                if (KB.IsKeyDown(Keys.S))
+                    speed.Y = -4;
+                if (KB.IsKeyDown(Keys.D))
+                    speed.X = 4;
+
                 if (speed.Y > 0)
                 {
                     if (areaRec.Top < window.Top && player.Hitbox.Bottom <= window.Height / 3)
@@ -602,6 +820,40 @@ namespace Hero_of_Novac
                             else
                                 player.MoveX((int)depth.X);
                         }
+                        foreach (NPC n in npcs)
+                            if (tileRec.Intersects(n.Rectangle))
+                            {
+                                Vector2 depth = n.Rectangle.GetIntersectionDepth(tileRec);
+                                if (Math.Abs(depth.Y) < Math.Abs(depth.X))
+                                {
+                                    Rectangle temp = n.Rectangle;
+                                    temp.Y += (int)depth.Y;
+                                    n.Rectangle = temp;
+                                }
+                                else
+                                {
+                                    Rectangle temp = n.Rectangle;
+                                    temp.X += (int)depth.X;
+                                    n.Rectangle = temp;
+                                }
+                            }
+                        foreach (Enemy e in enemies)
+                            if (tileRec.Intersects(e.Rectangle))
+                            {
+                                Vector2 depth = e.Rectangle.GetIntersectionDepth(tileRec);
+                                if (Math.Abs(depth.Y) < Math.Abs(depth.X))
+                                {
+                                    Rectangle temp = e.Rectangle;
+                                    temp.Y += (int)depth.Y;
+                                    e.Rectangle = temp;
+                                }
+                                else
+                                {
+                                    Rectangle temp = e.Rectangle;
+                                    temp.X += (int)depth.X;
+                                    e.Rectangle = temp;
+                                }
+                            }
                     }
 
                 player.Update(gameTime, speed);
@@ -634,19 +886,14 @@ namespace Hero_of_Novac
 
         public void Battle()
         {
-
             player.Battle();
-            foreach (Enemy enemy in enemies)
-            {
-                enemy.Battle();
-            }
         }
 
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public void DrawFirstLayer(GameTime gameTime, SpriteBatch spriteBatch)
         {
             foreach (Tile t in tiles)
             {
@@ -656,11 +903,21 @@ namespace Hero_of_Novac
                 if (tileRec.Intersects(window) && !t.IsOnTop)
                     spriteBatch.Draw(t.Texture, tileRec, t.SourceRec, Color.White);
             }
+        }
+
+        public void DrawEntities(GameTime gameTime, SpriteBatch spriteBatch)
+        {
             foreach (Enemy e in enemies)
                 e.Draw(spriteBatch);
+
+            foreach (NPC n in npcs)
+                n.Draw(spriteBatch);
+
             player.Draw(spriteBatch);
-            
-            player.Draw(spriteBatch);
+        }
+
+        public void DrawSecondLayer(GameTime gameTime, SpriteBatch spriteBatch)
+        {
             for (int i = objectTilesStart; i < tiles.Count; i++)
             {
                 Rectangle tileRec = tiles[i].Rectangle;
@@ -670,7 +927,7 @@ namespace Hero_of_Novac
                     spriteBatch.Draw(tiles[i].Texture, tileRec, tiles[i].SourceRec, Color.White);
             }
             foreach (NPC n in npcs)
-                n.Draw(spriteBatch);
+                n.DrawWindow(spriteBatch);
         }
     }
 }
