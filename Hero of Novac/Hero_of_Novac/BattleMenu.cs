@@ -664,7 +664,9 @@ namespace Hero_of_Novac
                             player.sourceRecFX.X += 128;
                     }
                     else
+                    {
                         doneAttacking = true;
+                    }
                     break;
                 case "Lunge":
                     if (player.sourceRecBattle.X <= 96 * 5)
@@ -675,7 +677,9 @@ namespace Hero_of_Novac
                             player.sourceRecFX.X += 128;
                     }
                     else
+                    {
                         doneAttacking = true;
+                    }
                     break;
                 case "Punch":
                     if (player.sourceRecBattle.X <= 96 * 5)
@@ -686,7 +690,9 @@ namespace Hero_of_Novac
                             player.sourceRecFX.X += 128;
                     }
                     else
+                    {
                         doneAttacking = true;
+                    }
                     break;
                 case "Chop":
                     if (player.sourceRecBattle.X <= 96 * 5)
@@ -697,89 +703,127 @@ namespace Hero_of_Novac
                             player.sourceRecFX.X += 128;
                     }
                     else
+                    {
                         doneAttacking = true;
+                    }
                     break;
                 case "Whirlwind":
                     if (player.sourceRecBattle.X <= 96 * 1)
+                    {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                    }
                     else
                     {
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
                     if (player.sourceRecFX.X <= 64 * 14)
+                    {
                         if (timer % 8 == 0)
                             player.sourceRecFX.X += 128;
+                    }
                     else
+                    {
                         doneAttacking = true;
+                    }
                     break;
                 case "Air Slash":
                     if (player.sourceRecBattle.X <= 96 * 5)
+                    {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                    }
                     if (player.sourceRecFX.X <= 128 * 3)
+                    {
                         if (timer % 8 == 0)
                             player.sourceRecFX.X += 128;
+                    }
                     else
+                    {
                         doneAttacking = true;
+                    }
                     break;
                 case "Wind Strike":
                     if (player.sourceRecBattle.X <= 96 * 5)
+                    {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                    }
                     if (player.sourceRecFX.X <= 128 * 5)
+                    {
                         if (timer % 8 == 0)
                             player.sourceRecFX.X += 128;
+                    }
                     else
+                    {
                         doneAttacking = true;
+                    }
                     break;
                 case "Faldor's Wind":
                     if (player.sourceRecBattle.X <= 96 * 1)
+                    {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                    }
                     else
                     {
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
                     if (player.sourceRecFX.X <= 128 * 5)
+                    {
                         if (timer % 8 == 0)
                             player.sourceRecFX.X += 128;
+                    }
                     else
+                    {
                         doneAttacking = true;
+                    }
                     break;
                 case "Wall of Fire":
                     if (player.sourceRecBattle.X <= 96 * 1)
+                    {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                    }
                     else
                     {
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
                     if (player.sourceRecFX.X <= 128 * 10)
+                    {
                         if (timer % 10 == 0)
                             player.sourceRecFX.X += 128;
+                    }
                     else
+                    {
                         doneAttacking = true;
+                    }
                     break;
                 case "Fire Ball":
                     break;
                 case "Incendiary Cloud":
                     if(player.sourceRecBattle.X <= 96 * 1)
+                    {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                    }
                     else
                     {
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
                     if(player.sourceRecFX.X <= 128 * 9)
+                    {
                         if (timer % 8 == 0)
                             player.sourceRecFX.X += 128;
+                    }
                     else
+                    {
                         doneAttacking = true;
+                    }
                     break;
                 //case "Otto's Firestorm":
                 //    break;
