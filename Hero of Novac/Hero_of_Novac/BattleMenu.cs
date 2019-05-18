@@ -711,6 +711,7 @@ namespace Hero_of_Novac
                     }
                     else
                     {
+                        player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
                     if (player.sourceRecFX.X <= 64 * 14)
@@ -724,14 +725,10 @@ namespace Hero_of_Novac
                     }
                     break;
                 case "Air Slash":
-                    if (player.sourceRecBattle.X <= 96 * 1)
+                    if (player.sourceRecBattle.X <= 96 * 5)
                     {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
-                    }
-                    else
-                    {
-                        player.sourceRecBattle.X = 0;
                     }
                     if (player.sourceRecFX.X <= 64 * 3)
                     {
@@ -742,6 +739,66 @@ namespace Hero_of_Novac
                     {
                         doneAttacking = true;
                     }
+                    break;
+                case "Wind Strike":
+                    if (player.sourceRecBattle.X <= 96 * 5)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    if (player.sourceRecFX.X <= 64 * 5)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 64;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Faldor's Wind":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 64 * 5)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 64;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Wall of Fire":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 64 * 10)
+                    {
+                        if (timer % 10 == 0)
+                            player.sourceRecFX.X += 64;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Fire Ball":
                     break;
                 //case "Wind Strike":
                 //    break;
@@ -759,6 +816,7 @@ namespace Hero_of_Novac
                     }
                     else
                     {
+                        player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
                     if(player.sourceRecFX.X <= 64 * 9)
@@ -1009,7 +1067,9 @@ namespace Hero_of_Novac
                     if (isSmallName)
                         spriteBatch.DrawString(SmallFont, name, nameV, Color.Gray);
                     else
+                    {
                         spriteBatch.DrawString(Font, name, nameV, Color.Gray);
+                    }
                 }
             }
         }

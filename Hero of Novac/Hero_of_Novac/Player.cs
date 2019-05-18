@@ -64,6 +64,7 @@ namespace Hero_of_Novac
         public Rectangle Hitbox
         {
             get { return hitbox; }
+            set { hitbox = value; }
         }
 
         //private int healthPoints;
@@ -75,6 +76,10 @@ namespace Hero_of_Novac
             get
             {
                 return healthBar.CurrentValue;
+            }
+            set
+            {
+                healthBar.CurrentValue = value;
             }
         }
 
@@ -92,6 +97,17 @@ namespace Hero_of_Novac
         private PercentageRectangle[] xpElementBars;
         private int[] elementLevels;
         private int level;
+        public int Level
+        {
+            get
+            {
+                return level;
+            }
+            set
+            {
+                level = value;
+            }
+        }
         public double LevelModifier
         {
             get
@@ -168,16 +184,31 @@ namespace Hero_of_Novac
                             break;
                         case "Air Slash":
                             combatFX = Content.Load<Texture2D>("WindAttacc");
-                            sourceRecFX.X = -64;
-                            sourceRecFX.Y = 0;
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 0;
                             break;
                         case "Wind Strike":
+                            combatFX = Content.Load<Texture2D>("WindAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 0;
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 64;
                             break;
-                        case "Faldor's Wind":
+                        case "Faldor's Wind": //Animation might change in the future & twitches
+                            combatFX = Content.Load<Texture2D>("WindAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 64;
                             break;
                         case "Wall of Fire":
+                            combatFX = Content.Load<Texture2D>("FireAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -64;
+                            sourceRecFX.Y = 64 * 3;
                             break;
                         case "Fire Ball":
                             break;
@@ -254,7 +285,7 @@ namespace Hero_of_Novac
             sourceRecWorld = new Rectangle(OVERWORLD_SPRITE_WIDTH, 0, OVERWORLD_SPRITE_WIDTH, OVERWORLD_SPRITE_HEIGHT);
             sourceRecIdle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
             sourceRecBattle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
-            sourceRecFX = new Rectangle(0, 64 * 4, 64, 64);
+            sourceRecFX = new Rectangle(-64, 64 * 4, 64, 64);
             sourceRecProfile = new Rectangle(0, 6, 292, 503);
             playerPos = new Vector2((window.Width - OVERWORLD_SPRITE_WIDTH) / 2, (window.Height - OVERWORLD_SPRITE_HEIGHT) / 2);
 
@@ -531,8 +562,8 @@ namespace Hero_of_Novac
                     break;
                 case GameState.Battlemenu:
                     spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
-                    if(!isAttacking)
-                        spriteBatch.Draw(combatTex, battlePos, sourceRecIdle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                    if (!isAttacking)
+                        spriteBatch.Draw(combatTex, battlePos, sourceRecIdle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f); //Idle
                     else
                         spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
                     healthBar.Draw(spriteBatch, true);

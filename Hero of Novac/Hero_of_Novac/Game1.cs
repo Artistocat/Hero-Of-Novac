@@ -58,8 +58,8 @@ namespace Hero_of_Novac
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;//1920
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;//1080
+            graphics.PreferredBackBufferWidth = 1920;//1920
+            graphics.PreferredBackBufferHeight = 1080;//1080
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
@@ -96,7 +96,8 @@ namespace Hero_of_Novac
 
             FX1 = Content.Load<Texture2D>("combatFX");
 
-            MainMenu.LoadContent(GraphicsDevice, window, font);
+            MainMenu.LoadContent(GraphicsDevice, window, font, Content.Load<Texture2D>("MainMenu"), Content.Load<SpriteFont>("MainFont"));
+            
             mainMenu = new MainMenu();
             if (TESTING)
             {
@@ -110,8 +111,9 @@ namespace Hero_of_Novac
                 npcs.Add(CreateNPC("armorer", new Rectangle(564, 500, 200, 168), true, 'a'));
                 area.AddNPCs(npcs);
                 List<Enemy> enemies = new List<Enemy>();
-                enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false, false));
-                enemies.Add(CreateEnemy("wasp", new Rectangle(320, 0, 320, 320), true, true));
+                enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false));
+                enemies.Add(CreateEnemy("wasp", new Rectangle(320, 0, 320, 320), true));
+                enemies.Add(CreateEnemy("slime", new Rectangle(area.Width * 32 - 500, 0, 320, 320), true));
                 area.AddEnemies(enemies);
             }
             else
@@ -157,13 +159,13 @@ namespace Hero_of_Novac
             battleMenu = new BattleMenu(new Enemy[0], BattleMenu.Biome.Plains);
         }
 
-        private Enemy CreateEnemy(string name, Rectangle space, bool constantMove, bool idleAnimation)
+        private Enemy CreateEnemy(string name, Rectangle space, bool constantMove)
         {
             Texture2D enemyTex = Content.Load<Texture2D>(name);
             Texture2D enemyProfileTex = Content.Load<Texture2D>(name + "Profile");
             enemyTex.Name = name;
             enemyProfileTex.Name = name + "Profile";
-            return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, idleAnimation, new Vector2(0, 0));
+            return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, new Vector2(0, 0));
         }
 
         private Enemy LoadEnemy(List<string> enemyInfo)
@@ -188,7 +190,7 @@ namespace Hero_of_Novac
             return new Enemy(rec, sourceRec, space, tex, sourceRecProfile, profileTex, pos, window, randomNoSeed, constantMove, isIdle, vol, battleRec, battleSourceRec, healthBar, healthRect, chargeBar);
         }
 
-        private Rectangle ParseStringToRectangle(string str)
+        public static Rectangle ParseStringToRectangle(string str)
         {
             Rectangle parsedRect;
             int xIndex = str.IndexOf('X');
@@ -204,7 +206,7 @@ namespace Hero_of_Novac
             return parsedRect;
         }
 
-        private Vector2 ParseStringToVector(string str)
+        public static Vector2 ParseStringToVector(string str)
         {
             Vector2 parsedVector;
             int xIndex = str.IndexOf('X');
@@ -216,34 +218,35 @@ namespace Hero_of_Novac
             return parsedVector;
         }
 
-        private PercentageRectangle ParseStringToPercentageRectangle(string str)
+        public static PercentageRectangle ParseStringToPercentageRectangle(string stri)
         {
+            string str = stri;
             PercentageRectangle parsedRect;
             int x, y, width, height, r, g, b, maxValue, currentValue;
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out x);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + x).Length, str.Length - (" " + x).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out y);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + y).Length, str.Length - (" " + y).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out width);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + width).Length, str.Length - (" " + width).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out height);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + height).Length, str.Length - (" " + height).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out r);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + r).Length, str.Length - (" " + r).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out g);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + g).Length, str.Length - (" " + g).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out b);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + b).Length, str.Length - (" " + b).Length);
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out maxValue);
-            str = str.Substring(str.IndexOf(' ') + 1);
-            Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out currentValue);
-            str = str.Substring(str.IndexOf(' ') + 1);
+            str = str.Substring((" " + maxValue).Length, str.Length - (" " + maxValue).Length);
+            Int32.TryParse(str, out currentValue);
+            //str = str.Substring((" " + currentValue).Length, str.Length - (" " + currentValue).Length);
             parsedRect = new PercentageRectangle(new Rectangle(x, y, width, height), maxValue, new Color(r, g, b));
             parsedRect.CurrentValue = currentValue;
             return parsedRect;
         }
 
-        private bool ParseStringToBool(string str)
+        public static bool ParseStringToBool(string str)
         {
             if (str.Equals("true"))
                 return true;
@@ -304,8 +307,19 @@ namespace Hero_of_Novac
                     mainMenu.Update();
                     if (mainMenu.loadOldGame)
                     {
-                        //load.LoadAll();
-                        
+                        load = new Load(1);
+                        List<Enemy> enemies = new List<Enemy>();
+                        List<NPC> npcs = new List<NPC>();
+                        foreach (List<string> enemyInfo in load.EnemyInfo)
+                        {
+                            enemies.Add(LoadEnemy(enemyInfo));
+                        }
+                        foreach (List<string> npcInfo in load.NpcInfo)
+                        {
+                            npcs.Add(LoadNPC(npcInfo));
+                        }
+                        area.LoadSave(enemies, npcs, load.PlayerInfo, load.AreaInfo);
+                        currentGameState = GameState.Overworld;
                     }
                     if (mainMenu.startNewGame)
                     {

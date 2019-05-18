@@ -17,7 +17,8 @@ namespace Hero_of_Novac
     {
         private List<List<string>> npcInfo;
         private List<List<string>> enemyInfo;
-        private string playerInfo;
+        private List<string> playerInfo;
+        private List<string> areaInfo;
 
         public List<List<string>> NpcInfo
         {
@@ -27,17 +28,22 @@ namespace Hero_of_Novac
         {
             get { return enemyInfo; }
         }
-        public string PlayerInfo
+        public List<string> PlayerInfo
         {
             get { return playerInfo; }
         }
+        public List<string> AreaInfo
+        {
+            get { return areaInfo; }
+        }       
 
         StreamReader reader;
         public Load(int selectedSave)
         {
             npcInfo = new List<List<string>>();
             enemyInfo = new List<List<string>>();
-            playerInfo = "";
+            playerInfo = new List<string>();
+            areaInfo = new List<string>();
             LoadAll();
         }
         private void LoadAll()
@@ -48,7 +54,14 @@ namespace Hero_of_Novac
         }
         private void LoadPlayer()
         {
-            //playerInfo+=nextLine;
+            string health = reader.ReadLine();
+            string level = reader.ReadLine();
+            string position = reader.ReadLine();
+            string hitbox = reader.ReadLine();
+            playerInfo.Add(health);
+            playerInfo.Add(level);
+            playerInfo.Add(position);
+            playerInfo.Add(hitbox);
         }
         private void LoadNextEnemy()
         {
@@ -102,9 +115,22 @@ namespace Hero_of_Novac
             addedNPC.Add(interact);
             npcInfo.Add(addedNPC);
         }
+        private void LoadArea()
+        {
+            string window = reader.ReadLine();
+            string areaRec = reader.ReadLine();
+            int count;
+            Int32.TryParse(reader.ReadLine(), out count);
+            areaInfo.Add(window);
+            areaInfo.Add(areaRec);
+            for (int i = 0; i < count; i++)
+            {
+                areaInfo.Add(reader.ReadLine());
+            }
+        }
         enum SaveReading
         {
-            player, enemy, npc, none
+            player, enemy, npc, area, none
         }
 
         private void ReadFile()
@@ -124,6 +150,9 @@ namespace Hero_of_Novac
                     case Save.npcStart:
                         currentRead = SaveReading.npc;
                         break;
+                    case Save.areaStart:
+                        currentRead = SaveReading.area;
+                        break;
                     default:
                         currentRead = SaveReading.none;
                         break;
@@ -142,7 +171,10 @@ namespace Hero_of_Novac
                         LoadNextEnemy();
                         break;
                     case SaveReading.npc:
-                        LoadNextEnemy();
+                        LoadNextNPC();
+                        break;
+                    case SaveReading.area:
+                        LoadArea();
                         break;
                 }
 
