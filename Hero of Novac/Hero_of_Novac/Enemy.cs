@@ -159,7 +159,7 @@ namespace Hero_of_Novac
             healthBar = new PercentageRectangle(new Rectangle(rec.X - 10, rec.Y - 10, barWidth, barHeight), 50, Color.Red);
             chargeBar = new PercentageRectangle(new Rectangle(healthBar.Rect.X, healthBar.Rect.Y + 50, barWidth, barHeight), 100, Color.Gray);
             timer = 0;
-            battleRec = new Rectangle(window.Right - rec.Width * 4, window.Top + rec.Height, rec.Width, rec.Height);
+            battleRec = new Rectangle(window.Right - window.Width / 3, 180, rec.Width, rec.Height);
             healthRect = new Rectangle(window.Left + window.Width * 3 / 4 + 25, window.Height / 2 + 100, barWidth * 5, barHeight * 5);
             chargeBar.Rect = healthRect;
             Rectangle chargeRect = healthRect;

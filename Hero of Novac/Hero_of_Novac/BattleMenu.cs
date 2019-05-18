@@ -661,7 +661,7 @@ namespace Hero_of_Novac
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
                         if (timer % 4 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -673,6 +673,8 @@ namespace Hero_of_Novac
                     {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                        if (timer % 4 == 0)
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -683,9 +685,9 @@ namespace Hero_of_Novac
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
                         if (timer % 8 == 0)
-                        {
                             player.sourceRecBattle.X += 96;
-                        }
+                        if (timer % 4 == 0)
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -697,6 +699,8 @@ namespace Hero_of_Novac
                     {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                        if (timer % 4 == 0)
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -717,7 +721,7 @@ namespace Hero_of_Novac
                     if (player.sourceRecFX.X <= 64 * 14)
                     {
                         if (timer % 8 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -730,10 +734,10 @@ namespace Hero_of_Novac
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
                     }
-                    if (player.sourceRecFX.X <= 64 * 3)
+                    if (player.sourceRecFX.X <= 128 * 3)
                     {
                         if (timer % 8 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -746,10 +750,10 @@ namespace Hero_of_Novac
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
                     }
-                    if (player.sourceRecFX.X <= 64 * 5)
+                    if (player.sourceRecFX.X <= 128 * 5)
                     {
                         if (timer % 8 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -767,10 +771,10 @@ namespace Hero_of_Novac
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
-                    if (player.sourceRecFX.X <= 64 * 5)
+                    if (player.sourceRecFX.X <= 128 * 5)
                     {
                         if (timer % 8 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -788,10 +792,10 @@ namespace Hero_of_Novac
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
-                    if (player.sourceRecFX.X <= 64 * 10)
+                    if (player.sourceRecFX.X <= 128 * 10)
                     {
                         if (timer % 10 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -811,10 +815,10 @@ namespace Hero_of_Novac
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
-                    if(player.sourceRecFX.X <= 64 * 9)
+                    if(player.sourceRecFX.X <= 128 * 9)
                     {
                         if (timer % 8 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -952,11 +956,11 @@ namespace Hero_of_Novac
                         DrawItems(spriteBatch);
                         break;
                 }
-                player.Draw(spriteBatch);
                 foreach (Enemy enemy in enemies)
                 {
                     enemy.Draw(spriteBatch);
                 }
+                player.Draw(spriteBatch);
             }
 
             if (currentBattleState == BattleState.Victory)
