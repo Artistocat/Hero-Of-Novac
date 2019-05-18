@@ -58,8 +58,8 @@ namespace Hero_of_Novac
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 1920;//1920
-            graphics.PreferredBackBufferHeight = 1080;//1080
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;//1920
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;//1080
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
