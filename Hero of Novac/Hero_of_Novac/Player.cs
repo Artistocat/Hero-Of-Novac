@@ -251,6 +251,11 @@ namespace Hero_of_Novac
                             sourceRecFX.Y = 128 * 3;
                             break;
                         case "Fire Ball":
+                            combatFX = Content.Load<Texture2D>("FireAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128;
                             break;
                         case "Incendiary Cloud":
                             combatFX = Content.Load<Texture2D>("explosions");
@@ -260,18 +265,53 @@ namespace Hero_of_Novac
                             sourceRecFX.Y = 128;
                             break;
                         case "Otto's Firestorm":
+                            combatFX = Content.Load<Texture2D>("FireAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128 * 2;
                             break;
                         case "Thorn Whip":
+                            combatFX = Content.Load<Texture2D>("plantAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 0;
                             break;
                         case "Stone Throw":
+                            combatFX = Content.Load<Texture2D>("EarthAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 0;
                             break;
                         case "Earthquake":
+                            combatFX = Content.Load<Texture2D>("EarthAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128;
                             break;
                         case "Otiluke's Wrath":
+                            combatFX = Content.Load<Texture2D>("plantAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128;
                             break;
-                        case "Cone of Cold":
+                        case "Cone of Cold"://To be called, "Ice Spike"
+                            combatFX = Content.Load<Texture2D>("IceAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128;
                             break;
                         case "Ice Storm":
+                            combatFX = Content.Load<Texture2D>("IceAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128 * 3;
                             break;
                         case "Frost Ray":
                             break;
@@ -453,45 +493,45 @@ namespace Hero_of_Novac
             }
 
             //Attacc animation tests
-            if ((pad1.IsButtonDown(Buttons.X) || KB.IsKeyDown(Keys.F)) && !attackTest)
-            {
-                attackTest = true;
-                sourceRecBattle.X = 96 * 3;
-                sourceRecFX.X = 0;
-            }
+            //if ((pad1.IsButtonDown(Buttons.X) || KB.IsKeyDown(Keys.F)) && !attackTest)
+            //{
+            //    attackTest = true;
+            //    sourceRecBattle.X = 96 * 3;
+            //    sourceRecFX.X = 0;
+            //}
 
-            if (attackTest)
-            {
-                if (sourceRecBattle.X <= 96 * 5)
-                {
-                    if (timer % 8 == 0)
-                        sourceRecBattle.X += 96;
-                    if (timer % 4 == 0)
-                        sourceRecFX.X += 128;
-                }
-                if (sourceRecBattle.X >= 96 * 6)
-                {
-                    attackTest = false;
-                }
-            }
+            //if (attackTest)
+            //{
+            //    if (sourceRecBattle.X <= 96 * 5)
+            //    {
+            //        if (timer % 8 == 0)
+            //            sourceRecBattle.X += 96;
+            //        if (timer % 4 == 0)
+            //            sourceRecFX.X += 128;
+            //    }
+            //    if (sourceRecBattle.X >= 96 * 6)
+            //    {
+            //        attackTest = false;
+            //    }
+            //}
 
             //Use to test health bar stuff
-            if (pad1.IsButtonDown(Buttons.DPadDown))
-                healthBar.CurrentValue--;
-            else if (pad1.IsButtonDown(Buttons.DPadUp))
-                healthBar.CurrentValue++;
-            timer++;
-            //Testing death stuff
-            if (pad1.IsButtonDown(Buttons.LeftShoulder) || KB.IsKeyDown(Keys.K))
-            {
-                healthBar.CurrentValue = 0;
-                death();
-            }
-            if (pad1.IsButtonDown(Buttons.RightShoulder) || KB.IsKeyDown(Keys.L))
-            {
-                healthBar.CurrentValue = 100;
-                dead = false;
-            }
+            //if (pad1.IsButtonDown(Buttons.DPadDown))
+            //    healthBar.CurrentValue--;
+            //else if (pad1.IsButtonDown(Buttons.DPadUp))
+            //    healthBar.CurrentValue++;
+            //timer++;
+            ////Testing death stuff
+            //if (pad1.IsButtonDown(Buttons.LeftShoulder) || KB.IsKeyDown(Keys.K))
+            //{
+            //    healthBar.CurrentValue = 0;
+            //    death();
+            //}
+            //if (pad1.IsButtonDown(Buttons.RightShoulder) || KB.IsKeyDown(Keys.L))
+            //{
+            //    healthBar.CurrentValue = 100;
+            //    dead = false;
+            //}
             //New health bar
             healthBar.SetLocation((int)playerPos.X - 10, (int)playerPos.Y - 10);
             magicBar.SetLocation((int)playerPos.X - 10, (int)playerPos.Y - 20);

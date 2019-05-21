@@ -718,7 +718,7 @@ namespace Hero_of_Novac
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
-                    if (player.sourceRecFX.X <= 64 * 14)
+                    if (player.sourceRecFX.X <= 128 * 14)
                     {
                         if (timer % 8 == 0)
                             player.sourceRecFX.X += 128;
@@ -802,8 +802,27 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                //case "Fire Ball":
-                //    break;
+                case "Fire Ball":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 6)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
                 case "Incendiary Cloud":
                     if(player.sourceRecBattle.X <= 96 * 1)
                     {
@@ -825,10 +844,48 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                //case "Otto's Firestorm":
-                //    break;
-                //case "Thorn Whip":
-                //    break;
+                case "Otto's Firestorm":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 9)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Thorn Whip":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 13)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
                 //case "Stone Throw":
                 //    break;
                 //case "Earthquake":
@@ -852,7 +909,7 @@ namespace Hero_of_Novac
                 //case "Tasha's Laugh":
                 //    break;
                 default:
-                    if (timer % 200 == 0)
+                    if (timer % 300 == 0)
                     {
                         doneAttacking = true;
                     }
