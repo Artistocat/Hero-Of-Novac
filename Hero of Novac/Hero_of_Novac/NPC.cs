@@ -65,6 +65,8 @@ namespace Hero_of_Novac
         private List<string> shopkeep;
         private List<string> hero;
         private List<string> priest;
+        private List<string> char1;
+        private List<string> char2;
 
         bool interact;
         public bool IsInteractable
@@ -96,6 +98,8 @@ namespace Hero_of_Novac
             shopkeep = new List<string>();
             hero = new List<string>();
             priest = new List<string>();
+            char1 = new List<string>();
+            char2 = new List<string>();
             r1 = ran.Next(-2, 3);
             r2 = ran.Next(-2, 3);
             ReadFileAsStrings(@"Content/chartext.txt");
@@ -202,7 +206,7 @@ namespace Hero_of_Novac
                         tradeWindow.Y += 90;
                 }
             }
-            if (vol.X == 0 && vol.Y == 0)
+            if (vol == Vector2.Zero)
                 source.X = source.Width;
             else if (Math.Abs(vol.Y) >= Math.Abs(vol.X))
             {
@@ -293,7 +297,7 @@ namespace Hero_of_Novac
             if (isTalking)
             {
                 drawTalkingMenu(spriteBatch);
-                spriteBatch.Draw(tex, rec, source, Color.White);
+                //spriteBatch.Draw(tex, rec, source, Color.White);
                 spriteBatch.Draw(headshot, new Rectangle(window.Width - 360, window.Height / 4 * 3 - 480, 360, 480), Color.White);
                 spriteBatch.Draw(heroHead, new Rectangle(0, window.Height / 4 * 3 - 480, 360, 480), Color.White);
                 spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White);
@@ -335,6 +339,10 @@ namespace Hero_of_Novac
                         return hero[0];
                     case 'p':
                         return priest[0];
+                    case '1':
+                        return char1[0];
+                    case '2':
+                        return char2[0];
 
                 }
             }
@@ -353,6 +361,10 @@ namespace Hero_of_Novac
                         return hero[1];
                     case 'p':
                         return priest[1];
+                    case '1':
+                        return char1[1];
+                    case '2':
+                        return char2[1];
                 }
             }
             else if (s == Speech.Farewell)
@@ -370,6 +382,10 @@ namespace Hero_of_Novac
                         return hero[2];
                     case 'p':
                         return priest[2];
+                    case '1':
+                        return char1[2];
+                    case '2':
+                        return char2[2];
 
                 }
             }
@@ -388,6 +404,10 @@ namespace Hero_of_Novac
                         return hero[3];
                     case 'p':
                         return priest[3];
+                    case '1':
+                        return char1[3];
+                    case '2':
+                        return char2[3];
 
                 }
             }
@@ -425,7 +445,12 @@ namespace Hero_of_Novac
                             case 'p':
                                 priest.Add(line);
                                 break;
-
+                            case '1':
+                                char1.Add(line);
+                                break;
+                            case '2':
+                                char2.Add(line);
+                                break;
                         }
                     }
                 }

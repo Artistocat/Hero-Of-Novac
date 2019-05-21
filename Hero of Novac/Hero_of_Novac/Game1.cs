@@ -40,7 +40,7 @@ namespace Hero_of_Novac
         BattleMenu battleMenu;
         MainMenu mainMenu;
 
-        const bool TESTING = true;
+        const bool TESTING = false;
 
         Random randomSeed = new Random(1102);
         Random randomNoSeed = new Random();
@@ -58,8 +58,8 @@ namespace Hero_of_Novac
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 1920;//1920
-            graphics.PreferredBackBufferHeight = 1080;//1080
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;//1920
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;//1080
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
@@ -111,8 +111,9 @@ namespace Hero_of_Novac
                 npcs.Add(CreateNPC("armorer", new Rectangle(564, 500, 200, 168), true, 'a'));
                 area.AddNPCs(npcs);
                 List<Enemy> enemies = new List<Enemy>();
-                enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false, false));
-                enemies.Add(CreateEnemy("wasp", new Rectangle(320, 0, 320, 320), true, true));
+                enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false));
+                enemies.Add(CreateEnemy("wasp", new Rectangle(320, 0, 320, 320), true));
+                enemies.Add(CreateEnemy("slime", new Rectangle(area.Width * 32 - 500, 0, 320, 320), true));
                 area.AddEnemies(enemies);
             }
             else
@@ -120,6 +121,20 @@ namespace Hero_of_Novac
                 area = new Area(Services, @"Content/Village", pix, window, randomSeed);
                 Enemy.LoadContent(area.Player);
                 Attack.LoadContent(area.Player);
+                List<NPC> npcs = new List<NPC>();
+                npcs.Add(CreateNPC("npc1", new Rectangle(672, 928, 416, 576), true, '1'));
+                npcs.Add(CreateNPC("npc2", new Rectangle(1920, 192, 800, 480), true, '2'));
+                npcs.Add(CreateNPC("priestess", new Rectangle(1920, 0, 800, 672), true, 'p'));
+                npcs.Add(CreateNPC("shopkeeper", new Rectangle(1728, 928, 832, 736), true, 's'));
+                npcs.Add(CreateNPC("blacksmith", new Rectangle(2016, 1088, 704, 416), true, 'b'));
+                npcs.Add(CreateNPC("armorer", new Rectangle(1696, 1184, 864, 480), true, 'a'));
+                area.AddNPCs(npcs);
+                List<Enemy> enemies = new List<Enemy>();
+                enemies.Add(CreateEnemy("bird", new Rectangle(128, 224, 800, 384), true));
+                enemies.Add(CreateEnemy("slime", new Rectangle(928, 224, 800, 416), true));
+                enemies.Add(CreateEnemy("gryphon", new Rectangle(704, 96, 800, 416), false));
+                enemies.Add(CreateEnemy("wasp", new Rectangle(736, 0, 736, 480), true));
+                area.AddEnemies(enemies);
             }
 
             NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"), Content.Load<Texture2D>("window"), Content.Load<Texture2D>("HeroProfile"));
@@ -158,13 +173,13 @@ namespace Hero_of_Novac
             battleMenu = new BattleMenu(new Enemy[0], BattleMenu.Biome.Plains);
         }
 
-        private Enemy CreateEnemy(string name, Rectangle space, bool constantMove, bool idleAnimation)
+        private Enemy CreateEnemy(string name, Rectangle space, bool constantMove)
         {
             Texture2D enemyTex = Content.Load<Texture2D>(name);
             Texture2D enemyProfileTex = Content.Load<Texture2D>(name + "Profile");
             enemyTex.Name = name;
             enemyProfileTex.Name = name + "Profile";
-            return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, idleAnimation, new Vector2(0, 0));
+            return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, new Vector2(0, 0));
         }
 
         private Enemy LoadEnemy(List<string> enemyInfo)
@@ -189,7 +204,7 @@ namespace Hero_of_Novac
             return new Enemy(rec, sourceRec, space, tex, sourceRecProfile, profileTex, pos, window, randomNoSeed, constantMove, isIdle, vol, battleRec, battleSourceRec, healthBar, healthRect, chargeBar);
         }
 
-        private Rectangle ParseStringToRectangle(string str)
+        public static Rectangle ParseStringToRectangle(string str)
         {
             Rectangle parsedRect;
             int xIndex = str.IndexOf('X');
@@ -217,7 +232,7 @@ namespace Hero_of_Novac
             return parsedVector;
         }
 
-        private PercentageRectangle ParseStringToPercentageRectangle(string stri)
+        public static PercentageRectangle ParseStringToPercentageRectangle(string stri)
         {
             string str = stri;
             PercentageRectangle parsedRect;
@@ -245,7 +260,7 @@ namespace Hero_of_Novac
             return parsedRect;
         }
 
-        private bool ParseStringToBool(string str)
+        public static bool ParseStringToBool(string str)
         {
             if (str.Equals("true"))
                 return true;
@@ -317,7 +332,7 @@ namespace Hero_of_Novac
                         {
                             npcs.Add(LoadNPC(npcInfo));
                         }
-                        area.LoadSave(enemies, npcs, load.PlayerInfo);
+                        area.LoadSave(enemies, npcs, load.PlayerInfo, load.AreaInfo);
                         currentGameState = GameState.Overworld;
                     }
                     if (mainMenu.startNewGame)
@@ -342,6 +357,10 @@ namespace Hero_of_Novac
                         currentGameState = GameState.Overworld;
                         area.RemoveEnemies(battleMenu.Enemies);
                         area.Player.Overworld();
+                        foreach(Enemy enemy in area.Enemies)
+                        {
+                            enemy.UpdateXP();
+                        }
                     }
                     break;
                 case GameState.Inventory:

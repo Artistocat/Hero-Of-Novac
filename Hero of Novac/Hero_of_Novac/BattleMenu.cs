@@ -183,15 +183,15 @@ namespace Hero_of_Novac
             MainChoices[2] = new NavigableMenuItem(itemsRect, pix, singleRect, Color.Green, "Items", false);
 
             Basic = new NavigableMenuItem[2, 2];
-            Basic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Red, "Slash", false);
-            Basic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Yellow, "Punch", false);
-            Basic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Yellow, "Chop", false);
-            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Red, "Bitch slap", false);
+            Basic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Blue, "Slash", false);
+            Basic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Blue, "Punch", false);
+            Basic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Blue, "Chop", false);
+            Basic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Blue, "Bitch slap", false);
 
             Magic = new NavigableMenuItem[2, 2];
             Magic[0, 0] = new NavigableMenuItem(attackRects[0], pix, singleRect, Color.Purple, "", false);
-            Magic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Blue, "", false);
-            Magic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Blue, "", false);
+            Magic[0, 1] = new NavigableMenuItem(attackRects[1], pix, singleRect, Color.Purple, "", false);
+            Magic[1, 0] = new NavigableMenuItem(attackRects[2], pix, singleRect, Color.Purple, "", false);
             Magic[1, 1] = new NavigableMenuItem(attackRects[3], pix, singleRect, Color.Purple, "", false);
 
             int elementHeight = 20;
@@ -661,7 +661,7 @@ namespace Hero_of_Novac
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
                         if (timer % 4 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -673,6 +673,8 @@ namespace Hero_of_Novac
                     {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                        if (timer % 4 == 0)
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -683,9 +685,9 @@ namespace Hero_of_Novac
                     if (player.sourceRecBattle.X <= 96 * 5)
                     {
                         if (timer % 8 == 0)
-                        {
                             player.sourceRecBattle.X += 96;
-                        }
+                        if (timer % 4 == 0)
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -697,6 +699,8 @@ namespace Hero_of_Novac
                     {
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
+                        if (timer % 4 == 0)
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -717,7 +721,7 @@ namespace Hero_of_Novac
                     if (player.sourceRecFX.X <= 64 * 14)
                     {
                         if (timer % 8 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -730,10 +734,10 @@ namespace Hero_of_Novac
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
                     }
-                    if (player.sourceRecFX.X <= 64 * 3)
+                    if (player.sourceRecFX.X <= 128 * 3)
                     {
                         if (timer % 8 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -746,10 +750,10 @@ namespace Hero_of_Novac
                         if (timer % 8 == 0)
                             player.sourceRecBattle.X += 96;
                     }
-                    if (player.sourceRecFX.X <= 64 * 5)
+                    if (player.sourceRecFX.X <= 128 * 5)
                     {
                         if (timer % 8 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -767,10 +771,10 @@ namespace Hero_of_Novac
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
-                    if (player.sourceRecFX.X <= 64 * 5)
+                    if (player.sourceRecFX.X <= 128 * 5)
                     {
                         if (timer % 8 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
@@ -788,18 +792,18 @@ namespace Hero_of_Novac
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
-                    if (player.sourceRecFX.X <= 64 * 10)
+                    if (player.sourceRecFX.X <= 128 * 10)
                     {
                         if (timer % 10 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
                         doneAttacking = true;
                     }
                     break;
-                case "Fire Ball":
-                    break;
+                //case "Fire Ball":
+                //    break;
                 case "Incendiary Cloud":
                     if(player.sourceRecBattle.X <= 96 * 1)
                     {
@@ -811,42 +815,42 @@ namespace Hero_of_Novac
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
-                    if(player.sourceRecFX.X <= 64 * 9)
+                    if(player.sourceRecFX.X <= 128 * 9)
                     {
                         if (timer % 8 == 0)
-                            player.sourceRecFX.X += 64;
+                            player.sourceRecFX.X += 128;
                     }
                     else
                     {
                         doneAttacking = true;
                     }
                     break;
-                case "Otto's Firestorm":
-                    break;
-                case "Thorn Whip":
-                    break;
-                case "Stone Throw":
-                    break;
-                case "Earthquake":
-                    break;
-                case "Otiluke's Wrath":
-                    break;
-                case "Cone of Cold":
-                    break;
-                case "Ice Storm":
-                    break;
-                case "Frost Ray":
-                    break;
-                case "Rary's Tsunami":
-                    break;
-                case "Magic Missile":
-                    break;
-                case "Eldritch Blast":
-                    break;
-                case "Arcane Beam":
-                    break;
-                case "Tasha's Laugh":
-                    break;
+                //case "Otto's Firestorm":
+                //    break;
+                //case "Thorn Whip":
+                //    break;
+                //case "Stone Throw":
+                //    break;
+                //case "Earthquake":
+                //    break;
+                //case "Otiluke's Wrath":
+                //    break;
+                //case "Cone of Cold":
+                //    break;
+                //case "Ice Storm":
+                //    break;
+                //case "Frost Ray":
+                //    break;
+                //case "Rary's Tsunami":
+                //    break;
+                //case "Magic Missile":
+                //    break;
+                //case "Eldritch Blast":
+                //    break;
+                //case "Arcane Beam":
+                //    break;
+                //case "Tasha's Laugh":
+                //    break;
                 default:
                     if (timer % 200 == 0)
                     {
@@ -862,6 +866,10 @@ namespace Hero_of_Novac
                 if (enemies[0].Health <= 0)
                 {
                     currentBattleState = BattleState.Victory;
+                    foreach (Enemy enemy in enemies)
+                    {
+                        player.Xp += enemy.Xp;
+                    }
                 }
                 if (player.CurrentAttack.IsMagic())
                 {
@@ -957,11 +965,11 @@ namespace Hero_of_Novac
                         DrawItems(spriteBatch);
                         break;
                 }
-                player.Draw(spriteBatch);
                 foreach (Enemy enemy in enemies)
                 {
                     enemy.Draw(spriteBatch);
                 }
+                player.Draw(spriteBatch);
             }
 
             if (currentBattleState == BattleState.Victory)
@@ -1005,6 +1013,7 @@ namespace Hero_of_Novac
             public static SpriteFont SmallFont;
             public static SpriteFont Font;
             Rectangle rect;
+            List<Rectangle> borderRects;
             Texture2D texture;
             Rectangle sourceRect;
             Color color;
@@ -1048,7 +1057,29 @@ namespace Hero_of_Novac
                 this.color = color;
                 this.isSmallName = isSmallName;
 
+                borderRects = new List<Rectangle>();
+                int bThicc = 5;
+                if (isSmallName)
+                    bThicc = 2;
+                borderRects.Add(new Rectangle(rect.X, rect.Y, bThicc, rect.Height));
+                borderRects.Add(new Rectangle(rect.X, rect.Y, rect.Width, bThicc));
+                borderRects.Add(new Rectangle(rect.X + rect.Width - bThicc, rect.Y, bThicc, rect.Height));
+                borderRects.Add(new Rectangle(rect.X, rect.Y + rect.Height - bThicc, rect.Width, bThicc));
+
                 selectedColor = Color.White;
+                int r, g, b;
+                r = color.R + 30;
+                g = color.G + 30;
+                b = color.B + 30;
+                if (r > 255)
+                    r = 255;
+                if (g > 255)
+                    g = 255;
+                if (b > 255)
+                    b = 255;
+
+                selectedColor = new Color(r, g, b);
+                //selectedColor = color;
                 isSelected = false;
                 Name = name;
             }
@@ -1067,6 +1098,13 @@ namespace Hero_of_Novac
                     {
                         spriteBatch.DrawString(Font, name, nameV, Color.Gray);
                     }
+                }
+                drawColor = Color.Black;
+                if (isSelected)
+                    drawColor = Color.White;
+                foreach (Rectangle r in borderRects)
+                {
+                    spriteBatch.Draw(texture, r, drawColor);
                 }
             }
         }

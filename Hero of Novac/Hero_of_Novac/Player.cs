@@ -14,6 +14,7 @@ namespace Hero_of_Novac
 
     public class Player// : Entity
     {
+        //public static List<Enemy> enemies;
         ContentManager content;
         public ContentManager Content
         {
@@ -21,7 +22,7 @@ namespace Hero_of_Novac
         }
 
         private Rectangle window;
-        
+
         private const int OVERWORLD_SPRITE_WIDTH = 52;
         private const int OVERWORLD_SPRITE_HEIGHT = 72;
         private const int BATTLE_SPRITE_WIDTH = 96;
@@ -64,6 +65,7 @@ namespace Hero_of_Novac
         public Rectangle Hitbox
         {
             get { return hitbox; }
+            set { hitbox = value; }
         }
 
         //private int healthPoints;
@@ -92,8 +94,27 @@ namespace Hero_of_Novac
         private Rectangle healthRect; //for battles
         private Rectangle magicRect;
 
+        private int xp;
         private PercentageRectangle xpBar;
         private PercentageRectangle[] xpElementBars;
+        public int Xp
+        {
+            get
+            {
+                return xp;
+            }
+            set
+            {
+                xp = value;
+                while (xp > xpBar.MaxValue)
+                {
+                    xp -= xpBar.MaxValue;
+                    //xpBar.MaxValue = (int)(Math.Round(xpBar.MaxValue * 1.5));
+                    Level++;
+                }
+                xpBar.CurrentValue = xp;
+            }
+        }
         private int[] elementLevels;
         private int level;
         public int Level
@@ -104,6 +125,14 @@ namespace Hero_of_Novac
             }
             set
             {
+                if (level + 1 == value)
+                {
+                    xpBar.MaxValue = (int)(Math.Round(xpBar.MaxValue * 1.5));
+                }
+                else
+                {
+                    xpBar.MaxValue = (int)(Math.Round(100 * Math.Pow(1.5, value)));
+                }
                 level = value;
             }
         }
@@ -177,55 +206,67 @@ namespace Hero_of_Novac
                     switch (value.AttackName)
                     {
                         case "Slash":
+                            combatFX = Content.Load<Texture2D>("Slashes1");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 0;
                             break;
                         case "Lunge":
+                            combatFX = Content.Load<Texture2D>("Slashes1");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 0;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128 * 2;
                             break;
                         case "Punch":
+                            combatFX = Content.Load<Texture2D>("combatFX");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96 * 5;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128 * 2;
                             break;
                         case "Chop":
+                            combatFX = Content.Load<Texture2D>("Slashes1");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 0;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128;
                             break;
                         case "Whirlwind":
                             combatFX = Content.Load<Texture2D>("WindAttacc");
                             sourceRecBattle.X = 0;
                             sourceRecBattle.Y = 96 * 2;
-                            sourceRecFX.X = -64;
-                            sourceRecFX.Y = 64 * 2;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128 * 2;
                             break;
                         case "Air Slash":
                             combatFX = Content.Load<Texture2D>("WindAttacc");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
-                            sourceRecFX.X = -64;
+                            sourceRecFX.X = -128;
                             sourceRecFX.Y = 0;
                             break;
                         case "Wind Strike":
                             combatFX = Content.Load<Texture2D>("WindAttacc");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 0;
-                            sourceRecFX.X = -64;
-                            sourceRecFX.Y = 64;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128;
                             break;
                         case "Faldor's Wind": //Animation might change in the future & twitches
                             combatFX = Content.Load<Texture2D>("WindAttacc");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
-                            sourceRecFX.X = -64;
-                            sourceRecFX.Y = 64;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128;
                             break;
                         case "Wall of Fire":
                             combatFX = Content.Load<Texture2D>("FireAttacc");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
-                            sourceRecFX.X = -64;
-                            sourceRecFX.Y = 64 * 3;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128 * 3;
                             break;
                         case "Fire Ball":
                             break;
@@ -233,8 +274,8 @@ namespace Hero_of_Novac
                             combatFX = Content.Load<Texture2D>("explosions");
                             sourceRecBattle.X = 0;
                             sourceRecBattle.Y = 96 * 2;
-                            sourceRecFX.X = -64;
-                            sourceRecFX.Y = 64;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128;
                             break;
                         case "Otto's Firestorm":
                             break;
@@ -302,7 +343,7 @@ namespace Hero_of_Novac
             sourceRecWorld = new Rectangle(OVERWORLD_SPRITE_WIDTH, 0, OVERWORLD_SPRITE_WIDTH, OVERWORLD_SPRITE_HEIGHT);
             sourceRecIdle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
             sourceRecBattle = new Rectangle(0, 96, BATTLE_SPRITE_WIDTH, BATTLE_SPRITE_HEIGHT);
-            sourceRecFX = new Rectangle(-64, 64 * 4, 64, 64);
+            sourceRecFX = new Rectangle(-128, 128 * 4, 128, 128);
             sourceRecProfile = new Rectangle(0, 6, 292, 503);
             playerPos = new Vector2((window.Width - OVERWORLD_SPRITE_WIDTH) / 2, (window.Height - OVERWORLD_SPRITE_HEIGHT) / 2);
 
@@ -313,20 +354,22 @@ namespace Hero_of_Novac
             healthRect.Width *= 5;
             healthRect.Height *= 5;
             healthRect.X = 25;
-            healthRect.Y = window.Height / 2 + 100;
+            healthRect.Y = window.Height / 2 + 50;
             magicRect = magicBar.Rect;
             magicRect.Width *= 5;
             magicRect.Height *= 5;
             magicRect.X = 25;
-            magicRect.Y = window.Height / 2 + 150;
+            magicRect.Y = window.Height / 2 + 100;
             //battleHealthBar = new PercentageRectangle(healthRect, healthBar.MaxValue, healthBar.Color);
             //battleMagicBar = new PercentageRectangle(magicRect, magicBar.MaxValue, magicBar.Color);
-            chargeBar = new PercentageRectangle(new Rectangle(25, window.Height / 2 + 200, 66 * 5, 5 * 5), 100, Color.Gray);
+            chargeBar = new PercentageRectangle(new Rectangle(25, window.Height / 2 + 150, 66 * 5, 5 * 5), 100, Color.Gray);
             chargeBar.CurrentValue = 0;
+            xpBar = new PercentageRectangle(new Rectangle(chargeBar.Rect.X, chargeBar.Rect.Y + 50, 66 * 5, 5 * 5), 100, Color.Green);
+            xpBar.CurrentValue = xp = 0;
 
-            battlePos = new Vector2(200, 200);
-            battleFXPos.X = battlePos.X + 1300;
-            battleFXPos.Y = battlePos.Y;
+            battlePos = new Vector2(window.Width / 5, 200);
+            battleFXPos.X = window.Right - window.Width / 3 + 8;
+            battleFXPos.Y = battlePos.Y - 12;
             color = Color.White;
             pixel = p;
             timer = 0;
@@ -442,7 +485,7 @@ namespace Hero_of_Novac
                     if (timer % 8 == 0)
                         sourceRecBattle.X += 96;
                     if (timer % 4 == 0)
-                        sourceRecFX.X += 64;
+                        sourceRecFX.X += 128;
                 }
                 if (sourceRecBattle.X >= 96 * 6)
                 {
@@ -578,14 +621,17 @@ namespace Hero_of_Novac
                         spriteBatch.Draw(overworldTex, playerPos, sourceRecWorld, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f / hitbox.Bottom);
                     break;
                 case GameState.Battlemenu:
-                    spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
                     if (!isAttacking)
                         spriteBatch.Draw(combatTex, battlePos, sourceRecIdle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f); //Idle
                     else
+                    {
                         spriteBatch.Draw(combatTex, battlePos, sourceRecBattle, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                        spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                    }
                     healthBar.Draw(spriteBatch, true);
                     magicBar.Draw(spriteBatch, true);
                     chargeBar.Draw(spriteBatch, true);
+                    xpBar.Draw(spriteBatch, true);
                     break;
             }
         }

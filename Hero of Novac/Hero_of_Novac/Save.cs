@@ -11,6 +11,7 @@ namespace Hero_of_Novac
         public const string playerStart = "Player info starts here";
         public const string enemyStart = "Enemies' info starts here";
         public const string npcStart = "Npc info starts here";
+        public const string areaStart = "Area info starts here";
         StreamWriter file;
         public Save()
         {
@@ -22,7 +23,9 @@ namespace Hero_of_Novac
             PlayerSave(area.Player);
             EnemySave(area.Enemies);
             NPCSave(area.Npc);
+            AreaSave(area);
             file.Close();
+            Console.WriteLine("Game saved");
         }
         private void PlayerSave(Player player)
         {
@@ -30,6 +33,8 @@ namespace Hero_of_Novac
             file.WriteLine(player.Health);
             file.WriteLine(player.Level);
             file.WriteLine(player.Position);
+            file.WriteLine(player.Hitbox);
+            file.WriteLine(player.Xp);
         }
 
         private void EnemySave(List<Enemy> enemies)
@@ -66,6 +71,19 @@ namespace Hero_of_Novac
                 file.WriteLine("" + n.space);
                 file.WriteLine("" + n.headshot.Name);
                 file.WriteLine("" + n.IsInteractable);
+            }
+        }
+
+        private void AreaSave(Area area)
+        {
+            file.WriteLine(areaStart);
+            file.WriteLine(area.Window);
+            file.WriteLine(area.AreaRec);
+            int count = area.Tiles.Count;
+            file.WriteLine(count);
+            foreach (Tile t in area.Tiles)
+            {
+                file.WriteLine(t.Rectangle);
             }
         }
     }

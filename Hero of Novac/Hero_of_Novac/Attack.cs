@@ -137,182 +137,99 @@ namespace Hero_of_Novac
 
         public static Attack Lunge
         {
-            get
-            {
-                return lunge;
-            }
+            get { return lunge; }
         }
         public static Attack Slash
         {
-            get
-            {
-                return slash;
-            }
+            get { return slash; }
         }
         public static Attack Chop
         {
-            get
-            {
-                return chop;
-            }
+            get { return chop; }
         }
         public static Attack Punch
         {
-            get
-            {
-                return punch;
-            }
+            get { return punch; }
         }
         public static Attack Whirlwind
         {
-            get
-            {
-                return whirlwind;
-            }
+            get { return whirlwind; }
         }
         public static Attack AirSlash
         {
-            get
-            {
-                return airSlash;
-            }
+            get { return airSlash; }
         }
         public static Attack WindStrike
         {
-            get
-            {
-                return windStrike;
-            }
+            get { return windStrike; }
         }
         public static Attack FaldorsWind
         {
-            get
-            {
-                return faldorsWind;
-            }
+            get { return faldorsWind; }
         }
         public static Attack WallOfFire
         {
-            get
-            {
-                return wallOfFire;
-            }
+            get { return wallOfFire; }
         }
         public static Attack FireBall
         {
-            get
-            {
-                return fireBall;
-            }
+            get { return fireBall; }
         }
         public static Attack IncendiaryCloud
         {
-            get
-            {
-                return incendiaryCloud;
-            }
+            get { return incendiaryCloud; }
         }
-
         public static Attack OttosFireStorm
         {
-            get
-            {
-                return ottosFireStorm;
-            }
+            get { return ottosFireStorm; }
         }
-
         public static Attack ThornWhip
         {
-            get
-            {
-                return thornWhip;
-            }
+            get { return thornWhip; }
         }
-
         public static Attack StoneThrow
         {
-            get
-            {
-                return stoneThrow;
-            }
+            get { return stoneThrow; }
         }
         public static Attack Earthquake
         {
-            get
-            {
-                return earthquake;
-            }
+            get { return earthquake; }
         }
         public static Attack OtilukesWrath
         {
-            get
-            {
-                return otilukesWrath;
-            }
+            get { return otilukesWrath; }
         }
-
         public static Attack ConeOfCold
         {
-            get
-            {
-                return coneOfCold;
-            }
+            get { return coneOfCold; }
         }
-
         public static Attack IceStorm
         {
-            get
-            {
-                return iceStorm;
-            }
+            get { return iceStorm; }
         }
-
         public static Attack FrostRay
         {
-            get
-            {
-                return frostRay;
-            }
+            get { return frostRay; }
         }
-
         public static Attack RarysTsunami
         {
-            get
-            {
-                return rarysTsunami;
-            }
+            get { return rarysTsunami; }
         }
-
         public static Attack MagicMissile
         {
-            get
-            {
-                return magicMissile;
-            }
+            get { return magicMissile; }
         }
-
         public static Attack EldritchBlast
         {
-            get
-            {
-                return eldritchBlast;
-            }
+            get { return eldritchBlast; }
         }
-
         public static Attack ArcaneBeam
         {
-            get
-            {
-                return arcaneBeam;
-            }
+            get { return arcaneBeam; }
         }
-
         public static Attack TashasLaugh
         {
-            get
-            {
-                return tashasLaugh;
-            }
+            get { return tashasLaugh; }
         }
     }
 }

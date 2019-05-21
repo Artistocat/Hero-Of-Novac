@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Hero_of_Novac
 {
-    class Tile
+    public class Tile
     {
         private const int WIDTH = 32;
         private const int HEIGHT = 32;
@@ -20,6 +20,7 @@ namespace Hero_of_Novac
         public Rectangle Rectangle
         {
             get { return rec; }
+            set { rec = value; }
         }
 
         private Rectangle sourceRec;
