@@ -262,7 +262,7 @@ namespace Hero_of_Novac
 
         public static bool ParseStringToBool(string str)
         {
-            if (str.Equals("true"))
+            if (str.Equals("True"))
                 return true;
             return false;
         }

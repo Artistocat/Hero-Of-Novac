@@ -8,11 +8,19 @@ namespace Hero_of_Novac
     public class MagicAttack : Attack
     {
         private Element element;
+        private int magicCost;
         public Element Element
         {
             get
             {
                 return element;
+            }
+        }
+        public int MagicCost
+        {
+            get
+            {
+                return magicCost;
             }
         }
 
@@ -22,6 +30,7 @@ namespace Hero_of_Novac
             int elementlvl = player.Elementlvl(element);
             damage *= (int)(elementlvl * 1.25);
             chargeTime /= (int)(elementlvl * 1.25);
+            magicCost = defaultChargeTime;
         }
 
         public override bool IsMagic()
