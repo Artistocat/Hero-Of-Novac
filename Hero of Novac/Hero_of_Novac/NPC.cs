@@ -361,6 +361,7 @@ namespace Hero_of_Novac
                         return hero[1];
                     case 'p':
                         player.Health = 100;
+                        player.MagicPoints = 100;
                         return priest[1];
                     case '1':
                         return char1[1];
