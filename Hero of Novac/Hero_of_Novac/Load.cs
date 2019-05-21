@@ -58,10 +58,12 @@ namespace Hero_of_Novac
             string level = reader.ReadLine();
             string position = reader.ReadLine();
             string hitbox = reader.ReadLine();
+            string xp = reader.ReadLine();
             playerInfo.Add(health);
             playerInfo.Add(level);
             playerInfo.Add(position);
             playerInfo.Add(hitbox);
+            playerInfo.Add(xp);
         }
         private void LoadNextEnemy()
         {
