@@ -718,7 +718,7 @@ namespace Hero_of_Novac
                         player.sourceRecBattle.Y = 96 * 2;
                         player.sourceRecBattle.X = 0;
                     }
-                    if (player.sourceRecFX.X <= 64 * 14)
+                    if (player.sourceRecFX.X <= 128 * 14)
                     {
                         if (timer % 8 == 0)
                             player.sourceRecFX.X += 128;

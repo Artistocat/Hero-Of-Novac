@@ -305,6 +305,10 @@ namespace Hero_of_Novac
         //private PercentageRectangle battleChargeBar;
 
         private bool dead = false;
+        public bool isDead
+        {
+            get { return dead; }
+        }
 
         private Color color;
         private int timer;

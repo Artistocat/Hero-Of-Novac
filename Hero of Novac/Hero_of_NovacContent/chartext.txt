@@ -14,7 +14,7 @@ h How are you?
 h Can I see your wares?
 h I have to go.
 p Welcome to the church Jon!
-p What do you want to learn?
+p There's no time for that. I can heal you though.
 p Have a blessed day!
 p The lord has been kind to me today!
 1 Please help! Monsters are invading the village!
