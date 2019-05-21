@@ -136,6 +136,24 @@ namespace Hero_of_Novac
                 level = value;
             }
         }
+        public int MagicPoints
+        {
+            get
+            {
+                return magicBar.CurrentValue;
+            }
+            set
+            {
+                //while (magicBar.CurrentValue + value > magicBar.MaxValue ||
+                //    magicBar.CurrentValue + value < 0)
+                //{
+                //    level++;
+                //    value -= magicBar.MaxValue;
+                //    magicBar.MaxValue = (int)(magicBar.MaxValue * 1.5);
+                //}
+                magicBar.CurrentValue = value;
+            }
+        }
         public double LevelModifier
         {
             get
@@ -345,6 +363,10 @@ namespace Hero_of_Novac
         //private PercentageRectangle battleChargeBar;
 
         private bool dead = false;
+        public bool isDead
+        {
+            get { return dead; }
+        }
 
         private Color color;
         private int timer;

@@ -303,14 +303,14 @@ namespace Hero_of_Novac
                 spriteBatch.Draw(talkW, new Rectangle(0, window.Height / 4 * 3, window.Width, window.Height / 4), null, Color.White);
                 spriteBatch.DrawString(font, Talk(chat, name), new Vector2(35, window.Height / 4 * 3 + 20), Color.White);
             }
-            if(isTrading)
-            {
-                drawTradeMenu(spriteBatch);
+            //if(isTrading)
+            //{
+            //    drawTradeMenu(spriteBatch);
 
 
-                if (gp.IsButtonDown(Buttons.Start))
-                    isTrading = false;
-            }
+            //    if (gp.IsButtonDown(Buttons.Start))
+            //        isTrading = false;
+            //}
         }
 
         public static void Load(SpriteFont f, Player player, Texture2D b, Texture2D w, Texture2D heroFace)
@@ -360,6 +360,7 @@ namespace Hero_of_Novac
                     case 'h':
                         return hero[1];
                     case 'p':
+                        player.Health = 100;
                         return priest[1];
                     case '1':
                         return char1[1];
