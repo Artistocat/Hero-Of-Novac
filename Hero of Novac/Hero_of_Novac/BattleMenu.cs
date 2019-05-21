@@ -863,6 +863,11 @@ namespace Hero_of_Novac
                 {
                     currentBattleState = BattleState.Victory;
                 }
+                if (player.CurrentAttack.IsMagic())
+                {
+                    MagicAttack magicAttack = (MagicAttack)player.CurrentAttack;
+                    player.MagicPoints -= magicAttack.MagicCost;
+                }
                 player.CurrentAttack = null;
             }
         }
