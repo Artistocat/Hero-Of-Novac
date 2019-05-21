@@ -98,7 +98,7 @@ namespace Hero_of_Novac
             FX1 = Content.Load<Texture2D>("combatFX");
 
             MainMenu.LoadContent(GraphicsDevice, window, font, Content.Load<Texture2D>("MainMenu"), Content.Load<SpriteFont>("MainFont"));
-            
+
             mainMenu = new MainMenu();
             if (TESTING)
             {
@@ -309,7 +309,7 @@ namespace Hero_of_Novac
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || mainMenu.quitGame)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || mainMenu.quitGame || defeatMenu.quitGame)
                 this.Exit();
             bool willBattle = false;
             List<Enemy> enemiesInBattle = new List<Enemy>();
@@ -322,22 +322,6 @@ namespace Hero_of_Novac
             {
                 case GameState.MainMenu:
                     mainMenu.Update();
-                    if (mainMenu.loadOldGame)
-                    {
-                        load = new Load(1);
-                        List<Enemy> enemies = new List<Enemy>();
-                        List<NPC> npcs = new List<NPC>();
-                        foreach (List<string> enemyInfo in load.EnemyInfo)
-                        {
-                            enemies.Add(LoadEnemy(enemyInfo));
-                        }
-                        foreach (List<string> npcInfo in load.NpcInfo)
-                        {
-                            npcs.Add(LoadNPC(npcInfo));
-                        }
-                        area.LoadSave(enemies, npcs, load.PlayerInfo, load.AreaInfo);
-                        currentGameState = GameState.Overworld;
-                    }
                     if (mainMenu.startNewGame)
                     {
                         currentGameState = GameState.Overworld;
@@ -360,6 +344,11 @@ namespace Hero_of_Novac
                         if (battleMenu.LostBattle)
                         {
                             currentGameState = GameState.Defeat;
+                            area.Player.Overworld();
+                            foreach (Enemy enemy in battleMenu.Enemies)
+                            {
+                                enemy.Overworld();
+                            }
                         }
                         else
                         {
@@ -379,6 +368,22 @@ namespace Hero_of_Novac
                     defeatMenu.Update();
                     area.Update(gameTime);
                     break;
+            }
+            if (mainMenu.loadOldGame)
+            {
+                load = new Load(1);
+                List<Enemy> enemies = new List<Enemy>();
+                List<NPC> npcs = new List<NPC>();
+                foreach (List<string> enemyInfo in load.EnemyInfo)
+                {
+                    enemies.Add(LoadEnemy(enemyInfo));
+                }
+                foreach (List<string> npcInfo in load.NpcInfo)
+                {
+                    npcs.Add(LoadNPC(npcInfo));
+                }
+                area.LoadSave(enemies, npcs, load.PlayerInfo, load.AreaInfo);
+                currentGameState = GameState.Overworld;
             }
 
             if (willBattle)

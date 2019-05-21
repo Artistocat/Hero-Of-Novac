@@ -23,6 +23,9 @@ namespace Hero_of_Novac
         int tics;
         bool giveChoices;
 
+        public bool quitGame;
+        public bool loadSave;
+
         NavigableMenuItem loadLastSave;
         NavigableMenuItem exit;
 
@@ -40,6 +43,7 @@ namespace Hero_of_Novac
             loadLastSave = new NavigableMenuItem(new Rectangle((window.Width - width) / 2, 200, width, height), pixel, new Rectangle(0, 0, 1, 1), Color.Black, "Load last Save");
             exit = new NavigableMenuItem(new Rectangle((window.Width - width) / 2, 250 + height, width, height), pixel, new Rectangle(0, 0, 1, 1), Color.Black, "Exit");
             loadLastSave.isSelected = true;
+            quitGame = loadSave = false;
         }
 
         public static void LoadContent(SpriteFont font, Rectangle window, SpriteFont font2, GraphicsDevice GraphicsDevice)
@@ -59,6 +63,14 @@ namespace Hero_of_Novac
             gp = GamePad.GetState(PlayerIndex.One);
             oldKB = KB;
             KB = Keyboard.GetState();
+            if (gp.Buttons.A == ButtonState.Released && oldgp.Buttons.A == ButtonState.Pressed ||
+                !KB.IsKeyDown(Keys.Enter) && oldKB.IsKeyDown(Keys.Enter))
+            {
+                if (exit.isSelected)
+                    quitGame = true;
+                if (loadLastSave.isSelected)
+                    loadSave = true;
+            }
             if (giveChoices)
             {
                 Direction dir = GetInputDirection(gp, KB);
@@ -69,10 +81,12 @@ namespace Hero_of_Novac
                     if (loadLastSave.isSelected == true)
                     {
                         exit.isSelected = true;
+                        loadLastSave.isSelected = false;
                     }
                     else
                     {
                         loadLastSave.isSelected = true;
+                        exit.isSelected = false;
                     }
                 }
             }
