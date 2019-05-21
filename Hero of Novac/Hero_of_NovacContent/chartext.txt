@@ -1,22 +1,22 @@
 a Hows it going?
-a Need some protection ;)?
+a Let's wait until after the battle.
 a I'll see you around!
 a I'm doing alot better now that you're here.
 b Hello there!
-b Want some swords?
+b Kill all the monsters and I'll make you the best weapon I can!
 b Good bye!
 b It's been a good work day, lots of customers!
 s Welcome to my store!
-s Take a look around.
+s Sorry but the store's closed until the invasion ends.
 s I hope you found what you were looking for!
-s Buiness as usual, haHA!
+s I was doing fine until these monsters showed up!
 h How are you?
 h Can I see your wares?
 h I have to go.
 p Welcome to the church Jon!
-p What do you want to learn?
+p There's no time for that. I can heal you though.
 p Have a blessed day!
-p The lord has been kind to me today!
+p I'm slightly afraid but I'm comfident the Lord will save us.
 1 Please help! Monsters are invading the village!
 1 No time! We have to stop those monsters!
 1 Please show those monsters who's boss!

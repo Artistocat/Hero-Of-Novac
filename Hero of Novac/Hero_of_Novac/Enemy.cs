@@ -211,7 +211,7 @@ namespace Hero_of_Novac
 
         private void OverworldUpdate(GameTime gameTime)
         {
-            if (rec.Intersects(player.Hitbox))
+            if (rec.Intersects(player.Hitbox) && !player.isDead)
             {
                 player.Battle();
                 Battle();
