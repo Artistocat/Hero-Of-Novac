@@ -144,14 +144,14 @@ namespace Hero_of_Novac
             }
             set
             {
-                while (magicBar.CurrentValue + value > magicBar.MaxValue ||
-                    magicBar.CurrentValue + value < 0)
-                {
-                    level++;
-                    value -= magicBar.MaxValue;
-                    magicBar.MaxValue = (int)(magicBar.MaxValue * 1.5);
-                }
-                magicBar.CurrentValue += value;
+                //while (magicBar.CurrentValue + value > magicBar.MaxValue ||
+                //    magicBar.CurrentValue + value < 0)
+                //{
+                //    level++;
+                //    value -= magicBar.MaxValue;
+                //    magicBar.MaxValue = (int)(magicBar.MaxValue * 1.5);
+                //}
+                magicBar.CurrentValue = value;
             }
         }
         public double LevelModifier

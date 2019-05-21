@@ -449,8 +449,9 @@ namespace Hero_of_Novac
             {
                 Vector2 selected = GetSelected(Magic);
                 Element element = GetSelectedElement();
-                Attack selectedAttack = player.MagicAttacks[element][(int)(2 * selected.X + selected.Y)];
-                if (selectedAttack != null)
+                MagicAttack selectedAttack = (MagicAttack)player.MagicAttacks[element][(int)(2 * selected.X + selected.Y)];
+                if (selectedAttack != null
+                    && player.MagicPoints > selectedAttack.MagicCost)
                 {
                     player.CurrentAttack = selectedAttack;
                     currentBattleState = BattleState.Charging;
