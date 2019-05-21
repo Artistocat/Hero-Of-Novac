@@ -40,7 +40,7 @@ namespace Hero_of_Novac
         BattleMenu battleMenu;
         MainMenu mainMenu;
 
-        const bool TESTING = true;
+        const bool TESTING = false;
 
         Random randomSeed = new Random(1102);
         Random randomNoSeed = new Random();
@@ -121,6 +121,20 @@ namespace Hero_of_Novac
                 area = new Area(Services, @"Content/Village", pix, window, randomSeed);
                 Enemy.LoadContent(area.Player);
                 Attack.LoadContent(area.Player);
+                List<NPC> npcs = new List<NPC>();
+                npcs.Add(CreateNPC("npc1", new Rectangle(672, 928, 416, 576), true, '1'));
+                npcs.Add(CreateNPC("npc2", new Rectangle(1920, 192, 800, 480), true, '2'));
+                npcs.Add(CreateNPC("priestess", new Rectangle(1920, 0, 800, 672), true, 'p'));
+                npcs.Add(CreateNPC("shopkeeper", new Rectangle(1728, 928, 832, 736), true, 's'));
+                npcs.Add(CreateNPC("blacksmith", new Rectangle(2016, 1088, 704, 416), true, 'b'));
+                npcs.Add(CreateNPC("armorer", new Rectangle(1696, 1184, 864, 480), true, 'a'));
+                area.AddNPCs(npcs);
+                List<Enemy> enemies = new List<Enemy>();
+                enemies.Add(CreateEnemy("bird", new Rectangle(128, 224, 800, 384), true));
+                enemies.Add(CreateEnemy("slime", new Rectangle(928, 224, 800, 416), true));
+                enemies.Add(CreateEnemy("gryphon", new Rectangle(704, 96, 800, 416), false));
+                enemies.Add(CreateEnemy("wasp", new Rectangle(736, 0, 736, 480), true));
+                area.AddEnemies(enemies);
             }
 
             NPC.Load(fontC, area.Player, Content.Load<Texture2D>("speechballoons"), Content.Load<Texture2D>("window"), Content.Load<Texture2D>("HeroProfile"));

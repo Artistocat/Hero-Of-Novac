@@ -17,3 +17,11 @@ p Welcome to the church Jon!
 p What do you want to learn?
 p Have a blessed day!
 p The lord has been kind to me today!
+1 Please help! Monsters are invading the village!
+1 No time! We have to stop those monsters!
+1 Please show those monsters who's boss!
+1 I'd be better if we weren't under attack!
+2 Help Jon! We're under attack!
+2 Are you crazy? Now iisn't the time for shopping!
+2 Please hurry up and save us!
+2 No time for chit-chat! There's monsters around!

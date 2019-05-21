@@ -23,11 +23,9 @@ namespace Hero_of_Novac
         private List<Tile> tiles;
         public List<Tile> Tiles
         {
-            get
-            {
-                return tiles;
-            }
+            get { return tiles; }
         }
+        private List<Windmill> windmills;
 
         private int objectTilesStart;
 
@@ -159,6 +157,8 @@ namespace Hero_of_Novac
             sourceRecs.Add("barrel3", new Rectangle(64, 480, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("barrel4", new Rectangle(96, 480, TILE_WIDTH, TILE_HEIGHT));
             sourceRecs.Add("fence", new Rectangle(128, 480, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("windmill", new Rectangle(1024, 0, TILE_WIDTH, TILE_HEIGHT));
+            sourceRecs.Add("well", new Rectangle(928, 320, TILE_WIDTH, TILE_HEIGHT));
 
             tileSheets = new Dictionary<string, Texture2D>();
             tileSheets.Add("grass", Content.Load<Texture2D>("terrain"));
@@ -218,8 +218,11 @@ namespace Hero_of_Novac
             tileSheets.Add("barrel3", Content.Load<Texture2D>("houses"));
             tileSheets.Add("barrel4", Content.Load<Texture2D>("houses"));
             tileSheets.Add("fence", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("windmill", Content.Load<Texture2D>("houses"));
+            tileSheets.Add("well", Content.Load<Texture2D>("houses"));
 
             tiles = new List<Tile>();
+            windmills = new List<Windmill>();
             LoadTerrainTiles(ReadFile(path + "/terrain.txt"));
             objectTilesStart = tiles.Count;
             objectData = new Dictionary<Texture2D, List<string>>();
@@ -626,6 +629,10 @@ namespace Hero_of_Novac
                                 case '6':
                                     LoadObject("house6", x - 1, y, 7, 7);
                                     break;
+                                case '7':
+                                    LoadObject("windmill", x - 1, y, 5, 10);
+                                    windmills.Add(new Windmill(Content.Load<Texture2D>("windmill"), new Rectangle((int)((x + 1.5) * TILE_WIDTH), (int)((y - 2.5) * TILE_HEIGHT), 224, 224)));
+                                    break;
                                 default:
                                     throw new NotSupportedException(string.Format("Unsupported tile type character '{0}' at position {1}, {2}.", lines[y][x], x, y));
                             }
@@ -652,6 +659,9 @@ namespace Hero_of_Novac
                             break;
                         case 'f':
                             AddFence(lines, x, y);
+                            break;
+                        case 'w':
+                            LoadObject("well", x, y, 2, 4);
                             break;
                         case '.':
                             break;
@@ -807,6 +817,9 @@ namespace Hero_of_Novac
                 }
 
                 foreach (Tile t in tiles)
+                {
+                    if (t.IsAnimated)
+                        t.Update(gameTime);
                     if (!t.IsPassable)
                     {
                         Rectangle tileRec = t.Rectangle;
@@ -855,6 +868,7 @@ namespace Hero_of_Novac
                                 }
                             }
                     }
+                }
 
                 player.Update(gameTime, speed);
 
@@ -867,10 +881,8 @@ namespace Hero_of_Novac
                 foreach (NPC n in npcs)
                     n.Update(gameTime);
 
-                foreach (Tile t in tiles)
-                    if (t.IsAnimated)
-                        t.Update(gameTime);
-
+                foreach (Windmill w in windmills)
+                    w.Update(gameTime);
             }
             else
             {
@@ -926,6 +938,8 @@ namespace Hero_of_Novac
                 if (tileRec.Intersects(window) && tiles[i].IsOnTop)
                     spriteBatch.Draw(tiles[i].Texture, tileRec, tiles[i].SourceRec, Color.White);
             }
+            foreach (Windmill w in windmills)
+                w.Draw(spriteBatch, areaRec);
             foreach (NPC n in npcs)
                 n.DrawWindow(spriteBatch);
         }

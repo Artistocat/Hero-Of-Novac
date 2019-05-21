@@ -211,8 +211,11 @@ namespace Hero_of_Novac
             if (rec.Y > space.Bottom)
                 rec.Y = space.Bottom;
 
-            if (vol == Vector2.Zero && !constantMove)
-                sourceRec.X = sourceRec.Width;
+            if (vol == Vector2.Zero)
+            {
+                if (!constantMove)
+                    sourceRec.X = sourceRec.Width;
+            }
             else if (Math.Abs(vol.Y) >= Math.Abs(vol.X))
             {
                 if (vol.Y > 0)
