@@ -139,7 +139,7 @@ namespace Hero_of_Novac
             battleSourceRec = sourceRec;
             battleSourceRec.Y = 116;
             currentBattleState = BattleState.Charging;
-            currentAttack = new Attack(12, 3, "enemyAttack");
+            currentAttack = new Attack(12, 300, "enemyAttack");
             //xp = (int)Math.Round(player.LevelModifier);
             UpdateXP();
         }

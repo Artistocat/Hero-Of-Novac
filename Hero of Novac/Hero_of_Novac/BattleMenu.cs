@@ -917,6 +917,14 @@ namespace Hero_of_Novac
             }
         }
 
+        public bool LostBattle
+        {
+            get
+            {
+                return currentBattleState == BattleState.Defeat;
+            }
+        }
+
         public List<Enemy> Enemies
         {
             get

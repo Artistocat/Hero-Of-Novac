@@ -33,12 +33,13 @@ namespace Hero_of_Novac
 
         enum GameState
         {
-            MainMenu, Overworld, Inventory, BattleMenu
+            MainMenu, Overworld, Inventory, BattleMenu, Defeat
         }
         GameState currentGameState;
 
         BattleMenu battleMenu;
         MainMenu mainMenu;
+        DefeatMenu defeatMenu;
 
         const bool TESTING = false;
 
@@ -169,6 +170,8 @@ namespace Hero_of_Novac
             SpriteFont battleFont = Content.Load<SpriteFont>("BattleFont");
             BattleMenu.LoadContent(area.Player, battleFont, smallBattleFont, pix, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             PercentageRectangle.LoadContent(pix, font);
+            DefeatMenu.LoadContent(Content.Load<SpriteFont>("MainFont"), window, font, GraphicsDevice);
+            defeatMenu = new DefeatMenu();
 
             battleMenu = new BattleMenu(new Enemy[0], BattleMenu.Biome.Plains);
         }
@@ -354,16 +357,27 @@ namespace Hero_of_Novac
                     area.Player.Update(gameTime, new Vector2(0, 0));
                     if (battleMenu.BattleIsOver)
                     {
-                        currentGameState = GameState.Overworld;
-                        area.RemoveEnemies(battleMenu.Enemies);
-                        area.Player.Overworld();
-                        foreach(Enemy enemy in area.Enemies)
+                        if (battleMenu.LostBattle)
                         {
-                            enemy.UpdateXP();
+                            currentGameState = GameState.Defeat;
+                        }
+                        else
+                        {
+                            currentGameState = GameState.Overworld;
+                            area.RemoveEnemies(battleMenu.Enemies);
+                            area.Player.Overworld();
+                            foreach (Enemy enemy in area.Enemies)
+                            {
+                                enemy.UpdateXP();
+                            }
                         }
                     }
                     break;
                 case GameState.Inventory:
+                    break;
+                case GameState.Defeat:
+                    defeatMenu.Update();
+                    area.Update(gameTime);
                     break;
             }
 
@@ -397,10 +411,14 @@ namespace Hero_of_Novac
                 case GameState.BattleMenu:
                     battleMenu.Draw(spriteBatch);
                     break;
+                case GameState.Defeat:
+                    area.DrawFirstLayer(gameTime, spriteBatch);
+                    break;
             }
             spriteBatch.End();
 
-            if (currentGameState == GameState.Overworld)
+            if (currentGameState == GameState.Overworld ||
+                currentGameState == GameState.Defeat)
             {
                 spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied);
                 area.DrawEntities(gameTime, spriteBatch);
@@ -408,6 +426,12 @@ namespace Hero_of_Novac
 
                 spriteBatch.Begin();
                 area.DrawSecondLayer(gameTime, spriteBatch);
+                spriteBatch.End();
+            }
+            if (GameState.Defeat == currentGameState)
+            {
+                spriteBatch.Begin();
+                defeatMenu.Draw(spriteBatch);
                 spriteBatch.End();
             }
 

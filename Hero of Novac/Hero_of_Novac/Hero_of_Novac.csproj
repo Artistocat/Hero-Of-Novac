@@ -61,6 +61,7 @@
     <Compile Include="Attack.cs" />
     <Compile Include="BasicAttack.cs" />
     <Compile Include="BattleMenu.cs" />
+    <Compile Include="DefeatMenu.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Entity.cs" />

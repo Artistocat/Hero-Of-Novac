@@ -45,7 +45,7 @@ namespace Hero_of_Novac
             this.defaultChargeTime = defaultChargeTime;
             this.defaultDamage = defaultDamage;
 
-            chargeTime = (int)(defaultChargeTime / player.LevelModifier) * 19;
+            chargeTime = (int)(defaultChargeTime / player.LevelModifier) * 13;
             damage = (int)(defaultDamage * player.LevelModifier) * 4;
 
             this.attackName = attackName;
