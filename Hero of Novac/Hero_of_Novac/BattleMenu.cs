@@ -950,14 +950,90 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                //case "Cone of Cold":
-                //    break;
-                //case "Ice Storm":
-                //    break;
-                //case "Frost Ray":
-                //    break;
-                //case "Rary's Tsunami":
-                //    break;
+                case "Cone of Cold"://To be renamed "Ice Spike"
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 13)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Ice Storm":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 9)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Frost Ray"://To be renamed "Aqua Whirl"
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 10)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Rary's Tsunami":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 12)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
                 //case "Magic Missile":
                 //    break;
                 //case "Eldritch Blast":
