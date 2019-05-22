@@ -73,7 +73,7 @@ namespace Hero_of_Novac
         /// </summary>
         protected override void Initialize()
         {
-            IsMouseVisible = true;
+            IsMouseVisible = false;
             window = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             currentGameState = GameState.MainMenu;
             pix = new Texture2D(GraphicsDevice, 1, 1);
