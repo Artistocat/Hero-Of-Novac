@@ -346,12 +346,32 @@ namespace Hero_of_Novac
                             sourceRecFX.Y = 128 * 2;
                             break;
                         case "Magic Missile":
+                            combatFX = Content.Load<Texture2D>("arrowAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 0;
                             break;
                         case "Eldritch Blast":
+                            combatFX = Content.Load<Texture2D>("darknessAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128 * 2;
                             break;
                         case "Arcane Beam":
+                            combatFX = Content.Load<Texture2D>("holyAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 0;
                             break;
                         case "Tasha's Laugh":
+                            combatFX = Content.Load<Texture2D>("darknessAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 0;
                             break;
                     }
                     chargeBar.MaxValue = value.ChargeTime;

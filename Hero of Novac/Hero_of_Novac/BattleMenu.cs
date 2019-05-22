@@ -1035,14 +1035,90 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                //case "Magic Missile":
-                //    break;
-                //case "Eldritch Blast":
-                //    break;
-                //case "Arcane Beam":
-                //    break;
-                //case "Tasha's Laugh":
-                //    break;
+                case "Magic Missile":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 11)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Eldritch Blast":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 10)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Arcane Beam":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 9)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Tasha's Laugh":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 15)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
                 default:
                     if (timer % 300 == 0)
                     {
