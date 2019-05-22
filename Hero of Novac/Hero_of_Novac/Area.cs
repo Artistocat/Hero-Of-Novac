@@ -263,6 +263,7 @@ namespace Hero_of_Novac
             {
                 tiles[i - 2].Rectangle = Game1.ParseStringToRectangle(areaInfo[i]);
             }
+            player.Alive();
         }
 
         /// <summary>

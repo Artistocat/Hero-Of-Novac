@@ -476,6 +476,12 @@ namespace Hero_of_Novac
             sourceRecBattle.Y = BATTLE_SPRITE_HEIGHT * 5;
         }
 
+        public void Alive()
+        {
+            healthBar.CurrentValue = 100;
+            dead = false;
+        }
+
         public void Update(GameTime gameTime, Vector2 speed)
         {
             switch (currentGameState)

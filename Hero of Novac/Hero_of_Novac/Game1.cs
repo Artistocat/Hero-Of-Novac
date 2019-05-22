@@ -380,6 +380,7 @@ namespace Hero_of_Novac
                             {
                                 enemy.Overworld();
                             }
+                            area.Player.death();
                         }
                         else
                         {
