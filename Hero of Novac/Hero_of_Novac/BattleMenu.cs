@@ -888,12 +888,69 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                //case "Stone Throw":
-                //    break;
-                //case "Earthquake":
-                //    break;
-                //case "Otiluke's Wrath":
-                //    break;
+                case "Stone Throw":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 13)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Earthquake":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 11)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
+                case "Otiluke's Wrath":
+                    if (player.sourceRecBattle.X <= 96 * 1)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecBattle.X += 96;
+                    }
+                    else
+                    {
+                        player.sourceRecBattle.Y = 96 * 2;
+                        player.sourceRecBattle.X = 0;
+                    }
+                    if (player.sourceRecFX.X <= 128 * 16)
+                    {
+                        if (timer % 8 == 0)
+                            player.sourceRecFX.X += 128;
+                    }
+                    else
+                    {
+                        doneAttacking = true;
+                    }
+                    break;
                 //case "Cone of Cold":
                 //    break;
                 //case "Ice Storm":
