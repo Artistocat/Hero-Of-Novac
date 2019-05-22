@@ -20,6 +20,8 @@ namespace Hero_of_Novac
         private static NavigableMenuItem[] Element;
         private static Rectangle menuRect;
 
+        private static NavigableMenuItem[] ControlInstructions;
+
         private Enemy[] enemies;
         private List<int> attackingEnemies;
         private GamePadState gamePad;
@@ -204,6 +206,13 @@ namespace Hero_of_Novac
             Element[4] = new NavigableMenuItem(new Rectangle(width / 4 + 4 * width / 2 / 5, elementY, width / 2 / 5, elementHeight), pix, singleRect, Color.BlanchedAlmond, "" + Hero_of_Novac.Element.Earth, true);
             //WHY DIDN'T I DO THIS IN A FOR LOOP?????
 
+            ControlInstructions = new NavigableMenuItem[2];
+            ControlInstructions[0] = new NavigableMenuItem(new Rectangle(Element[0].Rect.X - Element[0].Rect.Width, Element[0].Rect.Y, Element[0].Rect.Width, Element[0].Rect.Height), pix, singleRect, Color.BlanchedAlmond, "LB", true);
+            ControlInstructions[1] = new NavigableMenuItem(new Rectangle(Element[4].Rect.X + Element[4].Rect.Width, Element[0].Rect.Y, Element[0].Rect.Width, Element[0].Rect.Height), pix, singleRect, Color.BlanchedAlmond, "RB", true);
+            foreach(NavigableMenuItem mi in ControlInstructions)
+            {
+                mi.isSelected = false;
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -1208,6 +1217,7 @@ namespace Hero_of_Novac
         public void Draw(SpriteBatch spriteBatch)
         {
             //TODO Background that looks nice af
+            //never done now huh
             switch (currentBiome)
             {
                 case Biome.Plains:
@@ -1285,6 +1295,11 @@ namespace Hero_of_Novac
                 menuItem.Draw(spriteBatch);
             foreach (NavigableMenuItem menuItem in Element)
                 menuItem.Draw(spriteBatch);
+            foreach(NavigableMenuItem menuItem in ControlInstructions)
+            {
+                menuItem.Draw(spriteBatch);
+            }
+            
         }
 
         private void DrawItems(SpriteBatch spriteBatch)
@@ -1307,6 +1322,14 @@ namespace Hero_of_Novac
             String name;
             Vector2 nameV;
             bool isSmallName;
+
+            public Rectangle Rect
+            {
+                get
+                {
+                    return rect;
+                }
+            }
 
             public String Name
             {
@@ -1384,6 +1407,8 @@ namespace Hero_of_Novac
                         spriteBatch.DrawString(Font, name, nameV, Color.Gray);
                     }
                 }
+
+                //Border
                 drawColor = Color.Black;
                 if (isSelected)
                     drawColor = Color.White;
