@@ -376,8 +376,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="darkness.png">
-      <Name>darkness</Name>
+    <Compile Include="darknessAttacc.png">
+      <Name>darknessAttacc</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="holyAttacc.png">
+      <Name>holyAttacc</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="arrowAttacc.png">
+      <Name>arrowAttacc</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

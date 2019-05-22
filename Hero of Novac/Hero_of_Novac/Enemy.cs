@@ -434,6 +434,8 @@ namespace Hero_of_Novac
         public void Overworld()
         {
             currentGameState = GameState.Overworld;
+            chargeBar.CurrentValue = 0;
+            currentBattleState = BattleState.Charging;
         }
         public void randomMove()
         {

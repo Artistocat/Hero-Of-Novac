@@ -103,8 +103,8 @@ namespace Hero_of_Novac
             enemyCombatFX[(int)Element.Air].Name = "WindAttacc";
             enemyCombatFX[(int)Element.Fire] = Content.Load<Texture2D>("FireAttacc");
             enemyCombatFX[(int)Element.Fire].Name = "FireAttacc";
-            enemyCombatFX[(int)Element.Aether] = Content.Load<Texture2D>("darkness");
-            enemyCombatFX[(int)Element.Aether].Name = "darkness";
+            enemyCombatFX[(int)Element.Aether] = Content.Load<Texture2D>("darknessAttacc");
+            enemyCombatFX[(int)Element.Aether].Name = "darknessAttacc";
             enemyCombatFX[(int)Element.Water] = Content.Load<Texture2D>("WaterAttacc");
             enemyCombatFX[(int)Element.Water].Name = "WaterAttacc";
             enemyCombatFX[(int)Element.Earth] = Content.Load<Texture2D>("EarthAttaccs");
