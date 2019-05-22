@@ -178,8 +178,8 @@ namespace Hero_of_Novac
 
             Rectangle singleRect = new Rectangle(0, 0, 1, 1);
             MainChoices = new NavigableMenuItem[3];
-            MainChoices[0] = new NavigableMenuItem(basicRect, pix, singleRect, Color.Blue, "Basic", false);
-            MainChoices[1] = new NavigableMenuItem(magicRect, pix, singleRect, Color.Purple, "Magic", false);
+            MainChoices[0] = new NavigableMenuItem(basicRect, pix, singleRect, Color.Blue, "Basic Attacks", false);
+            MainChoices[1] = new NavigableMenuItem(magicRect, pix, singleRect, Color.Purple, "Magic Attacks", false);
             MainChoices[2] = new NavigableMenuItem(itemsRect, pix, singleRect, Color.Green, "Items", false);
 
             Basic = new NavigableMenuItem[2, 2];
@@ -954,7 +954,7 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                case "Cone of Cold"://To be renamed "Ice Spike"
+                case "Ice Spike"://To be renamed "Ice Spike"
                     if (player.sourceRecBattle.X <= 96 * 1)
                     {
                         if (timer % 8 == 0)
@@ -996,7 +996,7 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                case "Frost Ray"://To be renamed "Aqua Whirl"
+                case "Aqua Whirl"://To be renamed "Aqua Whirl"
                     if (player.sourceRecBattle.X <= 96 * 1)
                     {
                         if (timer % 8 == 0)

@@ -711,7 +711,9 @@ namespace Hero_of_Novac
         public void Overworld()
         {
             currentGameState = GameState.Overworld;
-            //TODO resetting the locations for the health and magic bars in the overworld
+            chargeBar.CurrentValue = 0;
+            isAttacking = false;
+            isCharging = false;            
         }
     }
 }
