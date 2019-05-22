@@ -84,9 +84,9 @@ namespace Hero_of_Novac
             earthquake = new MagicAttack(25, 25, "Earthquake", Element.Earth);
             otilukesWrath = new MagicAttack(22, 26, "Otiluke's Wrath", Element.Earth);
 
-            coneOfCold = new MagicAttack(12, 12, "Cone of Cold", Element.Water);
+            coneOfCold = new MagicAttack(12, 12, "Ice Spike", Element.Water);
             iceStorm = new MagicAttack(20, 20, "Ice Storm", Element.Water);
-            frostRay = new MagicAttack(16, 16, "Frost Ray", Element.Water);
+            frostRay = new MagicAttack(16, 16, "Aqua Whirl", Element.Water);
             rarysTsunami = new MagicAttack(17, 20, "Rary's Tsunami", Element.Water);
 
             magicMissile = new MagicAttack(9, 9, "Magic Missile", Element.Aether);
