@@ -646,6 +646,7 @@ namespace Hero_of_Novac
                 if (!enemy.IsCharging)
                 {
                     currentBattleState = BattleState.EnemyAttacking;
+                    player.doNotCharge = true;
                     attackingEnemies.Add(i);
                 }
             }
@@ -1073,7 +1074,8 @@ namespace Hero_of_Novac
 
         private void EnemyAttacking()
         {
-            bool doneAttacking = true; //do similar to Attacking if we do an animation for the enemy
+            bool doneAttacking = enemies[attackingEnemies[0]].IsCharging;
+
             if (doneAttacking)
             {
                 currentBattleState = BattleState.Charging;
@@ -1084,6 +1086,7 @@ namespace Hero_of_Novac
                     if (player.Health <= 0)
                         currentBattleState = BattleState.Defeat;
                 }
+                player.doNotCharge = false;
                 attackingEnemies.Clear();
             }
         }
@@ -1169,6 +1172,10 @@ namespace Hero_of_Novac
                     enemy.Draw(spriteBatch);
                 }
                 player.Draw(spriteBatch);
+                foreach(Enemy enemy in enemies)
+                {
+                    enemy.DrawFX(spriteBatch);
+                }
             }
 
             if (currentBattleState == BattleState.Victory)

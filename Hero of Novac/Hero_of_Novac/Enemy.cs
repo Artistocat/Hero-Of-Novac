@@ -15,6 +15,7 @@ namespace Hero_of_Novac
     public class Enemy : Entity
     {
         private static Player player;
+        private static Texture2D[] combatFX;
         private static Rectangle window;
         public static Rectangle Window
         {
@@ -103,6 +104,7 @@ namespace Hero_of_Novac
         }
 
         private Element element;
+        private Rectangle sourceRecFX;
 
         private Rectangle space; //save
 
@@ -124,7 +126,7 @@ namespace Hero_of_Novac
          */
         public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, bool constantMove, Vector2 vol, Element element)
         {
-            this.element = Element;
+            this.element = element;
             this.space = space;
             this.vol = vol;
             this.rec = rec;
@@ -150,11 +152,14 @@ namespace Hero_of_Novac
             battleSourceRec.Y = 116;
             currentBattleState = BattleState.Charging;
             int speed, damage;
+            sourceRecFX = new Rectangle(0, 0, 128, 128);
             switch (element)
             {
                 case Element.Air:
                     speed = 2;
                     damage = 1;
+                    sourceRecFX.X = -128;
+                    sourceRecFX.Y = 128;
                     break;
                 case Element.Fire:
                     speed = 4;
@@ -167,6 +172,8 @@ namespace Hero_of_Novac
                 case Element.Water:
                     speed = 8;
                     damage = 4;
+                    sourceRecFX.X = -128;
+                    sourceRecFX.Y = 0;
                     break;
                 case Element.Earth:
                     speed = 10;
@@ -194,9 +201,10 @@ namespace Hero_of_Novac
             this.chargeBar = chargeBar;
         }
 
-        public static void LoadContent(Player player)
+        public static void LoadContent(Player player, Texture2D[] enemyCombatFX)
         {
             Enemy.player = player;
+            combatFX = enemyCombatFX;
         }
 
         public void Update(GameTime gametime)
@@ -264,7 +272,38 @@ namespace Hero_of_Novac
             //healthBar.Rect = healthRect;
             if (player.isCharging)
             {
-                //Console.WriteLine("This shit is happening for the " + tex.Name);
+                if (currentBattleState == BattleState.Attacking)
+                {
+                    switch (element)
+                    {
+                        case Element.Air:
+                            if (sourceRecFX.X <= 128 * 5)
+                            {
+                                if (timer % 8 == 0)
+                                    sourceRecFX.X += 128;
+                            }
+                            else
+                            {
+                                currentBattleState = BattleState.Charging;
+                                chargeBar.CurrentValue = 0;
+                                sourceRecFX.X = -128;
+                            }
+                            break;
+                        case Element.Water:
+                            if (sourceRecFX.X <= 128 * 11)
+                            {
+                                if (timer % 8 == 0)
+                                    sourceRecFX.X += 128;
+                            }
+                            else
+                            {
+                                currentBattleState = BattleState.Charging;
+                                chargeBar.CurrentValue = 0;
+                                sourceRecFX.X = -128;
+                            }
+                            break;
+                    }
+                }
                 if (timer % 2 == 0)
                 {
                     chargeBar.CurrentValue++;
@@ -309,6 +348,14 @@ namespace Hero_of_Novac
                     healthBar.Draw(spriteBatch, true);
                     chargeBar.Draw(spriteBatch, true);
                     break;
+            }
+        }
+
+        public void DrawFX(SpriteBatch spriteBatch)
+        {
+            if (currentBattleState == BattleState.Attacking)
+            {
+                spriteBatch.Draw(combatFX[(int)Element], player.battlePos - new Vector2(20, 0), sourceRecFX, Color.White);
             }
         }
 

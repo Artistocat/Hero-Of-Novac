@@ -98,12 +98,22 @@ namespace Hero_of_Novac
             FX1 = Content.Load<Texture2D>("combatFX");
 
             MainMenu.LoadContent(GraphicsDevice, window, font, Content.Load<Texture2D>("MainMenu"), Content.Load<SpriteFont>("MainFont"));
-
+            Texture2D[] enemyCombatFX = new Texture2D[5];
+            enemyCombatFX[(int)Element.Air] = Content.Load<Texture2D>("WindAttacc");
+            enemyCombatFX[(int)Element.Air].Name = "WindAttacc";
+            enemyCombatFX[(int)Element.Fire] = Content.Load<Texture2D>("FireAttacc");
+            enemyCombatFX[(int)Element.Fire].Name = "FireAttacc";
+            enemyCombatFX[(int)Element.Aether] = Content.Load<Texture2D>("darkness");
+            enemyCombatFX[(int)Element.Aether].Name = "darkness";
+            enemyCombatFX[(int)Element.Water] = Content.Load<Texture2D>("WaterAttacc");
+            enemyCombatFX[(int)Element.Water].Name = "WaterAttacc";
+            enemyCombatFX[(int)Element.Earth] = Content.Load<Texture2D>("EarthAttaccs");
+            enemyCombatFX[(int)Element.Earth].Name = "EarthAttaccs";
             mainMenu = new MainMenu();
             if (TESTING)
             {
                 area = new Area(Services, @"Content/Test", pix, window, randomSeed);
-                Enemy.LoadContent(area.Player);
+                Enemy.LoadContent(area.Player, enemyCombatFX);
                 Attack.LoadContent(area.Player);
                 List<NPC> npcs = new List<NPC>();
                 npcs.Add(CreateNPC("blacksmith", new Rectangle(100, 100, 200, 136), true, 'b'));
@@ -120,7 +130,7 @@ namespace Hero_of_Novac
             else
             {
                 area = new Area(Services, @"Content/Village", pix, window, randomSeed);
-                Enemy.LoadContent(area.Player);
+                Enemy.LoadContent(area.Player, enemyCombatFX);
                 Attack.LoadContent(area.Player);
                 List<NPC> npcs = new List<NPC>();
                 npcs.Add(CreateNPC("npc1", new Rectangle(672, 928, 416, 576), true, '1'));
@@ -329,11 +339,6 @@ namespace Hero_of_Novac
                 this.Exit();
             bool willBattle = false;
             List<Enemy> enemiesInBattle = new List<Enemy>();
-            if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start) && oldgp.IsButtonUp(Buttons.Start) ||
-                Keyboard.GetState().IsKeyDown(Keys.OemTilde))
-            {
-                save.SaveAll(area);
-            }
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -349,6 +354,11 @@ namespace Hero_of_Novac
                     }
                     break;
                 case GameState.Overworld:
+                    if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start) && oldgp.IsButtonUp(Buttons.Start) ||
+                        Keyboard.GetState().IsKeyDown(Keys.OemTilde))
+                    {
+                        save.SaveAll(area);
+                    }
                     area.Update(gameTime);
                     foreach (Enemy enemy in area.Enemies)
                         if (enemy.IsInBattle())

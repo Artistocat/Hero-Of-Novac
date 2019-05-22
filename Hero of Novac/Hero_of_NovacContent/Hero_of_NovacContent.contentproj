@@ -37,20 +37,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="terrain.png">
-      <Name>terrain</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="water.png">
-      <Name>water</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="CharacterTalk.spritefont">
       <Name>CharacterTalk</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -385,6 +371,13 @@
   <ItemGroup>
     <Compile Include="WaterAttacc.png">
       <Name>WaterAttacc</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="darkness.png">
+      <Name>darkness</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
