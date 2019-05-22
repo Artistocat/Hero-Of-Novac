@@ -371,6 +371,8 @@ namespace Hero_of_Novac
         private Color color;
         private int timer;
 
+        public bool doNotCharge;
+
         public Player(Texture2D overworldTex, Texture2D combatTex, Texture2D combatFX, Texture2D profileTex, Texture2D p, Rectangle window, IServiceProvider serviceProvider)
         {
             content = new ContentManager(serviceProvider, "Content");
@@ -423,6 +425,7 @@ namespace Hero_of_Novac
             magicAttacks = new Dictionary<Element, Attack[]>();
             isAttacking = false;
             isCharging = false;
+            doNotCharge = false;
 
             elementLevels = new int[5];
             for (int i = 0; i < elementLevels.Length; i++)
@@ -607,7 +610,7 @@ namespace Hero_of_Novac
                     isCharging = false;
                     isAttacking = true;
                 }
-                if (timer % 2 == 0)
+                if (timer % 2 == 0 && !doNotCharge)
                     chargeBar.CurrentValue++;
             }
         }

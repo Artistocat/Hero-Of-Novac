@@ -15,6 +15,7 @@ namespace Hero_of_Novac
     public class Enemy : Entity
     {
         private static Player player;
+        private static Texture2D[] combatFX;
         private static Rectangle window;
         public static Rectangle Window
         {
@@ -103,6 +104,7 @@ namespace Hero_of_Novac
         }
 
         private Element element;
+        private Rectangle sourceRecFX;
 
         private Rectangle space; //save
 
@@ -150,11 +152,14 @@ namespace Hero_of_Novac
             battleSourceRec.Y = 116;
             currentBattleState = BattleState.Charging;
             int speed, damage;
+            sourceRecFX = new Rectangle();
             switch (element)
             {
                 case Element.Air:
                     speed = 2;
                     damage = 1;
+                    sourceRecFX.X = -128;
+                    sourceRecFX.Y = 128;
                     break;
                 case Element.Fire:
                     speed = 4;
@@ -194,9 +199,10 @@ namespace Hero_of_Novac
             this.chargeBar = chargeBar;
         }
 
-        public static void LoadContent(Player player)
+        public static void LoadContent(Player player, Texture2D[] enemyCombatFX)
         {
             Enemy.player = player;
+            combatFX = enemyCombatFX;
         }
 
         public void Update(GameTime gametime)
@@ -265,6 +271,23 @@ namespace Hero_of_Novac
             if (player.isCharging)
             {
                 //Console.WriteLine("This shit is happening for the " + tex.Name);
+                if (currentBattleState == BattleState.Attacking)
+                {
+                    switch (element)
+                    {
+                        case Element.Air:
+                            if (player.sourceRecFX.X <= 128 * 5)
+                            {
+                                if (timer % 8 == 0)
+                                    sourceRecFX.X += 128;
+                            }
+                            else
+                            {
+                                currentBattleState = BattleState.Charging;
+                            }
+                            break;
+                    }
+                }
                 if (timer % 2 == 0)
                 {
                     chargeBar.CurrentValue++;
@@ -308,6 +331,10 @@ namespace Hero_of_Novac
                     spriteBatch.Draw(tex, battleRec, battleSourceRec, Color.White);
                     healthBar.Draw(spriteBatch, true);
                     chargeBar.Draw(spriteBatch, true);
+                    if (currentBattleState == BattleState.Attacking)
+                    {
+
+                    }
                     break;
             }
         }

@@ -85,6 +85,8 @@ namespace Hero_of_Novac
         }
 
         Random random;
+        private int saveTimer;
+        private SpriteFont font;
 
         /// <summary>
         /// Creates a new area in the world.
@@ -94,6 +96,7 @@ namespace Hero_of_Novac
         /// <param name="window">A rectangle representing the veiwing window of the game.</param>
         public Area(IServiceProvider serviceProvider, string path, Texture2D p, Rectangle window, Random ran)
         {
+            saveTimer = 6000;
             content = new ContentManager(serviceProvider, "Content");
 
             this.window = window;
@@ -233,7 +236,7 @@ namespace Hero_of_Novac
 
             pix = p;
             player = new Player(Content.Load<Texture2D>("player_walking"), Content.Load<Texture2D>("player_combat"), Content.Load<Texture2D>("combatFX"), Content.Load<Texture2D>("HeroProfile"), pix, window, serviceProvider);
-            SpriteFont font = Content.Load<SpriteFont>("SpriteFont1");
+            font = Content.Load<SpriteFont>("SpriteFont1");
             npcs = new List<NPC>();
             //AddNPCs(font);
             enemies = new List<Enemy>();
@@ -740,8 +743,14 @@ namespace Hero_of_Novac
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void Update(GameTime gameTime)
         {
+            saveTimer++;
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             KeyboardState KB = Keyboard.GetState();
+
+            if (pad1.Buttons.Start == ButtonState.Pressed)
+            {
+                saveTimer = 0;
+            }
 
             inMenu = false;
             foreach (NPC n in npcs)
@@ -944,6 +953,10 @@ namespace Hero_of_Novac
                 w.Draw(spriteBatch, areaRec);
             foreach (NPC n in npcs)
                 n.DrawWindow(spriteBatch);
+            if (saveTimer < 120)
+            {
+                spriteBatch.DrawString(font, "Game Saved", new Vector2(0, 0), Color.White);
+            }
         }
     }
 }

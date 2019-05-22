@@ -98,12 +98,17 @@ namespace Hero_of_Novac
             FX1 = Content.Load<Texture2D>("combatFX");
 
             MainMenu.LoadContent(GraphicsDevice, window, font, Content.Load<Texture2D>("MainMenu"), Content.Load<SpriteFont>("MainFont"));
-
+            Texture2D[] enemyCombatFX = new Texture2D[5];
+            enemyCombatFX[(int)Element.Air] = Content.Load<Texture2D>("WindAttacc");
+            enemyCombatFX[(int)Element.Fire] = Content.Load<Texture2D>("FireAttacc");
+            enemyCombatFX[(int)Element.Aether] = Content.Load<Texture2D>("darkness");
+            enemyCombatFX[(int)Element.Water] = Content.Load<Texture2D>("WaterAttacc");
+            enemyCombatFX[(int)Element.Earth] = Content.Load<Texture2D>("EarthAttaccs");
             mainMenu = new MainMenu();
             if (TESTING)
             {
                 area = new Area(Services, @"Content/Test", pix, window, randomSeed);
-                Enemy.LoadContent(area.Player);
+                Enemy.LoadContent(area.Player, enemyCombatFX);
                 Attack.LoadContent(area.Player);
                 List<NPC> npcs = new List<NPC>();
                 npcs.Add(CreateNPC("blacksmith", new Rectangle(100, 100, 200, 136), true, 'b'));
@@ -120,7 +125,7 @@ namespace Hero_of_Novac
             else
             {
                 area = new Area(Services, @"Content/Village", pix, window, randomSeed);
-                Enemy.LoadContent(area.Player);
+                Enemy.LoadContent(area.Player, enemyCombatFX);
                 Attack.LoadContent(area.Player);
                 List<NPC> npcs = new List<NPC>();
                 npcs.Add(CreateNPC("npc1", new Rectangle(672, 928, 416, 576), true, '1'));

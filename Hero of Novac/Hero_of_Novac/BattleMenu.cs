@@ -646,6 +646,7 @@ namespace Hero_of_Novac
                 if (!enemy.IsCharging)
                 {
                     currentBattleState = BattleState.EnemyAttacking;
+                    player.doNotCharge = true;
                     attackingEnemies.Add(i);
                 }
             }
@@ -940,17 +941,20 @@ namespace Hero_of_Novac
 
         private void EnemyAttacking()
         {
-            bool doneAttacking = true; //do similar to Attacking if we do an animation for the enemy
+            bool doneAttacking = enemies[0].IsCharging;
+
             if (doneAttacking)
             {
                 currentBattleState = BattleState.Charging;
                 foreach (int index in attackingEnemies)
                 {
+                    Console.WriteLine("Attack complete here, resetting");
                     player.Damage(enemies[index].CurrentAttack.Damage);
                     enemies[index].AttackComplete();
                     if (player.Health <= 0)
                         currentBattleState = BattleState.Defeat;
                 }
+                player.doNotCharge = false;
                 attackingEnemies.Clear();
             }
         }
