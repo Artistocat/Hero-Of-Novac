@@ -459,6 +459,7 @@ namespace Hero_of_Novac
 
         private void UpdateOverworld(GameTime gameTime, Vector2 speed)
         {
+            timer++;
             GamePadState pad1 = GamePad.GetState(PlayerIndex.One);
             KeyboardState KB = Keyboard.GetState();
             //World Border
