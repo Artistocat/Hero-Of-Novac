@@ -57,6 +57,7 @@ namespace Hero_of_Novac
                 file.WriteLine(enemy.ConstantMove);
                 file.WriteLine(enemy.IsIdle);
                 file.WriteLine(enemy.Vol);
+                file.WriteLine(enemy.Element);
             }
         }
 

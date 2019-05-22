@@ -94,6 +94,15 @@ namespace Hero_of_Novac
         {
             get { return xp; }
         }
+        public Element Element
+        {
+            get
+            {
+                return element;
+            }
+        }
+
+        private Element element;
 
         private Rectangle space; //save
 
@@ -113,8 +122,9 @@ namespace Hero_of_Novac
         /*
          * 146 x 116
          */
-        public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, bool constantMove, Vector2 vol)
+        public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, bool constantMove, Vector2 vol, Element element)
         {
+            this.element = Element;
             this.space = space;
             this.vol = vol;
             this.rec = rec;
@@ -139,14 +149,43 @@ namespace Hero_of_Novac
             battleSourceRec = sourceRec;
             battleSourceRec.Y = 116;
             currentBattleState = BattleState.Charging;
-            currentAttack = new Attack(12, 3, "enemyAttack");
+            int speed, damage;
+            switch (element)
+            {
+                case Element.Air:
+                    speed = 2;
+                    damage = 1;
+                    break;
+                case Element.Fire:
+                    speed = 4;
+                    damage = 2;
+                    break;
+                case Element.Aether:
+                    speed = 6;
+                    damage = 3;
+                    break;
+                case Element.Water:
+                    speed = 8;
+                    damage = 4;
+                    break;
+                case Element.Earth:
+                    speed = 10;
+                    damage = 5;
+                    break;
+                default:
+                    speed = 12;
+                    damage = 3;
+                    break;
+            }
+            currentAttack = new Attack(speed, damage, "enemyAttack");
+            chargeBar.MaxValue = currentAttack.ChargeTime;
             //xp = (int)Math.Round(player.LevelModifier);
             UpdateXP();
         }
 
         public Enemy(Rectangle rec, Rectangle sourceRec, Rectangle space, Texture2D tex, Rectangle sourceRecProfile, Texture2D profileTex, Vector2 pos, Rectangle window, Random ran, 
-            bool constantMove, bool idleAnimation, Vector2 vol, Rectangle battleRec, Rectangle battleSourceRec, PercentageRectangle healthBar, Rectangle healthRect, PercentageRectangle chargeBar) 
-            : this(rec, sourceRec, space, tex, sourceRecProfile, profileTex, pos, window, ran, constantMove, vol)
+            bool constantMove, bool idleAnimation, Vector2 vol, Rectangle battleRec, Rectangle battleSourceRec, PercentageRectangle healthBar, Rectangle healthRect, PercentageRectangle chargeBar, Element element) 
+            : this(rec, sourceRec, space, tex, sourceRecProfile, profileTex, pos, window, ran, constantMove, vol, element)
         {
             this.battleRec = battleRec;
             this.battleSourceRec = battleSourceRec;

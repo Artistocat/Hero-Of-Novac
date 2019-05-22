@@ -112,9 +112,9 @@ namespace Hero_of_Novac
                 npcs.Add(CreateNPC("armorer", new Rectangle(564, 500, 200, 168), true, 'a'));
                 area.AddNPCs(npcs);
                 List<Enemy> enemies = new List<Enemy>();
-                enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false));
-                enemies.Add(CreateEnemy("wasp", new Rectangle(320, 0, 320, 320), true));
-                enemies.Add(CreateEnemy("slime", new Rectangle(area.Width * 32 - 500, 0, 320, 320), true));
+                enemies.Add(CreateEnemy("gryphon", new Rectangle(0, 0, 320, 320), false, Element.Air));
+                enemies.Add(CreateEnemy("wasp", new Rectangle(320, 0, 320, 320), true, Element.Air));
+                enemies.Add(CreateEnemy("slime", new Rectangle(area.Width * 32 - 500, 0, 320, 320), true, Element.Water));
                 area.AddEnemies(enemies);
             }
             else
@@ -131,10 +131,10 @@ namespace Hero_of_Novac
                 npcs.Add(CreateNPC("armorer", new Rectangle(1696, 1184, 864, 480), true, 'a'));
                 area.AddNPCs(npcs);
                 List<Enemy> enemies = new List<Enemy>();
-                enemies.Add(CreateEnemy("bird", new Rectangle(128, 224, 800, 384), true));
-                enemies.Add(CreateEnemy("slime", new Rectangle(928, 224, 800, 416), true));
-                enemies.Add(CreateEnemy("gryphon", new Rectangle(704, 96, 800, 416), false));
-                enemies.Add(CreateEnemy("wasp", new Rectangle(736, 0, 736, 480), true));
+                enemies.Add(CreateEnemy("bird", new Rectangle(128, 224, 800, 384), true, Element.Air));
+                enemies.Add(CreateEnemy("slime", new Rectangle(928, 224, 800, 416), true, Element.Water));
+                enemies.Add(CreateEnemy("gryphon", new Rectangle(704, 96, 800, 416), false, Element.Air));
+                enemies.Add(CreateEnemy("wasp", new Rectangle(736, 0, 736, 480), true, Element.Air));
                 area.AddEnemies(enemies);
             }
 
@@ -176,13 +176,13 @@ namespace Hero_of_Novac
             battleMenu = new BattleMenu(new Enemy[0], BattleMenu.Biome.Plains);
         }
 
-        private Enemy CreateEnemy(string name, Rectangle space, bool constantMove)
+        private Enemy CreateEnemy(string name, Rectangle space, bool constantMove, Element element)
         {
             Texture2D enemyTex = Content.Load<Texture2D>(name);
             Texture2D enemyProfileTex = Content.Load<Texture2D>(name + "Profile");
             enemyTex.Name = name;
             enemyProfileTex.Name = name + "Profile";
-            return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, new Vector2(0, 0));
+            return new Enemy(new Rectangle(0, 0, 146, 116), new Rectangle(146, 0, 146, 116), space, enemyTex, new Rectangle(0, 0, 414, 560), enemyProfileTex, new Vector2(0, 0), window, randomNoSeed, constantMove, new Vector2(0, 0), element);
         }
 
         private Enemy LoadEnemy(List<string> enemyInfo)
@@ -204,7 +204,26 @@ namespace Hero_of_Novac
             bool constantMove = ParseStringToBool(enemyInfo[12]);
             bool isIdle = ParseStringToBool(enemyInfo[13]);
             Vector2 vol = ParseStringToVector(enemyInfo[14]);
-            return new Enemy(rec, sourceRec, space, tex, sourceRecProfile, profileTex, pos, window, randomNoSeed, constantMove, isIdle, vol, battleRec, battleSourceRec, healthBar, healthRect, chargeBar);
+            Element element = ParseStringToElement(enemyInfo[15]);
+            return new Enemy(rec, sourceRec, space, tex, sourceRecProfile, profileTex, pos, window, randomNoSeed, constantMove, isIdle, vol, battleRec, battleSourceRec, healthBar, healthRect, chargeBar, element);
+        }
+
+        public static Element ParseStringToElement(string str)
+        {
+            switch (str)
+            {
+                case "Air":
+                    return Element.Air;
+                case "Earth":
+                    return Element.Earth;
+                case "Aether":
+                    return Element.Aether;
+                case "Water":
+                    return Element.Water;
+                case "Fire":
+                    return Element.Fire;
+            }
+            return Element.Fire;
         }
 
         public static Rectangle ParseStringToRectangle(string str)
@@ -235,9 +254,8 @@ namespace Hero_of_Novac
             return parsedVector;
         }
 
-        public static PercentageRectangle ParseStringToPercentageRectangle(string stri)
+        public static PercentageRectangle ParseStringToPercentageRectangle(string str)
         {
-            string str = stri;
             PercentageRectangle parsedRect;
             int x, y, width, height, r, g, b, maxValue, currentValue;
             Int32.TryParse(str.Substring(0, str.IndexOf(' ')), out x);
@@ -265,9 +283,7 @@ namespace Hero_of_Novac
 
         public static bool ParseStringToBool(string str)
         {
-            if (str.Equals("True"))
-                return true;
-            return false;
+            return str.Equals("True");
         }
 
         private NPC CreateNPC(string name, Rectangle space, bool interact, char type)
@@ -326,6 +342,11 @@ namespace Hero_of_Novac
                     {
                         currentGameState = GameState.Overworld;
                     }
+                    if (mainMenu.loadOldGame ||
+                        defeatMenu.loadSave)
+                    {
+                        LoadGame();
+                    }
                     break;
                 case GameState.Overworld:
                     area.Update(gameTime);
@@ -366,24 +387,13 @@ namespace Hero_of_Novac
                     break;
                 case GameState.Defeat:
                     defeatMenu.Update();
-                    area.Update(gameTime);
+                    if (mainMenu.loadOldGame ||
+                        defeatMenu.loadSave)
+                    {
+                        LoadGame();
+                    }
+                    //area.Update(gameTime);
                     break;
-            }
-            if (mainMenu.loadOldGame)
-            {
-                load = new Load(1);
-                List<Enemy> enemies = new List<Enemy>();
-                List<NPC> npcs = new List<NPC>();
-                foreach (List<string> enemyInfo in load.EnemyInfo)
-                {
-                    enemies.Add(LoadEnemy(enemyInfo));
-                }
-                foreach (List<string> npcInfo in load.NpcInfo)
-                {
-                    npcs.Add(LoadNPC(npcInfo));
-                }
-                area.LoadSave(enemies, npcs, load.PlayerInfo, load.AreaInfo);
-                currentGameState = GameState.Overworld;
             }
 
             if (willBattle)
@@ -394,6 +404,23 @@ namespace Hero_of_Novac
             }
             oldgp = GamePad.GetState(PlayerIndex.One);
             base.Update(gameTime);
+        }
+
+        private void LoadGame()
+        {
+            load = new Load(1);
+            List<Enemy> enemies = new List<Enemy>();
+            List<NPC> npcs = new List<NPC>();
+            foreach (List<string> enemyInfo in load.EnemyInfo)
+            {
+                enemies.Add(LoadEnemy(enemyInfo));
+            }
+            foreach (List<string> npcInfo in load.NpcInfo)
+            {
+                npcs.Add(LoadNPC(npcInfo));
+            }
+            area.LoadSave(enemies, npcs, load.PlayerInfo, load.AreaInfo);
+            currentGameState = GameState.Overworld;
         }
 
         /// <summary>

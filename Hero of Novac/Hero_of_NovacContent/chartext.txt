@@ -1,7 +1,7 @@
 a Hows it going?
 a Let's wait until after the battle.
 a I'll see you around!
-a I'm doing alot better now that you're here.
+a I'm doing a lot better now that you're here.
 b Hello there!
 b Kill all the monsters and I'll make you the best weapon I can!
 b Good bye!
@@ -22,6 +22,6 @@ p I'm slightly afraid but I'm comfident the Lord will save us.
 1 Please show those monsters who's boss!
 1 I'd be better if we weren't under attack!
 2 Help Jon! We're under attack!
-2 Are you crazy? Now iisn't the time for shopping!
+2 Are you crazy? Now isn't the time for shopping!
 2 Please hurry up and save us!
 2 No time for chit-chat! There's monsters around!

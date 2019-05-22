@@ -82,6 +82,7 @@ namespace Hero_of_Novac
             string constantMove = reader.ReadLine();
             string isIdle = reader.ReadLine();
             string vol = reader.ReadLine();
+            string element = reader.ReadLine();
             List<string> addedEnemy = new List<string>();
             addedEnemy.Add(rec);
             addedEnemy.Add(sourceRec);
@@ -98,6 +99,7 @@ namespace Hero_of_Novac
             addedEnemy.Add(constantMove);
             addedEnemy.Add(isIdle);
             addedEnemy.Add(vol);
+            addedEnemy.Add(element);
             enemyInfo.Add(addedEnemy);
         }
         private void LoadNextNPC()
