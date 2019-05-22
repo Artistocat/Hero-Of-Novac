@@ -58,7 +58,7 @@ namespace Hero_of_Novac
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;//1920
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;//1080
             graphics.ApplyChanges();
@@ -143,7 +143,7 @@ namespace Hero_of_Novac
                 List<Enemy> enemies = new List<Enemy>();
                 enemies.Add(CreateEnemy("bird", new Rectangle(128, 224, 800, 384), true, Element.Air));
                 enemies.Add(CreateEnemy("slime", new Rectangle(928, 224, 800, 416), true, Element.Water));
-                enemies.Add(CreateEnemy("gryphon", new Rectangle(704, 96, 800, 416), false, Element.Air));
+                enemies.Add(CreateEnemy("gryphon", new Rectangle(704, 96, 800, 416), false, Element.Fire));
                 enemies.Add(CreateEnemy("wasp", new Rectangle(736, 0, 736, 480), true, Element.Air));
                 area.AddEnemies(enemies);
             }

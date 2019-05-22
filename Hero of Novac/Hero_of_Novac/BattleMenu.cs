@@ -954,7 +954,7 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                case "Cone of Cold"://To be renamed "Ice Spike"
+                case "Ice Spike"://To be renamed "Ice Spike"
                     if (player.sourceRecBattle.X <= 96 * 1)
                     {
                         if (timer % 8 == 0)
@@ -996,7 +996,7 @@ namespace Hero_of_Novac
                         doneAttacking = true;
                     }
                     break;
-                case "Frost Ray"://To be renamed "Aqua Whirl"
+                case "Aqua Whirl"://To be renamed "Aqua Whirl"
                     if (player.sourceRecBattle.X <= 96 * 1)
                     {
                         if (timer % 8 == 0)

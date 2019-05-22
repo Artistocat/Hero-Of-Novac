@@ -953,7 +953,7 @@ namespace Hero_of_Novac
                 w.Draw(spriteBatch, areaRec);
             foreach (NPC n in npcs)
                 n.DrawWindow(spriteBatch);
-            if (saveTimer < 120)
+            if (saveTimer < 120 && saveTimer / 15 % 2 == 0)
             {
                 spriteBatch.DrawString(font, "Game Saved", new Vector2(0, 0), Color.White);
             }

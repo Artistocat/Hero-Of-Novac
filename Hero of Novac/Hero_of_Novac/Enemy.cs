@@ -152,18 +152,18 @@ namespace Hero_of_Novac
             battleSourceRec.Y = 116;
             currentBattleState = BattleState.Charging;
             int speed, damage;
-            sourceRecFX = new Rectangle(0, 0, 128, 128);
+            sourceRecFX = new Rectangle(-128, 0, 128, 128);
             switch (element)
             {
                 case Element.Air:
                     speed = 2;
                     damage = 1;
-                    sourceRecFX.X = -128;
                     sourceRecFX.Y = 128;
                     break;
                 case Element.Fire:
                     speed = 4;
                     damage = 2;
+                    sourceRecFX.Y = 128 * 2;
                     break;
                 case Element.Aether:
                     speed = 6;
@@ -172,7 +172,6 @@ namespace Hero_of_Novac
                 case Element.Water:
                     speed = 8;
                     damage = 4;
-                    sourceRecFX.X = -128;
                     sourceRecFX.Y = 0;
                     break;
                 case Element.Earth:
@@ -291,6 +290,19 @@ namespace Hero_of_Novac
                             break;
                         case Element.Water:
                             if (sourceRecFX.X <= 128 * 11)
+                            {
+                                if (timer % 8 == 0)
+                                    sourceRecFX.X += 128;
+                            }
+                            else
+                            {
+                                currentBattleState = BattleState.Charging;
+                                chargeBar.CurrentValue = 0;
+                                sourceRecFX.X = -128;
+                            }
+                            break;
+                        case Element.Fire:
+                            if (sourceRecFX.X <= 128 * 9)
                             {
                                 if (timer % 8 == 0)
                                     sourceRecFX.X += 128;

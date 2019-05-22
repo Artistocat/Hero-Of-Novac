@@ -317,7 +317,7 @@ namespace Hero_of_Novac
                             sourceRecFX.X = -128;
                             sourceRecFX.Y = 128 * 2;
                             break;
-                        case "Cone of Cold"://To be called "Ice Spike"
+                        case "Ice Spike"://To be called "Ice Spike"
                             combatFX = Content.Load<Texture2D>("IceAttacc");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
@@ -331,7 +331,7 @@ namespace Hero_of_Novac
                             sourceRecFX.X = -128;
                             sourceRecFX.Y = 128 * 3;
                             break;
-                        case "Frost Ray"://To be renamed "Aqua Whirl"
+                        case "Aqua Whirl"://To be renamed "Aqua Whirl"
                             combatFX = Content.Load<Texture2D>("WaterAttacc");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
@@ -670,7 +670,7 @@ namespace Hero_of_Novac
             switch (currentGameState)
             {
                 case GameState.Overworld:
-                    if (dead || attackTest)
+                    if (dead)
                     {
                         spriteBatch.Draw(combatTex, playerPos, sourceRecBattle, color);
                         //spriteBatch.Draw(combatFX, battleFXPos, sourceRecFX, color);
