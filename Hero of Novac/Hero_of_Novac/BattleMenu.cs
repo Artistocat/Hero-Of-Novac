@@ -640,14 +640,17 @@ namespace Hero_of_Novac
                 currentBattleState = BattleState.Attacking;
                 player.isAttacking = true;
             }
-            for (int i = 0; i < enemies.Length; i++)
+            if (!player.isAttacking)
             {
-                Enemy enemy = enemies[i];
-                if (!enemy.IsCharging)
+                for (int i = 0; i < enemies.Length; i++)
                 {
-                    currentBattleState = BattleState.EnemyAttacking;
-                    player.doNotCharge = true;
-                    attackingEnemies.Add(i);
+                    Enemy enemy = enemies[i];
+                    if (!enemy.IsCharging)
+                    {
+                        currentBattleState = BattleState.EnemyAttacking;
+                        player.doNotCharge = true;
+                        attackingEnemies.Add(i);
+                    }
                 }
             }
         }
