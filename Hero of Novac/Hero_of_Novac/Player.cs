@@ -297,27 +297,27 @@ namespace Hero_of_Novac
                             sourceRecFX.Y = 0;
                             break;
                         case "Stone Throw":
-                            combatFX = Content.Load<Texture2D>("EarthAttacc");
+                            combatFX = Content.Load<Texture2D>("EarthAttaccs");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
                             sourceRecFX.X = -128;
                             sourceRecFX.Y = 0;
                             break;
                         case "Earthquake":
-                            combatFX = Content.Load<Texture2D>("EarthAttacc");
+                            combatFX = Content.Load<Texture2D>("EarthAttaccs");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
                             sourceRecFX.X = -128;
                             sourceRecFX.Y = 128;
                             break;
                         case "Otiluke's Wrath":
-                            combatFX = Content.Load<Texture2D>("plantAttacc");
+                            combatFX = Content.Load<Texture2D>("EarthAttaccs");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
                             sourceRecFX.X = -128;
-                            sourceRecFX.Y = 128;
+                            sourceRecFX.Y = 128 * 2;
                             break;
-                        case "Cone of Cold"://To be called, "Ice Spike"
+                        case "Cone of Cold"://To be called "Ice Spike"
                             combatFX = Content.Load<Texture2D>("IceAttacc");
                             sourceRecBattle.X = 96 * 3;
                             sourceRecBattle.Y = 96;
@@ -331,9 +331,19 @@ namespace Hero_of_Novac
                             sourceRecFX.X = -128;
                             sourceRecFX.Y = 128 * 3;
                             break;
-                        case "Frost Ray":
+                        case "Frost Ray"://To be renamed "Aqua Whirl"
+                            combatFX = Content.Load<Texture2D>("WaterAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 0;
                             break;
                         case "Rary's Tsunami":
+                            combatFX = Content.Load<Texture2D>("WaterAttacc");
+                            sourceRecBattle.X = 96 * 3;
+                            sourceRecBattle.Y = 96;
+                            sourceRecFX.X = -128;
+                            sourceRecFX.Y = 128 * 2;
                             break;
                         case "Magic Missile":
                             break;
