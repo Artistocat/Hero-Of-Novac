@@ -100,10 +100,15 @@ namespace Hero_of_Novac
             MainMenu.LoadContent(GraphicsDevice, window, font, Content.Load<Texture2D>("MainMenu"), Content.Load<SpriteFont>("MainFont"));
             Texture2D[] enemyCombatFX = new Texture2D[5];
             enemyCombatFX[(int)Element.Air] = Content.Load<Texture2D>("WindAttacc");
+            enemyCombatFX[(int)Element.Air].Name = "WindAttacc";
             enemyCombatFX[(int)Element.Fire] = Content.Load<Texture2D>("FireAttacc");
+            enemyCombatFX[(int)Element.Fire].Name = "FireAttacc";
             enemyCombatFX[(int)Element.Aether] = Content.Load<Texture2D>("darkness");
+            enemyCombatFX[(int)Element.Aether].Name = "darkness";
             enemyCombatFX[(int)Element.Water] = Content.Load<Texture2D>("WaterAttacc");
+            enemyCombatFX[(int)Element.Water].Name = "WaterAttacc";
             enemyCombatFX[(int)Element.Earth] = Content.Load<Texture2D>("EarthAttaccs");
+            enemyCombatFX[(int)Element.Earth].Name = "EarthAttaccs";
             mainMenu = new MainMenu();
             if (TESTING)
             {
@@ -334,11 +339,6 @@ namespace Hero_of_Novac
                 this.Exit();
             bool willBattle = false;
             List<Enemy> enemiesInBattle = new List<Enemy>();
-            if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start) && oldgp.IsButtonUp(Buttons.Start) ||
-                Keyboard.GetState().IsKeyDown(Keys.OemTilde))
-            {
-                save.SaveAll(area);
-            }
             switch (currentGameState)
             {
                 case GameState.MainMenu:
@@ -354,6 +354,11 @@ namespace Hero_of_Novac
                     }
                     break;
                 case GameState.Overworld:
+                    if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Start) && oldgp.IsButtonUp(Buttons.Start) ||
+                        Keyboard.GetState().IsKeyDown(Keys.OemTilde))
+                    {
+                        save.SaveAll(area);
+                    }
                     area.Update(gameTime);
                     foreach (Enemy enemy in area.Enemies)
                         if (enemy.IsInBattle())

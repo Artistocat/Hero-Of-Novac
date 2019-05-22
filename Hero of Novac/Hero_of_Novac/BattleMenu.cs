@@ -998,14 +998,13 @@ namespace Hero_of_Novac
 
         private void EnemyAttacking()
         {
-            bool doneAttacking = enemies[0].IsCharging;
+            bool doneAttacking = enemies[attackingEnemies[0]].IsCharging;
 
             if (doneAttacking)
             {
                 currentBattleState = BattleState.Charging;
                 foreach (int index in attackingEnemies)
                 {
-                    Console.WriteLine("Attack complete here, resetting");
                     player.Damage(enemies[index].CurrentAttack.Damage);
                     enemies[index].AttackComplete();
                     if (player.Health <= 0)
@@ -1097,6 +1096,10 @@ namespace Hero_of_Novac
                     enemy.Draw(spriteBatch);
                 }
                 player.Draw(spriteBatch);
+                foreach(Enemy enemy in enemies)
+                {
+                    enemy.DrawFX(spriteBatch);
+                }
             }
 
             if (currentBattleState == BattleState.Victory)
